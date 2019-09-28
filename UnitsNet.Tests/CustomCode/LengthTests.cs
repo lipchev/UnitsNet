@@ -4,6 +4,7 @@
 using Xunit;
 using UnitsNet.Units;
 using System;
+using System.Linq;
 
 namespace UnitsNet.Tests.CustomCode
 {
@@ -186,6 +187,16 @@ namespace UnitsNet.Tests.CustomCode
             Assert.Equal(LengthUnit.Meter, length.Unit);
         }
 
+        [Fact]
+        public void Constructor_UnitSystemMySmallSI_AssignsMillimiters()
+        {
+            var myDefaultLengthUnit = Length.Info.UnitInfos.First(x => x.Value == LengthUnit.Millimeter);
+            var myUnitSystem = UnitSystem.SI.WithDefaultUnit(QuantityType.Length, myDefaultLengthUnit);
+
+            var length = new Length(1.0, myUnitSystem);
+            Assert.Equal(LengthUnit.Millimeter, length.Unit);
+        }
+        
         [Fact]
         public void Constructor_UnitSystemWithNoMatchingBaseUnits_ThrowsArgumentException()
         {
