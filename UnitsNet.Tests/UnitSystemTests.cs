@@ -2,6 +2,7 @@
 // Copyright 2013 Andreas Gullberg Larsen (andreas.larsen84@gmail.com). Maintained at https://github.com/angularsen/UnitsNet.
 
 using System;
+using System.Linq;
 using UnitsNet.Units;
 using Xunit;
 
@@ -149,5 +150,55 @@ namespace UnitsNet.Tests
             Assert.Equal(AmountOfSubstanceUnit.Mole, UnitSystem.SI.BaseUnits.Amount);
             Assert.Equal(LuminousIntensityUnit.Candela, UnitSystem.SI.BaseUnits.LuminousIntensity);
         }
+
+        [Fact]
+        public void GetDefaultUnitInfoThrowsExceptionForUndefinedQuantity()
+        {
+            Assert.Throws<ArgumentException>(() => UnitSystem.SI.GetDefaultUnitInfo(QuantityType.Undefined));
+        }
+
+        [Fact]
+        public void GetDefaultUnitInfoReturnsNullForQuantitiesWithNoDefaultUnits()
+        {
+            // TODO do we expect to preserve this behavior?
+            // AmplitudeRatio might be unitless- but there are (more than one) ways to express ratios. 
+            Assert.Null(UnitSystem.SI.GetDefaultUnitInfo(AmplitudeRatio.QuantityType));
+        }
+
+        [Fact]
+        public void WithDefaultUnitThrowsIfQuantityTypeIsUndefined()
+        {
+            Assert.Throws<ArgumentException>(() => UnitSystem.SI.WithDefaultUnit(QuantityType.Undefined, null));
+        }
+
+        [Fact]
+        public void WithDefaultUnitUsesOldBaseUnitsIfNotSpecified()
+        {
+            var myDefaultLengthUnit = Length.Info.UnitInfos.First(x => x.Value == LengthUnit.Millimeter);
+
+            var newSI = UnitSystem.SI.WithDefaultUnit(QuantityType.Length, myDefaultLengthUnit, (BaseUnits) null); 
+
+            Assert.Equal(UnitSystem.SI, newSI); // currently comparing using BaseUnits
+        }
+
+        [Theory]
+        [InlineData(LengthUnit.Undefined, MassUnit.Kilogram, DurationUnit.Second, ElectricCurrentUnit.Ampere, TemperatureUnit.Kelvin, AmountOfSubstanceUnit.Mole, LuminousIntensityUnit.Candela)]
+        [InlineData(LengthUnit.Meter, MassUnit.Undefined, DurationUnit.Second, ElectricCurrentUnit.Ampere, TemperatureUnit.Kelvin, AmountOfSubstanceUnit.Mole, LuminousIntensityUnit.Candela)]
+        [InlineData(LengthUnit.Meter, MassUnit.Kilogram, DurationUnit.Undefined, ElectricCurrentUnit.Ampere, TemperatureUnit.Kelvin, AmountOfSubstanceUnit.Mole, LuminousIntensityUnit.Candela)]
+        [InlineData(LengthUnit.Meter, MassUnit.Kilogram, DurationUnit.Second, ElectricCurrentUnit.Undefined, TemperatureUnit.Kelvin, AmountOfSubstanceUnit.Mole, LuminousIntensityUnit.Candela)]
+        [InlineData(LengthUnit.Meter, MassUnit.Kilogram, DurationUnit.Second, ElectricCurrentUnit.Ampere, TemperatureUnit.Undefined, AmountOfSubstanceUnit.Mole, LuminousIntensityUnit.Candela)]
+        [InlineData(LengthUnit.Meter, MassUnit.Kilogram, DurationUnit.Second, ElectricCurrentUnit.Ampere, TemperatureUnit.Kelvin, AmountOfSubstanceUnit.Undefined, LuminousIntensityUnit.Candela)]
+        [InlineData(LengthUnit.Meter, MassUnit.Kilogram, DurationUnit.Second, ElectricCurrentUnit.Ampere, TemperatureUnit.Kelvin, AmountOfSubstanceUnit.Mole, LuminousIntensityUnit.Undefined)]
+        public void WithDefaultUnitThrowsIfSpecifiedBaseUnitsNotFullyDefined(LengthUnit length, MassUnit mass, DurationUnit time, ElectricCurrentUnit current,
+            TemperatureUnit temperature, AmountOfSubstanceUnit amount, LuminousIntensityUnit luminousIntensity)
+        {
+            var myDefaultLengthUnit = Length.Info.UnitInfos.First(x => x.Value == LengthUnit.Millimeter);
+
+            var baseUnits = new BaseUnits(length, mass, time, current, temperature, amount, luminousIntensity);
+
+            // TODO do we want to preserve this behavior?
+            Assert.Throws<ArgumentException>(()=> UnitSystem.SI.WithDefaultUnit(QuantityType.Length, myDefaultLengthUnit, baseUnits));
+        }
+
     }
 }

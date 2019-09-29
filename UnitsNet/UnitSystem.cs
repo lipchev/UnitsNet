@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using JetBrains.Annotations;
 using UnitsNet.Units;
 
 namespace UnitsNet
@@ -125,11 +126,13 @@ namespace UnitsNet
         ///     The default UnitInfo for the given quantity type, if such an association exists,
         ///     and <see langword="null" /> otherwise.
         /// </returns>
-        /// <exception cref="T:System.Collections.Generic.KeyNotFoundException">
-        ///     The given <paramref name="quantityType" /> is not available in this unit system.
+        /// <exception cref="ArgumentException">
+        ///     Quantity type can not be undefined.
         /// </exception>
         public UnitInfo GetDefaultUnitInfo(QuantityType quantityType)
         {
+            if (quantityType == QuantityType.Undefined)
+                throw new ArgumentException("Quantity type can not be undefined.", nameof(quantityType));
             return _defaultUnits.Value[(int)quantityType - 1];
         }
 
@@ -145,11 +148,15 @@ namespace UnitsNet
         ///     A new UnitSystem that defines <paramref name="defaultUnitInfo" /> as the default unit for
         ///     <paramref name="quantityType" />
         /// </returns>
-        /// <exception cref="T:System.ArgumentNullException">
-        ///     <paramref name="quantityType" /> is <see langword="null" />.
+        /// <exception cref="ArgumentException">
+        ///     Quantity type can not be undefined.
         /// </exception>
         public UnitSystem WithDefaultUnit(QuantityType quantityType, UnitInfo defaultUnitInfo, BaseUnits baseUnits = null)
         {
+            if (quantityType == QuantityType.Undefined)
+                throw new ArgumentException("Quantity type can not be undefined.", nameof(quantityType));
+
+            // TODO any way to check if UnitInfo is of QuantityType?
             var newBaseUnits = baseUnits ?? BaseUnits;
 
             var newDefaultUnits = _defaultUnits.Value.ToArray();
