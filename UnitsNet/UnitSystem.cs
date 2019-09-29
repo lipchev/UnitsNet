@@ -155,7 +155,7 @@ namespace UnitsNet
             if (quantityType == QuantityType.Undefined) // redundant with the following test
                 throw new ArgumentException("Quantity type can not be undefined.", nameof(quantityType));
 
-            if (defaultUnitInfo != null && !Quantity.Infos.Any(x => x.QuantityType == quantityType && x.UnitInfos.Contains(defaultUnitInfo)))
+            if (defaultUnitInfo != null && !Quantity.GetInfo(quantityType).UnitInfos.Contains(defaultUnitInfo))
                 throw new ArgumentException("The unit provided was not found in the list of units for the specified quantity type");
             
             var newBaseUnits = baseUnits ?? BaseUnits;
