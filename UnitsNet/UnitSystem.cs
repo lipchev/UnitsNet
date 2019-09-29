@@ -2,9 +2,7 @@
 // Copyright 2013 Andreas Gullberg Larsen (andreas.larsen84@gmail.com). Maintained at https://github.com/angularsen/UnitsNet.
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using JetBrains.Annotations;
 using UnitsNet.Units;
 
 namespace UnitsNet
@@ -16,6 +14,7 @@ namespace UnitsNet
     /// </summary>
     public sealed class UnitSystem : IEquatable<UnitSystem>
     {
+        // the array used for storing the default units in the current UnitSystem, ordered by QuantityType (excluding QuantityType.Undefined)
         private readonly Lazy<UnitInfo[]> _defaultUnits;
 
         /// <summary>
@@ -133,7 +132,7 @@ namespace UnitsNet
         {
             if (quantityType == QuantityType.Undefined)
                 throw new ArgumentException("Quantity type can not be undefined.", nameof(quantityType));
-            return _defaultUnits.Value[(int)quantityType - 1];
+            return _defaultUnits.Value[(int) quantityType - 1]; // valid QuantityTypes start from 1 (0 == Undefined)
         }
 
         /// <summary>
@@ -149,18 +148,21 @@ namespace UnitsNet
         ///     <paramref name="quantityType" />
         /// </returns>
         /// <exception cref="ArgumentException">
-        ///     Quantity type can not be undefined.
+        ///     Quantity type can not be undefined and must be compatible with the new default unit (e.g. cannot associate MassUnit with 'Meter')
         /// </exception>
         public UnitSystem WithDefaultUnit(QuantityType quantityType, UnitInfo defaultUnitInfo, BaseUnits baseUnits = null)
         {
-            if (quantityType == QuantityType.Undefined)
+            if (quantityType == QuantityType.Undefined) // redundant with the following test
                 throw new ArgumentException("Quantity type can not be undefined.", nameof(quantityType));
 
-            // TODO any way to check if UnitInfo is of QuantityType?
+            if (defaultUnitInfo != null && !Quantity.Infos.Any(x => x.QuantityType == quantityType && x.UnitInfos.Contains(defaultUnitInfo)))
+                throw new ArgumentException("The unit provided was not found in the list of units for the specified quantity type");
+            
             var newBaseUnits = baseUnits ?? BaseUnits;
 
+            // create a copy of the current mappings, updating only the provided association
             var newDefaultUnits = _defaultUnits.Value.ToArray();
-            newDefaultUnits[(int)quantityType - 1] = defaultUnitInfo;
+            newDefaultUnits[(int) quantityType - 1] = defaultUnitInfo;  // valid QuantityTypes start from 1 (0 == Undefined)
 
             return new UnitSystem(newBaseUnits, newDefaultUnits);
         }

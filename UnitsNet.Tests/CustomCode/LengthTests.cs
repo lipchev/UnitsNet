@@ -188,7 +188,7 @@ namespace UnitsNet.Tests.CustomCode
         }
 
         [Fact]
-        public void Constructor_UnitSystemMySmallSI_AssignsMillimiters()
+        public void Constructor_UnitSystemWithMillimeters_ConstructsWithMillimeters()
         {
             var myDefaultLengthUnit = Length.Info.UnitInfos.First(x => x.Value == LengthUnit.Millimeter);
             var myUnitSystem = UnitSystem.SI.WithDefaultUnit(QuantityType.Length, myDefaultLengthUnit);

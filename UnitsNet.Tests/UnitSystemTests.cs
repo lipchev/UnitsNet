@@ -152,27 +152,38 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
-        public void GetDefaultUnitInfoThrowsExceptionForUndefinedQuantity()
+        public void GetDefaultUnitInfo_GivenUndefinedQuantity_ThrowsArgumentException()
         {
             Assert.Throws<ArgumentException>(() => UnitSystem.SI.GetDefaultUnitInfo(QuantityType.Undefined));
         }
 
         [Fact]
-        public void GetDefaultUnitInfoReturnsNullForQuantitiesWithNoDefaultUnits()
+        public void GetDefaultUnitInfo_GivenQuantityWithNoDefaultUnits_ReturnsNull()
         {
-            // TODO do we expect to preserve this behavior?
-            // AmplitudeRatio might be unitless- but there are (more than one) ways to express ratios. 
-            Assert.Null(UnitSystem.SI.GetDefaultUnitInfo(AmplitudeRatio.QuantityType));
+            // we cannot simply rely on something like AmplitudeRatio not having a default base unit definition (as this is expected to change soon)
+            var unitSystemWithNoDefaultLengthUnit = UnitSystem.SI.WithDefaultUnit(QuantityType.Length, null); // we can however force the dissociation
+            
+            Assert.Null(unitSystemWithNoDefaultLengthUnit.GetDefaultUnitInfo(QuantityType.Length));
         }
 
         [Fact]
-        public void WithDefaultUnitThrowsIfQuantityTypeIsUndefined()
+        public void WithDefaultUnit_GivenUndefinedQuantityType_ThrowsArgumentException()
         {
-            Assert.Throws<ArgumentException>(() => UnitSystem.SI.WithDefaultUnit(QuantityType.Undefined, null));
+            var anyUnitInfo = Length.Info.UnitInfos.First();
+
+            Assert.Throws<ArgumentException>(() => UnitSystem.SI.WithDefaultUnit(QuantityType.Undefined, anyUnitInfo));
         }
 
         [Fact]
-        public void WithDefaultUnitUsesOldBaseUnitsIfNotSpecified()
+        public void WithDefaultUnit_GivenIncompatibleUnitAndQuantityType_ThrowsArgumentException()
+        {
+            var nonMassUnit = Length.Info.UnitInfos.First();
+
+            Assert.Throws<ArgumentException>(() => UnitSystem.SI.WithDefaultUnit(QuantityType.Mass, nonMassUnit));
+        }
+
+        [Fact]
+        public void WithDefaultUnit_GivenNullForBaseUnits_ReturnsUnitSystemWithOldBaseUnits()
         {
             var myDefaultLengthUnit = Length.Info.UnitInfos.First(x => x.Value == LengthUnit.Millimeter);
 
@@ -189,14 +200,14 @@ namespace UnitsNet.Tests
         [InlineData(LengthUnit.Meter, MassUnit.Kilogram, DurationUnit.Second, ElectricCurrentUnit.Ampere, TemperatureUnit.Undefined, AmountOfSubstanceUnit.Mole, LuminousIntensityUnit.Candela)]
         [InlineData(LengthUnit.Meter, MassUnit.Kilogram, DurationUnit.Second, ElectricCurrentUnit.Ampere, TemperatureUnit.Kelvin, AmountOfSubstanceUnit.Undefined, LuminousIntensityUnit.Candela)]
         [InlineData(LengthUnit.Meter, MassUnit.Kilogram, DurationUnit.Second, ElectricCurrentUnit.Ampere, TemperatureUnit.Kelvin, AmountOfSubstanceUnit.Mole, LuminousIntensityUnit.Undefined)]
-        public void WithDefaultUnitThrowsIfSpecifiedBaseUnitsNotFullyDefined(LengthUnit length, MassUnit mass, DurationUnit time, ElectricCurrentUnit current,
+        public void WithDefaultUnit_GivenBaseUnitsNotFullyDefined_ThrowsArgumentException(LengthUnit length, MassUnit mass, DurationUnit time, ElectricCurrentUnit current,
             TemperatureUnit temperature, AmountOfSubstanceUnit amount, LuminousIntensityUnit luminousIntensity)
         {
             var myDefaultLengthUnit = Length.Info.UnitInfos.First(x => x.Value == LengthUnit.Millimeter);
 
             var baseUnits = new BaseUnits(length, mass, time, current, temperature, amount, luminousIntensity);
 
-            // TODO do we want to preserve this behavior?
+            // BaseUnits(obsolete) kept in order to avoid introducing  a breaking change (just yet)
             Assert.Throws<ArgumentException>(()=> UnitSystem.SI.WithDefaultUnit(QuantityType.Length, myDefaultLengthUnit, baseUnits));
         }
 
