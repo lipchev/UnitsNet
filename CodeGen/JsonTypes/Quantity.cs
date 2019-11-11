@@ -1,4 +1,4 @@
-// Licensed under MIT No Attribution, see LICENSE file at the root.
+﻿// Licensed under MIT No Attribution, see LICENSE file at the root.
 // Copyright 2013 Andreas Gullberg Larsen (andreas.larsen84@gmail.com). Maintained at https://github.com/angularsen/UnitsNet.
 
 using System;
@@ -19,6 +19,7 @@ namespace CodeGen.JsonTypes
         public int LogarithmicScalingFactor = 1;
         public string Name;
         public Unit[] Units = Array.Empty<Unit>();
+        public UnitSystemMapping[] UnitSystems = Array.Empty<UnitSystemMapping>();
         public string XmlDocRemarks;
         public string XmlDoc; // TODO Rename to XmlDocSummary
         public string ObsoleteText;

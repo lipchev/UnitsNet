@@ -14,6 +14,7 @@
       },
       "FromUnitToBaseFunc": "x",
       "FromBaseToUnitFunc": "x",
+      "UnitSystems": [ "SI", "CGS" ],
       "Prefixes": [ "Nano", "Micro", "Milli", "Centi", "Deci", "Hecto", "Kilo" ],
       "Localization": [
         {
@@ -34,6 +35,7 @@
       },
       "FromUnitToBaseFunc": "x*1609.34",
       "FromBaseToUnitFunc": "x/1609.34",
+      "UnitSystems": [ "EE", "BI", "USC" ],
       "Localization": [
         {
           "Culture": "en-US",
@@ -53,6 +55,7 @@
       },
       "FromUnitToBaseFunc": "x*0.9144",
       "FromBaseToUnitFunc": "x/0.9144",
+      "UnitSystems": [ "EE", "BI", "USC" ],
       "Localization": [
         {
           "Culture": "en-US",
@@ -72,6 +75,7 @@
       },
       "FromUnitToBaseFunc": "x*0.3048",
       "FromBaseToUnitFunc": "x/0.3048",
+      "UnitSystems": [ "EE", "BI", "USC" ],
       "Localization": [
         {
           "Culture": "en-US",
@@ -86,6 +90,7 @@
     {
       "SingularName": "UsSurveyFoot",
       "PluralName": "UsSurveyFeet",
+      "UnitSystems": [ "USC" ],
       "BaseUnits": {
         "L": "UsSurveyFoot"
       },
@@ -106,6 +111,7 @@
       },
       "FromUnitToBaseFunc": "x*2.54e-2",
       "FromBaseToUnitFunc": "x/2.54e-2",
+      "UnitSystems": [ "EE", "BI", "USC" ],
       "Localization": [
         {
           "Culture": "en-US",
@@ -193,6 +199,7 @@
       },
       "FromUnitToBaseFunc": "x*2.54e-8",
       "FromBaseToUnitFunc": "x/2.54e-8",
+      "UnitSystems": [ "EE", "BI", "USC" ],
       "Localization": [
         {
           "Culture": "en-US",
@@ -351,6 +358,20 @@
           "Abbreviations": [ "R⊙" ]
         }
       ]
+    }
+  ],
+  "UnitSystems": [
+    {
+      "UnitSystem": "SI",
+      "BaseUnit": "Meter"
+    },
+    {
+      "UnitSystem": "CGS",
+      "BaseUnit": "Centimeter"
+    },
+    {
+      "UnitSystem": "EE",
+      "BaseUnit": "Foot"
     }
   ]
 }
