@@ -124,6 +124,24 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
+        public void Ctor_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            Assert.Throws<ArgumentException>(() => new MassFlow(1, UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => new MassFlow(1, UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => new MassFlow(1, UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => new MassFlow(1, UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => new MassFlow(1, UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => new MassFlow(1, UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => new MassFlow(1, UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void Ctor_WithNullUnitSystem_ThrowsArgumentNullException()
+        {
+            Assert.Throws<ArgumentNullException>(() => new MassFlow(1, null));
+        }
+
+        [Fact]
         public void GramPerSecondToMassFlowUnits()
         {
             MassFlow grampersecond = MassFlow.FromGramsPerSecond(1);
@@ -250,6 +268,28 @@ namespace UnitsNet.Tests
             AssertEx.EqualTolerance(ShortTonsPerHourInOneGramPerSecond, grampersecond.As(MassFlowUnit.ShortTonPerHour), ShortTonsPerHourTolerance);
             AssertEx.EqualTolerance(TonnesPerDayInOneGramPerSecond, grampersecond.As(MassFlowUnit.TonnePerDay), TonnesPerDayTolerance);
             AssertEx.EqualTolerance(TonnesPerHourInOneGramPerSecond, grampersecond.As(MassFlowUnit.TonnePerHour), TonnesPerHourTolerance);
+        }
+
+        [Fact]
+        public void As_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            var grampersecond = MassFlow.FromGramsPerSecond(1);
+
+            Assert.Throws<ArgumentException>(() => grampersecond.As(UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => grampersecond.As(UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => grampersecond.As(UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => grampersecond.As(UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => grampersecond.As(UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => grampersecond.As(UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => grampersecond.As(UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void As_WithNullUnitSystem_ThrowsArgumentNullException()
+        {
+            var grampersecond = MassFlow.FromGramsPerSecond(1);
+ 
+            Assert.Throws<ArgumentNullException>(() => grampersecond.As(null));
         }
 
         [Fact]
@@ -388,6 +428,28 @@ namespace UnitsNet.Tests
             var tonneperhourQuantity = grampersecond.ToUnit(MassFlowUnit.TonnePerHour);
             AssertEx.EqualTolerance(TonnesPerHourInOneGramPerSecond, (double)tonneperhourQuantity.Value, TonnesPerHourTolerance);
             Assert.Equal(MassFlowUnit.TonnePerHour, tonneperhourQuantity.Unit);
+        }
+
+        [Fact]
+        public void To_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            var grampersecond = MassFlow.FromGramsPerSecond(1);
+
+            Assert.Throws<ArgumentException>(() => grampersecond.ToUnit(UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => grampersecond.ToUnit(UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => grampersecond.ToUnit(UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => grampersecond.ToUnit(UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => grampersecond.ToUnit(UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => grampersecond.ToUnit(UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => grampersecond.ToUnit(UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void ToUnit_WithNullUnitSystem_ThrowsNullException()
+        {
+            var grampersecond = MassFlow.FromGramsPerSecond(1);
+ 
+            Assert.Throws<ArgumentNullException>(() => grampersecond.ToUnit(null));
         }
 
         [Fact]

@@ -92,6 +92,24 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
+        public void Ctor_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            Assert.Throws<ArgumentException>(() => new SpecificWeight(1, UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => new SpecificWeight(1, UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => new SpecificWeight(1, UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => new SpecificWeight(1, UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => new SpecificWeight(1, UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => new SpecificWeight(1, UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => new SpecificWeight(1, UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void Ctor_WithNullUnitSystem_ThrowsArgumentNullException()
+        {
+            Assert.Throws<ArgumentNullException>(() => new SpecificWeight(1, null));
+        }
+
+        [Fact]
         public void NewtonPerCubicMeterToSpecificWeightUnits()
         {
             SpecificWeight newtonpercubicmeter = SpecificWeight.FromNewtonsPerCubicMeter(1);
@@ -173,6 +191,28 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
+        public void As_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            var newtonpercubicmeter = SpecificWeight.FromNewtonsPerCubicMeter(1);
+
+            Assert.Throws<ArgumentException>(() => newtonpercubicmeter.As(UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => newtonpercubicmeter.As(UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => newtonpercubicmeter.As(UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => newtonpercubicmeter.As(UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => newtonpercubicmeter.As(UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => newtonpercubicmeter.As(UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => newtonpercubicmeter.As(UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void As_WithNullUnitSystem_ThrowsArgumentNullException()
+        {
+            var newtonpercubicmeter = SpecificWeight.FromNewtonsPerCubicMeter(1);
+ 
+            Assert.Throws<ArgumentNullException>(() => newtonpercubicmeter.As(null));
+        }
+
+        [Fact]
         public void ToUnit()
         {
             var newtonpercubicmeter = SpecificWeight.FromNewtonsPerCubicMeter(1);
@@ -244,6 +284,28 @@ namespace UnitsNet.Tests
             var tonneforcepercubicmillimeterQuantity = newtonpercubicmeter.ToUnit(SpecificWeightUnit.TonneForcePerCubicMillimeter);
             AssertEx.EqualTolerance(TonnesForcePerCubicMillimeterInOneNewtonPerCubicMeter, (double)tonneforcepercubicmillimeterQuantity.Value, TonnesForcePerCubicMillimeterTolerance);
             Assert.Equal(SpecificWeightUnit.TonneForcePerCubicMillimeter, tonneforcepercubicmillimeterQuantity.Unit);
+        }
+
+        [Fact]
+        public void To_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            var newtonpercubicmeter = SpecificWeight.FromNewtonsPerCubicMeter(1);
+
+            Assert.Throws<ArgumentException>(() => newtonpercubicmeter.ToUnit(UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => newtonpercubicmeter.ToUnit(UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => newtonpercubicmeter.ToUnit(UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => newtonpercubicmeter.ToUnit(UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => newtonpercubicmeter.ToUnit(UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => newtonpercubicmeter.ToUnit(UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => newtonpercubicmeter.ToUnit(UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void ToUnit_WithNullUnitSystem_ThrowsNullException()
+        {
+            var newtonpercubicmeter = SpecificWeight.FromNewtonsPerCubicMeter(1);
+ 
+            Assert.Throws<ArgumentNullException>(() => newtonpercubicmeter.ToUnit(null));
         }
 
         [Fact]

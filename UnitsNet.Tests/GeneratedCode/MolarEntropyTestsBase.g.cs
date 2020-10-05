@@ -64,6 +64,24 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
+        public void Ctor_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            Assert.Throws<ArgumentException>(() => new MolarEntropy(1, UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => new MolarEntropy(1, UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => new MolarEntropy(1, UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => new MolarEntropy(1, UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => new MolarEntropy(1, UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => new MolarEntropy(1, UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => new MolarEntropy(1, UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void Ctor_WithNullUnitSystem_ThrowsArgumentNullException()
+        {
+            Assert.Throws<ArgumentNullException>(() => new MolarEntropy(1, null));
+        }
+
+        [Fact]
         public void JoulePerMoleKelvinToMolarEntropyUnits()
         {
             MolarEntropy joulepermolekelvin = MolarEntropy.FromJoulesPerMoleKelvin(1);
@@ -103,6 +121,28 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
+        public void As_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            var joulepermolekelvin = MolarEntropy.FromJoulesPerMoleKelvin(1);
+
+            Assert.Throws<ArgumentException>(() => joulepermolekelvin.As(UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => joulepermolekelvin.As(UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => joulepermolekelvin.As(UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => joulepermolekelvin.As(UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => joulepermolekelvin.As(UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => joulepermolekelvin.As(UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => joulepermolekelvin.As(UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void As_WithNullUnitSystem_ThrowsArgumentNullException()
+        {
+            var joulepermolekelvin = MolarEntropy.FromJoulesPerMoleKelvin(1);
+ 
+            Assert.Throws<ArgumentNullException>(() => joulepermolekelvin.As(null));
+        }
+
+        [Fact]
         public void ToUnit()
         {
             var joulepermolekelvin = MolarEntropy.FromJoulesPerMoleKelvin(1);
@@ -118,6 +158,28 @@ namespace UnitsNet.Tests
             var megajoulepermolekelvinQuantity = joulepermolekelvin.ToUnit(MolarEntropyUnit.MegajoulePerMoleKelvin);
             AssertEx.EqualTolerance(MegajoulesPerMoleKelvinInOneJoulePerMoleKelvin, (double)megajoulepermolekelvinQuantity.Value, MegajoulesPerMoleKelvinTolerance);
             Assert.Equal(MolarEntropyUnit.MegajoulePerMoleKelvin, megajoulepermolekelvinQuantity.Unit);
+        }
+
+        [Fact]
+        public void To_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            var joulepermolekelvin = MolarEntropy.FromJoulesPerMoleKelvin(1);
+
+            Assert.Throws<ArgumentException>(() => joulepermolekelvin.ToUnit(UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => joulepermolekelvin.ToUnit(UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => joulepermolekelvin.ToUnit(UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => joulepermolekelvin.ToUnit(UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => joulepermolekelvin.ToUnit(UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => joulepermolekelvin.ToUnit(UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => joulepermolekelvin.ToUnit(UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void ToUnit_WithNullUnitSystem_ThrowsNullException()
+        {
+            var joulepermolekelvin = MolarEntropy.FromJoulesPerMoleKelvin(1);
+ 
+            Assert.Throws<ArgumentNullException>(() => joulepermolekelvin.ToUnit(null));
         }
 
         [Fact]

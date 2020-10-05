@@ -74,6 +74,42 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
+        public void Ctor_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            var siQuantity = new ElectricCurrent(1, UnitSystem.SI);
+            Assert.Equal(1, (double)siQuantity.Value);
+            Assert.Equal(ElectricCurrentUnit.Ampere, siQuantity.Unit);
+
+            var cgsQuantity = new ElectricCurrent(1, UnitSystem.CGS);
+            Assert.Equal(1, (double)cgsQuantity.Value);
+            Assert.Equal(ElectricCurrentUnit.Ampere, cgsQuantity.Unit);
+
+            var biQuantity = new ElectricCurrent(1, UnitSystem.BI);
+            Assert.Equal(1, (double)biQuantity.Value);
+            Assert.Equal(ElectricCurrentUnit.Ampere, biQuantity.Unit);
+
+            var eeQuantity = new ElectricCurrent(1, UnitSystem.EE);
+            Assert.Equal(1, (double)eeQuantity.Value);
+            Assert.Equal(ElectricCurrentUnit.Ampere, eeQuantity.Unit);
+
+            var uscQuantity = new ElectricCurrent(1, UnitSystem.USC);
+            Assert.Equal(1, (double)uscQuantity.Value);
+            Assert.Equal(ElectricCurrentUnit.Ampere, uscQuantity.Unit);
+
+            var fpsQuantity = new ElectricCurrent(1, UnitSystem.FPS);
+            Assert.Equal(1, (double)fpsQuantity.Value);
+            Assert.Equal(ElectricCurrentUnit.Ampere, fpsQuantity.Unit);
+
+            Assert.Throws<ArgumentException>(() => new ElectricCurrent(1, UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void Ctor_WithNullUnitSystem_ThrowsArgumentNullException()
+        {
+            Assert.Throws<ArgumentNullException>(() => new ElectricCurrent(1, null));
+        }
+
+        [Fact]
         public void AmpereToElectricCurrentUnits()
         {
             ElectricCurrent ampere = ElectricCurrent.FromAmperes(1);
@@ -128,6 +164,29 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
+        public void As_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            var ampere = ElectricCurrent.FromAmperes(1);
+
+            AssertEx.EqualTolerance(AmperesInOneAmpere, ampere.As(UnitSystem.SI), AmperesTolerance);
+            AssertEx.EqualTolerance(AmperesInOneAmpere, ampere.As(UnitSystem.CGS), AmperesTolerance);
+            AssertEx.EqualTolerance(AmperesInOneAmpere, ampere.As(UnitSystem.BI), AmperesTolerance);
+            AssertEx.EqualTolerance(AmperesInOneAmpere, ampere.As(UnitSystem.EE), AmperesTolerance);
+            AssertEx.EqualTolerance(AmperesInOneAmpere, ampere.As(UnitSystem.USC), AmperesTolerance);
+            AssertEx.EqualTolerance(AmperesInOneAmpere, ampere.As(UnitSystem.FPS), AmperesTolerance);
+
+            Assert.Throws<ArgumentException>(() => ampere.As(UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void As_WithNullUnitSystem_ThrowsArgumentNullException()
+        {
+            var ampere = ElectricCurrent.FromAmperes(1);
+ 
+            Assert.Throws<ArgumentNullException>(() => ampere.As(null));
+        }
+
+        [Fact]
         public void ToUnit()
         {
             var ampere = ElectricCurrent.FromAmperes(1);
@@ -163,6 +222,46 @@ namespace UnitsNet.Tests
             var picoampereQuantity = ampere.ToUnit(ElectricCurrentUnit.Picoampere);
             AssertEx.EqualTolerance(PicoamperesInOneAmpere, (double)picoampereQuantity.Value, PicoamperesTolerance);
             Assert.Equal(ElectricCurrentUnit.Picoampere, picoampereQuantity.Unit);
+        }
+
+        [Fact]
+        public void To_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            var ampere = ElectricCurrent.FromAmperes(1);
+
+            var siQuantity = ampere.ToUnit(UnitSystem.SI);
+            AssertEx.EqualTolerance(AmperesInOneAmpere, (double)siQuantity.Value, AmperesTolerance);
+            Assert.Equal(ElectricCurrentUnit.Ampere, siQuantity.Unit);
+
+            var cgsQuantity = ampere.ToUnit(UnitSystem.CGS);
+            AssertEx.EqualTolerance(AmperesInOneAmpere, (double)cgsQuantity.Value, AmperesTolerance);
+            Assert.Equal(ElectricCurrentUnit.Ampere, cgsQuantity.Unit);
+
+            var biQuantity = ampere.ToUnit(UnitSystem.BI);
+            AssertEx.EqualTolerance(AmperesInOneAmpere, (double)biQuantity.Value, AmperesTolerance);
+            Assert.Equal(ElectricCurrentUnit.Ampere, biQuantity.Unit);
+
+            var eeQuantity = ampere.ToUnit(UnitSystem.EE);
+            AssertEx.EqualTolerance(AmperesInOneAmpere, (double)eeQuantity.Value, AmperesTolerance);
+            Assert.Equal(ElectricCurrentUnit.Ampere, eeQuantity.Unit);
+
+            var uscQuantity = ampere.ToUnit(UnitSystem.USC);
+            AssertEx.EqualTolerance(AmperesInOneAmpere, (double)uscQuantity.Value, AmperesTolerance);
+            Assert.Equal(ElectricCurrentUnit.Ampere, uscQuantity.Unit);
+
+            var fpsQuantity = ampere.ToUnit(UnitSystem.FPS);
+            AssertEx.EqualTolerance(AmperesInOneAmpere, (double)fpsQuantity.Value, AmperesTolerance);
+            Assert.Equal(ElectricCurrentUnit.Ampere, fpsQuantity.Unit);
+
+            Assert.Throws<ArgumentException>(() => ampere.ToUnit(UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void ToUnit_WithNullUnitSystem_ThrowsNullException()
+        {
+            var ampere = ElectricCurrent.FromAmperes(1);
+ 
+            Assert.Throws<ArgumentNullException>(() => ampere.ToUnit(null));
         }
 
         [Fact]

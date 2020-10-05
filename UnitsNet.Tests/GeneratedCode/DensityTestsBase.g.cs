@@ -138,6 +138,24 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
+        public void Ctor_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            Assert.Throws<ArgumentException>(() => new Density(1, UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => new Density(1, UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => new Density(1, UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => new Density(1, UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => new Density(1, UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => new Density(1, UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => new Density(1, UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void Ctor_WithNullUnitSystem_ThrowsArgumentNullException()
+        {
+            Assert.Throws<ArgumentNullException>(() => new Density(1, null));
+        }
+
+        [Fact]
         public void KilogramPerCubicMeterToDensityUnits()
         {
             Density kilogrampercubicmeter = Density.FromKilogramsPerCubicMeter(1);
@@ -285,6 +303,28 @@ namespace UnitsNet.Tests
             AssertEx.EqualTolerance(TonnesPerCubicCentimeterInOneKilogramPerCubicMeter, kilogrampercubicmeter.As(DensityUnit.TonnePerCubicCentimeter), TonnesPerCubicCentimeterTolerance);
             AssertEx.EqualTolerance(TonnesPerCubicMeterInOneKilogramPerCubicMeter, kilogrampercubicmeter.As(DensityUnit.TonnePerCubicMeter), TonnesPerCubicMeterTolerance);
             AssertEx.EqualTolerance(TonnesPerCubicMillimeterInOneKilogramPerCubicMeter, kilogrampercubicmeter.As(DensityUnit.TonnePerCubicMillimeter), TonnesPerCubicMillimeterTolerance);
+        }
+
+        [Fact]
+        public void As_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            var kilogrampercubicmeter = Density.FromKilogramsPerCubicMeter(1);
+
+            Assert.Throws<ArgumentException>(() => kilogrampercubicmeter.As(UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => kilogrampercubicmeter.As(UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => kilogrampercubicmeter.As(UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => kilogrampercubicmeter.As(UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => kilogrampercubicmeter.As(UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => kilogrampercubicmeter.As(UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => kilogrampercubicmeter.As(UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void As_WithNullUnitSystem_ThrowsArgumentNullException()
+        {
+            var kilogrampercubicmeter = Density.FromKilogramsPerCubicMeter(1);
+ 
+            Assert.Throws<ArgumentNullException>(() => kilogrampercubicmeter.As(null));
         }
 
         [Fact]
@@ -451,6 +491,28 @@ namespace UnitsNet.Tests
             var tonnepercubicmillimeterQuantity = kilogrampercubicmeter.ToUnit(DensityUnit.TonnePerCubicMillimeter);
             AssertEx.EqualTolerance(TonnesPerCubicMillimeterInOneKilogramPerCubicMeter, (double)tonnepercubicmillimeterQuantity.Value, TonnesPerCubicMillimeterTolerance);
             Assert.Equal(DensityUnit.TonnePerCubicMillimeter, tonnepercubicmillimeterQuantity.Unit);
+        }
+
+        [Fact]
+        public void To_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            var kilogrampercubicmeter = Density.FromKilogramsPerCubicMeter(1);
+
+            Assert.Throws<ArgumentException>(() => kilogrampercubicmeter.ToUnit(UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => kilogrampercubicmeter.ToUnit(UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => kilogrampercubicmeter.ToUnit(UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => kilogrampercubicmeter.ToUnit(UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => kilogrampercubicmeter.ToUnit(UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => kilogrampercubicmeter.ToUnit(UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => kilogrampercubicmeter.ToUnit(UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void ToUnit_WithNullUnitSystem_ThrowsNullException()
+        {
+            var kilogrampercubicmeter = Density.FromKilogramsPerCubicMeter(1);
+ 
+            Assert.Throws<ArgumentNullException>(() => kilogrampercubicmeter.ToUnit(null));
         }
 
         [Fact]

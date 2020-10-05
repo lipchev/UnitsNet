@@ -85,6 +85,24 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
+        public void Ctor_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            Assert.Throws<ArgumentException>(() => new Power(1, UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => new Power(1, UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => new Power(1, UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => new Power(1, UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => new Power(1, UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => new Power(1, UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => new Power(1, UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void Ctor_WithNullUnitSystem_ThrowsArgumentNullException()
+        {
+            Assert.Throws<ArgumentNullException>(() => new Power(1, null));
+        }
+
+        [Fact]
         public void WattToPowerUnits()
         {
             Power watt = Power.FromWatts(1);
@@ -159,6 +177,28 @@ namespace UnitsNet.Tests
             AssertEx.EqualTolerance(PicowattsInOneWatt, watt.As(PowerUnit.Picowatt), PicowattsTolerance);
             AssertEx.EqualTolerance(TerawattsInOneWatt, watt.As(PowerUnit.Terawatt), TerawattsTolerance);
             AssertEx.EqualTolerance(WattsInOneWatt, watt.As(PowerUnit.Watt), WattsTolerance);
+        }
+
+        [Fact]
+        public void As_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            var watt = Power.FromWatts(1);
+
+            Assert.Throws<ArgumentException>(() => watt.As(UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => watt.As(UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => watt.As(UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => watt.As(UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => watt.As(UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => watt.As(UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => watt.As(UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void As_WithNullUnitSystem_ThrowsArgumentNullException()
+        {
+            var watt = Power.FromWatts(1);
+ 
+            Assert.Throws<ArgumentNullException>(() => watt.As(null));
         }
 
         [Fact]
@@ -245,6 +285,28 @@ namespace UnitsNet.Tests
             var wattQuantity = watt.ToUnit(PowerUnit.Watt);
             AssertEx.EqualTolerance(WattsInOneWatt, (double)wattQuantity.Value, WattsTolerance);
             Assert.Equal(PowerUnit.Watt, wattQuantity.Unit);
+        }
+
+        [Fact]
+        public void To_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            var watt = Power.FromWatts(1);
+
+            Assert.Throws<ArgumentException>(() => watt.ToUnit(UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => watt.ToUnit(UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => watt.ToUnit(UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => watt.ToUnit(UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => watt.ToUnit(UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => watt.ToUnit(UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => watt.ToUnit(UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void ToUnit_WithNullUnitSystem_ThrowsNullException()
+        {
+            var watt = Power.FromWatts(1);
+ 
+            Assert.Throws<ArgumentNullException>(() => watt.ToUnit(null));
         }
 
         [Fact]

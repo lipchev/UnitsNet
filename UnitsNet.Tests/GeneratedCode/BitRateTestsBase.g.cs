@@ -97,6 +97,24 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
+        public void Ctor_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            Assert.Throws<ArgumentException>(() => new BitRate(1, UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => new BitRate(1, UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => new BitRate(1, UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => new BitRate(1, UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => new BitRate(1, UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => new BitRate(1, UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => new BitRate(1, UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void Ctor_WithNullUnitSystem_ThrowsArgumentNullException()
+        {
+            Assert.Throws<ArgumentNullException>(() => new BitRate(1, null));
+        }
+
+        [Fact]
         public void BitPerSecondToBitRateUnits()
         {
             BitRate bitpersecond = BitRate.FromBitsPerSecond(1);
@@ -189,6 +207,28 @@ namespace UnitsNet.Tests
             AssertEx.EqualTolerance(TebibytesPerSecondInOneBitPerSecond, bitpersecond.As(BitRateUnit.TebibytePerSecond), TebibytesPerSecondTolerance);
             AssertEx.EqualTolerance(TerabitsPerSecondInOneBitPerSecond, bitpersecond.As(BitRateUnit.TerabitPerSecond), TerabitsPerSecondTolerance);
             AssertEx.EqualTolerance(TerabytesPerSecondInOneBitPerSecond, bitpersecond.As(BitRateUnit.TerabytePerSecond), TerabytesPerSecondTolerance);
+        }
+
+        [Fact]
+        public void As_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            var bitpersecond = BitRate.FromBitsPerSecond(1);
+
+            Assert.Throws<ArgumentException>(() => bitpersecond.As(UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => bitpersecond.As(UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => bitpersecond.As(UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => bitpersecond.As(UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => bitpersecond.As(UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => bitpersecond.As(UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => bitpersecond.As(UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void As_WithNullUnitSystem_ThrowsArgumentNullException()
+        {
+            var bitpersecond = BitRate.FromBitsPerSecond(1);
+ 
+            Assert.Throws<ArgumentNullException>(() => bitpersecond.As(null));
         }
 
         [Fact]
@@ -299,6 +339,28 @@ namespace UnitsNet.Tests
             var terabytepersecondQuantity = bitpersecond.ToUnit(BitRateUnit.TerabytePerSecond);
             AssertEx.EqualTolerance(TerabytesPerSecondInOneBitPerSecond, (double)terabytepersecondQuantity.Value, TerabytesPerSecondTolerance);
             Assert.Equal(BitRateUnit.TerabytePerSecond, terabytepersecondQuantity.Unit);
+        }
+
+        [Fact]
+        public void To_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            var bitpersecond = BitRate.FromBitsPerSecond(1);
+
+            Assert.Throws<ArgumentException>(() => bitpersecond.ToUnit(UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => bitpersecond.ToUnit(UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => bitpersecond.ToUnit(UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => bitpersecond.ToUnit(UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => bitpersecond.ToUnit(UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => bitpersecond.ToUnit(UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => bitpersecond.ToUnit(UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void ToUnit_WithNullUnitSystem_ThrowsNullException()
+        {
+            var bitpersecond = BitRate.FromBitsPerSecond(1);
+ 
+            Assert.Throws<ArgumentNullException>(() => bitpersecond.ToUnit(null));
         }
 
         [Fact]

@@ -70,6 +70,24 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
+        public void Ctor_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            Assert.Throws<ArgumentException>(() => new Ratio(1, UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => new Ratio(1, UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => new Ratio(1, UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => new Ratio(1, UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => new Ratio(1, UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => new Ratio(1, UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => new Ratio(1, UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void Ctor_WithNullUnitSystem_ThrowsArgumentNullException()
+        {
+            Assert.Throws<ArgumentNullException>(() => new Ratio(1, null));
+        }
+
+        [Fact]
         public void DecimalFractionToRatioUnits()
         {
             Ratio decimalfraction = Ratio.FromDecimalFractions(1);
@@ -118,6 +136,28 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
+        public void As_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            var decimalfraction = Ratio.FromDecimalFractions(1);
+
+            Assert.Throws<ArgumentException>(() => decimalfraction.As(UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => decimalfraction.As(UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => decimalfraction.As(UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => decimalfraction.As(UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => decimalfraction.As(UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => decimalfraction.As(UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => decimalfraction.As(UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void As_WithNullUnitSystem_ThrowsArgumentNullException()
+        {
+            var decimalfraction = Ratio.FromDecimalFractions(1);
+ 
+            Assert.Throws<ArgumentNullException>(() => decimalfraction.As(null));
+        }
+
+        [Fact]
         public void ToUnit()
         {
             var decimalfraction = Ratio.FromDecimalFractions(1);
@@ -145,6 +185,28 @@ namespace UnitsNet.Tests
             var percentQuantity = decimalfraction.ToUnit(RatioUnit.Percent);
             AssertEx.EqualTolerance(PercentInOneDecimalFraction, (double)percentQuantity.Value, PercentTolerance);
             Assert.Equal(RatioUnit.Percent, percentQuantity.Unit);
+        }
+
+        [Fact]
+        public void To_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            var decimalfraction = Ratio.FromDecimalFractions(1);
+
+            Assert.Throws<ArgumentException>(() => decimalfraction.ToUnit(UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => decimalfraction.ToUnit(UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => decimalfraction.ToUnit(UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => decimalfraction.ToUnit(UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => decimalfraction.ToUnit(UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => decimalfraction.ToUnit(UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => decimalfraction.ToUnit(UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void ToUnit_WithNullUnitSystem_ThrowsNullException()
+        {
+            var decimalfraction = Ratio.FromDecimalFractions(1);
+ 
+            Assert.Throws<ArgumentNullException>(() => decimalfraction.ToUnit(null));
         }
 
         [Fact]

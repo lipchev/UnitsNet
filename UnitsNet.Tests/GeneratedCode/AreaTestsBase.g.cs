@@ -86,6 +86,33 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
+        public void Ctor_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            var siQuantity = new Area(1, UnitSystem.SI);
+            Assert.Equal(1, (double)siQuantity.Value);
+            Assert.Equal(AreaUnit.SquareMeter, siQuantity.Unit);
+
+            var cgsQuantity = new Area(1, UnitSystem.CGS);
+            Assert.Equal(1, (double)cgsQuantity.Value);
+            Assert.Equal(AreaUnit.SquareCentimeter, cgsQuantity.Unit);
+
+            var eeQuantity = new Area(1, UnitSystem.EE);
+            Assert.Equal(1, (double)eeQuantity.Value);
+            Assert.Equal(AreaUnit.SquareFoot, eeQuantity.Unit);
+
+            Assert.Throws<ArgumentException>(() => new Area(1, UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => new Area(1, UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => new Area(1, UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => new Area(1, UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void Ctor_WithNullUnitSystem_ThrowsArgumentNullException()
+        {
+            Assert.Throws<ArgumentNullException>(() => new Area(1, null));
+        }
+
+        [Fact]
         public void SquareMeterToAreaUnits()
         {
             Area squaremeter = Area.FromSquareMeters(1);
@@ -158,6 +185,29 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
+        public void As_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            var squaremeter = Area.FromSquareMeters(1);
+
+            AssertEx.EqualTolerance(SquareMetersInOneSquareMeter, squaremeter.As(UnitSystem.SI), SquareMetersTolerance);
+            AssertEx.EqualTolerance(SquareCentimetersInOneSquareMeter, squaremeter.As(UnitSystem.CGS), SquareCentimetersTolerance);
+            AssertEx.EqualTolerance(SquareFeetInOneSquareMeter, squaremeter.As(UnitSystem.EE), SquareFeetTolerance);
+
+            Assert.Throws<ArgumentException>(() => squaremeter.As(UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => squaremeter.As(UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => squaremeter.As(UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => squaremeter.As(UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void As_WithNullUnitSystem_ThrowsArgumentNullException()
+        {
+            var squaremeter = Area.FromSquareMeters(1);
+ 
+            Assert.Throws<ArgumentNullException>(() => squaremeter.As(null));
+        }
+
+        [Fact]
         public void ToUnit()
         {
             var squaremeter = Area.FromSquareMeters(1);
@@ -217,6 +267,37 @@ namespace UnitsNet.Tests
             var ussurveysquarefootQuantity = squaremeter.ToUnit(AreaUnit.UsSurveySquareFoot);
             AssertEx.EqualTolerance(UsSurveySquareFeetInOneSquareMeter, (double)ussurveysquarefootQuantity.Value, UsSurveySquareFeetTolerance);
             Assert.Equal(AreaUnit.UsSurveySquareFoot, ussurveysquarefootQuantity.Unit);
+        }
+
+        [Fact]
+        public void To_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            var squaremeter = Area.FromSquareMeters(1);
+
+            var siQuantity = squaremeter.ToUnit(UnitSystem.SI);
+            AssertEx.EqualTolerance(SquareMetersInOneSquareMeter, (double)siQuantity.Value, SquareMetersTolerance);
+            Assert.Equal(AreaUnit.SquareMeter, siQuantity.Unit);
+
+            var cgsQuantity = squaremeter.ToUnit(UnitSystem.CGS);
+            AssertEx.EqualTolerance(SquareCentimetersInOneSquareMeter, (double)cgsQuantity.Value, SquareCentimetersTolerance);
+            Assert.Equal(AreaUnit.SquareCentimeter, cgsQuantity.Unit);
+
+            var eeQuantity = squaremeter.ToUnit(UnitSystem.EE);
+            AssertEx.EqualTolerance(SquareFeetInOneSquareMeter, (double)eeQuantity.Value, SquareFeetTolerance);
+            Assert.Equal(AreaUnit.SquareFoot, eeQuantity.Unit);
+
+            Assert.Throws<ArgumentException>(() => squaremeter.ToUnit(UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => squaremeter.ToUnit(UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => squaremeter.ToUnit(UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => squaremeter.ToUnit(UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void ToUnit_WithNullUnitSystem_ThrowsNullException()
+        {
+            var squaremeter = Area.FromSquareMeters(1);
+ 
+            Assert.Throws<ArgumentNullException>(() => squaremeter.ToUnit(null));
         }
 
         [Fact]

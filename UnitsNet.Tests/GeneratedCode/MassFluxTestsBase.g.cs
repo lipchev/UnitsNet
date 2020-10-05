@@ -62,6 +62,24 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
+        public void Ctor_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            Assert.Throws<ArgumentException>(() => new MassFlux(1, UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => new MassFlux(1, UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => new MassFlux(1, UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => new MassFlux(1, UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => new MassFlux(1, UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => new MassFlux(1, UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => new MassFlux(1, UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void Ctor_WithNullUnitSystem_ThrowsArgumentNullException()
+        {
+            Assert.Throws<ArgumentNullException>(() => new MassFlux(1, null));
+        }
+
+        [Fact]
         public void KilogramPerSecondPerSquareMeterToMassFluxUnits()
         {
             MassFlux kilogrampersecondpersquaremeter = MassFlux.FromKilogramsPerSecondPerSquareMeter(1);
@@ -98,6 +116,28 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
+        public void As_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            var kilogrampersecondpersquaremeter = MassFlux.FromKilogramsPerSecondPerSquareMeter(1);
+
+            Assert.Throws<ArgumentException>(() => kilogrampersecondpersquaremeter.As(UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => kilogrampersecondpersquaremeter.As(UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => kilogrampersecondpersquaremeter.As(UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => kilogrampersecondpersquaremeter.As(UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => kilogrampersecondpersquaremeter.As(UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => kilogrampersecondpersquaremeter.As(UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => kilogrampersecondpersquaremeter.As(UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void As_WithNullUnitSystem_ThrowsArgumentNullException()
+        {
+            var kilogrampersecondpersquaremeter = MassFlux.FromKilogramsPerSecondPerSquareMeter(1);
+ 
+            Assert.Throws<ArgumentNullException>(() => kilogrampersecondpersquaremeter.As(null));
+        }
+
+        [Fact]
         public void ToUnit()
         {
             var kilogrampersecondpersquaremeter = MassFlux.FromKilogramsPerSecondPerSquareMeter(1);
@@ -109,6 +149,28 @@ namespace UnitsNet.Tests
             var kilogrampersecondpersquaremeterQuantity = kilogrampersecondpersquaremeter.ToUnit(MassFluxUnit.KilogramPerSecondPerSquareMeter);
             AssertEx.EqualTolerance(KilogramsPerSecondPerSquareMeterInOneKilogramPerSecondPerSquareMeter, (double)kilogrampersecondpersquaremeterQuantity.Value, KilogramsPerSecondPerSquareMeterTolerance);
             Assert.Equal(MassFluxUnit.KilogramPerSecondPerSquareMeter, kilogrampersecondpersquaremeterQuantity.Unit);
+        }
+
+        [Fact]
+        public void To_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            var kilogrampersecondpersquaremeter = MassFlux.FromKilogramsPerSecondPerSquareMeter(1);
+
+            Assert.Throws<ArgumentException>(() => kilogrampersecondpersquaremeter.ToUnit(UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => kilogrampersecondpersquaremeter.ToUnit(UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => kilogrampersecondpersquaremeter.ToUnit(UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => kilogrampersecondpersquaremeter.ToUnit(UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => kilogrampersecondpersquaremeter.ToUnit(UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => kilogrampersecondpersquaremeter.ToUnit(UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => kilogrampersecondpersquaremeter.ToUnit(UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void ToUnit_WithNullUnitSystem_ThrowsNullException()
+        {
+            var kilogrampersecondpersquaremeter = MassFlux.FromKilogramsPerSecondPerSquareMeter(1);
+ 
+            Assert.Throws<ArgumentNullException>(() => kilogrampersecondpersquaremeter.ToUnit(null));
         }
 
         [Fact]

@@ -84,6 +84,24 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
+        public void Ctor_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            Assert.Throws<ArgumentException>(() => new RotationalSpeed(1, UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => new RotationalSpeed(1, UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => new RotationalSpeed(1, UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => new RotationalSpeed(1, UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => new RotationalSpeed(1, UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => new RotationalSpeed(1, UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => new RotationalSpeed(1, UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void Ctor_WithNullUnitSystem_ThrowsArgumentNullException()
+        {
+            Assert.Throws<ArgumentNullException>(() => new RotationalSpeed(1, null));
+        }
+
+        [Fact]
         public void RadianPerSecondToRotationalSpeedUnits()
         {
             RotationalSpeed radianpersecond = RotationalSpeed.FromRadiansPerSecond(1);
@@ -153,6 +171,28 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
+        public void As_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            var radianpersecond = RotationalSpeed.FromRadiansPerSecond(1);
+
+            Assert.Throws<ArgumentException>(() => radianpersecond.As(UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => radianpersecond.As(UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => radianpersecond.As(UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => radianpersecond.As(UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => radianpersecond.As(UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => radianpersecond.As(UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => radianpersecond.As(UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void As_WithNullUnitSystem_ThrowsArgumentNullException()
+        {
+            var radianpersecond = RotationalSpeed.FromRadiansPerSecond(1);
+ 
+            Assert.Throws<ArgumentNullException>(() => radianpersecond.As(null));
+        }
+
+        [Fact]
         public void ToUnit()
         {
             var radianpersecond = RotationalSpeed.FromRadiansPerSecond(1);
@@ -208,6 +248,28 @@ namespace UnitsNet.Tests
             var revolutionpersecondQuantity = radianpersecond.ToUnit(RotationalSpeedUnit.RevolutionPerSecond);
             AssertEx.EqualTolerance(RevolutionsPerSecondInOneRadianPerSecond, (double)revolutionpersecondQuantity.Value, RevolutionsPerSecondTolerance);
             Assert.Equal(RotationalSpeedUnit.RevolutionPerSecond, revolutionpersecondQuantity.Unit);
+        }
+
+        [Fact]
+        public void To_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            var radianpersecond = RotationalSpeed.FromRadiansPerSecond(1);
+
+            Assert.Throws<ArgumentException>(() => radianpersecond.ToUnit(UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => radianpersecond.ToUnit(UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => radianpersecond.ToUnit(UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => radianpersecond.ToUnit(UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => radianpersecond.ToUnit(UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => radianpersecond.ToUnit(UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => radianpersecond.ToUnit(UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void ToUnit_WithNullUnitSystem_ThrowsNullException()
+        {
+            var radianpersecond = RotationalSpeed.FromRadiansPerSecond(1);
+ 
+            Assert.Throws<ArgumentNullException>(() => radianpersecond.ToUnit(null));
         }
 
         [Fact]

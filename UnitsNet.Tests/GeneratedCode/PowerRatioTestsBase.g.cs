@@ -62,6 +62,24 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
+        public void Ctor_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            Assert.Throws<ArgumentException>(() => new PowerRatio(1, UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => new PowerRatio(1, UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => new PowerRatio(1, UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => new PowerRatio(1, UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => new PowerRatio(1, UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => new PowerRatio(1, UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => new PowerRatio(1, UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void Ctor_WithNullUnitSystem_ThrowsArgumentNullException()
+        {
+            Assert.Throws<ArgumentNullException>(() => new PowerRatio(1, null));
+        }
+
+        [Fact]
         public void DecibelWattToPowerRatioUnits()
         {
             PowerRatio decibelwatt = PowerRatio.FromDecibelWatts(1);
@@ -98,6 +116,28 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
+        public void As_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            var decibelwatt = PowerRatio.FromDecibelWatts(1);
+
+            Assert.Throws<ArgumentException>(() => decibelwatt.As(UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => decibelwatt.As(UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => decibelwatt.As(UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => decibelwatt.As(UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => decibelwatt.As(UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => decibelwatt.As(UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => decibelwatt.As(UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void As_WithNullUnitSystem_ThrowsArgumentNullException()
+        {
+            var decibelwatt = PowerRatio.FromDecibelWatts(1);
+ 
+            Assert.Throws<ArgumentNullException>(() => decibelwatt.As(null));
+        }
+
+        [Fact]
         public void ToUnit()
         {
             var decibelwatt = PowerRatio.FromDecibelWatts(1);
@@ -109,6 +149,28 @@ namespace UnitsNet.Tests
             var decibelwattQuantity = decibelwatt.ToUnit(PowerRatioUnit.DecibelWatt);
             AssertEx.EqualTolerance(DecibelWattsInOneDecibelWatt, (double)decibelwattQuantity.Value, DecibelWattsTolerance);
             Assert.Equal(PowerRatioUnit.DecibelWatt, decibelwattQuantity.Unit);
+        }
+
+        [Fact]
+        public void To_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            var decibelwatt = PowerRatio.FromDecibelWatts(1);
+
+            Assert.Throws<ArgumentException>(() => decibelwatt.ToUnit(UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => decibelwatt.ToUnit(UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => decibelwatt.ToUnit(UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => decibelwatt.ToUnit(UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => decibelwatt.ToUnit(UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => decibelwatt.ToUnit(UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => decibelwatt.ToUnit(UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void ToUnit_WithNullUnitSystem_ThrowsNullException()
+        {
+            var decibelwatt = PowerRatio.FromDecibelWatts(1);
+ 
+            Assert.Throws<ArgumentNullException>(() => decibelwatt.ToUnit(null));
         }
 
         [Fact]

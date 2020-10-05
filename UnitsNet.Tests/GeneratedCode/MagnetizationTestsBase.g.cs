@@ -60,6 +60,24 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
+        public void Ctor_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            Assert.Throws<ArgumentException>(() => new Magnetization(1, UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => new Magnetization(1, UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => new Magnetization(1, UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => new Magnetization(1, UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => new Magnetization(1, UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => new Magnetization(1, UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => new Magnetization(1, UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void Ctor_WithNullUnitSystem_ThrowsArgumentNullException()
+        {
+            Assert.Throws<ArgumentNullException>(() => new Magnetization(1, null));
+        }
+
+        [Fact]
         public void AmperePerMeterToMagnetizationUnits()
         {
             Magnetization amperepermeter = Magnetization.FromAmperesPerMeter(1);
@@ -93,6 +111,28 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
+        public void As_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            var amperepermeter = Magnetization.FromAmperesPerMeter(1);
+
+            Assert.Throws<ArgumentException>(() => amperepermeter.As(UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => amperepermeter.As(UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => amperepermeter.As(UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => amperepermeter.As(UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => amperepermeter.As(UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => amperepermeter.As(UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => amperepermeter.As(UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void As_WithNullUnitSystem_ThrowsArgumentNullException()
+        {
+            var amperepermeter = Magnetization.FromAmperesPerMeter(1);
+ 
+            Assert.Throws<ArgumentNullException>(() => amperepermeter.As(null));
+        }
+
+        [Fact]
         public void ToUnit()
         {
             var amperepermeter = Magnetization.FromAmperesPerMeter(1);
@@ -100,6 +140,28 @@ namespace UnitsNet.Tests
             var amperepermeterQuantity = amperepermeter.ToUnit(MagnetizationUnit.AmperePerMeter);
             AssertEx.EqualTolerance(AmperesPerMeterInOneAmperePerMeter, (double)amperepermeterQuantity.Value, AmperesPerMeterTolerance);
             Assert.Equal(MagnetizationUnit.AmperePerMeter, amperepermeterQuantity.Unit);
+        }
+
+        [Fact]
+        public void To_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            var amperepermeter = Magnetization.FromAmperesPerMeter(1);
+
+            Assert.Throws<ArgumentException>(() => amperepermeter.ToUnit(UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => amperepermeter.ToUnit(UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => amperepermeter.ToUnit(UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => amperepermeter.ToUnit(UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => amperepermeter.ToUnit(UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => amperepermeter.ToUnit(UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => amperepermeter.ToUnit(UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void ToUnit_WithNullUnitSystem_ThrowsNullException()
+        {
+            var amperepermeter = Magnetization.FromAmperesPerMeter(1);
+ 
+            Assert.Throws<ArgumentNullException>(() => amperepermeter.ToUnit(null));
         }
 
         [Fact]

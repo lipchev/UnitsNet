@@ -68,6 +68,24 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
+        public void Ctor_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            Assert.Throws<ArgumentException>(() => new ElectricResistance(1, UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => new ElectricResistance(1, UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => new ElectricResistance(1, UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => new ElectricResistance(1, UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => new ElectricResistance(1, UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => new ElectricResistance(1, UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => new ElectricResistance(1, UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void Ctor_WithNullUnitSystem_ThrowsArgumentNullException()
+        {
+            Assert.Throws<ArgumentNullException>(() => new ElectricResistance(1, null));
+        }
+
+        [Fact]
         public void OhmToElectricResistanceUnits()
         {
             ElectricResistance ohm = ElectricResistance.FromOhms(1);
@@ -113,6 +131,28 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
+        public void As_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            var ohm = ElectricResistance.FromOhms(1);
+
+            Assert.Throws<ArgumentException>(() => ohm.As(UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => ohm.As(UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => ohm.As(UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => ohm.As(UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => ohm.As(UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => ohm.As(UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => ohm.As(UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void As_WithNullUnitSystem_ThrowsArgumentNullException()
+        {
+            var ohm = ElectricResistance.FromOhms(1);
+ 
+            Assert.Throws<ArgumentNullException>(() => ohm.As(null));
+        }
+
+        [Fact]
         public void ToUnit()
         {
             var ohm = ElectricResistance.FromOhms(1);
@@ -136,6 +176,28 @@ namespace UnitsNet.Tests
             var ohmQuantity = ohm.ToUnit(ElectricResistanceUnit.Ohm);
             AssertEx.EqualTolerance(OhmsInOneOhm, (double)ohmQuantity.Value, OhmsTolerance);
             Assert.Equal(ElectricResistanceUnit.Ohm, ohmQuantity.Unit);
+        }
+
+        [Fact]
+        public void To_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            var ohm = ElectricResistance.FromOhms(1);
+
+            Assert.Throws<ArgumentException>(() => ohm.ToUnit(UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => ohm.ToUnit(UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => ohm.ToUnit(UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => ohm.ToUnit(UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => ohm.ToUnit(UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => ohm.ToUnit(UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => ohm.ToUnit(UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void ToUnit_WithNullUnitSystem_ThrowsNullException()
+        {
+            var ohm = ElectricResistance.FromOhms(1);
+ 
+            Assert.Throws<ArgumentNullException>(() => ohm.ToUnit(null));
         }
 
         [Fact]

@@ -76,6 +76,24 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
+        public void Ctor_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            Assert.Throws<ArgumentException>(() => new SpecificEntropy(1, UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => new SpecificEntropy(1, UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => new SpecificEntropy(1, UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => new SpecificEntropy(1, UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => new SpecificEntropy(1, UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => new SpecificEntropy(1, UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => new SpecificEntropy(1, UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void Ctor_WithNullUnitSystem_ThrowsArgumentNullException()
+        {
+            Assert.Throws<ArgumentNullException>(() => new SpecificEntropy(1, null));
+        }
+
+        [Fact]
         public void JoulePerKilogramKelvinToSpecificEntropyUnits()
         {
             SpecificEntropy jouleperkilogramkelvin = SpecificEntropy.FromJoulesPerKilogramKelvin(1);
@@ -133,6 +151,28 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
+        public void As_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            var jouleperkilogramkelvin = SpecificEntropy.FromJoulesPerKilogramKelvin(1);
+
+            Assert.Throws<ArgumentException>(() => jouleperkilogramkelvin.As(UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => jouleperkilogramkelvin.As(UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => jouleperkilogramkelvin.As(UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => jouleperkilogramkelvin.As(UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => jouleperkilogramkelvin.As(UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => jouleperkilogramkelvin.As(UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => jouleperkilogramkelvin.As(UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void As_WithNullUnitSystem_ThrowsArgumentNullException()
+        {
+            var jouleperkilogramkelvin = SpecificEntropy.FromJoulesPerKilogramKelvin(1);
+ 
+            Assert.Throws<ArgumentNullException>(() => jouleperkilogramkelvin.As(null));
+        }
+
+        [Fact]
         public void ToUnit()
         {
             var jouleperkilogramkelvin = SpecificEntropy.FromJoulesPerKilogramKelvin(1);
@@ -172,6 +212,28 @@ namespace UnitsNet.Tests
             var megajouleperkilogramkelvinQuantity = jouleperkilogramkelvin.ToUnit(SpecificEntropyUnit.MegajoulePerKilogramKelvin);
             AssertEx.EqualTolerance(MegajoulesPerKilogramKelvinInOneJoulePerKilogramKelvin, (double)megajouleperkilogramkelvinQuantity.Value, MegajoulesPerKilogramKelvinTolerance);
             Assert.Equal(SpecificEntropyUnit.MegajoulePerKilogramKelvin, megajouleperkilogramkelvinQuantity.Unit);
+        }
+
+        [Fact]
+        public void To_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            var jouleperkilogramkelvin = SpecificEntropy.FromJoulesPerKilogramKelvin(1);
+
+            Assert.Throws<ArgumentException>(() => jouleperkilogramkelvin.ToUnit(UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => jouleperkilogramkelvin.ToUnit(UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => jouleperkilogramkelvin.ToUnit(UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => jouleperkilogramkelvin.ToUnit(UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => jouleperkilogramkelvin.ToUnit(UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => jouleperkilogramkelvin.ToUnit(UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => jouleperkilogramkelvin.ToUnit(UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void ToUnit_WithNullUnitSystem_ThrowsNullException()
+        {
+            var jouleperkilogramkelvin = SpecificEntropy.FromJoulesPerKilogramKelvin(1);
+ 
+            Assert.Throws<ArgumentNullException>(() => jouleperkilogramkelvin.ToUnit(null));
         }
 
         [Fact]

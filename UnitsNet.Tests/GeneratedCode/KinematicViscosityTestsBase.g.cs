@@ -74,6 +74,24 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
+        public void Ctor_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            Assert.Throws<ArgumentException>(() => new KinematicViscosity(1, UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => new KinematicViscosity(1, UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => new KinematicViscosity(1, UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => new KinematicViscosity(1, UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => new KinematicViscosity(1, UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => new KinematicViscosity(1, UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => new KinematicViscosity(1, UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void Ctor_WithNullUnitSystem_ThrowsArgumentNullException()
+        {
+            Assert.Throws<ArgumentNullException>(() => new KinematicViscosity(1, null));
+        }
+
+        [Fact]
         public void SquareMeterPerSecondToKinematicViscosityUnits()
         {
             KinematicViscosity squaremeterpersecond = KinematicViscosity.FromSquareMetersPerSecond(1);
@@ -128,6 +146,28 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
+        public void As_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            var squaremeterpersecond = KinematicViscosity.FromSquareMetersPerSecond(1);
+
+            Assert.Throws<ArgumentException>(() => squaremeterpersecond.As(UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => squaremeterpersecond.As(UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => squaremeterpersecond.As(UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => squaremeterpersecond.As(UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => squaremeterpersecond.As(UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => squaremeterpersecond.As(UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => squaremeterpersecond.As(UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void As_WithNullUnitSystem_ThrowsArgumentNullException()
+        {
+            var squaremeterpersecond = KinematicViscosity.FromSquareMetersPerSecond(1);
+ 
+            Assert.Throws<ArgumentNullException>(() => squaremeterpersecond.As(null));
+        }
+
+        [Fact]
         public void ToUnit()
         {
             var squaremeterpersecond = KinematicViscosity.FromSquareMetersPerSecond(1);
@@ -163,6 +203,28 @@ namespace UnitsNet.Tests
             var stokesQuantity = squaremeterpersecond.ToUnit(KinematicViscosityUnit.Stokes);
             AssertEx.EqualTolerance(StokesInOneSquareMeterPerSecond, (double)stokesQuantity.Value, StokesTolerance);
             Assert.Equal(KinematicViscosityUnit.Stokes, stokesQuantity.Unit);
+        }
+
+        [Fact]
+        public void To_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            var squaremeterpersecond = KinematicViscosity.FromSquareMetersPerSecond(1);
+
+            Assert.Throws<ArgumentException>(() => squaremeterpersecond.ToUnit(UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => squaremeterpersecond.ToUnit(UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => squaremeterpersecond.ToUnit(UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => squaremeterpersecond.ToUnit(UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => squaremeterpersecond.ToUnit(UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => squaremeterpersecond.ToUnit(UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => squaremeterpersecond.ToUnit(UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void ToUnit_WithNullUnitSystem_ThrowsNullException()
+        {
+            var squaremeterpersecond = KinematicViscosity.FromSquareMetersPerSecond(1);
+ 
+            Assert.Throws<ArgumentNullException>(() => squaremeterpersecond.ToUnit(null));
         }
 
         [Fact]

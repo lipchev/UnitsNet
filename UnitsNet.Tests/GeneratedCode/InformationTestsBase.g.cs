@@ -97,6 +97,24 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
+        public void Ctor_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            Assert.Throws<ArgumentException>(() => new Information(1, UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => new Information(1, UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => new Information(1, UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => new Information(1, UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => new Information(1, UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => new Information(1, UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => new Information(1, UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void Ctor_WithNullUnitSystem_ThrowsArgumentNullException()
+        {
+            Assert.Throws<ArgumentNullException>(() => new Information(1, null));
+        }
+
+        [Fact]
         public void BitToInformationUnits()
         {
             Information bit = Information.FromBits(1);
@@ -189,6 +207,28 @@ namespace UnitsNet.Tests
             AssertEx.EqualTolerance(TebibytesInOneBit, bit.As(InformationUnit.Tebibyte), TebibytesTolerance);
             AssertEx.EqualTolerance(TerabitsInOneBit, bit.As(InformationUnit.Terabit), TerabitsTolerance);
             AssertEx.EqualTolerance(TerabytesInOneBit, bit.As(InformationUnit.Terabyte), TerabytesTolerance);
+        }
+
+        [Fact]
+        public void As_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            var bit = Information.FromBits(1);
+
+            Assert.Throws<ArgumentException>(() => bit.As(UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => bit.As(UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => bit.As(UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => bit.As(UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => bit.As(UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => bit.As(UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => bit.As(UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void As_WithNullUnitSystem_ThrowsArgumentNullException()
+        {
+            var bit = Information.FromBits(1);
+ 
+            Assert.Throws<ArgumentNullException>(() => bit.As(null));
         }
 
         [Fact]
@@ -299,6 +339,28 @@ namespace UnitsNet.Tests
             var terabyteQuantity = bit.ToUnit(InformationUnit.Terabyte);
             AssertEx.EqualTolerance(TerabytesInOneBit, (double)terabyteQuantity.Value, TerabytesTolerance);
             Assert.Equal(InformationUnit.Terabyte, terabyteQuantity.Unit);
+        }
+
+        [Fact]
+        public void To_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            var bit = Information.FromBits(1);
+
+            Assert.Throws<ArgumentException>(() => bit.ToUnit(UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => bit.ToUnit(UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => bit.ToUnit(UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => bit.ToUnit(UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => bit.ToUnit(UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => bit.ToUnit(UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => bit.ToUnit(UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void ToUnit_WithNullUnitSystem_ThrowsNullException()
+        {
+            var bit = Information.FromBits(1);
+ 
+            Assert.Throws<ArgumentNullException>(() => bit.ToUnit(null));
         }
 
         [Fact]

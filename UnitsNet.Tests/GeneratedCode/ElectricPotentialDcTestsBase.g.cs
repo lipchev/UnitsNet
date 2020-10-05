@@ -68,6 +68,24 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
+        public void Ctor_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            Assert.Throws<ArgumentException>(() => new ElectricPotentialDc(1, UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => new ElectricPotentialDc(1, UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => new ElectricPotentialDc(1, UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => new ElectricPotentialDc(1, UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => new ElectricPotentialDc(1, UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => new ElectricPotentialDc(1, UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => new ElectricPotentialDc(1, UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void Ctor_WithNullUnitSystem_ThrowsArgumentNullException()
+        {
+            Assert.Throws<ArgumentNullException>(() => new ElectricPotentialDc(1, null));
+        }
+
+        [Fact]
         public void VoltDcToElectricPotentialDcUnits()
         {
             ElectricPotentialDc voltdc = ElectricPotentialDc.FromVoltsDc(1);
@@ -113,6 +131,28 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
+        public void As_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            var voltdc = ElectricPotentialDc.FromVoltsDc(1);
+
+            Assert.Throws<ArgumentException>(() => voltdc.As(UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => voltdc.As(UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => voltdc.As(UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => voltdc.As(UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => voltdc.As(UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => voltdc.As(UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => voltdc.As(UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void As_WithNullUnitSystem_ThrowsArgumentNullException()
+        {
+            var voltdc = ElectricPotentialDc.FromVoltsDc(1);
+ 
+            Assert.Throws<ArgumentNullException>(() => voltdc.As(null));
+        }
+
+        [Fact]
         public void ToUnit()
         {
             var voltdc = ElectricPotentialDc.FromVoltsDc(1);
@@ -136,6 +176,28 @@ namespace UnitsNet.Tests
             var voltdcQuantity = voltdc.ToUnit(ElectricPotentialDcUnit.VoltDc);
             AssertEx.EqualTolerance(VoltsDcInOneVoltDc, (double)voltdcQuantity.Value, VoltsDcTolerance);
             Assert.Equal(ElectricPotentialDcUnit.VoltDc, voltdcQuantity.Unit);
+        }
+
+        [Fact]
+        public void To_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            var voltdc = ElectricPotentialDc.FromVoltsDc(1);
+
+            Assert.Throws<ArgumentException>(() => voltdc.ToUnit(UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => voltdc.ToUnit(UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => voltdc.ToUnit(UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => voltdc.ToUnit(UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => voltdc.ToUnit(UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => voltdc.ToUnit(UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => voltdc.ToUnit(UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void ToUnit_WithNullUnitSystem_ThrowsNullException()
+        {
+            var voltdc = ElectricPotentialDc.FromVoltsDc(1);
+ 
+            Assert.Throws<ArgumentNullException>(() => voltdc.ToUnit(null));
         }
 
         [Fact]

@@ -64,6 +64,24 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
+        public void Ctor_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            Assert.Throws<ArgumentException>(() => new CoefficientOfThermalExpansion(1, UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => new CoefficientOfThermalExpansion(1, UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => new CoefficientOfThermalExpansion(1, UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => new CoefficientOfThermalExpansion(1, UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => new CoefficientOfThermalExpansion(1, UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => new CoefficientOfThermalExpansion(1, UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => new CoefficientOfThermalExpansion(1, UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void Ctor_WithNullUnitSystem_ThrowsArgumentNullException()
+        {
+            Assert.Throws<ArgumentNullException>(() => new CoefficientOfThermalExpansion(1, null));
+        }
+
+        [Fact]
         public void InverseKelvinToCoefficientOfThermalExpansionUnits()
         {
             CoefficientOfThermalExpansion inversekelvin = CoefficientOfThermalExpansion.FromInverseKelvin(1);
@@ -103,6 +121,28 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
+        public void As_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            var inversekelvin = CoefficientOfThermalExpansion.FromInverseKelvin(1);
+
+            Assert.Throws<ArgumentException>(() => inversekelvin.As(UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => inversekelvin.As(UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => inversekelvin.As(UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => inversekelvin.As(UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => inversekelvin.As(UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => inversekelvin.As(UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => inversekelvin.As(UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void As_WithNullUnitSystem_ThrowsArgumentNullException()
+        {
+            var inversekelvin = CoefficientOfThermalExpansion.FromInverseKelvin(1);
+ 
+            Assert.Throws<ArgumentNullException>(() => inversekelvin.As(null));
+        }
+
+        [Fact]
         public void ToUnit()
         {
             var inversekelvin = CoefficientOfThermalExpansion.FromInverseKelvin(1);
@@ -118,6 +158,28 @@ namespace UnitsNet.Tests
             var inversekelvinQuantity = inversekelvin.ToUnit(CoefficientOfThermalExpansionUnit.InverseKelvin);
             AssertEx.EqualTolerance(InverseKelvinInOneInverseKelvin, (double)inversekelvinQuantity.Value, InverseKelvinTolerance);
             Assert.Equal(CoefficientOfThermalExpansionUnit.InverseKelvin, inversekelvinQuantity.Unit);
+        }
+
+        [Fact]
+        public void To_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            var inversekelvin = CoefficientOfThermalExpansion.FromInverseKelvin(1);
+
+            Assert.Throws<ArgumentException>(() => inversekelvin.ToUnit(UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => inversekelvin.ToUnit(UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => inversekelvin.ToUnit(UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => inversekelvin.ToUnit(UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => inversekelvin.ToUnit(UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => inversekelvin.ToUnit(UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => inversekelvin.ToUnit(UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void ToUnit_WithNullUnitSystem_ThrowsNullException()
+        {
+            var inversekelvin = CoefficientOfThermalExpansion.FromInverseKelvin(1);
+ 
+            Assert.Throws<ArgumentNullException>(() => inversekelvin.ToUnit(null));
         }
 
         [Fact]

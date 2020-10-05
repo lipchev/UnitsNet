@@ -60,6 +60,24 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
+        public void Ctor_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            Assert.Throws<ArgumentException>(() => new VitaminA(1, UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => new VitaminA(1, UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => new VitaminA(1, UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => new VitaminA(1, UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => new VitaminA(1, UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => new VitaminA(1, UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => new VitaminA(1, UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void Ctor_WithNullUnitSystem_ThrowsArgumentNullException()
+        {
+            Assert.Throws<ArgumentNullException>(() => new VitaminA(1, null));
+        }
+
+        [Fact]
         public void InternationalUnitToVitaminAUnits()
         {
             VitaminA internationalunit = VitaminA.FromInternationalUnits(1);
@@ -93,6 +111,28 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
+        public void As_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            var internationalunit = VitaminA.FromInternationalUnits(1);
+
+            Assert.Throws<ArgumentException>(() => internationalunit.As(UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => internationalunit.As(UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => internationalunit.As(UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => internationalunit.As(UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => internationalunit.As(UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => internationalunit.As(UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => internationalunit.As(UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void As_WithNullUnitSystem_ThrowsArgumentNullException()
+        {
+            var internationalunit = VitaminA.FromInternationalUnits(1);
+ 
+            Assert.Throws<ArgumentNullException>(() => internationalunit.As(null));
+        }
+
+        [Fact]
         public void ToUnit()
         {
             var internationalunit = VitaminA.FromInternationalUnits(1);
@@ -100,6 +140,28 @@ namespace UnitsNet.Tests
             var internationalunitQuantity = internationalunit.ToUnit(VitaminAUnit.InternationalUnit);
             AssertEx.EqualTolerance(InternationalUnitsInOneInternationalUnit, (double)internationalunitQuantity.Value, InternationalUnitsTolerance);
             Assert.Equal(VitaminAUnit.InternationalUnit, internationalunitQuantity.Unit);
+        }
+
+        [Fact]
+        public void To_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            var internationalunit = VitaminA.FromInternationalUnits(1);
+
+            Assert.Throws<ArgumentException>(() => internationalunit.ToUnit(UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => internationalunit.ToUnit(UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => internationalunit.ToUnit(UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => internationalunit.ToUnit(UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => internationalunit.ToUnit(UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => internationalunit.ToUnit(UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => internationalunit.ToUnit(UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void ToUnit_WithNullUnitSystem_ThrowsNullException()
+        {
+            var internationalunit = VitaminA.FromInternationalUnits(1);
+ 
+            Assert.Throws<ArgumentNullException>(() => internationalunit.ToUnit(null));
         }
 
         [Fact]

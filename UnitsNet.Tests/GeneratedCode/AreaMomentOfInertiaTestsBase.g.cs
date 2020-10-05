@@ -70,6 +70,24 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
+        public void Ctor_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            Assert.Throws<ArgumentException>(() => new AreaMomentOfInertia(1, UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => new AreaMomentOfInertia(1, UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => new AreaMomentOfInertia(1, UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => new AreaMomentOfInertia(1, UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => new AreaMomentOfInertia(1, UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => new AreaMomentOfInertia(1, UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => new AreaMomentOfInertia(1, UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void Ctor_WithNullUnitSystem_ThrowsArgumentNullException()
+        {
+            Assert.Throws<ArgumentNullException>(() => new AreaMomentOfInertia(1, null));
+        }
+
+        [Fact]
         public void MeterToTheFourthToAreaMomentOfInertiaUnits()
         {
             AreaMomentOfInertia metertothefourth = AreaMomentOfInertia.FromMetersToTheFourth(1);
@@ -118,6 +136,28 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
+        public void As_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            var metertothefourth = AreaMomentOfInertia.FromMetersToTheFourth(1);
+
+            Assert.Throws<ArgumentException>(() => metertothefourth.As(UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => metertothefourth.As(UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => metertothefourth.As(UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => metertothefourth.As(UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => metertothefourth.As(UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => metertothefourth.As(UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => metertothefourth.As(UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void As_WithNullUnitSystem_ThrowsArgumentNullException()
+        {
+            var metertothefourth = AreaMomentOfInertia.FromMetersToTheFourth(1);
+ 
+            Assert.Throws<ArgumentNullException>(() => metertothefourth.As(null));
+        }
+
+        [Fact]
         public void ToUnit()
         {
             var metertothefourth = AreaMomentOfInertia.FromMetersToTheFourth(1);
@@ -145,6 +185,28 @@ namespace UnitsNet.Tests
             var millimetertothefourthQuantity = metertothefourth.ToUnit(AreaMomentOfInertiaUnit.MillimeterToTheFourth);
             AssertEx.EqualTolerance(MillimetersToTheFourthInOneMeterToTheFourth, (double)millimetertothefourthQuantity.Value, MillimetersToTheFourthTolerance);
             Assert.Equal(AreaMomentOfInertiaUnit.MillimeterToTheFourth, millimetertothefourthQuantity.Unit);
+        }
+
+        [Fact]
+        public void To_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            var metertothefourth = AreaMomentOfInertia.FromMetersToTheFourth(1);
+
+            Assert.Throws<ArgumentException>(() => metertothefourth.ToUnit(UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => metertothefourth.ToUnit(UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => metertothefourth.ToUnit(UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => metertothefourth.ToUnit(UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => metertothefourth.ToUnit(UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => metertothefourth.ToUnit(UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => metertothefourth.ToUnit(UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void ToUnit_WithNullUnitSystem_ThrowsNullException()
+        {
+            var metertothefourth = AreaMomentOfInertia.FromMetersToTheFourth(1);
+ 
+            Assert.Throws<ArgumentNullException>(() => metertothefourth.ToUnit(null));
         }
 
         [Fact]

@@ -62,6 +62,24 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
+        public void Ctor_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            Assert.Throws<ArgumentException>(() => new ThermalConductivity(1, UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => new ThermalConductivity(1, UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => new ThermalConductivity(1, UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => new ThermalConductivity(1, UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => new ThermalConductivity(1, UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => new ThermalConductivity(1, UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => new ThermalConductivity(1, UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void Ctor_WithNullUnitSystem_ThrowsArgumentNullException()
+        {
+            Assert.Throws<ArgumentNullException>(() => new ThermalConductivity(1, null));
+        }
+
+        [Fact]
         public void WattPerMeterKelvinToThermalConductivityUnits()
         {
             ThermalConductivity wattpermeterkelvin = ThermalConductivity.FromWattsPerMeterKelvin(1);
@@ -98,6 +116,28 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
+        public void As_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            var wattpermeterkelvin = ThermalConductivity.FromWattsPerMeterKelvin(1);
+
+            Assert.Throws<ArgumentException>(() => wattpermeterkelvin.As(UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => wattpermeterkelvin.As(UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => wattpermeterkelvin.As(UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => wattpermeterkelvin.As(UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => wattpermeterkelvin.As(UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => wattpermeterkelvin.As(UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => wattpermeterkelvin.As(UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void As_WithNullUnitSystem_ThrowsArgumentNullException()
+        {
+            var wattpermeterkelvin = ThermalConductivity.FromWattsPerMeterKelvin(1);
+ 
+            Assert.Throws<ArgumentNullException>(() => wattpermeterkelvin.As(null));
+        }
+
+        [Fact]
         public void ToUnit()
         {
             var wattpermeterkelvin = ThermalConductivity.FromWattsPerMeterKelvin(1);
@@ -109,6 +149,28 @@ namespace UnitsNet.Tests
             var wattpermeterkelvinQuantity = wattpermeterkelvin.ToUnit(ThermalConductivityUnit.WattPerMeterKelvin);
             AssertEx.EqualTolerance(WattsPerMeterKelvinInOneWattPerMeterKelvin, (double)wattpermeterkelvinQuantity.Value, WattsPerMeterKelvinTolerance);
             Assert.Equal(ThermalConductivityUnit.WattPerMeterKelvin, wattpermeterkelvinQuantity.Unit);
+        }
+
+        [Fact]
+        public void To_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            var wattpermeterkelvin = ThermalConductivity.FromWattsPerMeterKelvin(1);
+
+            Assert.Throws<ArgumentException>(() => wattpermeterkelvin.ToUnit(UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => wattpermeterkelvin.ToUnit(UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => wattpermeterkelvin.ToUnit(UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => wattpermeterkelvin.ToUnit(UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => wattpermeterkelvin.ToUnit(UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => wattpermeterkelvin.ToUnit(UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => wattpermeterkelvin.ToUnit(UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void ToUnit_WithNullUnitSystem_ThrowsNullException()
+        {
+            var wattpermeterkelvin = ThermalConductivity.FromWattsPerMeterKelvin(1);
+ 
+            Assert.Throws<ArgumentNullException>(() => wattpermeterkelvin.ToUnit(null));
         }
 
         [Fact]

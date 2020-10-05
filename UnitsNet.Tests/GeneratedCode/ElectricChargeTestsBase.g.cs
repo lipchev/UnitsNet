@@ -68,6 +68,24 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
+        public void Ctor_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            Assert.Throws<ArgumentException>(() => new ElectricCharge(1, UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => new ElectricCharge(1, UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => new ElectricCharge(1, UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => new ElectricCharge(1, UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => new ElectricCharge(1, UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => new ElectricCharge(1, UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => new ElectricCharge(1, UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void Ctor_WithNullUnitSystem_ThrowsArgumentNullException()
+        {
+            Assert.Throws<ArgumentNullException>(() => new ElectricCharge(1, null));
+        }
+
+        [Fact]
         public void CoulombToElectricChargeUnits()
         {
             ElectricCharge coulomb = ElectricCharge.FromCoulombs(1);
@@ -113,6 +131,28 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
+        public void As_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            var coulomb = ElectricCharge.FromCoulombs(1);
+
+            Assert.Throws<ArgumentException>(() => coulomb.As(UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => coulomb.As(UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => coulomb.As(UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => coulomb.As(UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => coulomb.As(UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => coulomb.As(UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => coulomb.As(UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void As_WithNullUnitSystem_ThrowsArgumentNullException()
+        {
+            var coulomb = ElectricCharge.FromCoulombs(1);
+ 
+            Assert.Throws<ArgumentNullException>(() => coulomb.As(null));
+        }
+
+        [Fact]
         public void ToUnit()
         {
             var coulomb = ElectricCharge.FromCoulombs(1);
@@ -136,6 +176,28 @@ namespace UnitsNet.Tests
             var milliamperehourQuantity = coulomb.ToUnit(ElectricChargeUnit.MilliampereHour);
             AssertEx.EqualTolerance(MilliampereHoursInOneCoulomb, (double)milliamperehourQuantity.Value, MilliampereHoursTolerance);
             Assert.Equal(ElectricChargeUnit.MilliampereHour, milliamperehourQuantity.Unit);
+        }
+
+        [Fact]
+        public void To_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            var coulomb = ElectricCharge.FromCoulombs(1);
+
+            Assert.Throws<ArgumentException>(() => coulomb.ToUnit(UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => coulomb.ToUnit(UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => coulomb.ToUnit(UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => coulomb.ToUnit(UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => coulomb.ToUnit(UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => coulomb.ToUnit(UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => coulomb.ToUnit(UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void ToUnit_WithNullUnitSystem_ThrowsNullException()
+        {
+            var coulomb = ElectricCharge.FromCoulombs(1);
+ 
+            Assert.Throws<ArgumentNullException>(() => coulomb.ToUnit(null));
         }
 
         [Fact]

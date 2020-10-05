@@ -68,6 +68,24 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
+        public void Ctor_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            Assert.Throws<ArgumentException>(() => new ThermalResistance(1, UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => new ThermalResistance(1, UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => new ThermalResistance(1, UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => new ThermalResistance(1, UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => new ThermalResistance(1, UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => new ThermalResistance(1, UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => new ThermalResistance(1, UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void Ctor_WithNullUnitSystem_ThrowsArgumentNullException()
+        {
+            Assert.Throws<ArgumentNullException>(() => new ThermalResistance(1, null));
+        }
+
+        [Fact]
         public void SquareMeterKelvinPerKilowattToThermalResistanceUnits()
         {
             ThermalResistance squaremeterkelvinperkilowatt = ThermalResistance.FromSquareMeterKelvinsPerKilowatt(1);
@@ -113,6 +131,28 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
+        public void As_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            var squaremeterkelvinperkilowatt = ThermalResistance.FromSquareMeterKelvinsPerKilowatt(1);
+
+            Assert.Throws<ArgumentException>(() => squaremeterkelvinperkilowatt.As(UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => squaremeterkelvinperkilowatt.As(UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => squaremeterkelvinperkilowatt.As(UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => squaremeterkelvinperkilowatt.As(UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => squaremeterkelvinperkilowatt.As(UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => squaremeterkelvinperkilowatt.As(UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => squaremeterkelvinperkilowatt.As(UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void As_WithNullUnitSystem_ThrowsArgumentNullException()
+        {
+            var squaremeterkelvinperkilowatt = ThermalResistance.FromSquareMeterKelvinsPerKilowatt(1);
+ 
+            Assert.Throws<ArgumentNullException>(() => squaremeterkelvinperkilowatt.As(null));
+        }
+
+        [Fact]
         public void ToUnit()
         {
             var squaremeterkelvinperkilowatt = ThermalResistance.FromSquareMeterKelvinsPerKilowatt(1);
@@ -136,6 +176,28 @@ namespace UnitsNet.Tests
             var squaremeterkelvinperkilowattQuantity = squaremeterkelvinperkilowatt.ToUnit(ThermalResistanceUnit.SquareMeterKelvinPerKilowatt);
             AssertEx.EqualTolerance(SquareMeterKelvinsPerKilowattInOneSquareMeterKelvinPerKilowatt, (double)squaremeterkelvinperkilowattQuantity.Value, SquareMeterKelvinsPerKilowattTolerance);
             Assert.Equal(ThermalResistanceUnit.SquareMeterKelvinPerKilowatt, squaremeterkelvinperkilowattQuantity.Unit);
+        }
+
+        [Fact]
+        public void To_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            var squaremeterkelvinperkilowatt = ThermalResistance.FromSquareMeterKelvinsPerKilowatt(1);
+
+            Assert.Throws<ArgumentException>(() => squaremeterkelvinperkilowatt.ToUnit(UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => squaremeterkelvinperkilowatt.ToUnit(UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => squaremeterkelvinperkilowatt.ToUnit(UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => squaremeterkelvinperkilowatt.ToUnit(UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => squaremeterkelvinperkilowatt.ToUnit(UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => squaremeterkelvinperkilowatt.ToUnit(UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => squaremeterkelvinperkilowatt.ToUnit(UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void ToUnit_WithNullUnitSystem_ThrowsNullException()
+        {
+            var squaremeterkelvinperkilowatt = ThermalResistance.FromSquareMeterKelvinsPerKilowatt(1);
+ 
+            Assert.Throws<ArgumentNullException>(() => squaremeterkelvinperkilowatt.ToUnit(null));
         }
 
         [Fact]

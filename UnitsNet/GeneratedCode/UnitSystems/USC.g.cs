@@ -120,7 +120,7 @@ namespace UnitsNet.UnitSystems
                 null,
                 null,
                 null,
-                new UnitSystemInfo(null, new UnitInfo[]{
+                new UnitSystemInfo(Length.Info.UnitInfos[31], new UnitInfo[]{
                     Length.Info.UnitInfos[6],
                     Length.Info.UnitInfos[9],
                     Length.Info.UnitInfos[17],

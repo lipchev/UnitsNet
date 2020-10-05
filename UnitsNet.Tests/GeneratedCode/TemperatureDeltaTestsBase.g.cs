@@ -74,6 +74,24 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
+        public void Ctor_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            Assert.Throws<ArgumentException>(() => new TemperatureDelta(1, UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => new TemperatureDelta(1, UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => new TemperatureDelta(1, UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => new TemperatureDelta(1, UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => new TemperatureDelta(1, UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => new TemperatureDelta(1, UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => new TemperatureDelta(1, UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void Ctor_WithNullUnitSystem_ThrowsArgumentNullException()
+        {
+            Assert.Throws<ArgumentNullException>(() => new TemperatureDelta(1, null));
+        }
+
+        [Fact]
         public void KelvinToTemperatureDeltaUnits()
         {
             TemperatureDelta kelvin = TemperatureDelta.FromKelvins(1);
@@ -128,6 +146,28 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
+        public void As_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            var kelvin = TemperatureDelta.FromKelvins(1);
+
+            Assert.Throws<ArgumentException>(() => kelvin.As(UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => kelvin.As(UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => kelvin.As(UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => kelvin.As(UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => kelvin.As(UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => kelvin.As(UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => kelvin.As(UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void As_WithNullUnitSystem_ThrowsArgumentNullException()
+        {
+            var kelvin = TemperatureDelta.FromKelvins(1);
+ 
+            Assert.Throws<ArgumentNullException>(() => kelvin.As(null));
+        }
+
+        [Fact]
         public void ToUnit()
         {
             var kelvin = TemperatureDelta.FromKelvins(1);
@@ -163,6 +203,28 @@ namespace UnitsNet.Tests
             var kelvinQuantity = kelvin.ToUnit(TemperatureDeltaUnit.Kelvin);
             AssertEx.EqualTolerance(KelvinsInOneKelvin, (double)kelvinQuantity.Value, KelvinsTolerance);
             Assert.Equal(TemperatureDeltaUnit.Kelvin, kelvinQuantity.Unit);
+        }
+
+        [Fact]
+        public void To_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            var kelvin = TemperatureDelta.FromKelvins(1);
+
+            Assert.Throws<ArgumentException>(() => kelvin.ToUnit(UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => kelvin.ToUnit(UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => kelvin.ToUnit(UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => kelvin.ToUnit(UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => kelvin.ToUnit(UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => kelvin.ToUnit(UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => kelvin.ToUnit(UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void ToUnit_WithNullUnitSystem_ThrowsNullException()
+        {
+            var kelvin = TemperatureDelta.FromKelvins(1);
+ 
+            Assert.Throws<ArgumentNullException>(() => kelvin.ToUnit(null));
         }
 
         [Fact]

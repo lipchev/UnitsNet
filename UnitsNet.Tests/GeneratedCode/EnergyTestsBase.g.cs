@@ -106,6 +106,33 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
+        public void Ctor_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            var siQuantity = new Energy(1, UnitSystem.SI);
+            Assert.Equal(1, (double)siQuantity.Value);
+            Assert.Equal(EnergyUnit.Joule, siQuantity.Unit);
+
+            var cgsQuantity = new Energy(1, UnitSystem.CGS);
+            Assert.Equal(1, (double)cgsQuantity.Value);
+            Assert.Equal(EnergyUnit.Erg, cgsQuantity.Unit);
+
+            var eeQuantity = new Energy(1, UnitSystem.EE);
+            Assert.Equal(1, (double)eeQuantity.Value);
+            Assert.Equal(EnergyUnit.FootPound, eeQuantity.Unit);
+
+            Assert.Throws<ArgumentException>(() => new Energy(1, UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => new Energy(1, UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => new Energy(1, UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => new Energy(1, UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void Ctor_WithNullUnitSystem_ThrowsArgumentNullException()
+        {
+            Assert.Throws<ArgumentNullException>(() => new Energy(1, null));
+        }
+
+        [Fact]
         public void JouleToEnergyUnits()
         {
             Energy joule = Energy.FromJoules(1);
@@ -208,6 +235,29 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
+        public void As_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            var joule = Energy.FromJoules(1);
+
+            AssertEx.EqualTolerance(JoulesInOneJoule, joule.As(UnitSystem.SI), JoulesTolerance);
+            AssertEx.EqualTolerance(ErgsInOneJoule, joule.As(UnitSystem.CGS), ErgsTolerance);
+            AssertEx.EqualTolerance(FootPoundsInOneJoule, joule.As(UnitSystem.EE), FootPoundsTolerance);
+
+            Assert.Throws<ArgumentException>(() => joule.As(UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => joule.As(UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => joule.As(UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => joule.As(UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void As_WithNullUnitSystem_ThrowsArgumentNullException()
+        {
+            var joule = Energy.FromJoules(1);
+ 
+            Assert.Throws<ArgumentNullException>(() => joule.As(null));
+        }
+
+        [Fact]
         public void ToUnit()
         {
             var joule = Energy.FromJoules(1);
@@ -307,6 +357,37 @@ namespace UnitsNet.Tests
             var watthourQuantity = joule.ToUnit(EnergyUnit.WattHour);
             AssertEx.EqualTolerance(WattHoursInOneJoule, (double)watthourQuantity.Value, WattHoursTolerance);
             Assert.Equal(EnergyUnit.WattHour, watthourQuantity.Unit);
+        }
+
+        [Fact]
+        public void To_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            var joule = Energy.FromJoules(1);
+
+            var siQuantity = joule.ToUnit(UnitSystem.SI);
+            AssertEx.EqualTolerance(JoulesInOneJoule, (double)siQuantity.Value, JoulesTolerance);
+            Assert.Equal(EnergyUnit.Joule, siQuantity.Unit);
+
+            var cgsQuantity = joule.ToUnit(UnitSystem.CGS);
+            AssertEx.EqualTolerance(ErgsInOneJoule, (double)cgsQuantity.Value, ErgsTolerance);
+            Assert.Equal(EnergyUnit.Erg, cgsQuantity.Unit);
+
+            var eeQuantity = joule.ToUnit(UnitSystem.EE);
+            AssertEx.EqualTolerance(FootPoundsInOneJoule, (double)eeQuantity.Value, FootPoundsTolerance);
+            Assert.Equal(EnergyUnit.FootPound, eeQuantity.Unit);
+
+            Assert.Throws<ArgumentException>(() => joule.ToUnit(UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => joule.ToUnit(UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => joule.ToUnit(UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => joule.ToUnit(UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void ToUnit_WithNullUnitSystem_ThrowsNullException()
+        {
+            var joule = Energy.FromJoules(1);
+ 
+            Assert.Throws<ArgumentNullException>(() => joule.ToUnit(null));
         }
 
         [Fact]

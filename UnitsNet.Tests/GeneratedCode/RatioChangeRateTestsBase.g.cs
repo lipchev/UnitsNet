@@ -62,6 +62,24 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
+        public void Ctor_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            Assert.Throws<ArgumentException>(() => new RatioChangeRate(1, UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => new RatioChangeRate(1, UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => new RatioChangeRate(1, UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => new RatioChangeRate(1, UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => new RatioChangeRate(1, UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => new RatioChangeRate(1, UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => new RatioChangeRate(1, UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void Ctor_WithNullUnitSystem_ThrowsArgumentNullException()
+        {
+            Assert.Throws<ArgumentNullException>(() => new RatioChangeRate(1, null));
+        }
+
+        [Fact]
         public void DecimalFractionPerSecondToRatioChangeRateUnits()
         {
             RatioChangeRate decimalfractionpersecond = RatioChangeRate.FromDecimalFractionsPerSecond(1);
@@ -98,6 +116,28 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
+        public void As_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            var decimalfractionpersecond = RatioChangeRate.FromDecimalFractionsPerSecond(1);
+
+            Assert.Throws<ArgumentException>(() => decimalfractionpersecond.As(UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => decimalfractionpersecond.As(UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => decimalfractionpersecond.As(UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => decimalfractionpersecond.As(UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => decimalfractionpersecond.As(UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => decimalfractionpersecond.As(UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => decimalfractionpersecond.As(UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void As_WithNullUnitSystem_ThrowsArgumentNullException()
+        {
+            var decimalfractionpersecond = RatioChangeRate.FromDecimalFractionsPerSecond(1);
+ 
+            Assert.Throws<ArgumentNullException>(() => decimalfractionpersecond.As(null));
+        }
+
+        [Fact]
         public void ToUnit()
         {
             var decimalfractionpersecond = RatioChangeRate.FromDecimalFractionsPerSecond(1);
@@ -109,6 +149,28 @@ namespace UnitsNet.Tests
             var percentpersecondQuantity = decimalfractionpersecond.ToUnit(RatioChangeRateUnit.PercentPerSecond);
             AssertEx.EqualTolerance(PercentsPerSecondInOneDecimalFractionPerSecond, (double)percentpersecondQuantity.Value, PercentsPerSecondTolerance);
             Assert.Equal(RatioChangeRateUnit.PercentPerSecond, percentpersecondQuantity.Unit);
+        }
+
+        [Fact]
+        public void To_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            var decimalfractionpersecond = RatioChangeRate.FromDecimalFractionsPerSecond(1);
+
+            Assert.Throws<ArgumentException>(() => decimalfractionpersecond.ToUnit(UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => decimalfractionpersecond.ToUnit(UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => decimalfractionpersecond.ToUnit(UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => decimalfractionpersecond.ToUnit(UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => decimalfractionpersecond.ToUnit(UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => decimalfractionpersecond.ToUnit(UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => decimalfractionpersecond.ToUnit(UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void ToUnit_WithNullUnitSystem_ThrowsNullException()
+        {
+            var decimalfractionpersecond = RatioChangeRate.FromDecimalFractionsPerSecond(1);
+ 
+            Assert.Throws<ArgumentNullException>(() => decimalfractionpersecond.ToUnit(null));
         }
 
         [Fact]

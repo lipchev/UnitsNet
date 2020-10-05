@@ -82,6 +82,24 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
+        public void Ctor_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            Assert.Throws<ArgumentException>(() => new MolarMass(1, UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => new MolarMass(1, UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => new MolarMass(1, UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => new MolarMass(1, UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => new MolarMass(1, UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => new MolarMass(1, UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => new MolarMass(1, UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void Ctor_WithNullUnitSystem_ThrowsArgumentNullException()
+        {
+            Assert.Throws<ArgumentNullException>(() => new MolarMass(1, null));
+        }
+
+        [Fact]
         public void KilogramPerMoleToMolarMassUnits()
         {
             MolarMass kilogrampermole = MolarMass.FromKilogramsPerMole(1);
@@ -148,6 +166,28 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
+        public void As_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            var kilogrampermole = MolarMass.FromKilogramsPerMole(1);
+
+            Assert.Throws<ArgumentException>(() => kilogrampermole.As(UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => kilogrampermole.As(UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => kilogrampermole.As(UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => kilogrampermole.As(UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => kilogrampermole.As(UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => kilogrampermole.As(UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => kilogrampermole.As(UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void As_WithNullUnitSystem_ThrowsArgumentNullException()
+        {
+            var kilogrampermole = MolarMass.FromKilogramsPerMole(1);
+ 
+            Assert.Throws<ArgumentNullException>(() => kilogrampermole.As(null));
+        }
+
+        [Fact]
         public void ToUnit()
         {
             var kilogrampermole = MolarMass.FromKilogramsPerMole(1);
@@ -199,6 +239,28 @@ namespace UnitsNet.Tests
             var poundpermoleQuantity = kilogrampermole.ToUnit(MolarMassUnit.PoundPerMole);
             AssertEx.EqualTolerance(PoundsPerMoleInOneKilogramPerMole, (double)poundpermoleQuantity.Value, PoundsPerMoleTolerance);
             Assert.Equal(MolarMassUnit.PoundPerMole, poundpermoleQuantity.Unit);
+        }
+
+        [Fact]
+        public void To_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            var kilogrampermole = MolarMass.FromKilogramsPerMole(1);
+
+            Assert.Throws<ArgumentException>(() => kilogrampermole.ToUnit(UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => kilogrampermole.ToUnit(UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => kilogrampermole.ToUnit(UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => kilogrampermole.ToUnit(UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => kilogrampermole.ToUnit(UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => kilogrampermole.ToUnit(UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => kilogrampermole.ToUnit(UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void ToUnit_WithNullUnitSystem_ThrowsNullException()
+        {
+            var kilogrampermole = MolarMass.FromKilogramsPerMole(1);
+ 
+            Assert.Throws<ArgumentNullException>(() => kilogrampermole.ToUnit(null));
         }
 
         [Fact]

@@ -66,6 +66,24 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
+        public void Ctor_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            Assert.Throws<ArgumentException>(() => new MagneticField(1, UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => new MagneticField(1, UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => new MagneticField(1, UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => new MagneticField(1, UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => new MagneticField(1, UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => new MagneticField(1, UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => new MagneticField(1, UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void Ctor_WithNullUnitSystem_ThrowsArgumentNullException()
+        {
+            Assert.Throws<ArgumentNullException>(() => new MagneticField(1, null));
+        }
+
+        [Fact]
         public void TeslaToMagneticFieldUnits()
         {
             MagneticField tesla = MagneticField.FromTeslas(1);
@@ -108,6 +126,28 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
+        public void As_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            var tesla = MagneticField.FromTeslas(1);
+
+            Assert.Throws<ArgumentException>(() => tesla.As(UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => tesla.As(UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => tesla.As(UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => tesla.As(UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => tesla.As(UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => tesla.As(UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => tesla.As(UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void As_WithNullUnitSystem_ThrowsArgumentNullException()
+        {
+            var tesla = MagneticField.FromTeslas(1);
+ 
+            Assert.Throws<ArgumentNullException>(() => tesla.As(null));
+        }
+
+        [Fact]
         public void ToUnit()
         {
             var tesla = MagneticField.FromTeslas(1);
@@ -127,6 +167,28 @@ namespace UnitsNet.Tests
             var teslaQuantity = tesla.ToUnit(MagneticFieldUnit.Tesla);
             AssertEx.EqualTolerance(TeslasInOneTesla, (double)teslaQuantity.Value, TeslasTolerance);
             Assert.Equal(MagneticFieldUnit.Tesla, teslaQuantity.Unit);
+        }
+
+        [Fact]
+        public void To_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            var tesla = MagneticField.FromTeslas(1);
+
+            Assert.Throws<ArgumentException>(() => tesla.ToUnit(UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => tesla.ToUnit(UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => tesla.ToUnit(UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => tesla.ToUnit(UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => tesla.ToUnit(UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => tesla.ToUnit(UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => tesla.ToUnit(UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void ToUnit_WithNullUnitSystem_ThrowsNullException()
+        {
+            var tesla = MagneticField.FromTeslas(1);
+ 
+            Assert.Throws<ArgumentNullException>(() => tesla.ToUnit(null));
         }
 
         [Fact]

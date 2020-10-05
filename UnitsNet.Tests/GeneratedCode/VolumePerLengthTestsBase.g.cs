@@ -64,6 +64,24 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
+        public void Ctor_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            Assert.Throws<ArgumentException>(() => new VolumePerLength(1, UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => new VolumePerLength(1, UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => new VolumePerLength(1, UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => new VolumePerLength(1, UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => new VolumePerLength(1, UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => new VolumePerLength(1, UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => new VolumePerLength(1, UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void Ctor_WithNullUnitSystem_ThrowsArgumentNullException()
+        {
+            Assert.Throws<ArgumentNullException>(() => new VolumePerLength(1, null));
+        }
+
+        [Fact]
         public void CubicMeterPerMeterToVolumePerLengthUnits()
         {
             VolumePerLength cubicmeterpermeter = VolumePerLength.FromCubicMetersPerMeter(1);
@@ -103,6 +121,28 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
+        public void As_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            var cubicmeterpermeter = VolumePerLength.FromCubicMetersPerMeter(1);
+
+            Assert.Throws<ArgumentException>(() => cubicmeterpermeter.As(UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => cubicmeterpermeter.As(UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => cubicmeterpermeter.As(UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => cubicmeterpermeter.As(UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => cubicmeterpermeter.As(UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => cubicmeterpermeter.As(UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => cubicmeterpermeter.As(UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void As_WithNullUnitSystem_ThrowsArgumentNullException()
+        {
+            var cubicmeterpermeter = VolumePerLength.FromCubicMetersPerMeter(1);
+ 
+            Assert.Throws<ArgumentNullException>(() => cubicmeterpermeter.As(null));
+        }
+
+        [Fact]
         public void ToUnit()
         {
             var cubicmeterpermeter = VolumePerLength.FromCubicMetersPerMeter(1);
@@ -118,6 +158,28 @@ namespace UnitsNet.Tests
             var oilbarrelperfootQuantity = cubicmeterpermeter.ToUnit(VolumePerLengthUnit.OilBarrelPerFoot);
             AssertEx.EqualTolerance(OilBarrelsPerFootInOneCubicMeterPerMeter, (double)oilbarrelperfootQuantity.Value, OilBarrelsPerFootTolerance);
             Assert.Equal(VolumePerLengthUnit.OilBarrelPerFoot, oilbarrelperfootQuantity.Unit);
+        }
+
+        [Fact]
+        public void To_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            var cubicmeterpermeter = VolumePerLength.FromCubicMetersPerMeter(1);
+
+            Assert.Throws<ArgumentException>(() => cubicmeterpermeter.ToUnit(UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => cubicmeterpermeter.ToUnit(UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => cubicmeterpermeter.ToUnit(UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => cubicmeterpermeter.ToUnit(UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => cubicmeterpermeter.ToUnit(UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => cubicmeterpermeter.ToUnit(UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => cubicmeterpermeter.ToUnit(UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void ToUnit_WithNullUnitSystem_ThrowsNullException()
+        {
+            var cubicmeterpermeter = VolumePerLength.FromCubicMetersPerMeter(1);
+ 
+            Assert.Throws<ArgumentNullException>(() => cubicmeterpermeter.ToUnit(null));
         }
 
         [Fact]

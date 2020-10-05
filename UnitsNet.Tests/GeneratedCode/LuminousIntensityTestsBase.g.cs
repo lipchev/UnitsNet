@@ -60,6 +60,42 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
+        public void Ctor_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            var siQuantity = new LuminousIntensity(1, UnitSystem.SI);
+            Assert.Equal(1, (double)siQuantity.Value);
+            Assert.Equal(LuminousIntensityUnit.Candela, siQuantity.Unit);
+
+            var cgsQuantity = new LuminousIntensity(1, UnitSystem.CGS);
+            Assert.Equal(1, (double)cgsQuantity.Value);
+            Assert.Equal(LuminousIntensityUnit.Candela, cgsQuantity.Unit);
+
+            var biQuantity = new LuminousIntensity(1, UnitSystem.BI);
+            Assert.Equal(1, (double)biQuantity.Value);
+            Assert.Equal(LuminousIntensityUnit.Candela, biQuantity.Unit);
+
+            var eeQuantity = new LuminousIntensity(1, UnitSystem.EE);
+            Assert.Equal(1, (double)eeQuantity.Value);
+            Assert.Equal(LuminousIntensityUnit.Candela, eeQuantity.Unit);
+
+            var uscQuantity = new LuminousIntensity(1, UnitSystem.USC);
+            Assert.Equal(1, (double)uscQuantity.Value);
+            Assert.Equal(LuminousIntensityUnit.Candela, uscQuantity.Unit);
+
+            var fpsQuantity = new LuminousIntensity(1, UnitSystem.FPS);
+            Assert.Equal(1, (double)fpsQuantity.Value);
+            Assert.Equal(LuminousIntensityUnit.Candela, fpsQuantity.Unit);
+
+            Assert.Throws<ArgumentException>(() => new LuminousIntensity(1, UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void Ctor_WithNullUnitSystem_ThrowsArgumentNullException()
+        {
+            Assert.Throws<ArgumentNullException>(() => new LuminousIntensity(1, null));
+        }
+
+        [Fact]
         public void CandelaToLuminousIntensityUnits()
         {
             LuminousIntensity candela = LuminousIntensity.FromCandela(1);
@@ -93,6 +129,29 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
+        public void As_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            var candela = LuminousIntensity.FromCandela(1);
+
+            AssertEx.EqualTolerance(CandelaInOneCandela, candela.As(UnitSystem.SI), CandelaTolerance);
+            AssertEx.EqualTolerance(CandelaInOneCandela, candela.As(UnitSystem.CGS), CandelaTolerance);
+            AssertEx.EqualTolerance(CandelaInOneCandela, candela.As(UnitSystem.BI), CandelaTolerance);
+            AssertEx.EqualTolerance(CandelaInOneCandela, candela.As(UnitSystem.EE), CandelaTolerance);
+            AssertEx.EqualTolerance(CandelaInOneCandela, candela.As(UnitSystem.USC), CandelaTolerance);
+            AssertEx.EqualTolerance(CandelaInOneCandela, candela.As(UnitSystem.FPS), CandelaTolerance);
+
+            Assert.Throws<ArgumentException>(() => candela.As(UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void As_WithNullUnitSystem_ThrowsArgumentNullException()
+        {
+            var candela = LuminousIntensity.FromCandela(1);
+ 
+            Assert.Throws<ArgumentNullException>(() => candela.As(null));
+        }
+
+        [Fact]
         public void ToUnit()
         {
             var candela = LuminousIntensity.FromCandela(1);
@@ -100,6 +159,46 @@ namespace UnitsNet.Tests
             var candelaQuantity = candela.ToUnit(LuminousIntensityUnit.Candela);
             AssertEx.EqualTolerance(CandelaInOneCandela, (double)candelaQuantity.Value, CandelaTolerance);
             Assert.Equal(LuminousIntensityUnit.Candela, candelaQuantity.Unit);
+        }
+
+        [Fact]
+        public void To_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            var candela = LuminousIntensity.FromCandela(1);
+
+            var siQuantity = candela.ToUnit(UnitSystem.SI);
+            AssertEx.EqualTolerance(CandelaInOneCandela, (double)siQuantity.Value, CandelaTolerance);
+            Assert.Equal(LuminousIntensityUnit.Candela, siQuantity.Unit);
+
+            var cgsQuantity = candela.ToUnit(UnitSystem.CGS);
+            AssertEx.EqualTolerance(CandelaInOneCandela, (double)cgsQuantity.Value, CandelaTolerance);
+            Assert.Equal(LuminousIntensityUnit.Candela, cgsQuantity.Unit);
+
+            var biQuantity = candela.ToUnit(UnitSystem.BI);
+            AssertEx.EqualTolerance(CandelaInOneCandela, (double)biQuantity.Value, CandelaTolerance);
+            Assert.Equal(LuminousIntensityUnit.Candela, biQuantity.Unit);
+
+            var eeQuantity = candela.ToUnit(UnitSystem.EE);
+            AssertEx.EqualTolerance(CandelaInOneCandela, (double)eeQuantity.Value, CandelaTolerance);
+            Assert.Equal(LuminousIntensityUnit.Candela, eeQuantity.Unit);
+
+            var uscQuantity = candela.ToUnit(UnitSystem.USC);
+            AssertEx.EqualTolerance(CandelaInOneCandela, (double)uscQuantity.Value, CandelaTolerance);
+            Assert.Equal(LuminousIntensityUnit.Candela, uscQuantity.Unit);
+
+            var fpsQuantity = candela.ToUnit(UnitSystem.FPS);
+            AssertEx.EqualTolerance(CandelaInOneCandela, (double)fpsQuantity.Value, CandelaTolerance);
+            Assert.Equal(LuminousIntensityUnit.Candela, fpsQuantity.Unit);
+
+            Assert.Throws<ArgumentException>(() => candela.ToUnit(UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void ToUnit_WithNullUnitSystem_ThrowsNullException()
+        {
+            var candela = LuminousIntensity.FromCandela(1);
+ 
+            Assert.Throws<ArgumentNullException>(() => candela.ToUnit(null));
         }
 
         [Fact]

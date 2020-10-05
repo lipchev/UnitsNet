@@ -76,6 +76,24 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
+        public void Ctor_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            Assert.Throws<ArgumentException>(() => new Frequency(1, UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => new Frequency(1, UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => new Frequency(1, UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => new Frequency(1, UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => new Frequency(1, UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => new Frequency(1, UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => new Frequency(1, UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void Ctor_WithNullUnitSystem_ThrowsArgumentNullException()
+        {
+            Assert.Throws<ArgumentNullException>(() => new Frequency(1, null));
+        }
+
+        [Fact]
         public void HertzToFrequencyUnits()
         {
             Frequency hertz = Frequency.FromHertz(1);
@@ -133,6 +151,28 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
+        public void As_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            var hertz = Frequency.FromHertz(1);
+
+            Assert.Throws<ArgumentException>(() => hertz.As(UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => hertz.As(UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => hertz.As(UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => hertz.As(UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => hertz.As(UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => hertz.As(UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => hertz.As(UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void As_WithNullUnitSystem_ThrowsArgumentNullException()
+        {
+            var hertz = Frequency.FromHertz(1);
+ 
+            Assert.Throws<ArgumentNullException>(() => hertz.As(null));
+        }
+
+        [Fact]
         public void ToUnit()
         {
             var hertz = Frequency.FromHertz(1);
@@ -172,6 +212,28 @@ namespace UnitsNet.Tests
             var terahertzQuantity = hertz.ToUnit(FrequencyUnit.Terahertz);
             AssertEx.EqualTolerance(TerahertzInOneHertz, (double)terahertzQuantity.Value, TerahertzTolerance);
             Assert.Equal(FrequencyUnit.Terahertz, terahertzQuantity.Unit);
+        }
+
+        [Fact]
+        public void To_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            var hertz = Frequency.FromHertz(1);
+
+            Assert.Throws<ArgumentException>(() => hertz.ToUnit(UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => hertz.ToUnit(UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => hertz.ToUnit(UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => hertz.ToUnit(UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => hertz.ToUnit(UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => hertz.ToUnit(UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => hertz.ToUnit(UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void ToUnit_WithNullUnitSystem_ThrowsNullException()
+        {
+            var hertz = Frequency.FromHertz(1);
+ 
+            Assert.Throws<ArgumentNullException>(() => hertz.ToUnit(null));
         }
 
         [Fact]

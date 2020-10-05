@@ -64,6 +64,24 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
+        public void Ctor_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            Assert.Throws<ArgumentException>(() => new LinearDensity(1, UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => new LinearDensity(1, UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => new LinearDensity(1, UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => new LinearDensity(1, UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => new LinearDensity(1, UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => new LinearDensity(1, UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => new LinearDensity(1, UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void Ctor_WithNullUnitSystem_ThrowsArgumentNullException()
+        {
+            Assert.Throws<ArgumentNullException>(() => new LinearDensity(1, null));
+        }
+
+        [Fact]
         public void KilogramPerMeterToLinearDensityUnits()
         {
             LinearDensity kilogrampermeter = LinearDensity.FromKilogramsPerMeter(1);
@@ -103,6 +121,28 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
+        public void As_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            var kilogrampermeter = LinearDensity.FromKilogramsPerMeter(1);
+
+            Assert.Throws<ArgumentException>(() => kilogrampermeter.As(UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => kilogrampermeter.As(UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => kilogrampermeter.As(UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => kilogrampermeter.As(UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => kilogrampermeter.As(UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => kilogrampermeter.As(UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => kilogrampermeter.As(UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void As_WithNullUnitSystem_ThrowsArgumentNullException()
+        {
+            var kilogrampermeter = LinearDensity.FromKilogramsPerMeter(1);
+ 
+            Assert.Throws<ArgumentNullException>(() => kilogrampermeter.As(null));
+        }
+
+        [Fact]
         public void ToUnit()
         {
             var kilogrampermeter = LinearDensity.FromKilogramsPerMeter(1);
@@ -118,6 +158,28 @@ namespace UnitsNet.Tests
             var poundperfootQuantity = kilogrampermeter.ToUnit(LinearDensityUnit.PoundPerFoot);
             AssertEx.EqualTolerance(PoundsPerFootInOneKilogramPerMeter, (double)poundperfootQuantity.Value, PoundsPerFootTolerance);
             Assert.Equal(LinearDensityUnit.PoundPerFoot, poundperfootQuantity.Unit);
+        }
+
+        [Fact]
+        public void To_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            var kilogrampermeter = LinearDensity.FromKilogramsPerMeter(1);
+
+            Assert.Throws<ArgumentException>(() => kilogrampermeter.ToUnit(UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => kilogrampermeter.ToUnit(UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => kilogrampermeter.ToUnit(UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => kilogrampermeter.ToUnit(UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => kilogrampermeter.ToUnit(UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => kilogrampermeter.ToUnit(UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => kilogrampermeter.ToUnit(UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void ToUnit_WithNullUnitSystem_ThrowsNullException()
+        {
+            var kilogrampermeter = LinearDensity.FromKilogramsPerMeter(1);
+ 
+            Assert.Throws<ArgumentNullException>(() => kilogrampermeter.ToUnit(null));
         }
 
         [Fact]

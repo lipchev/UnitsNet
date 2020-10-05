@@ -62,6 +62,24 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
+        public void Ctor_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            Assert.Throws<ArgumentException>(() => new Level(1, UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => new Level(1, UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => new Level(1, UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => new Level(1, UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => new Level(1, UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => new Level(1, UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => new Level(1, UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void Ctor_WithNullUnitSystem_ThrowsArgumentNullException()
+        {
+            Assert.Throws<ArgumentNullException>(() => new Level(1, null));
+        }
+
+        [Fact]
         public void DecibelToLevelUnits()
         {
             Level decibel = Level.FromDecibels(1);
@@ -98,6 +116,28 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
+        public void As_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            var decibel = Level.FromDecibels(1);
+
+            Assert.Throws<ArgumentException>(() => decibel.As(UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => decibel.As(UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => decibel.As(UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => decibel.As(UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => decibel.As(UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => decibel.As(UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => decibel.As(UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void As_WithNullUnitSystem_ThrowsArgumentNullException()
+        {
+            var decibel = Level.FromDecibels(1);
+ 
+            Assert.Throws<ArgumentNullException>(() => decibel.As(null));
+        }
+
+        [Fact]
         public void ToUnit()
         {
             var decibel = Level.FromDecibels(1);
@@ -109,6 +149,28 @@ namespace UnitsNet.Tests
             var neperQuantity = decibel.ToUnit(LevelUnit.Neper);
             AssertEx.EqualTolerance(NepersInOneDecibel, (double)neperQuantity.Value, NepersTolerance);
             Assert.Equal(LevelUnit.Neper, neperQuantity.Unit);
+        }
+
+        [Fact]
+        public void To_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            var decibel = Level.FromDecibels(1);
+
+            Assert.Throws<ArgumentException>(() => decibel.ToUnit(UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => decibel.ToUnit(UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => decibel.ToUnit(UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => decibel.ToUnit(UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => decibel.ToUnit(UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => decibel.ToUnit(UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => decibel.ToUnit(UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void ToUnit_WithNullUnitSystem_ThrowsNullException()
+        {
+            var decibel = Level.FromDecibels(1);
+ 
+            Assert.Throws<ArgumentNullException>(() => decibel.ToUnit(null));
         }
 
         [Fact]

@@ -64,6 +64,24 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
+        public void Ctor_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            Assert.Throws<ArgumentException>(() => new MolarEnergy(1, UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => new MolarEnergy(1, UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => new MolarEnergy(1, UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => new MolarEnergy(1, UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => new MolarEnergy(1, UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => new MolarEnergy(1, UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => new MolarEnergy(1, UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void Ctor_WithNullUnitSystem_ThrowsArgumentNullException()
+        {
+            Assert.Throws<ArgumentNullException>(() => new MolarEnergy(1, null));
+        }
+
+        [Fact]
         public void JoulePerMoleToMolarEnergyUnits()
         {
             MolarEnergy joulepermole = MolarEnergy.FromJoulesPerMole(1);
@@ -103,6 +121,28 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
+        public void As_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            var joulepermole = MolarEnergy.FromJoulesPerMole(1);
+
+            Assert.Throws<ArgumentException>(() => joulepermole.As(UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => joulepermole.As(UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => joulepermole.As(UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => joulepermole.As(UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => joulepermole.As(UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => joulepermole.As(UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => joulepermole.As(UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void As_WithNullUnitSystem_ThrowsArgumentNullException()
+        {
+            var joulepermole = MolarEnergy.FromJoulesPerMole(1);
+ 
+            Assert.Throws<ArgumentNullException>(() => joulepermole.As(null));
+        }
+
+        [Fact]
         public void ToUnit()
         {
             var joulepermole = MolarEnergy.FromJoulesPerMole(1);
@@ -118,6 +158,28 @@ namespace UnitsNet.Tests
             var megajoulepermoleQuantity = joulepermole.ToUnit(MolarEnergyUnit.MegajoulePerMole);
             AssertEx.EqualTolerance(MegajoulesPerMoleInOneJoulePerMole, (double)megajoulepermoleQuantity.Value, MegajoulesPerMoleTolerance);
             Assert.Equal(MolarEnergyUnit.MegajoulePerMole, megajoulepermoleQuantity.Unit);
+        }
+
+        [Fact]
+        public void To_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            var joulepermole = MolarEnergy.FromJoulesPerMole(1);
+
+            Assert.Throws<ArgumentException>(() => joulepermole.ToUnit(UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => joulepermole.ToUnit(UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => joulepermole.ToUnit(UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => joulepermole.ToUnit(UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => joulepermole.ToUnit(UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => joulepermole.ToUnit(UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => joulepermole.ToUnit(UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void ToUnit_WithNullUnitSystem_ThrowsNullException()
+        {
+            var joulepermole = MolarEnergy.FromJoulesPerMole(1);
+ 
+            Assert.Throws<ArgumentNullException>(() => joulepermole.ToUnit(null));
         }
 
         [Fact]

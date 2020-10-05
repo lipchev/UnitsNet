@@ -66,6 +66,24 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
+        public void Ctor_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            Assert.Throws<ArgumentException>(() => new Illuminance(1, UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => new Illuminance(1, UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => new Illuminance(1, UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => new Illuminance(1, UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => new Illuminance(1, UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => new Illuminance(1, UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => new Illuminance(1, UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void Ctor_WithNullUnitSystem_ThrowsArgumentNullException()
+        {
+            Assert.Throws<ArgumentNullException>(() => new Illuminance(1, null));
+        }
+
+        [Fact]
         public void LuxToIlluminanceUnits()
         {
             Illuminance lux = Illuminance.FromLux(1);
@@ -108,6 +126,28 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
+        public void As_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            var lux = Illuminance.FromLux(1);
+
+            Assert.Throws<ArgumentException>(() => lux.As(UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => lux.As(UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => lux.As(UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => lux.As(UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => lux.As(UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => lux.As(UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => lux.As(UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void As_WithNullUnitSystem_ThrowsArgumentNullException()
+        {
+            var lux = Illuminance.FromLux(1);
+ 
+            Assert.Throws<ArgumentNullException>(() => lux.As(null));
+        }
+
+        [Fact]
         public void ToUnit()
         {
             var lux = Illuminance.FromLux(1);
@@ -127,6 +167,28 @@ namespace UnitsNet.Tests
             var milliluxQuantity = lux.ToUnit(IlluminanceUnit.Millilux);
             AssertEx.EqualTolerance(MilliluxInOneLux, (double)milliluxQuantity.Value, MilliluxTolerance);
             Assert.Equal(IlluminanceUnit.Millilux, milliluxQuantity.Unit);
+        }
+
+        [Fact]
+        public void To_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            var lux = Illuminance.FromLux(1);
+
+            Assert.Throws<ArgumentException>(() => lux.ToUnit(UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => lux.ToUnit(UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => lux.ToUnit(UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => lux.ToUnit(UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => lux.ToUnit(UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => lux.ToUnit(UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => lux.ToUnit(UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void ToUnit_WithNullUnitSystem_ThrowsNullException()
+        {
+            var lux = Illuminance.FromLux(1);
+ 
+            Assert.Throws<ArgumentNullException>(() => lux.ToUnit(null));
         }
 
         [Fact]

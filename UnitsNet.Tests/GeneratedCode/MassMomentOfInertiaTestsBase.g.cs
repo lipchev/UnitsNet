@@ -114,6 +114,24 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
+        public void Ctor_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            Assert.Throws<ArgumentException>(() => new MassMomentOfInertia(1, UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => new MassMomentOfInertia(1, UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => new MassMomentOfInertia(1, UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => new MassMomentOfInertia(1, UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => new MassMomentOfInertia(1, UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => new MassMomentOfInertia(1, UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => new MassMomentOfInertia(1, UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void Ctor_WithNullUnitSystem_ThrowsArgumentNullException()
+        {
+            Assert.Throws<ArgumentNullException>(() => new MassMomentOfInertia(1, null));
+        }
+
+        [Fact]
         public void KilogramSquareMeterToMassMomentOfInertiaUnits()
         {
             MassMomentOfInertia kilogramsquaremeter = MassMomentOfInertia.FromKilogramSquareMeters(1);
@@ -225,6 +243,28 @@ namespace UnitsNet.Tests
             AssertEx.EqualTolerance(TonneSquareDecimetersInOneKilogramSquareMeter, kilogramsquaremeter.As(MassMomentOfInertiaUnit.TonneSquareDecimeter), TonneSquareDecimetersTolerance);
             AssertEx.EqualTolerance(TonneSquareMetersInOneKilogramSquareMeter, kilogramsquaremeter.As(MassMomentOfInertiaUnit.TonneSquareMeter), TonneSquareMetersTolerance);
             AssertEx.EqualTolerance(TonneSquareMilimetersInOneKilogramSquareMeter, kilogramsquaremeter.As(MassMomentOfInertiaUnit.TonneSquareMilimeter), TonneSquareMilimetersTolerance);
+        }
+
+        [Fact]
+        public void As_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            var kilogramsquaremeter = MassMomentOfInertia.FromKilogramSquareMeters(1);
+
+            Assert.Throws<ArgumentException>(() => kilogramsquaremeter.As(UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => kilogramsquaremeter.As(UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => kilogramsquaremeter.As(UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => kilogramsquaremeter.As(UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => kilogramsquaremeter.As(UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => kilogramsquaremeter.As(UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => kilogramsquaremeter.As(UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void As_WithNullUnitSystem_ThrowsArgumentNullException()
+        {
+            var kilogramsquaremeter = MassMomentOfInertia.FromKilogramSquareMeters(1);
+ 
+            Assert.Throws<ArgumentNullException>(() => kilogramsquaremeter.As(null));
         }
 
         [Fact]
@@ -343,6 +383,28 @@ namespace UnitsNet.Tests
             var tonnesquaremilimeterQuantity = kilogramsquaremeter.ToUnit(MassMomentOfInertiaUnit.TonneSquareMilimeter);
             AssertEx.EqualTolerance(TonneSquareMilimetersInOneKilogramSquareMeter, (double)tonnesquaremilimeterQuantity.Value, TonneSquareMilimetersTolerance);
             Assert.Equal(MassMomentOfInertiaUnit.TonneSquareMilimeter, tonnesquaremilimeterQuantity.Unit);
+        }
+
+        [Fact]
+        public void To_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            var kilogramsquaremeter = MassMomentOfInertia.FromKilogramSquareMeters(1);
+
+            Assert.Throws<ArgumentException>(() => kilogramsquaremeter.ToUnit(UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => kilogramsquaremeter.ToUnit(UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => kilogramsquaremeter.ToUnit(UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => kilogramsquaremeter.ToUnit(UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => kilogramsquaremeter.ToUnit(UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => kilogramsquaremeter.ToUnit(UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => kilogramsquaremeter.ToUnit(UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void ToUnit_WithNullUnitSystem_ThrowsNullException()
+        {
+            var kilogramsquaremeter = MassMomentOfInertia.FromKilogramSquareMeters(1);
+ 
+            Assert.Throws<ArgumentNullException>(() => kilogramsquaremeter.ToUnit(null));
         }
 
         [Fact]

@@ -78,6 +78,24 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
+        public void Ctor_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            Assert.Throws<ArgumentException>(() => new TemperatureChangeRate(1, UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => new TemperatureChangeRate(1, UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => new TemperatureChangeRate(1, UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => new TemperatureChangeRate(1, UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => new TemperatureChangeRate(1, UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => new TemperatureChangeRate(1, UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => new TemperatureChangeRate(1, UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void Ctor_WithNullUnitSystem_ThrowsArgumentNullException()
+        {
+            Assert.Throws<ArgumentNullException>(() => new TemperatureChangeRate(1, null));
+        }
+
+        [Fact]
         public void DegreeCelsiusPerSecondToTemperatureChangeRateUnits()
         {
             TemperatureChangeRate degreecelsiuspersecond = TemperatureChangeRate.FromDegreesCelsiusPerSecond(1);
@@ -138,6 +156,28 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
+        public void As_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            var degreecelsiuspersecond = TemperatureChangeRate.FromDegreesCelsiusPerSecond(1);
+
+            Assert.Throws<ArgumentException>(() => degreecelsiuspersecond.As(UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => degreecelsiuspersecond.As(UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => degreecelsiuspersecond.As(UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => degreecelsiuspersecond.As(UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => degreecelsiuspersecond.As(UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => degreecelsiuspersecond.As(UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => degreecelsiuspersecond.As(UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void As_WithNullUnitSystem_ThrowsArgumentNullException()
+        {
+            var degreecelsiuspersecond = TemperatureChangeRate.FromDegreesCelsiusPerSecond(1);
+ 
+            Assert.Throws<ArgumentNullException>(() => degreecelsiuspersecond.As(null));
+        }
+
+        [Fact]
         public void ToUnit()
         {
             var degreecelsiuspersecond = TemperatureChangeRate.FromDegreesCelsiusPerSecond(1);
@@ -181,6 +221,28 @@ namespace UnitsNet.Tests
             var nanodegreecelsiuspersecondQuantity = degreecelsiuspersecond.ToUnit(TemperatureChangeRateUnit.NanodegreeCelsiusPerSecond);
             AssertEx.EqualTolerance(NanodegreesCelsiusPerSecondInOneDegreeCelsiusPerSecond, (double)nanodegreecelsiuspersecondQuantity.Value, NanodegreesCelsiusPerSecondTolerance);
             Assert.Equal(TemperatureChangeRateUnit.NanodegreeCelsiusPerSecond, nanodegreecelsiuspersecondQuantity.Unit);
+        }
+
+        [Fact]
+        public void To_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            var degreecelsiuspersecond = TemperatureChangeRate.FromDegreesCelsiusPerSecond(1);
+
+            Assert.Throws<ArgumentException>(() => degreecelsiuspersecond.ToUnit(UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => degreecelsiuspersecond.ToUnit(UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => degreecelsiuspersecond.ToUnit(UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => degreecelsiuspersecond.ToUnit(UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => degreecelsiuspersecond.ToUnit(UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => degreecelsiuspersecond.ToUnit(UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => degreecelsiuspersecond.ToUnit(UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void ToUnit_WithNullUnitSystem_ThrowsNullException()
+        {
+            var degreecelsiuspersecond = TemperatureChangeRate.FromDegreesCelsiusPerSecond(1);
+ 
+            Assert.Throws<ArgumentNullException>(() => degreecelsiuspersecond.ToUnit(null));
         }
 
         [Fact]

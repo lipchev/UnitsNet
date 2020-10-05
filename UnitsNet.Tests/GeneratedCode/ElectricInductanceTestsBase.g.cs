@@ -66,6 +66,24 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
+        public void Ctor_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            Assert.Throws<ArgumentException>(() => new ElectricInductance(1, UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => new ElectricInductance(1, UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => new ElectricInductance(1, UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => new ElectricInductance(1, UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => new ElectricInductance(1, UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => new ElectricInductance(1, UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => new ElectricInductance(1, UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void Ctor_WithNullUnitSystem_ThrowsArgumentNullException()
+        {
+            Assert.Throws<ArgumentNullException>(() => new ElectricInductance(1, null));
+        }
+
+        [Fact]
         public void HenryToElectricInductanceUnits()
         {
             ElectricInductance henry = ElectricInductance.FromHenries(1);
@@ -108,6 +126,28 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
+        public void As_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            var henry = ElectricInductance.FromHenries(1);
+
+            Assert.Throws<ArgumentException>(() => henry.As(UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => henry.As(UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => henry.As(UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => henry.As(UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => henry.As(UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => henry.As(UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => henry.As(UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void As_WithNullUnitSystem_ThrowsArgumentNullException()
+        {
+            var henry = ElectricInductance.FromHenries(1);
+ 
+            Assert.Throws<ArgumentNullException>(() => henry.As(null));
+        }
+
+        [Fact]
         public void ToUnit()
         {
             var henry = ElectricInductance.FromHenries(1);
@@ -127,6 +167,28 @@ namespace UnitsNet.Tests
             var nanohenryQuantity = henry.ToUnit(ElectricInductanceUnit.Nanohenry);
             AssertEx.EqualTolerance(NanohenriesInOneHenry, (double)nanohenryQuantity.Value, NanohenriesTolerance);
             Assert.Equal(ElectricInductanceUnit.Nanohenry, nanohenryQuantity.Unit);
+        }
+
+        [Fact]
+        public void To_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            var henry = ElectricInductance.FromHenries(1);
+
+            Assert.Throws<ArgumentException>(() => henry.ToUnit(UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => henry.ToUnit(UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => henry.ToUnit(UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => henry.ToUnit(UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => henry.ToUnit(UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => henry.ToUnit(UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => henry.ToUnit(UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void ToUnit_WithNullUnitSystem_ThrowsNullException()
+        {
+            var henry = ElectricInductance.FromHenries(1);
+ 
+            Assert.Throws<ArgumentNullException>(() => henry.ToUnit(null));
         }
 
         [Fact]

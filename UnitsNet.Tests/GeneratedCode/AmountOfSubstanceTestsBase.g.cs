@@ -88,6 +88,42 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
+        public void Ctor_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            var siQuantity = new AmountOfSubstance(1, UnitSystem.SI);
+            Assert.Equal(1, (double)siQuantity.Value);
+            Assert.Equal(AmountOfSubstanceUnit.Mole, siQuantity.Unit);
+
+            var cgsQuantity = new AmountOfSubstance(1, UnitSystem.CGS);
+            Assert.Equal(1, (double)cgsQuantity.Value);
+            Assert.Equal(AmountOfSubstanceUnit.Mole, cgsQuantity.Unit);
+
+            var biQuantity = new AmountOfSubstance(1, UnitSystem.BI);
+            Assert.Equal(1, (double)biQuantity.Value);
+            Assert.Equal(AmountOfSubstanceUnit.PoundMole, biQuantity.Unit);
+
+            var eeQuantity = new AmountOfSubstance(1, UnitSystem.EE);
+            Assert.Equal(1, (double)eeQuantity.Value);
+            Assert.Equal(AmountOfSubstanceUnit.PoundMole, eeQuantity.Unit);
+
+            var fpsQuantity = new AmountOfSubstance(1, UnitSystem.FPS);
+            Assert.Equal(1, (double)fpsQuantity.Value);
+            Assert.Equal(AmountOfSubstanceUnit.PoundMole, fpsQuantity.Unit);
+
+            var uscQuantity = new AmountOfSubstance(1, UnitSystem.USC);
+            Assert.Equal(1, (double)uscQuantity.Value);
+            Assert.Equal(AmountOfSubstanceUnit.PoundMole, uscQuantity.Unit);
+
+            Assert.Throws<ArgumentException>(() => new AmountOfSubstance(1, UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void Ctor_WithNullUnitSystem_ThrowsArgumentNullException()
+        {
+            Assert.Throws<ArgumentNullException>(() => new AmountOfSubstance(1, null));
+        }
+
+        [Fact]
         public void MoleToAmountOfSubstanceUnits()
         {
             AmountOfSubstance mole = AmountOfSubstance.FromMoles(1);
@@ -163,6 +199,29 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
+        public void As_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            var mole = AmountOfSubstance.FromMoles(1);
+
+            AssertEx.EqualTolerance(MolesInOneMole, mole.As(UnitSystem.SI), MolesTolerance);
+            AssertEx.EqualTolerance(MolesInOneMole, mole.As(UnitSystem.CGS), MolesTolerance);
+            AssertEx.EqualTolerance(PoundMolesInOneMole, mole.As(UnitSystem.BI), PoundMolesTolerance);
+            AssertEx.EqualTolerance(PoundMolesInOneMole, mole.As(UnitSystem.EE), PoundMolesTolerance);
+            AssertEx.EqualTolerance(PoundMolesInOneMole, mole.As(UnitSystem.FPS), PoundMolesTolerance);
+            AssertEx.EqualTolerance(PoundMolesInOneMole, mole.As(UnitSystem.USC), PoundMolesTolerance);
+
+            Assert.Throws<ArgumentException>(() => mole.As(UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void As_WithNullUnitSystem_ThrowsArgumentNullException()
+        {
+            var mole = AmountOfSubstance.FromMoles(1);
+ 
+            Assert.Throws<ArgumentNullException>(() => mole.As(null));
+        }
+
+        [Fact]
         public void ToUnit()
         {
             var mole = AmountOfSubstance.FromMoles(1);
@@ -226,6 +285,46 @@ namespace UnitsNet.Tests
             var poundmoleQuantity = mole.ToUnit(AmountOfSubstanceUnit.PoundMole);
             AssertEx.EqualTolerance(PoundMolesInOneMole, (double)poundmoleQuantity.Value, PoundMolesTolerance);
             Assert.Equal(AmountOfSubstanceUnit.PoundMole, poundmoleQuantity.Unit);
+        }
+
+        [Fact]
+        public void To_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            var mole = AmountOfSubstance.FromMoles(1);
+
+            var siQuantity = mole.ToUnit(UnitSystem.SI);
+            AssertEx.EqualTolerance(MolesInOneMole, (double)siQuantity.Value, MolesTolerance);
+            Assert.Equal(AmountOfSubstanceUnit.Mole, siQuantity.Unit);
+
+            var cgsQuantity = mole.ToUnit(UnitSystem.CGS);
+            AssertEx.EqualTolerance(MolesInOneMole, (double)cgsQuantity.Value, MolesTolerance);
+            Assert.Equal(AmountOfSubstanceUnit.Mole, cgsQuantity.Unit);
+
+            var biQuantity = mole.ToUnit(UnitSystem.BI);
+            AssertEx.EqualTolerance(PoundMolesInOneMole, (double)biQuantity.Value, PoundMolesTolerance);
+            Assert.Equal(AmountOfSubstanceUnit.PoundMole, biQuantity.Unit);
+
+            var eeQuantity = mole.ToUnit(UnitSystem.EE);
+            AssertEx.EqualTolerance(PoundMolesInOneMole, (double)eeQuantity.Value, PoundMolesTolerance);
+            Assert.Equal(AmountOfSubstanceUnit.PoundMole, eeQuantity.Unit);
+
+            var fpsQuantity = mole.ToUnit(UnitSystem.FPS);
+            AssertEx.EqualTolerance(PoundMolesInOneMole, (double)fpsQuantity.Value, PoundMolesTolerance);
+            Assert.Equal(AmountOfSubstanceUnit.PoundMole, fpsQuantity.Unit);
+
+            var uscQuantity = mole.ToUnit(UnitSystem.USC);
+            AssertEx.EqualTolerance(PoundMolesInOneMole, (double)uscQuantity.Value, PoundMolesTolerance);
+            Assert.Equal(AmountOfSubstanceUnit.PoundMole, uscQuantity.Unit);
+
+            Assert.Throws<ArgumentException>(() => mole.ToUnit(UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void ToUnit_WithNullUnitSystem_ThrowsNullException()
+        {
+            var mole = AmountOfSubstance.FromMoles(1);
+ 
+            Assert.Throws<ArgumentNullException>(() => mole.ToUnit(null));
         }
 
         [Fact]

@@ -72,6 +72,24 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
+        public void Ctor_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            Assert.Throws<ArgumentException>(() => new Capacitance(1, UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => new Capacitance(1, UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => new Capacitance(1, UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => new Capacitance(1, UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => new Capacitance(1, UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => new Capacitance(1, UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => new Capacitance(1, UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void Ctor_WithNullUnitSystem_ThrowsArgumentNullException()
+        {
+            Assert.Throws<ArgumentNullException>(() => new Capacitance(1, null));
+        }
+
+        [Fact]
         public void FaradToCapacitanceUnits()
         {
             Capacitance farad = Capacitance.FromFarads(1);
@@ -123,6 +141,28 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
+        public void As_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            var farad = Capacitance.FromFarads(1);
+
+            Assert.Throws<ArgumentException>(() => farad.As(UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => farad.As(UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => farad.As(UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => farad.As(UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => farad.As(UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => farad.As(UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => farad.As(UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void As_WithNullUnitSystem_ThrowsArgumentNullException()
+        {
+            var farad = Capacitance.FromFarads(1);
+ 
+            Assert.Throws<ArgumentNullException>(() => farad.As(null));
+        }
+
+        [Fact]
         public void ToUnit()
         {
             var farad = Capacitance.FromFarads(1);
@@ -154,6 +194,28 @@ namespace UnitsNet.Tests
             var picofaradQuantity = farad.ToUnit(CapacitanceUnit.Picofarad);
             AssertEx.EqualTolerance(PicofaradsInOneFarad, (double)picofaradQuantity.Value, PicofaradsTolerance);
             Assert.Equal(CapacitanceUnit.Picofarad, picofaradQuantity.Unit);
+        }
+
+        [Fact]
+        public void To_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            var farad = Capacitance.FromFarads(1);
+
+            Assert.Throws<ArgumentException>(() => farad.ToUnit(UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => farad.ToUnit(UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => farad.ToUnit(UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => farad.ToUnit(UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => farad.ToUnit(UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => farad.ToUnit(UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => farad.ToUnit(UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void ToUnit_WithNullUnitSystem_ThrowsNullException()
+        {
+            var farad = Capacitance.FromFarads(1);
+ 
+            Assert.Throws<ArgumentNullException>(() => farad.ToUnit(null));
         }
 
         [Fact]

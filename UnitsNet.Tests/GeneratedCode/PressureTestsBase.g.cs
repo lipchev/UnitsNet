@@ -142,6 +142,24 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
+        public void Ctor_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            Assert.Throws<ArgumentException>(() => new Pressure(1, UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => new Pressure(1, UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => new Pressure(1, UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => new Pressure(1, UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => new Pressure(1, UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => new Pressure(1, UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => new Pressure(1, UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void Ctor_WithNullUnitSystem_ThrowsArgumentNullException()
+        {
+            Assert.Throws<ArgumentNullException>(() => new Pressure(1, null));
+        }
+
+        [Fact]
         public void PascalToPressureUnits()
         {
             Pressure pascal = Pressure.FromPascals(1);
@@ -295,6 +313,28 @@ namespace UnitsNet.Tests
             AssertEx.EqualTolerance(TonnesForcePerSquareMeterInOnePascal, pascal.As(PressureUnit.TonneForcePerSquareMeter), TonnesForcePerSquareMeterTolerance);
             AssertEx.EqualTolerance(TonnesForcePerSquareMillimeterInOnePascal, pascal.As(PressureUnit.TonneForcePerSquareMillimeter), TonnesForcePerSquareMillimeterTolerance);
             AssertEx.EqualTolerance(TorrsInOnePascal, pascal.As(PressureUnit.Torr), TorrsTolerance);
+        }
+
+        [Fact]
+        public void As_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            var pascal = Pressure.FromPascals(1);
+
+            Assert.Throws<ArgumentException>(() => pascal.As(UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => pascal.As(UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => pascal.As(UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => pascal.As(UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => pascal.As(UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => pascal.As(UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => pascal.As(UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void As_WithNullUnitSystem_ThrowsArgumentNullException()
+        {
+            var pascal = Pressure.FromPascals(1);
+ 
+            Assert.Throws<ArgumentNullException>(() => pascal.As(null));
         }
 
         [Fact]
@@ -469,6 +509,28 @@ namespace UnitsNet.Tests
             var torrQuantity = pascal.ToUnit(PressureUnit.Torr);
             AssertEx.EqualTolerance(TorrsInOnePascal, (double)torrQuantity.Value, TorrsTolerance);
             Assert.Equal(PressureUnit.Torr, torrQuantity.Unit);
+        }
+
+        [Fact]
+        public void To_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            var pascal = Pressure.FromPascals(1);
+
+            Assert.Throws<ArgumentException>(() => pascal.ToUnit(UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => pascal.ToUnit(UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => pascal.ToUnit(UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => pascal.ToUnit(UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => pascal.ToUnit(UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => pascal.ToUnit(UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => pascal.ToUnit(UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void ToUnit_WithNullUnitSystem_ThrowsNullException()
+        {
+            var pascal = Pressure.FromPascals(1);
+ 
+            Assert.Throws<ArgumentNullException>(() => pascal.ToUnit(null));
         }
 
         [Fact]

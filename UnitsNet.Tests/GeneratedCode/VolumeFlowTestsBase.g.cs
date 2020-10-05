@@ -156,6 +156,24 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
+        public void Ctor_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            Assert.Throws<ArgumentException>(() => new VolumeFlow(1, UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => new VolumeFlow(1, UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => new VolumeFlow(1, UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => new VolumeFlow(1, UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => new VolumeFlow(1, UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => new VolumeFlow(1, UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => new VolumeFlow(1, UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void Ctor_WithNullUnitSystem_ThrowsArgumentNullException()
+        {
+            Assert.Throws<ArgumentNullException>(() => new VolumeFlow(1, null));
+        }
+
+        [Fact]
         public void CubicMeterPerSecondToVolumeFlowUnits()
         {
             VolumeFlow cubicmeterpersecond = VolumeFlow.FromCubicMetersPerSecond(1);
@@ -330,6 +348,28 @@ namespace UnitsNet.Tests
             AssertEx.EqualTolerance(UsGallonsPerHourInOneCubicMeterPerSecond, cubicmeterpersecond.As(VolumeFlowUnit.UsGallonPerHour), UsGallonsPerHourTolerance);
             AssertEx.EqualTolerance(UsGallonsPerMinuteInOneCubicMeterPerSecond, cubicmeterpersecond.As(VolumeFlowUnit.UsGallonPerMinute), UsGallonsPerMinuteTolerance);
             AssertEx.EqualTolerance(UsGallonsPerSecondInOneCubicMeterPerSecond, cubicmeterpersecond.As(VolumeFlowUnit.UsGallonPerSecond), UsGallonsPerSecondTolerance);
+        }
+
+        [Fact]
+        public void As_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            var cubicmeterpersecond = VolumeFlow.FromCubicMetersPerSecond(1);
+
+            Assert.Throws<ArgumentException>(() => cubicmeterpersecond.As(UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => cubicmeterpersecond.As(UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => cubicmeterpersecond.As(UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => cubicmeterpersecond.As(UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => cubicmeterpersecond.As(UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => cubicmeterpersecond.As(UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => cubicmeterpersecond.As(UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void As_WithNullUnitSystem_ThrowsArgumentNullException()
+        {
+            var cubicmeterpersecond = VolumeFlow.FromCubicMetersPerSecond(1);
+ 
+            Assert.Throws<ArgumentNullException>(() => cubicmeterpersecond.As(null));
         }
 
         [Fact]
@@ -532,6 +572,28 @@ namespace UnitsNet.Tests
             var usgallonpersecondQuantity = cubicmeterpersecond.ToUnit(VolumeFlowUnit.UsGallonPerSecond);
             AssertEx.EqualTolerance(UsGallonsPerSecondInOneCubicMeterPerSecond, (double)usgallonpersecondQuantity.Value, UsGallonsPerSecondTolerance);
             Assert.Equal(VolumeFlowUnit.UsGallonPerSecond, usgallonpersecondQuantity.Unit);
+        }
+
+        [Fact]
+        public void To_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            var cubicmeterpersecond = VolumeFlow.FromCubicMetersPerSecond(1);
+
+            Assert.Throws<ArgumentException>(() => cubicmeterpersecond.ToUnit(UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => cubicmeterpersecond.ToUnit(UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => cubicmeterpersecond.ToUnit(UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => cubicmeterpersecond.ToUnit(UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => cubicmeterpersecond.ToUnit(UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => cubicmeterpersecond.ToUnit(UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => cubicmeterpersecond.ToUnit(UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void ToUnit_WithNullUnitSystem_ThrowsNullException()
+        {
+            var cubicmeterpersecond = VolumeFlow.FromCubicMetersPerSecond(1);
+ 
+            Assert.Throws<ArgumentNullException>(() => cubicmeterpersecond.ToUnit(null));
         }
 
         [Fact]

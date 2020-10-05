@@ -72,6 +72,24 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
+        public void Ctor_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            Assert.Throws<ArgumentException>(() => new Irradiation(1, UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => new Irradiation(1, UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => new Irradiation(1, UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => new Irradiation(1, UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => new Irradiation(1, UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => new Irradiation(1, UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => new Irradiation(1, UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void Ctor_WithNullUnitSystem_ThrowsArgumentNullException()
+        {
+            Assert.Throws<ArgumentNullException>(() => new Irradiation(1, null));
+        }
+
+        [Fact]
         public void JoulePerSquareMeterToIrradiationUnits()
         {
             Irradiation joulepersquaremeter = Irradiation.FromJoulesPerSquareMeter(1);
@@ -123,6 +141,28 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
+        public void As_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            var joulepersquaremeter = Irradiation.FromJoulesPerSquareMeter(1);
+
+            Assert.Throws<ArgumentException>(() => joulepersquaremeter.As(UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => joulepersquaremeter.As(UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => joulepersquaremeter.As(UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => joulepersquaremeter.As(UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => joulepersquaremeter.As(UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => joulepersquaremeter.As(UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => joulepersquaremeter.As(UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void As_WithNullUnitSystem_ThrowsArgumentNullException()
+        {
+            var joulepersquaremeter = Irradiation.FromJoulesPerSquareMeter(1);
+ 
+            Assert.Throws<ArgumentNullException>(() => joulepersquaremeter.As(null));
+        }
+
+        [Fact]
         public void ToUnit()
         {
             var joulepersquaremeter = Irradiation.FromJoulesPerSquareMeter(1);
@@ -154,6 +194,28 @@ namespace UnitsNet.Tests
             var watthourpersquaremeterQuantity = joulepersquaremeter.ToUnit(IrradiationUnit.WattHourPerSquareMeter);
             AssertEx.EqualTolerance(WattHoursPerSquareMeterInOneJoulePerSquareMeter, (double)watthourpersquaremeterQuantity.Value, WattHoursPerSquareMeterTolerance);
             Assert.Equal(IrradiationUnit.WattHourPerSquareMeter, watthourpersquaremeterQuantity.Unit);
+        }
+
+        [Fact]
+        public void To_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            var joulepersquaremeter = Irradiation.FromJoulesPerSquareMeter(1);
+
+            Assert.Throws<ArgumentException>(() => joulepersquaremeter.ToUnit(UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => joulepersquaremeter.ToUnit(UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => joulepersquaremeter.ToUnit(UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => joulepersquaremeter.ToUnit(UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => joulepersquaremeter.ToUnit(UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => joulepersquaremeter.ToUnit(UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => joulepersquaremeter.ToUnit(UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void ToUnit_WithNullUnitSystem_ThrowsNullException()
+        {
+            var joulepersquaremeter = Irradiation.FromJoulesPerSquareMeter(1);
+ 
+            Assert.Throws<ArgumentNullException>(() => joulepersquaremeter.ToUnit(null));
         }
 
         [Fact]

@@ -76,6 +76,24 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
+        public void Ctor_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            Assert.Throws<ArgumentException>(() => new DynamicViscosity(1, UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => new DynamicViscosity(1, UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => new DynamicViscosity(1, UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => new DynamicViscosity(1, UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => new DynamicViscosity(1, UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => new DynamicViscosity(1, UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => new DynamicViscosity(1, UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void Ctor_WithNullUnitSystem_ThrowsArgumentNullException()
+        {
+            Assert.Throws<ArgumentNullException>(() => new DynamicViscosity(1, null));
+        }
+
+        [Fact]
         public void NewtonSecondPerMeterSquaredToDynamicViscosityUnits()
         {
             DynamicViscosity newtonsecondpermetersquared = DynamicViscosity.FromNewtonSecondsPerMeterSquared(1);
@@ -133,6 +151,28 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
+        public void As_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            var newtonsecondpermetersquared = DynamicViscosity.FromNewtonSecondsPerMeterSquared(1);
+
+            Assert.Throws<ArgumentException>(() => newtonsecondpermetersquared.As(UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => newtonsecondpermetersquared.As(UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => newtonsecondpermetersquared.As(UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => newtonsecondpermetersquared.As(UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => newtonsecondpermetersquared.As(UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => newtonsecondpermetersquared.As(UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => newtonsecondpermetersquared.As(UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void As_WithNullUnitSystem_ThrowsArgumentNullException()
+        {
+            var newtonsecondpermetersquared = DynamicViscosity.FromNewtonSecondsPerMeterSquared(1);
+ 
+            Assert.Throws<ArgumentNullException>(() => newtonsecondpermetersquared.As(null));
+        }
+
+        [Fact]
         public void ToUnit()
         {
             var newtonsecondpermetersquared = DynamicViscosity.FromNewtonSecondsPerMeterSquared(1);
@@ -172,6 +212,28 @@ namespace UnitsNet.Tests
             var reynQuantity = newtonsecondpermetersquared.ToUnit(DynamicViscosityUnit.Reyn);
             AssertEx.EqualTolerance(ReynsInOneNewtonSecondPerMeterSquared, (double)reynQuantity.Value, ReynsTolerance);
             Assert.Equal(DynamicViscosityUnit.Reyn, reynQuantity.Unit);
+        }
+
+        [Fact]
+        public void To_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            var newtonsecondpermetersquared = DynamicViscosity.FromNewtonSecondsPerMeterSquared(1);
+
+            Assert.Throws<ArgumentException>(() => newtonsecondpermetersquared.ToUnit(UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => newtonsecondpermetersquared.ToUnit(UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => newtonsecondpermetersquared.ToUnit(UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => newtonsecondpermetersquared.ToUnit(UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => newtonsecondpermetersquared.ToUnit(UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => newtonsecondpermetersquared.ToUnit(UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => newtonsecondpermetersquared.ToUnit(UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void ToUnit_WithNullUnitSystem_ThrowsNullException()
+        {
+            var newtonsecondpermetersquared = DynamicViscosity.FromNewtonSecondsPerMeterSquared(1);
+ 
+            Assert.Throws<ArgumentNullException>(() => newtonsecondpermetersquared.ToUnit(null));
         }
 
         [Fact]

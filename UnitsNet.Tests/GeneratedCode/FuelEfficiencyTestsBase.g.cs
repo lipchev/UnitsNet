@@ -66,6 +66,24 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
+        public void Ctor_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            Assert.Throws<ArgumentException>(() => new FuelEfficiency(1, UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => new FuelEfficiency(1, UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => new FuelEfficiency(1, UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => new FuelEfficiency(1, UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => new FuelEfficiency(1, UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => new FuelEfficiency(1, UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => new FuelEfficiency(1, UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void Ctor_WithNullUnitSystem_ThrowsArgumentNullException()
+        {
+            Assert.Throws<ArgumentNullException>(() => new FuelEfficiency(1, null));
+        }
+
+        [Fact]
         public void LiterPer100KilometersToFuelEfficiencyUnits()
         {
             FuelEfficiency literper100kilometers = FuelEfficiency.FromLitersPer100Kilometers(1);
@@ -108,6 +126,28 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
+        public void As_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            var literper100kilometers = FuelEfficiency.FromLitersPer100Kilometers(1);
+
+            Assert.Throws<ArgumentException>(() => literper100kilometers.As(UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => literper100kilometers.As(UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => literper100kilometers.As(UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => literper100kilometers.As(UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => literper100kilometers.As(UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => literper100kilometers.As(UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => literper100kilometers.As(UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void As_WithNullUnitSystem_ThrowsArgumentNullException()
+        {
+            var literper100kilometers = FuelEfficiency.FromLitersPer100Kilometers(1);
+ 
+            Assert.Throws<ArgumentNullException>(() => literper100kilometers.As(null));
+        }
+
+        [Fact]
         public void ToUnit()
         {
             var literper100kilometers = FuelEfficiency.FromLitersPer100Kilometers(1);
@@ -127,6 +167,28 @@ namespace UnitsNet.Tests
             var mileperusgallonQuantity = literper100kilometers.ToUnit(FuelEfficiencyUnit.MilePerUsGallon);
             AssertEx.EqualTolerance(MilesPerUsGallonInOneLiterPer100Kilometers, (double)mileperusgallonQuantity.Value, MilesPerUsGallonTolerance);
             Assert.Equal(FuelEfficiencyUnit.MilePerUsGallon, mileperusgallonQuantity.Unit);
+        }
+
+        [Fact]
+        public void To_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            var literper100kilometers = FuelEfficiency.FromLitersPer100Kilometers(1);
+
+            Assert.Throws<ArgumentException>(() => literper100kilometers.ToUnit(UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => literper100kilometers.ToUnit(UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => literper100kilometers.ToUnit(UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => literper100kilometers.ToUnit(UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => literper100kilometers.ToUnit(UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => literper100kilometers.ToUnit(UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => literper100kilometers.ToUnit(UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void ToUnit_WithNullUnitSystem_ThrowsNullException()
+        {
+            var literper100kilometers = FuelEfficiency.FromLitersPer100Kilometers(1);
+ 
+            Assert.Throws<ArgumentNullException>(() => literper100kilometers.ToUnit(null));
         }
 
         [Fact]

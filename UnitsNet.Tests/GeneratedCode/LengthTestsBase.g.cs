@@ -122,6 +122,42 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
+        public void Ctor_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            var siQuantity = new Length(1, UnitSystem.SI);
+            Assert.Equal(1, (double)siQuantity.Value);
+            Assert.Equal(LengthUnit.Meter, siQuantity.Unit);
+
+            var cgsQuantity = new Length(1, UnitSystem.CGS);
+            Assert.Equal(1, (double)cgsQuantity.Value);
+            Assert.Equal(LengthUnit.Centimeter, cgsQuantity.Unit);
+
+            var biQuantity = new Length(1, UnitSystem.BI);
+            Assert.Equal(1, (double)biQuantity.Value);
+            Assert.Equal(LengthUnit.Yard, biQuantity.Unit);
+
+            var eeQuantity = new Length(1, UnitSystem.EE);
+            Assert.Equal(1, (double)eeQuantity.Value);
+            Assert.Equal(LengthUnit.Foot, eeQuantity.Unit);
+
+            var uscQuantity = new Length(1, UnitSystem.USC);
+            Assert.Equal(1, (double)uscQuantity.Value);
+            Assert.Equal(LengthUnit.Yard, uscQuantity.Unit);
+
+            var astronomicalQuantity = new Length(1, UnitSystem.Astronomical);
+            Assert.Equal(1, (double)astronomicalQuantity.Value);
+            Assert.Equal(LengthUnit.AstronomicalUnit, astronomicalQuantity.Unit);
+
+            Assert.Throws<ArgumentException>(() => new Length(1, UnitSystem.FPS));
+        }
+
+        [Fact]
+        public void Ctor_WithNullUnitSystem_ThrowsArgumentNullException()
+        {
+            Assert.Throws<ArgumentNullException>(() => new Length(1, null));
+        }
+
+        [Fact]
         public void MeterToLengthUnits()
         {
             Length meter = Length.FromMeters(1);
@@ -245,6 +281,29 @@ namespace UnitsNet.Tests
             AssertEx.EqualTolerance(TwipsInOneMeter, meter.As(LengthUnit.Twip), TwipsTolerance);
             AssertEx.EqualTolerance(UsSurveyFeetInOneMeter, meter.As(LengthUnit.UsSurveyFoot), UsSurveyFeetTolerance);
             AssertEx.EqualTolerance(YardsInOneMeter, meter.As(LengthUnit.Yard), YardsTolerance);
+        }
+
+        [Fact]
+        public void As_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            var meter = Length.FromMeters(1);
+
+            AssertEx.EqualTolerance(MetersInOneMeter, meter.As(UnitSystem.SI), MetersTolerance);
+            AssertEx.EqualTolerance(CentimetersInOneMeter, meter.As(UnitSystem.CGS), CentimetersTolerance);
+            AssertEx.EqualTolerance(YardsInOneMeter, meter.As(UnitSystem.BI), YardsTolerance);
+            AssertEx.EqualTolerance(FeetInOneMeter, meter.As(UnitSystem.EE), FeetTolerance);
+            AssertEx.EqualTolerance(YardsInOneMeter, meter.As(UnitSystem.USC), YardsTolerance);
+            AssertEx.EqualTolerance(AstronomicalUnitsInOneMeter, meter.As(UnitSystem.Astronomical), AstronomicalUnitsTolerance);
+
+            Assert.Throws<ArgumentException>(() => meter.As(UnitSystem.FPS));
+        }
+
+        [Fact]
+        public void As_WithNullUnitSystem_ThrowsArgumentNullException()
+        {
+            var meter = Length.FromMeters(1);
+ 
+            Assert.Throws<ArgumentNullException>(() => meter.As(null));
         }
 
         [Fact]
@@ -379,6 +438,46 @@ namespace UnitsNet.Tests
             var yardQuantity = meter.ToUnit(LengthUnit.Yard);
             AssertEx.EqualTolerance(YardsInOneMeter, (double)yardQuantity.Value, YardsTolerance);
             Assert.Equal(LengthUnit.Yard, yardQuantity.Unit);
+        }
+
+        [Fact]
+        public void To_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            var meter = Length.FromMeters(1);
+
+            var siQuantity = meter.ToUnit(UnitSystem.SI);
+            AssertEx.EqualTolerance(MetersInOneMeter, (double)siQuantity.Value, MetersTolerance);
+            Assert.Equal(LengthUnit.Meter, siQuantity.Unit);
+
+            var cgsQuantity = meter.ToUnit(UnitSystem.CGS);
+            AssertEx.EqualTolerance(CentimetersInOneMeter, (double)cgsQuantity.Value, CentimetersTolerance);
+            Assert.Equal(LengthUnit.Centimeter, cgsQuantity.Unit);
+
+            var biQuantity = meter.ToUnit(UnitSystem.BI);
+            AssertEx.EqualTolerance(YardsInOneMeter, (double)biQuantity.Value, YardsTolerance);
+            Assert.Equal(LengthUnit.Yard, biQuantity.Unit);
+
+            var eeQuantity = meter.ToUnit(UnitSystem.EE);
+            AssertEx.EqualTolerance(FeetInOneMeter, (double)eeQuantity.Value, FeetTolerance);
+            Assert.Equal(LengthUnit.Foot, eeQuantity.Unit);
+
+            var uscQuantity = meter.ToUnit(UnitSystem.USC);
+            AssertEx.EqualTolerance(YardsInOneMeter, (double)uscQuantity.Value, YardsTolerance);
+            Assert.Equal(LengthUnit.Yard, uscQuantity.Unit);
+
+            var astronomicalQuantity = meter.ToUnit(UnitSystem.Astronomical);
+            AssertEx.EqualTolerance(AstronomicalUnitsInOneMeter, (double)astronomicalQuantity.Value, AstronomicalUnitsTolerance);
+            Assert.Equal(LengthUnit.AstronomicalUnit, astronomicalQuantity.Unit);
+
+            Assert.Throws<ArgumentException>(() => meter.ToUnit(UnitSystem.FPS));
+        }
+
+        [Fact]
+        public void ToUnit_WithNullUnitSystem_ThrowsNullException()
+        {
+            var meter = Length.FromMeters(1);
+ 
+            Assert.Throws<ArgumentNullException>(() => meter.ToUnit(null));
         }
 
         [Fact]

@@ -80,6 +80,24 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
+        public void Ctor_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            Assert.Throws<ArgumentException>(() => new ForceChangeRate(1, UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => new ForceChangeRate(1, UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => new ForceChangeRate(1, UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => new ForceChangeRate(1, UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => new ForceChangeRate(1, UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => new ForceChangeRate(1, UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => new ForceChangeRate(1, UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void Ctor_WithNullUnitSystem_ThrowsArgumentNullException()
+        {
+            Assert.Throws<ArgumentNullException>(() => new ForceChangeRate(1, null));
+        }
+
+        [Fact]
         public void NewtonPerSecondToForceChangeRateUnits()
         {
             ForceChangeRate newtonpersecond = ForceChangeRate.FromNewtonsPerSecond(1);
@@ -143,6 +161,28 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
+        public void As_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            var newtonpersecond = ForceChangeRate.FromNewtonsPerSecond(1);
+
+            Assert.Throws<ArgumentException>(() => newtonpersecond.As(UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => newtonpersecond.As(UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => newtonpersecond.As(UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => newtonpersecond.As(UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => newtonpersecond.As(UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => newtonpersecond.As(UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => newtonpersecond.As(UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void As_WithNullUnitSystem_ThrowsArgumentNullException()
+        {
+            var newtonpersecond = ForceChangeRate.FromNewtonsPerSecond(1);
+ 
+            Assert.Throws<ArgumentNullException>(() => newtonpersecond.As(null));
+        }
+
+        [Fact]
         public void ToUnit()
         {
             var newtonpersecond = ForceChangeRate.FromNewtonsPerSecond(1);
@@ -190,6 +230,28 @@ namespace UnitsNet.Tests
             var newtonpersecondQuantity = newtonpersecond.ToUnit(ForceChangeRateUnit.NewtonPerSecond);
             AssertEx.EqualTolerance(NewtonsPerSecondInOneNewtonPerSecond, (double)newtonpersecondQuantity.Value, NewtonsPerSecondTolerance);
             Assert.Equal(ForceChangeRateUnit.NewtonPerSecond, newtonpersecondQuantity.Unit);
+        }
+
+        [Fact]
+        public void To_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            var newtonpersecond = ForceChangeRate.FromNewtonsPerSecond(1);
+
+            Assert.Throws<ArgumentException>(() => newtonpersecond.ToUnit(UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => newtonpersecond.ToUnit(UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => newtonpersecond.ToUnit(UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => newtonpersecond.ToUnit(UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => newtonpersecond.ToUnit(UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => newtonpersecond.ToUnit(UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => newtonpersecond.ToUnit(UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void ToUnit_WithNullUnitSystem_ThrowsNullException()
+        {
+            var newtonpersecond = ForceChangeRate.FromNewtonsPerSecond(1);
+ 
+            Assert.Throws<ArgumentNullException>(() => newtonpersecond.ToUnit(null));
         }
 
         [Fact]

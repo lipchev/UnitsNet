@@ -86,6 +86,24 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
+        public void Ctor_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            Assert.Throws<ArgumentException>(() => new Angle(1, UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => new Angle(1, UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => new Angle(1, UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => new Angle(1, UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => new Angle(1, UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => new Angle(1, UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => new Angle(1, UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void Ctor_WithNullUnitSystem_ThrowsArgumentNullException()
+        {
+            Assert.Throws<ArgumentNullException>(() => new Angle(1, null));
+        }
+
+        [Fact]
         public void DegreeToAngleUnits()
         {
             Angle degree = Angle.FromDegrees(1);
@@ -158,6 +176,28 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
+        public void As_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            var degree = Angle.FromDegrees(1);
+
+            Assert.Throws<ArgumentException>(() => degree.As(UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => degree.As(UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => degree.As(UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => degree.As(UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => degree.As(UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => degree.As(UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => degree.As(UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void As_WithNullUnitSystem_ThrowsArgumentNullException()
+        {
+            var degree = Angle.FromDegrees(1);
+ 
+            Assert.Throws<ArgumentNullException>(() => degree.As(null));
+        }
+
+        [Fact]
         public void ToUnit()
         {
             var degree = Angle.FromDegrees(1);
@@ -217,6 +257,28 @@ namespace UnitsNet.Tests
             var revolutionQuantity = degree.ToUnit(AngleUnit.Revolution);
             AssertEx.EqualTolerance(RevolutionsInOneDegree, (double)revolutionQuantity.Value, RevolutionsTolerance);
             Assert.Equal(AngleUnit.Revolution, revolutionQuantity.Unit);
+        }
+
+        [Fact]
+        public void To_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
+        {
+            var degree = Angle.FromDegrees(1);
+
+            Assert.Throws<ArgumentException>(() => degree.ToUnit(UnitSystem.SI));
+            Assert.Throws<ArgumentException>(() => degree.ToUnit(UnitSystem.CGS));
+            Assert.Throws<ArgumentException>(() => degree.ToUnit(UnitSystem.BI));
+            Assert.Throws<ArgumentException>(() => degree.ToUnit(UnitSystem.EE));
+            Assert.Throws<ArgumentException>(() => degree.ToUnit(UnitSystem.USC));
+            Assert.Throws<ArgumentException>(() => degree.ToUnit(UnitSystem.FPS));
+            Assert.Throws<ArgumentException>(() => degree.ToUnit(UnitSystem.Astronomical));
+        }
+
+        [Fact]
+        public void ToUnit_WithNullUnitSystem_ThrowsNullException()
+        {
+            var degree = Angle.FromDegrees(1);
+ 
+            Assert.Throws<ArgumentNullException>(() => degree.ToUnit(null));
         }
 
         [Fact]
