@@ -45,7 +45,8 @@ namespace UnitsNet.UnitSystems
                 null,
                 null,
                 null,
-                new UnitSystemInfo(Duration.Info.UnitInfos[7], new UnitInfo[]{
+                new UnitSystemInfo(Duration.Info.UnitInfos[0], new UnitInfo[]{
+                    Duration.Info.UnitInfos[0],
                     Duration.Info.UnitInfos[1],
                     Duration.Info.UnitInfos[2],
                     Duration.Info.UnitInfos[3],
@@ -85,7 +86,7 @@ namespace UnitsNet.UnitSystems
                 null,
                 null,
                 null,
-                new UnitSystemInfo(Length.Info.UnitInfos[13], new UnitInfo[]{
+                new UnitSystemInfo(Length.Info.UnitInfos[0], new UnitInfo[]{
                     Length.Info.UnitInfos[0],
                     Length.Info.UnitInfos[10],
                     Length.Info.UnitInfos[12],
@@ -105,7 +106,7 @@ namespace UnitsNet.UnitSystems
                 null,
                 null,
                 null,
-                new UnitSystemInfo(Mass.Info.UnitInfos[7], new UnitInfo[]{
+                new UnitSystemInfo(Mass.Info.UnitInfos[22], new UnitInfo[]{
                     Mass.Info.UnitInfos[0],
                     Mass.Info.UnitInfos[1],
                     Mass.Info.UnitInfos[2],

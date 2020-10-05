@@ -74,7 +74,7 @@
       },
       "FromUnitToBaseFunc": "x*24*3600",
       "FromBaseToUnitFunc": "x/(24*3600)",
-      "UnitSystems": [ "SI", "CGS", "BI", "EE", "USC", "FPS" ],
+      "UnitSystems": [ "SI", "CGS", "BI", "EE", "USC", "FPS", "Astronomical" ],
       "Localization": [
         {
           "Culture": "en-US",
@@ -175,7 +175,7 @@
     },
     {
       "UnitSystem": "Astronomical",
-      "BaseUnit": "Second"
+      "BaseUnit": "Day"
     }
   ]
 }

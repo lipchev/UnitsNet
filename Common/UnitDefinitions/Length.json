@@ -387,7 +387,7 @@
     },
     {
       "UnitSystem": "Astronomical",
-      "BaseUnit": "LightYear"
+      "BaseUnit": "AstronomicalUnit"
     }
   ]
 }

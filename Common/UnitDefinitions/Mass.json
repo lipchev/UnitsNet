@@ -286,7 +286,7 @@
     },
     {
       "UnitSystem": "Astronomical",
-      "BaseUnit": "Kilogram"
+      "BaseUnit": "SolarMass"
     }
   ]
 }
