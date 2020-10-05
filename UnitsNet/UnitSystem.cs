@@ -13,7 +13,7 @@ namespace UnitsNet
     ///     selected base units,
     ///     such as <see cref="SI" /> to use SI base units such as meters, kilograms and seconds.
     /// </summary>
-    public class UnitSystem : IEquatable<UnitSystem>
+    public partial class UnitSystem : IEquatable<UnitSystem>
     {
         // the array used for storing the default units in the current UnitSystem, ordered by QuantityType (excluding QuantityType.Undefined)
         private readonly Lazy<UnitSystemInfo[]> _systemUnits;
@@ -69,11 +69,6 @@ namespace UnitsNet
 
             _systemUnits = systemUnits;
         }
-
-        /// <summary>
-        ///     Gets the SI unit system.
-        /// </summary>
-        public static SI SI { get; } = new SI();
 
         /// <summary>
         ///     Gets the default unit information for the given quantity type, associated with the current unit system.
