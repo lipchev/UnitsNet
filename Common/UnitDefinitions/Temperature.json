@@ -15,6 +15,7 @@
       },
       "FromUnitToBaseFunc": "x",
       "FromBaseToUnitFunc": "x",
+      "UnitSystems": [ "SI", "CGS", "BI", "EE", "USC", "FPS", "Astronomical" ],
       "Localization": [
         {
           "Culture": "en-US",
@@ -30,6 +31,7 @@
       },
       "FromUnitToBaseFunc": "x + 273.15",
       "FromBaseToUnitFunc": "x - 273.15",
+      "UnitSystems": [ "SI", "CGS", "BI", "EE", "USC", "FPS", "Astronomical" ],
       "Localization": [
         {
           "Culture": "en-US",
@@ -60,6 +62,7 @@
       },
       "FromUnitToBaseFunc": "x*5/9 + 459.67*5/9",
       "FromBaseToUnitFunc": "(x - 459.67*5/9)*9/5",
+      "UnitSystems": [ "BI", "EE", "USC", "FPS" ],
       "Localization": [
         {
           "Culture": "en-US",
@@ -90,6 +93,7 @@
       },
       "FromUnitToBaseFunc": "x*5/9",
       "FromBaseToUnitFunc": "x*9/5",
+      "UnitSystems": [ "BI", "EE", "USC", "FPS" ],
       "Localization": [
         {
           "Culture": "en-US",
@@ -132,12 +136,43 @@
       "PluralName": "SolarTemperatures",
       "FromUnitToBaseFunc": "x * 5778",
       "FromBaseToUnitFunc": "x / 5778",
+      "UnitSystems": [ "Astronomical" ],
       "Localization": [
         {
           "Culture": "en-US",
           "Abbreviations": [ "T⊙" ]
         }
       ]
+    }
+  ],
+  "UnitSystems": [
+    {
+      "UnitSystem": "SI",
+      "BaseUnit": "Kelvin"
+    },
+    {
+      "UnitSystem": "CGS",
+      "BaseUnit": "Kelvin"
+    },
+    {
+      "UnitSystem": "BI",
+      "BaseUnit": "DegreeFahrenheit"
+    },
+    {
+      "UnitSystem": "EE",
+      "BaseUnit": "DegreeFahrenheit"
+    },
+    {
+      "UnitSystem": "USC",
+      "BaseUnit": "DegreeFahrenheit"
+    },
+    {
+      "UnitSystem": "FPS",
+      "BaseUnit": "DegreeFahrenheit"
+    },
+    {
+      "UnitSystem": "Astronomical",
+      "BaseUnit": "Kelvin"
     }
   ]
 }

@@ -19,7 +19,7 @@ namespace UnitsNet.UnitSystems
         /// <summary>
         ///     Construct a new instance of the SI class with default unit mappings
         /// </summary>
-        public SI() : base(SIBaseUnits, new Lazy<UnitSystemInfo[]>(GetDefaultSystemUnits))
+        public SI() : base(SIBaseUnits,  new Lazy<UnitSystemInfo[]>(GetDefaultSystemUnits))
         {
         }
 

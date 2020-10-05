@@ -40,7 +40,36 @@ namespace UnitsNet.Tests
             TemperatureUnit temperature, AmountOfSubstanceUnit amount, LuminousIntensityUnit luminousIntensity)
         {
             var baseUnits = new BaseUnits(length, mass, time, current, temperature, amount, luminousIntensity);
+
+            Assert.Throws<ArgumentException>(() => new UnitSystem(baseUnits));
+            Assert.Throws<ArgumentException>(() => new BaseUnitSystem(baseUnits));
             Assert.Throws<ArgumentException>(() => new BaseUnitSystem(baseUnits, new Lazy<UnitSystemInfo[]>(SI.GetDefaultSystemUnits)));
+        }
+
+        [Fact]
+        public void EqualsUnitSystem_ConstructedFromDefaultSIUnits_ReturnsTrue()
+        {
+            var derivedSystem = new UnitSystem(UnitSystem.SI.BaseUnits);
+
+            Assert.Equal(UnitSystem.SI, derivedSystem);
+        }
+
+        [Fact]
+        public void EqualsBaseUnitSystem_ConstructedFromDefaultSIUnits_ReturnsTrue()
+        {
+            var derivedSystem = new BaseUnitSystem(SI.GetDefaultSystemUnits());
+
+            Assert.Equal(UnitSystem.SI.BaseUnits, derivedSystem.BaseUnits);
+            Assert.Equal(UnitSystem.SI, derivedSystem);
+        }
+
+        [Fact]
+        public void EqualsUnitSystem_DerivedUsingSameDefaultUnit_ReturnsTrue()
+        {
+            var derivedSystem = UnitSystem.SI.WithDefaultUnit(QuantityType.Length, UnitSystem.SI.GetDefaultUnitInfo(QuantityType.Length));
+
+            Assert.Equal(UnitSystem.SI.BaseUnits, derivedSystem.BaseUnits);
+            Assert.Equal(UnitSystem.SI, derivedSystem);
         }
 
         [Fact]
@@ -140,9 +169,6 @@ namespace UnitsNet.Tests
         [Fact]
         public void SIUnitSystemHasCorrectBaseUnits()
         {
-            var siBaseUnits = new BaseUnits(LengthUnit.Meter, MassUnit.Kilogram, DurationUnit.Second,
-                ElectricCurrentUnit.Ampere, TemperatureUnit.Kelvin, AmountOfSubstanceUnit.Mole, LuminousIntensityUnit.Candela);
-
             Assert.Equal(LengthUnit.Meter, UnitSystem.SI.BaseUnits.Length);
             Assert.Equal(MassUnit.Kilogram, UnitSystem.SI.BaseUnits.Mass);
             Assert.Equal(DurationUnit.Second, UnitSystem.SI.BaseUnits.Time);
@@ -159,12 +185,71 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
-        public void GetDefaultUnitInfo_GivenQuantityWithNoDefaultUnits_ReturnsNull()
+        public void GetDefaultUnitInfo_FromBaseUnitSystem_ReturnsBaseUnitSystem()
         {
-            // we cannot simply rely on something like AmplitudeRatio not having a default base unit definition (as this is expected to change soon)
-            var unitSystemWithNoDefaultLengthUnit = UnitSystem.SI.WithDefaultUnit(QuantityType.Length, null); // we can however force the dissociation
+            var anyUnitInfo = Length.Info.UnitInfos.First();
+            BaseUnitSystem unitSystem = UnitSystem.SI;
+
+            // default overload: same as SI.WithDefaultUnit(..)
+            var derivedSystem = unitSystem.WithDefaultUnit(QuantityType.Length, anyUnitInfo); 
             
-            Assert.Null(unitSystemWithNoDefaultLengthUnit.GetDefaultUnitInfo(QuantityType.Length));
+            Assert.IsType<BaseUnitSystem>(derivedSystem);
+        }
+        
+        [Fact]
+        public void GetDefaultUnitInfo_FromUnitSystem_ReturnsUnitSystem()
+        {
+            UnitSystem unitSystem = UnitSystem.SI;
+
+            var derivedSystem = unitSystem.WithDefaultUnit(QuantityType.Length, null); // base type no longer defined
+            
+            Assert.IsType<UnitSystem>(derivedSystem);
+        }
+        
+        [Theory]
+        [InlineData(QuantityType.Length)]
+        [InlineData(QuantityType.Mass)]
+        [InlineData(QuantityType.Duration)]
+        [InlineData(QuantityType.ElectricCurrent)]
+        [InlineData(QuantityType.Temperature)]
+        [InlineData(QuantityType.AmountOfSubstance)]
+        [InlineData(QuantityType.LuminousIntensity)]
+        public void WithDefaultUnit_GivenBaseUnitsAssociationsNotFullyDefined_ThrowsArgumentException(QuantityType baseType)
+        {
+            BaseUnitSystem unitSystem = UnitSystem.SI;
+
+            // exception thrown from the BaseUnitSystem constructor
+            Assert.Throws<ArgumentException>(() => unitSystem.WithDefaultUnit(baseType, null));
+        }
+        
+        [Theory]
+        [InlineData(QuantityType.Length)]
+        [InlineData(QuantityType.Mass)]
+        [InlineData(QuantityType.Duration)]
+        [InlineData(QuantityType.ElectricCurrent)]
+        [InlineData(QuantityType.Temperature)]
+        [InlineData(QuantityType.AmountOfSubstance)]
+        [InlineData(QuantityType.LuminousIntensity)]
+        public void GetDefaultUnitInfo_GivenUndefinedQuantityType_ReturnsNull(QuantityType baseType)
+        {
+            UnitSystem unitSystem = UnitSystem.SI;
+
+            // since Length, Mass etc are part of the BaseUnits definition, we need to derive from UnitSystem (instead of BaseUnitSystem)
+            var unitSystemWithNoDefaultUnit = unitSystem.WithDefaultUnit(baseType, null); // force the dissociation
+            
+            Assert.IsType<UnitSystem>(unitSystemWithNoDefaultUnit);
+            Assert.Null(unitSystemWithNoDefaultUnit.GetDefaultUnitInfo(baseType));
+        }
+
+        [Fact]
+        public void WithDefaultUnit_GivenNullForDerivedUnits_ReturnsUnitSystemWithOldDerivedUnits()
+        {
+            var myDefaultLengthUnit = Length.Info.UnitInfos.First(x => x.Value == LengthUnit.Millimeter);
+
+            var derivedSystem = UnitSystem.SI.WithDefaultUnit(QuantityType.Length, myDefaultLengthUnit); 
+
+            Assert.Equal(LengthUnit.Millimeter, derivedSystem.GetDefaultUnitInfo(QuantityType.Length).Value);
+            Assert.Equal(UnitSystem.SI.GetCommonUnitsInfo(QuantityType.Length), derivedSystem.GetCommonUnitsInfo(QuantityType.Length));
         }
 
         [Fact]
@@ -182,35 +267,6 @@ namespace UnitsNet.Tests
 
             Assert.Throws<ArgumentException>(() => UnitSystem.SI.WithDefaultUnit(QuantityType.Mass, nonMassUnit));
         }
-
-//        [Fact]
-//        public void WithDefaultUnit_GivenNullForBaseUnits_ReturnsUnitSystemWithOldBaseUnits()
-//        {
-//            var myDefaultLengthUnit = Length.Info.UnitInfos.First(x => x.Value == LengthUnit.Millimeter);
-//
-//            var newSI = UnitSystem.SI.WithDefaultUnit(QuantityType.Length, myDefaultLengthUnit, (BaseUnits) null); 
-//
-//            Assert.Equal(UnitSystem.SI, newSI); // currently comparing using BaseUnits
-//        }
-//
-//        [Theory]
-//        [InlineData(LengthUnit.Undefined, MassUnit.Kilogram, DurationUnit.Second, ElectricCurrentUnit.Ampere, TemperatureUnit.Kelvin, AmountOfSubstanceUnit.Mole, LuminousIntensityUnit.Candela)]
-//        [InlineData(LengthUnit.Meter, MassUnit.Undefined, DurationUnit.Second, ElectricCurrentUnit.Ampere, TemperatureUnit.Kelvin, AmountOfSubstanceUnit.Mole, LuminousIntensityUnit.Candela)]
-//        [InlineData(LengthUnit.Meter, MassUnit.Kilogram, DurationUnit.Undefined, ElectricCurrentUnit.Ampere, TemperatureUnit.Kelvin, AmountOfSubstanceUnit.Mole, LuminousIntensityUnit.Candela)]
-//        [InlineData(LengthUnit.Meter, MassUnit.Kilogram, DurationUnit.Second, ElectricCurrentUnit.Undefined, TemperatureUnit.Kelvin, AmountOfSubstanceUnit.Mole, LuminousIntensityUnit.Candela)]
-//        [InlineData(LengthUnit.Meter, MassUnit.Kilogram, DurationUnit.Second, ElectricCurrentUnit.Ampere, TemperatureUnit.Undefined, AmountOfSubstanceUnit.Mole, LuminousIntensityUnit.Candela)]
-//        [InlineData(LengthUnit.Meter, MassUnit.Kilogram, DurationUnit.Second, ElectricCurrentUnit.Ampere, TemperatureUnit.Kelvin, AmountOfSubstanceUnit.Undefined, LuminousIntensityUnit.Candela)]
-//        [InlineData(LengthUnit.Meter, MassUnit.Kilogram, DurationUnit.Second, ElectricCurrentUnit.Ampere, TemperatureUnit.Kelvin, AmountOfSubstanceUnit.Mole, LuminousIntensityUnit.Undefined)]
-//        public void WithDefaultUnit_GivenBaseUnitsNotFullyDefined_ThrowsArgumentException(LengthUnit length, MassUnit mass, DurationUnit time, ElectricCurrentUnit current,
-//            TemperatureUnit temperature, AmountOfSubstanceUnit amount, LuminousIntensityUnit luminousIntensity)
-//        {
-//            var myDefaultLengthUnit = Length.Info.UnitInfos.First(x => x.Value == LengthUnit.Millimeter);
-//
-//            var baseUnits = new BaseUnits(length, mass, time, current, temperature, amount, luminousIntensity);
-//
-//            // BaseUnits(obsolete) kept in order to avoid introducing  a breaking change (just yet)
-//            Assert.Throws<ArgumentException>(()=> UnitSystem.SI.WithDefaultUnit(QuantityType.Length, myDefaultLengthUnit, baseUnits));
-//        }
 
     }
 }

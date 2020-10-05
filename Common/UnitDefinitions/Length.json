@@ -306,6 +306,7 @@
       "PluralName": "AstronomicalUnits",
       "FromUnitToBaseFunc": "x * 1.4959787070e11",
       "FromBaseToUnitFunc": "x / 1.4959787070e11",
+      "UnitSystems": [ "Astronomical" ],
       "XmlDocSummary": "One Astronomical Unit is the distance from the solar system Star, the sun, to planet Earth.",
       "XmlDocRemarks": "https://en.wikipedia.org/wiki/Astronomical_unit",
       "Localization": [
@@ -320,6 +321,7 @@
       "PluralName": "Parsecs",
       "FromUnitToBaseFunc": "x * 3.08567758128e16",
       "FromBaseToUnitFunc": "x / 3.08567758128e16",
+      "UnitSystems": [ "Astronomical" ],
       "XmlDocSummary": "A parsec is defined as the distance at which one astronomical unit (AU) subtends an angle of one arcsecond.",
       "XmlDocRemarks": "https://en.wikipedia.org/wiki/Parsec",
       "Prefixes": [ "Kilo", "Mega" ],
@@ -335,6 +337,7 @@
       "PluralName": "LightYears",
       "FromUnitToBaseFunc": "x * 9.46073047258e15",
       "FromBaseToUnitFunc": "x / 9.46073047258e15",
+      "UnitSystems": [ "Astronomical" ],
       "XmlDocSummary": "A Light Year (ly) is the distance that light travel during an Earth year, ie 365 days.",
       "XmlDocRemarks": "https://en.wikipedia.org/wiki/Light-year",
       "Prefixes": [ "Kilo", "Mega" ],
@@ -350,6 +353,7 @@
       "PluralName": "SolarRadiuses",
       "FromUnitToBaseFunc": "x * 6.95510000E+08",
       "FromBaseToUnitFunc": "x / 6.95510000E+08",
+      "UnitSystems": [ "Astronomical" ],
       "XmlDocSummary": "Solar radius is a ratio unit to the radius of the solar system star, the sun.",
       "XmlDocRemarks": "https://en.wikipedia.org/wiki/Stellar_classification",
       "Localization": [
@@ -370,8 +374,20 @@
       "BaseUnit": "Centimeter"
     },
     {
+      "UnitSystem": "BI",
+      "BaseUnit": "Yard"
+    },
+    {
       "UnitSystem": "EE",
       "BaseUnit": "Foot"
+    },
+    {
+      "UnitSystem": "UCS",
+      "BaseUnit": "Yard"
+    },
+    {
+      "UnitSystem": "Astronomical",
+      "BaseUnit": "LightYear"
     }
   ]
 }

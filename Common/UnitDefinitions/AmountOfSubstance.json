@@ -31,7 +31,7 @@
       },
       "FromUnitToBaseFunc": "x*453.59237",
       "FromBaseToUnitFunc": "x/453.59237",
-      "UnitSystems": [ "BI", "USC" ],
+      "UnitSystems": [ "BI", "EE", "FPS", "USC" ],
       "Prefixes": [ "Nano", "Micro", "Milli", "Centi", "Deci", "Kilo" ],
       "Localization": [
         {
@@ -52,6 +52,14 @@
     },
     {
       "UnitSystem": "BI",
+      "BaseUnit": "PoundMole"
+    },
+    {
+      "UnitSystem": "EE",
+      "BaseUnit": "PoundMole"
+    },
+    {
+      "UnitSystem": "FPS",
       "BaseUnit": "PoundMole"
     },
     {
