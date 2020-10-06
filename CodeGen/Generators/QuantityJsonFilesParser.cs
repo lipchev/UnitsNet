@@ -42,6 +42,10 @@ namespace CodeGen.Generators
             try
             {
                 var quantity = JsonConvert.DeserializeObject<Quantity>(File.ReadAllText(jsonFile, Encoding.UTF8), JsonSerializerSettings);
+                if (quantity == null)
+                {
+                    throw new NullReferenceException(); // CS8604: Possible null reference argument for parameter quantity
+                }
                 AddPrefixUnits(quantity);
                 FixConversionFunctionsForDecimalValueTypes(quantity);
                 OrderUnitsByName(quantity);

@@ -24,6 +24,8 @@ using JetBrains.Annotations;
 using UnitsNet.InternalHelpers;
 using UnitsNet.Units;
 
+#nullable enable
+
 // ReSharper disable once CheckNamespace
 
 namespace UnitsNet
@@ -56,14 +58,19 @@ namespace UnitsNet
                     new UnitInfo<PowerUnit>(PowerUnit.Deciwatt, BaseUnits.Undefined),
                     new UnitInfo<PowerUnit>(PowerUnit.ElectricalHorsepower, BaseUnits.Undefined),
                     new UnitInfo<PowerUnit>(PowerUnit.Femtowatt, BaseUnits.Undefined),
+                    new UnitInfo<PowerUnit>(PowerUnit.GigajoulePerHour, BaseUnits.Undefined),
                     new UnitInfo<PowerUnit>(PowerUnit.Gigawatt, BaseUnits.Undefined),
                     new UnitInfo<PowerUnit>(PowerUnit.HydraulicHorsepower, BaseUnits.Undefined),
+                    new UnitInfo<PowerUnit>(PowerUnit.JoulePerHour, BaseUnits.Undefined),
                     new UnitInfo<PowerUnit>(PowerUnit.KilobritishThermalUnitPerHour, BaseUnits.Undefined),
+                    new UnitInfo<PowerUnit>(PowerUnit.KilojoulePerHour, BaseUnits.Undefined),
                     new UnitInfo<PowerUnit>(PowerUnit.Kilowatt, BaseUnits.Undefined),
                     new UnitInfo<PowerUnit>(PowerUnit.MechanicalHorsepower, BaseUnits.Undefined),
+                    new UnitInfo<PowerUnit>(PowerUnit.MegajoulePerHour, BaseUnits.Undefined),
                     new UnitInfo<PowerUnit>(PowerUnit.Megawatt, BaseUnits.Undefined),
                     new UnitInfo<PowerUnit>(PowerUnit.MetricHorsepower, BaseUnits.Undefined),
                     new UnitInfo<PowerUnit>(PowerUnit.Microwatt, BaseUnits.Undefined),
+                    new UnitInfo<PowerUnit>(PowerUnit.MillijoulePerHour, BaseUnits.Undefined),
                     new UnitInfo<PowerUnit>(PowerUnit.Milliwatt, BaseUnits.Undefined),
                     new UnitInfo<PowerUnit>(PowerUnit.Nanowatt, BaseUnits.Undefined),
                     new UnitInfo<PowerUnit>(PowerUnit.Petawatt, BaseUnits.Undefined),
@@ -99,7 +106,7 @@ namespace UnitsNet
         /// <exception cref="ArgumentException">No default unit was found for the given <see cref="UnitSystem"/>.</exception>
         public Power(decimal value, UnitSystem unitSystem)
         {
-            if(unitSystem == null) throw new ArgumentNullException(nameof(unitSystem)); 
+            if(unitSystem is null) throw new ArgumentNullException(nameof(unitSystem));
 
             _value = value;
 
@@ -215,6 +222,11 @@ namespace UnitsNet
         public double Femtowatts => As(PowerUnit.Femtowatt);
 
         /// <summary>
+        ///     Get Power in GigajoulesPerHour.
+        /// </summary>
+        public double GigajoulesPerHour => As(PowerUnit.GigajoulePerHour);
+
+        /// <summary>
         ///     Get Power in Gigawatts.
         /// </summary>
         public double Gigawatts => As(PowerUnit.Gigawatt);
@@ -225,9 +237,19 @@ namespace UnitsNet
         public double HydraulicHorsepower => As(PowerUnit.HydraulicHorsepower);
 
         /// <summary>
+        ///     Get Power in JoulesPerHour.
+        /// </summary>
+        public double JoulesPerHour => As(PowerUnit.JoulePerHour);
+
+        /// <summary>
         ///     Get Power in KilobritishThermalUnitsPerHour.
         /// </summary>
         public double KilobritishThermalUnitsPerHour => As(PowerUnit.KilobritishThermalUnitPerHour);
+
+        /// <summary>
+        ///     Get Power in KilojoulesPerHour.
+        /// </summary>
+        public double KilojoulesPerHour => As(PowerUnit.KilojoulePerHour);
 
         /// <summary>
         ///     Get Power in Kilowatts.
@@ -238,6 +260,11 @@ namespace UnitsNet
         ///     Get Power in MechanicalHorsepower.
         /// </summary>
         public double MechanicalHorsepower => As(PowerUnit.MechanicalHorsepower);
+
+        /// <summary>
+        ///     Get Power in MegajoulesPerHour.
+        /// </summary>
+        public double MegajoulesPerHour => As(PowerUnit.MegajoulePerHour);
 
         /// <summary>
         ///     Get Power in Megawatts.
@@ -253,6 +280,11 @@ namespace UnitsNet
         ///     Get Power in Microwatts.
         /// </summary>
         public double Microwatts => As(PowerUnit.Microwatt);
+
+        /// <summary>
+        ///     Get Power in MillijoulesPerHour.
+        /// </summary>
+        public double MillijoulesPerHour => As(PowerUnit.MillijoulePerHour);
 
         /// <summary>
         ///     Get Power in Milliwatts.
@@ -304,7 +336,7 @@ namespace UnitsNet
         /// <param name="unit">Unit to get abbreviation for.</param>
         /// <returns>Unit abbreviation string.</returns>
         /// <param name="provider">Format to use for localization. Defaults to <see cref="CultureInfo.CurrentUICulture" /> if null.</param>
-        public static string GetAbbreviation(PowerUnit unit, [CanBeNull] IFormatProvider provider)
+        public static string GetAbbreviation(PowerUnit unit, IFormatProvider? provider)
         {
             return UnitAbbreviationsCache.Default.GetDefaultAbbreviation(unit, provider);
         }
@@ -368,6 +400,15 @@ namespace UnitsNet
             return new Power(value, PowerUnit.Femtowatt);
         }
         /// <summary>
+        ///     Get Power from GigajoulesPerHour.
+        /// </summary>
+        /// <exception cref="ArgumentException">If value is NaN or Infinity.</exception>
+        public static Power FromGigajoulesPerHour(QuantityValue gigajoulesperhour)
+        {
+            decimal value = (decimal) gigajoulesperhour;
+            return new Power(value, PowerUnit.GigajoulePerHour);
+        }
+        /// <summary>
         ///     Get Power from Gigawatts.
         /// </summary>
         /// <exception cref="ArgumentException">If value is NaN or Infinity.</exception>
@@ -386,6 +427,15 @@ namespace UnitsNet
             return new Power(value, PowerUnit.HydraulicHorsepower);
         }
         /// <summary>
+        ///     Get Power from JoulesPerHour.
+        /// </summary>
+        /// <exception cref="ArgumentException">If value is NaN or Infinity.</exception>
+        public static Power FromJoulesPerHour(QuantityValue joulesperhour)
+        {
+            decimal value = (decimal) joulesperhour;
+            return new Power(value, PowerUnit.JoulePerHour);
+        }
+        /// <summary>
         ///     Get Power from KilobritishThermalUnitsPerHour.
         /// </summary>
         /// <exception cref="ArgumentException">If value is NaN or Infinity.</exception>
@@ -393,6 +443,15 @@ namespace UnitsNet
         {
             decimal value = (decimal) kilobritishthermalunitsperhour;
             return new Power(value, PowerUnit.KilobritishThermalUnitPerHour);
+        }
+        /// <summary>
+        ///     Get Power from KilojoulesPerHour.
+        /// </summary>
+        /// <exception cref="ArgumentException">If value is NaN or Infinity.</exception>
+        public static Power FromKilojoulesPerHour(QuantityValue kilojoulesperhour)
+        {
+            decimal value = (decimal) kilojoulesperhour;
+            return new Power(value, PowerUnit.KilojoulePerHour);
         }
         /// <summary>
         ///     Get Power from Kilowatts.
@@ -411,6 +470,15 @@ namespace UnitsNet
         {
             decimal value = (decimal) mechanicalhorsepower;
             return new Power(value, PowerUnit.MechanicalHorsepower);
+        }
+        /// <summary>
+        ///     Get Power from MegajoulesPerHour.
+        /// </summary>
+        /// <exception cref="ArgumentException">If value is NaN or Infinity.</exception>
+        public static Power FromMegajoulesPerHour(QuantityValue megajoulesperhour)
+        {
+            decimal value = (decimal) megajoulesperhour;
+            return new Power(value, PowerUnit.MegajoulePerHour);
         }
         /// <summary>
         ///     Get Power from Megawatts.
@@ -438,6 +506,15 @@ namespace UnitsNet
         {
             decimal value = (decimal) microwatts;
             return new Power(value, PowerUnit.Microwatt);
+        }
+        /// <summary>
+        ///     Get Power from MillijoulesPerHour.
+        /// </summary>
+        /// <exception cref="ArgumentException">If value is NaN or Infinity.</exception>
+        public static Power FromMillijoulesPerHour(QuantityValue millijoulesperhour)
+        {
+            decimal value = (decimal) millijoulesperhour;
+            return new Power(value, PowerUnit.MillijoulePerHour);
         }
         /// <summary>
         ///     Get Power from Milliwatts.
@@ -559,7 +636,7 @@ namespace UnitsNet
         ///     Units.NET exceptions from other exceptions.
         /// </exception>
         /// <param name="provider">Format to use when parsing number and unit. Defaults to <see cref="CultureInfo.CurrentUICulture" /> if null.</param>
-        public static Power Parse(string str, [CanBeNull] IFormatProvider provider)
+        public static Power Parse(string str, IFormatProvider? provider)
         {
             return QuantityParser.Default.Parse<Power, PowerUnit>(
                 str,
@@ -575,7 +652,7 @@ namespace UnitsNet
         /// <example>
         ///     Length.Parse("5.5 m", new CultureInfo("en-US"));
         /// </example>
-        public static bool TryParse([CanBeNull] string str, out Power result)
+        public static bool TryParse(string? str, out Power result)
         {
             return TryParse(str, null, out result);
         }
@@ -590,7 +667,7 @@ namespace UnitsNet
         ///     Length.Parse("5.5 m", new CultureInfo("en-US"));
         /// </example>
         /// <param name="provider">Format to use when parsing number and unit. Defaults to <see cref="CultureInfo.CurrentUICulture" /> if null.</param>
-        public static bool TryParse([CanBeNull] string str, [CanBeNull] IFormatProvider provider, out Power result)
+        public static bool TryParse(string? str, IFormatProvider? provider, out Power result)
         {
             return QuantityParser.Default.TryParse<Power, PowerUnit>(
                 str,
@@ -623,7 +700,7 @@ namespace UnitsNet
         /// </example>
         /// <exception cref="ArgumentNullException">The value of 'str' cannot be null. </exception>
         /// <exception cref="UnitsNetException">Error parsing string.</exception>
-        public static PowerUnit ParseUnit(string str, [CanBeNull] IFormatProvider provider)
+        public static PowerUnit ParseUnit(string str, IFormatProvider? provider)
         {
             return UnitParser.Default.Parse<PowerUnit>(str, provider);
         }
@@ -644,7 +721,7 @@ namespace UnitsNet
         ///     Length.TryParseUnit("m", new CultureInfo("en-US"));
         /// </example>
         /// <param name="provider">Format to use when parsing number and unit. Defaults to <see cref="CultureInfo.CurrentUICulture" /> if null.</param>
-        public static bool TryParseUnit(string str, IFormatProvider provider, out PowerUnit unit)
+        public static bool TryParseUnit(string str, IFormatProvider? provider, out PowerUnit unit)
         {
             return UnitParser.Default.TryParse<PowerUnit>(str, provider, out unit);
         }
@@ -849,7 +926,7 @@ namespace UnitsNet
         /// <inheritdoc cref="IQuantity.As(UnitSystem)"/>
         public double As(UnitSystem unitSystem)
         {
-            if(unitSystem == null)
+            if(unitSystem is null)
                 throw new ArgumentNullException(nameof(unitSystem));
 
             var defaultUnitInfo = unitSystem.GetDefaultUnitInfo(QuantityType) as UnitInfo<PowerUnit>;
@@ -891,7 +968,7 @@ namespace UnitsNet
         /// <inheritdoc cref="IQuantity.ToUnit(UnitSystem)"/>
         public Power ToUnit(UnitSystem unitSystem)
         {
-            if(unitSystem == null)
+            if(unitSystem is null)
                 throw new ArgumentNullException(nameof(unitSystem));
 
             var defaultUnitInfo = unitSystem.GetDefaultUnitInfo(QuantityType) as UnitInfo<PowerUnit>;
@@ -926,14 +1003,19 @@ namespace UnitsNet
                 case PowerUnit.Deciwatt: return (_value) * 1e-1m;
                 case PowerUnit.ElectricalHorsepower: return _value*746m;
                 case PowerUnit.Femtowatt: return (_value) * 1e-15m;
+                case PowerUnit.GigajoulePerHour: return (_value/3600m) * 1e9m;
                 case PowerUnit.Gigawatt: return (_value) * 1e9m;
                 case PowerUnit.HydraulicHorsepower: return _value*745.69988145m;
+                case PowerUnit.JoulePerHour: return _value/3600m;
                 case PowerUnit.KilobritishThermalUnitPerHour: return (_value*0.293071m) * 1e3m;
+                case PowerUnit.KilojoulePerHour: return (_value/3600m) * 1e3m;
                 case PowerUnit.Kilowatt: return (_value) * 1e3m;
                 case PowerUnit.MechanicalHorsepower: return _value*745.69m;
+                case PowerUnit.MegajoulePerHour: return (_value/3600m) * 1e6m;
                 case PowerUnit.Megawatt: return (_value) * 1e6m;
                 case PowerUnit.MetricHorsepower: return _value*735.49875m;
                 case PowerUnit.Microwatt: return (_value) * 1e-6m;
+                case PowerUnit.MillijoulePerHour: return (_value/3600m) * 1e-3m;
                 case PowerUnit.Milliwatt: return (_value) * 1e-3m;
                 case PowerUnit.Nanowatt: return (_value) * 1e-9m;
                 case PowerUnit.Petawatt: return (_value) * 1e15m;
@@ -971,14 +1053,19 @@ namespace UnitsNet
                 case PowerUnit.Deciwatt: return (baseUnitValue) / 1e-1m;
                 case PowerUnit.ElectricalHorsepower: return baseUnitValue/746m;
                 case PowerUnit.Femtowatt: return (baseUnitValue) / 1e-15m;
+                case PowerUnit.GigajoulePerHour: return (baseUnitValue*3600m) / 1e9m;
                 case PowerUnit.Gigawatt: return (baseUnitValue) / 1e9m;
                 case PowerUnit.HydraulicHorsepower: return baseUnitValue/745.69988145m;
+                case PowerUnit.JoulePerHour: return baseUnitValue*3600m;
                 case PowerUnit.KilobritishThermalUnitPerHour: return (baseUnitValue/0.293071m) / 1e3m;
+                case PowerUnit.KilojoulePerHour: return (baseUnitValue*3600m) / 1e3m;
                 case PowerUnit.Kilowatt: return (baseUnitValue) / 1e3m;
                 case PowerUnit.MechanicalHorsepower: return baseUnitValue/745.69m;
+                case PowerUnit.MegajoulePerHour: return (baseUnitValue*3600m) / 1e6m;
                 case PowerUnit.Megawatt: return (baseUnitValue) / 1e6m;
                 case PowerUnit.MetricHorsepower: return baseUnitValue/735.49875m;
                 case PowerUnit.Microwatt: return (baseUnitValue) / 1e-6m;
+                case PowerUnit.MillijoulePerHour: return (baseUnitValue*3600m) / 1e-3m;
                 case PowerUnit.Milliwatt: return (baseUnitValue) / 1e-3m;
                 case PowerUnit.Nanowatt: return (baseUnitValue) / 1e-9m;
                 case PowerUnit.Petawatt: return (baseUnitValue) / 1e15m;
@@ -1008,7 +1095,7 @@ namespace UnitsNet
         /// </summary>
         /// <returns>String representation.</returns>
         /// <param name="provider">Format to use for localization and number formatting. Defaults to <see cref="CultureInfo.CurrentUICulture" /> if null.</param>
-        public string ToString([CanBeNull] IFormatProvider provider)
+        public string ToString(IFormatProvider? provider)
         {
             return ToString("g", provider);
         }
@@ -1020,7 +1107,7 @@ namespace UnitsNet
         /// <returns>String representation.</returns>
         /// <param name="provider">Format to use for localization and number formatting. Defaults to <see cref="CultureInfo.CurrentUICulture" /> if null.</param>
         [Obsolete(@"This method is deprecated and will be removed at a future release. Please use ToString(""s2"") or ToString(""s2"", provider) where 2 is an example of the number passed to significantDigitsAfterRadix.")]
-        public string ToString([CanBeNull] IFormatProvider provider, int significantDigitsAfterRadix)
+        public string ToString(IFormatProvider? provider, int significantDigitsAfterRadix)
         {
             var value = Convert.ToDouble(Value);
             var format = UnitFormatter.GetFormat(value, significantDigitsAfterRadix);
@@ -1035,7 +1122,7 @@ namespace UnitsNet
         /// <returns>String representation.</returns>
         /// <param name="provider">Format to use for localization and number formatting. Defaults to <see cref="CultureInfo.CurrentUICulture" /> if null.</param>
         [Obsolete("This method is deprecated and will be removed at a future release. Please use string.Format().")]
-        public string ToString([CanBeNull] IFormatProvider provider, [NotNull] string format, [NotNull] params object[] args)
+        public string ToString(IFormatProvider? provider, [NotNull] string format, [NotNull] params object[] args)
         {
             if (format == null) throw new ArgumentNullException(nameof(format));
             if (args == null) throw new ArgumentNullException(nameof(args));
@@ -1063,11 +1150,11 @@ namespace UnitsNet
         /// Gets the string representation of this instance in the specified format string using the specified format provider, or <see cref="CultureInfo.CurrentUICulture" /> if null.
         /// </summary>
         /// <param name="format">The format string.</param>
-        /// <param name="formatProvider">Format to use for localization and number formatting. Defaults to <see cref="CultureInfo.CurrentUICulture" /> if null.</param>
+        /// <param name="provider">Format to use for localization and number formatting. Defaults to <see cref="CultureInfo.CurrentUICulture" /> if null.</param>
         /// <returns>The string representation.</returns>
-        public string ToString(string format, IFormatProvider formatProvider)
+        public string ToString(string format, IFormatProvider? provider)
         {
-            return QuantityFormatter.Format<PowerUnit>(this, format, formatProvider);
+            return QuantityFormatter.Format<PowerUnit>(this, format, provider);
         }
 
         #endregion

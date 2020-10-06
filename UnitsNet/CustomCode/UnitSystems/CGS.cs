@@ -16,7 +16,7 @@ namespace UnitsNet.UnitSystems
         /// <summary>
         /// Construct a new instance of the CGS unit system
         /// </summary>
-        public CGS() : base(new Lazy<UnitSystemInfo[]>(GetDefaultSystemUnits))
+        public CGS() : base(new Lazy<UnitSystemInfo?[]>(GetDefaultSystemUnits))
         {
         }
     }

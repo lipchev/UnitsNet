@@ -13,7 +13,7 @@ namespace UnitsNet.UnitSystems
         /// <summary>
         ///     Construct a new instance of the foot–pound–second system unit system
         /// </summary>
-        public FPS() : base(new Lazy<UnitSystemInfo[]>(GetDefaultSystemUnits))
+        public FPS() : base(new Lazy<UnitSystemInfo?[]>(GetDefaultSystemUnits))
         {
         }
     }

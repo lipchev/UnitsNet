@@ -62,6 +62,7 @@ namespace UnitsNet.Tests
             Assertion(3, ElectricInductanceUnit.Nanohenry, Quantity.From(3, ElectricInductanceUnit.Nanohenry));
             Assertion(3, ElectricPotentialUnit.Volt, Quantity.From(3, ElectricPotentialUnit.Volt));
             Assertion(3, ElectricPotentialAcUnit.VoltAc, Quantity.From(3, ElectricPotentialAcUnit.VoltAc));
+            Assertion(3, ElectricPotentialChangeRateUnit.VoltPerSecond, Quantity.From(3, ElectricPotentialChangeRateUnit.VoltPerSecond));
             Assertion(3, ElectricPotentialDcUnit.VoltDc, Quantity.From(3, ElectricPotentialDcUnit.VoltDc));
             Assertion(3, ElectricResistanceUnit.Ohm, Quantity.From(3, ElectricResistanceUnit.Ohm));
             Assertion(3, ElectricResistivityUnit.PicoohmMeter, Quantity.From(3, ElectricResistivityUnit.PicoohmMeter));
@@ -70,7 +71,7 @@ namespace UnitsNet.Tests
             Assertion(3, EntropyUnit.MegajoulePerKelvin, Quantity.From(3, EntropyUnit.MegajoulePerKelvin));
             Assertion(3, ForceUnit.TonneForce, Quantity.From(3, ForceUnit.TonneForce));
             Assertion(3, ForceChangeRateUnit.NewtonPerSecond, Quantity.From(3, ForceChangeRateUnit.NewtonPerSecond));
-            Assertion(3, ForcePerLengthUnit.PoundForcePerYard, Quantity.From(3, ForcePerLengthUnit.PoundForcePerYard));
+            Assertion(3, ForcePerLengthUnit.TonneForcePerMillimeter, Quantity.From(3, ForcePerLengthUnit.TonneForcePerMillimeter));
             Assertion(3, FrequencyUnit.Terahertz, Quantity.From(3, FrequencyUnit.Terahertz));
             Assertion(3, FuelEfficiencyUnit.MilePerUsGallon, Quantity.From(3, FuelEfficiencyUnit.MilePerUsGallon));
             Assertion(3, HeatFluxUnit.WattPerSquareMeter, Quantity.From(3, HeatFluxUnit.WattPerSquareMeter));
@@ -83,7 +84,8 @@ namespace UnitsNet.Tests
             Assertion(3, LapseRateUnit.DegreeCelsiusPerKilometer, Quantity.From(3, LapseRateUnit.DegreeCelsiusPerKilometer));
             Assertion(3, LengthUnit.Yard, Quantity.From(3, LengthUnit.Yard));
             Assertion(3, LevelUnit.Neper, Quantity.From(3, LevelUnit.Neper));
-            Assertion(3, LinearDensityUnit.PoundPerFoot, Quantity.From(3, LinearDensityUnit.PoundPerFoot));
+            Assertion(3, LinearDensityUnit.PoundPerInch, Quantity.From(3, LinearDensityUnit.PoundPerInch));
+            Assertion(3, LinearPowerDensityUnit.WattPerMillimeter, Quantity.From(3, LinearPowerDensityUnit.WattPerMillimeter));
             Assertion(3, LuminosityUnit.Watt, Quantity.From(3, LuminosityUnit.Watt));
             Assertion(3, LuminousFluxUnit.Lumen, Quantity.From(3, LuminousFluxUnit.Lumen));
             Assertion(3, LuminousIntensityUnit.Candela, Quantity.From(3, LuminousIntensityUnit.Candela));
@@ -93,7 +95,7 @@ namespace UnitsNet.Tests
             Assertion(3, MassUnit.Tonne, Quantity.From(3, MassUnit.Tonne));
             Assertion(3, MassConcentrationUnit.TonnePerCubicMillimeter, Quantity.From(3, MassConcentrationUnit.TonnePerCubicMillimeter));
             Assertion(3, MassFlowUnit.TonnePerHour, Quantity.From(3, MassFlowUnit.TonnePerHour));
-            Assertion(3, MassFluxUnit.KilogramPerSecondPerSquareMeter, Quantity.From(3, MassFluxUnit.KilogramPerSecondPerSquareMeter));
+            Assertion(3, MassFluxUnit.KilogramPerSecondPerSquareMillimeter, Quantity.From(3, MassFluxUnit.KilogramPerSecondPerSquareMillimeter));
             Assertion(3, MassFractionUnit.Percent, Quantity.From(3, MassFractionUnit.Percent));
             Assertion(3, MassMomentOfInertiaUnit.TonneSquareMilimeter, Quantity.From(3, MassMomentOfInertiaUnit.TonneSquareMilimeter));
             Assertion(3, MolarEnergyUnit.MegajoulePerMole, Quantity.From(3, MolarEnergyUnit.MegajoulePerMole));
@@ -113,8 +115,8 @@ namespace UnitsNet.Tests
             Assertion(3, ReactivePowerUnit.VoltampereReactive, Quantity.From(3, ReactivePowerUnit.VoltampereReactive));
             Assertion(3, RotationalAccelerationUnit.RevolutionPerSecondSquared, Quantity.From(3, RotationalAccelerationUnit.RevolutionPerSecondSquared));
             Assertion(3, RotationalSpeedUnit.RevolutionPerSecond, Quantity.From(3, RotationalSpeedUnit.RevolutionPerSecond));
-            Assertion(3, RotationalStiffnessUnit.NewtonMeterPerRadian, Quantity.From(3, RotationalStiffnessUnit.NewtonMeterPerRadian));
-            Assertion(3, RotationalStiffnessPerLengthUnit.NewtonMeterPerRadianPerMeter, Quantity.From(3, RotationalStiffnessPerLengthUnit.NewtonMeterPerRadianPerMeter));
+            Assertion(3, RotationalStiffnessUnit.PoundForceFootPerDegrees, Quantity.From(3, RotationalStiffnessUnit.PoundForceFootPerDegrees));
+            Assertion(3, RotationalStiffnessPerLengthUnit.PoundForceFootPerDegreesPerFoot, Quantity.From(3, RotationalStiffnessPerLengthUnit.PoundForceFootPerDegreesPerFoot));
             Assertion(3, SolidAngleUnit.Steradian, Quantity.From(3, SolidAngleUnit.Steradian));
             Assertion(3, SpecificEnergyUnit.WattHourPerKilogram, Quantity.From(3, SpecificEnergyUnit.WattHourPerKilogram));
             Assertion(3, SpecificEntropyUnit.MegajoulePerKilogramKelvin, Quantity.From(3, SpecificEntropyUnit.MegajoulePerKilogramKelvin));
@@ -123,15 +125,18 @@ namespace UnitsNet.Tests
             Assertion(3, SpeedUnit.YardPerSecond, Quantity.From(3, SpeedUnit.YardPerSecond));
             Assertion(3, TemperatureUnit.SolarTemperature, Quantity.From(3, TemperatureUnit.SolarTemperature));
             Assertion(3, TemperatureChangeRateUnit.NanodegreeCelsiusPerSecond, Quantity.From(3, TemperatureChangeRateUnit.NanodegreeCelsiusPerSecond));
-            Assertion(3, TemperatureDeltaUnit.Kelvin, Quantity.From(3, TemperatureDeltaUnit.Kelvin));
+            Assertion(3, TemperatureDeltaUnit.MillidegreeCelsius, Quantity.From(3, TemperatureDeltaUnit.MillidegreeCelsius));
             Assertion(3, ThermalConductivityUnit.WattPerMeterKelvin, Quantity.From(3, ThermalConductivityUnit.WattPerMeterKelvin));
             Assertion(3, ThermalResistanceUnit.SquareMeterKelvinPerKilowatt, Quantity.From(3, ThermalResistanceUnit.SquareMeterKelvinPerKilowatt));
             Assertion(3, TorqueUnit.TonneForceMillimeter, Quantity.From(3, TorqueUnit.TonneForceMillimeter));
+            Assertion(3, TorquePerLengthUnit.TonneForceMillimeterPerMeter, Quantity.From(3, TorquePerLengthUnit.TonneForceMillimeterPerMeter));
+            Assertion(3, TurbidityUnit.NTU, Quantity.From(3, TurbidityUnit.NTU));
             Assertion(3, VitaminAUnit.InternationalUnit, Quantity.From(3, VitaminAUnit.InternationalUnit));
             Assertion(3, VolumeUnit.UsTeaspoon, Quantity.From(3, VolumeUnit.UsTeaspoon));
             Assertion(3, VolumeConcentrationUnit.PicolitersPerMililiter, Quantity.From(3, VolumeConcentrationUnit.PicolitersPerMililiter));
             Assertion(3, VolumeFlowUnit.UsGallonPerSecond, Quantity.From(3, VolumeFlowUnit.UsGallonPerSecond));
             Assertion(3, VolumePerLengthUnit.OilBarrelPerFoot, Quantity.From(3, VolumePerLengthUnit.OilBarrelPerFoot));
+            Assertion(3, WarpingMomentOfInertiaUnit.MillimeterToTheSixth, Quantity.From(3, WarpingMomentOfInertiaUnit.MillimeterToTheSixth));
         }
 
         [Fact]
@@ -167,6 +172,7 @@ namespace UnitsNet.Tests
             Assertion(ElectricInductance.Info, ElectricInductance.Zero);
             Assertion(ElectricPotential.Info, ElectricPotential.Zero);
             Assertion(ElectricPotentialAc.Info, ElectricPotentialAc.Zero);
+            Assertion(ElectricPotentialChangeRate.Info, ElectricPotentialChangeRate.Zero);
             Assertion(ElectricPotentialDc.Info, ElectricPotentialDc.Zero);
             Assertion(ElectricResistance.Info, ElectricResistance.Zero);
             Assertion(ElectricResistivity.Info, ElectricResistivity.Zero);
@@ -189,6 +195,7 @@ namespace UnitsNet.Tests
             Assertion(Length.Info, Length.Zero);
             Assertion(Level.Info, Level.Zero);
             Assertion(LinearDensity.Info, LinearDensity.Zero);
+            Assertion(LinearPowerDensity.Info, LinearPowerDensity.Zero);
             Assertion(Luminosity.Info, Luminosity.Zero);
             Assertion(LuminousFlux.Info, LuminousFlux.Zero);
             Assertion(LuminousIntensity.Info, LuminousIntensity.Zero);
@@ -232,11 +239,14 @@ namespace UnitsNet.Tests
             Assertion(ThermalConductivity.Info, ThermalConductivity.Zero);
             Assertion(ThermalResistance.Info, ThermalResistance.Zero);
             Assertion(Torque.Info, Torque.Zero);
+            Assertion(TorquePerLength.Info, TorquePerLength.Zero);
+            Assertion(Turbidity.Info, Turbidity.Zero);
             Assertion(VitaminA.Info, VitaminA.Zero);
             Assertion(Volume.Info, Volume.Zero);
             Assertion(VolumeConcentration.Info, VolumeConcentration.Zero);
             Assertion(VolumeFlow.Info, VolumeFlow.Zero);
             Assertion(VolumePerLength.Info, VolumePerLength.Zero);
+            Assertion(WarpingMomentOfInertia.Info, WarpingMomentOfInertia.Zero);
         }
 
         [Fact]
@@ -272,6 +282,7 @@ namespace UnitsNet.Tests
             Assertion(ElectricInductance.QuantityType, ElectricInductance.Zero);
             Assertion(ElectricPotential.QuantityType, ElectricPotential.Zero);
             Assertion(ElectricPotentialAc.QuantityType, ElectricPotentialAc.Zero);
+            Assertion(ElectricPotentialChangeRate.QuantityType, ElectricPotentialChangeRate.Zero);
             Assertion(ElectricPotentialDc.QuantityType, ElectricPotentialDc.Zero);
             Assertion(ElectricResistance.QuantityType, ElectricResistance.Zero);
             Assertion(ElectricResistivity.QuantityType, ElectricResistivity.Zero);
@@ -294,6 +305,7 @@ namespace UnitsNet.Tests
             Assertion(Length.QuantityType, Length.Zero);
             Assertion(Level.QuantityType, Level.Zero);
             Assertion(LinearDensity.QuantityType, LinearDensity.Zero);
+            Assertion(LinearPowerDensity.QuantityType, LinearPowerDensity.Zero);
             Assertion(Luminosity.QuantityType, Luminosity.Zero);
             Assertion(LuminousFlux.QuantityType, LuminousFlux.Zero);
             Assertion(LuminousIntensity.QuantityType, LuminousIntensity.Zero);
@@ -337,11 +349,14 @@ namespace UnitsNet.Tests
             Assertion(ThermalConductivity.QuantityType, ThermalConductivity.Zero);
             Assertion(ThermalResistance.QuantityType, ThermalResistance.Zero);
             Assertion(Torque.QuantityType, Torque.Zero);
+            Assertion(TorquePerLength.QuantityType, TorquePerLength.Zero);
+            Assertion(Turbidity.QuantityType, Turbidity.Zero);
             Assertion(VitaminA.QuantityType, VitaminA.Zero);
             Assertion(Volume.QuantityType, Volume.Zero);
             Assertion(VolumeConcentration.QuantityType, VolumeConcentration.Zero);
             Assertion(VolumeFlow.QuantityType, VolumeFlow.Zero);
             Assertion(VolumePerLength.QuantityType, VolumePerLength.Zero);
+            Assertion(WarpingMomentOfInertia.QuantityType, WarpingMomentOfInertia.Zero);
         }
 
         [Fact]
@@ -377,6 +392,7 @@ namespace UnitsNet.Tests
             Assertion(ElectricInductance.BaseDimensions, ElectricInductance.Zero);
             Assertion(ElectricPotential.BaseDimensions, ElectricPotential.Zero);
             Assertion(ElectricPotentialAc.BaseDimensions, ElectricPotentialAc.Zero);
+            Assertion(ElectricPotentialChangeRate.BaseDimensions, ElectricPotentialChangeRate.Zero);
             Assertion(ElectricPotentialDc.BaseDimensions, ElectricPotentialDc.Zero);
             Assertion(ElectricResistance.BaseDimensions, ElectricResistance.Zero);
             Assertion(ElectricResistivity.BaseDimensions, ElectricResistivity.Zero);
@@ -399,6 +415,7 @@ namespace UnitsNet.Tests
             Assertion(Length.BaseDimensions, Length.Zero);
             Assertion(Level.BaseDimensions, Level.Zero);
             Assertion(LinearDensity.BaseDimensions, LinearDensity.Zero);
+            Assertion(LinearPowerDensity.BaseDimensions, LinearPowerDensity.Zero);
             Assertion(Luminosity.BaseDimensions, Luminosity.Zero);
             Assertion(LuminousFlux.BaseDimensions, LuminousFlux.Zero);
             Assertion(LuminousIntensity.BaseDimensions, LuminousIntensity.Zero);
@@ -442,11 +459,14 @@ namespace UnitsNet.Tests
             Assertion(ThermalConductivity.BaseDimensions, ThermalConductivity.Zero);
             Assertion(ThermalResistance.BaseDimensions, ThermalResistance.Zero);
             Assertion(Torque.BaseDimensions, Torque.Zero);
+            Assertion(TorquePerLength.BaseDimensions, TorquePerLength.Zero);
+            Assertion(Turbidity.BaseDimensions, Turbidity.Zero);
             Assertion(VitaminA.BaseDimensions, VitaminA.Zero);
             Assertion(Volume.BaseDimensions, Volume.Zero);
             Assertion(VolumeConcentration.BaseDimensions, VolumeConcentration.Zero);
             Assertion(VolumeFlow.BaseDimensions, VolumeFlow.Zero);
             Assertion(VolumePerLength.BaseDimensions, VolumePerLength.Zero);
+            Assertion(WarpingMomentOfInertia.BaseDimensions, WarpingMomentOfInertia.Zero);
         }
     }
 }

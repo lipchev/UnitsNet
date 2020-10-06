@@ -14,7 +14,7 @@ namespace UnitsNet.UnitSystems
         /// <summary>
         ///     Construct a new instance of the UCS unit system
         /// </summary>
-        public USC() : base(new Lazy<UnitSystemInfo[]>(GetDefaultSystemUnits))
+        public USC() : base(new Lazy<UnitSystemInfo?[]>(GetDefaultSystemUnits))
         {
         }
     }

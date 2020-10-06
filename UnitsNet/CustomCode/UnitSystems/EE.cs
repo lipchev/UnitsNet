@@ -11,7 +11,7 @@ namespace UnitsNet.UnitSystems
         /// <summary>
         ///     Construct a new instance of the English Engineering unit system
         /// </summary>
-        public EE() : base(new Lazy<UnitSystemInfo[]>(GetDefaultSystemUnits))
+        public EE() : base(new Lazy<UnitSystemInfo?[]>(GetDefaultSystemUnits))
         {
         }
     }

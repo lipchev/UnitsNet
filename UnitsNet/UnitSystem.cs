@@ -16,7 +16,7 @@ namespace UnitsNet
     public partial class UnitSystem : IEquatable<UnitSystem>
     {
         // the array used for storing the default units in the current UnitSystem, ordered by QuantityType (excluding QuantityType.Undefined)
-        private readonly Lazy<UnitSystemInfo[]> _systemUnits;
+        private readonly Lazy<UnitSystemInfo?[]> _systemUnits;
 
         /// <summary>
         ///     Creates an instance of a unit system with the specified base units.
@@ -35,7 +35,7 @@ namespace UnitsNet
             }
 
             // default implementation (does not fix the prefixed entities matching issue)
-            _systemUnits = new Lazy<UnitSystemInfo[]>(() => Quantity.Infos.Select(i =>
+            _systemUnits = new Lazy<UnitSystemInfo?[]>(() => Quantity.Infos.Select(i =>
             {
                 var commonUnits = i.GetUnitInfosFor(baseUnits).ToArray();
                 var defaultInfo = commonUnits.FirstOrDefault(); // respecting the original behavior
@@ -47,7 +47,7 @@ namespace UnitsNet
         ///     Creates an instance of a unit system with the specified base units and default unit associations.
         /// </summary>
         /// <param name="systemUnits">The default/common units associated with each quantity type</param>
-        protected UnitSystem(UnitSystemInfo[] systemUnits) : this(new Lazy<UnitSystemInfo[]>(() => systemUnits))
+        protected UnitSystem(UnitSystemInfo?[] systemUnits) : this(new Lazy<UnitSystemInfo?[]>(() => systemUnits))
         {
             if (systemUnits.Length != Quantity.Infos.Length)
             {
@@ -60,14 +60,9 @@ namespace UnitsNet
         ///     Creates an instance of a unit system with the specified base units and default unit associations (lazy-loaded).
         /// </summary>
         /// <param name="systemUnits">The default/common units associated with each quantity type (lazy-loaded)</param>
-        protected UnitSystem(Lazy<UnitSystemInfo[]> systemUnits)
+        protected UnitSystem(Lazy<UnitSystemInfo?[]> systemUnits)
         {
-            if (systemUnits is null)
-            {
-                throw new ArgumentNullException(nameof(systemUnits));
-            }
-
-            _systemUnits = systemUnits;
+            _systemUnits = systemUnits ?? throw new ArgumentNullException(nameof(systemUnits));
         }
 
         /// <summary>
@@ -80,7 +75,7 @@ namespace UnitsNet
         ///     The default UnitInfo for the given quantity type, if such an association exists,
         ///     and <see langword="null" /> otherwise.
         /// </returns>
-        protected static UnitSystemInfo GetSystemInfo(UnitSystemInfo[] systemUnits, QuantityType quantityType)
+        protected static UnitSystemInfo? GetSystemInfo(UnitSystemInfo?[] systemUnits, QuantityType quantityType)
         {
             return systemUnits[(int) quantityType - 1]; // valid QuantityTypes start from 1 (0 == Undefined)
         }
@@ -99,7 +94,7 @@ namespace UnitsNet
         /// <exception cref="ArgumentException">
         ///     Quantity type can not be undefined.
         /// </exception>
-        public UnitInfo GetDefaultUnitInfo(QuantityType quantityType)
+        public UnitInfo? GetDefaultUnitInfo(QuantityType quantityType)
         {
             if (quantityType == QuantityType.Undefined)
             {
@@ -125,7 +120,7 @@ namespace UnitsNet
         /// <exception cref="ArgumentException">
         ///     Quantity type can not be undefined.
         /// </exception>
-        public UnitInfo[] GetCommonUnitsInfo(QuantityType quantityType)
+        public UnitInfo[]? GetCommonUnitsInfo(QuantityType quantityType)
         {
             if (quantityType == QuantityType.Undefined)
             {
@@ -151,7 +146,7 @@ namespace UnitsNet
         ///     Quantity type can not be undefined and must be compatible with the new default unit (e.g. cannot associate MassUnit
         ///     with 'Meter')
         /// </exception>
-        public UnitSystem WithDefaultUnit(QuantityType quantityType, UnitInfo defaultUnitInfo, UnitInfo[] derivedUnitInfos = null)
+        public UnitSystem WithDefaultUnit(QuantityType quantityType, UnitInfo? defaultUnitInfo, UnitInfo[]? derivedUnitInfos = null)
         {
             return new UnitSystem(GetDerivedUnitAssociations(quantityType, defaultUnitInfo, derivedUnitInfos));
         }
@@ -171,7 +166,7 @@ namespace UnitsNet
         ///     Quantity type can not be undefined and must be compatible with the new default unit (e.g. cannot associate MassUnit
         ///     with 'Meter')
         /// </exception>
-        protected UnitSystemInfo[] GetDerivedUnitAssociations(QuantityType quantityType, UnitInfo defaultUnitInfo, UnitInfo[] derivedUnitInfos = null)
+        protected UnitSystemInfo?[] GetDerivedUnitAssociations(QuantityType quantityType, UnitInfo? defaultUnitInfo, UnitInfo[]? derivedUnitInfos = null)
         {
             if (quantityType == QuantityType.Undefined) // redundant with the following test
             {
@@ -189,7 +184,7 @@ namespace UnitsNet
             }
 
             // create a copy of the current mappings, updating only the provided association
-            var newDefaultUnits = _systemUnits.Value.ToArray();
+            UnitSystemInfo?[] newDefaultUnits = _systemUnits.Value.ToArray();
             var qtyIndex = (int) quantityType - 1; // valid QuantityTypes start from 1 (0 == Undefined)
             if (defaultUnitInfo == null)
             {
@@ -220,7 +215,7 @@ namespace UnitsNet
 
         /// <inheritdoc />
         /// <returns>True if all quantities are defined using the same base(default) unit or false otherwise</returns>
-        public bool Equals(UnitSystem other)
+        public bool Equals(UnitSystem? other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
@@ -240,7 +235,7 @@ namespace UnitsNet
         }
 
         /// <inheritdoc />
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
@@ -250,7 +245,16 @@ namespace UnitsNet
         /// <inheritdoc />
         public override int GetHashCode()
         {
-            return _systemUnits.Value.Where(x => x.BaseUnit != null).Sum(unitSystemInfo => unitSystemInfo.BaseUnit.GetHashCode());
+            unchecked
+            {
+                var sum = 0;
+                foreach (var x in _systemUnits.Value)
+                {
+                    if (x?.BaseUnit != null) sum += x.BaseUnit.GetHashCode();
+                }
+
+                return sum;
+            }
         }
 
         /// <summary>

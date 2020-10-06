@@ -111,6 +111,8 @@ namespace UnitsNet.UnitSystems
                 null,
                 null,
                 null,
+                null,
+                null,
                 new UnitSystemInfo(LuminousIntensity.Info.UnitInfos[0], new UnitInfo[]{
                     LuminousIntensity.Info.UnitInfos[0],
                     }),
@@ -156,6 +158,9 @@ namespace UnitsNet.UnitSystems
                     Temperature.Info.UnitInfos[4],
                     Temperature.Info.UnitInfos[7],
                     }),
+                null,
+                null,
+                null,
                 null,
                 null,
                 null,

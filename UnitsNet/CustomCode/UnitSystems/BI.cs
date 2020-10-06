@@ -17,7 +17,7 @@ namespace UnitsNet.UnitSystems
         /// <summary>
         /// Construct a new instance of the BI unit system
         /// </summary>
-        public BI() : base(new Lazy<UnitSystemInfo[]>(GetDefaultSystemUnits))
+        public BI() : base(new Lazy<UnitSystemInfo?[]>(GetDefaultSystemUnits))
         {
         }
     }

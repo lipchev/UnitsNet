@@ -12,20 +12,22 @@ namespace UnitsNet.Tests
     public class UnitSystemTests
     {
         [Fact]
+        [Obsolete("The constructor relies on the presence of BaseUnits property for Units- which is likely to be removed", false)]
         public void ConstructorImplementedProperly()
         {
             var baseUnits = new BaseUnits(LengthUnit.Meter, MassUnit.Kilogram, DurationUnit.Second,
                 ElectricCurrentUnit.Ampere, TemperatureUnit.Kelvin, AmountOfSubstanceUnit.Mole, LuminousIntensityUnit.Candela);
 
-            var unitSystem = new BaseUnitSystem(baseUnits, new Lazy<UnitSystemInfo[]>(SI.GetDefaultSystemUnits));
+            var unitSystem = new BaseUnitSystem(baseUnits);
 
             Assert.Equal(unitSystem.BaseUnits, baseUnits);
         }
 
         [Fact]
+        [Obsolete("The constructor relies on the presence of BaseUnits property for Units- which is likely to be removed", false)]
         public void ConstructorThrowsArgumentNullExceptionForNullBaseUnits()
         {
-            Assert.Throws<ArgumentNullException>(() => new UnitSystem(null));
+            Assert.Throws<ArgumentNullException>(() => new UnitSystem(null!));
         }
 
         [Theory]
@@ -36,6 +38,7 @@ namespace UnitsNet.Tests
         [InlineData(LengthUnit.Meter, MassUnit.Kilogram, DurationUnit.Second, ElectricCurrentUnit.Ampere, TemperatureUnit.Undefined, AmountOfSubstanceUnit.Mole, LuminousIntensityUnit.Candela)]
         [InlineData(LengthUnit.Meter, MassUnit.Kilogram, DurationUnit.Second, ElectricCurrentUnit.Ampere, TemperatureUnit.Kelvin, AmountOfSubstanceUnit.Undefined, LuminousIntensityUnit.Candela)]
         [InlineData(LengthUnit.Meter, MassUnit.Kilogram, DurationUnit.Second, ElectricCurrentUnit.Ampere, TemperatureUnit.Kelvin, AmountOfSubstanceUnit.Mole, LuminousIntensityUnit.Undefined)]
+        [Obsolete("The constructor relies on the presence of BaseUnits property for Units- which is likely to be removed", false)]
         public void ConstructorThrowsArgumentExceptionWithUndefinedUnits(LengthUnit length, MassUnit mass, DurationUnit time, ElectricCurrentUnit current,
             TemperatureUnit temperature, AmountOfSubstanceUnit amount, LuminousIntensityUnit luminousIntensity)
         {
@@ -43,10 +46,10 @@ namespace UnitsNet.Tests
 
             Assert.Throws<ArgumentException>(() => new UnitSystem(baseUnits));
             Assert.Throws<ArgumentException>(() => new BaseUnitSystem(baseUnits));
-            Assert.Throws<ArgumentException>(() => new BaseUnitSystem(baseUnits, new Lazy<UnitSystemInfo[]>(SI.GetDefaultSystemUnits)));
         }
 
         [Fact]
+        [Obsolete("The constructor relies on the presence of BaseUnits property for Units- which is likely to be removed", false)]
         public void EqualsUnitSystem_ConstructedFromDefaultSIUnits_ReturnsTrue()
         {
             var derivedSystem = new UnitSystem(UnitSystem.SI.BaseUnits);
@@ -73,35 +76,38 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
+        [Obsolete("The constructor relies on the presence of BaseUnits property for Units- which is likely to be removed", false)]
         public void EqualsObjectIsImplementedCorrectly()
         {
             var unitSystem1 = new BaseUnitSystem(new BaseUnits(LengthUnit.Meter, MassUnit.Kilogram, DurationUnit.Second,
-                ElectricCurrentUnit.Ampere, TemperatureUnit.Kelvin, AmountOfSubstanceUnit.Mole, LuminousIntensityUnit.Candela), new Lazy<UnitSystemInfo[]>(SI.GetDefaultSystemUnits));
+                ElectricCurrentUnit.Ampere, TemperatureUnit.Kelvin, AmountOfSubstanceUnit.Mole, LuminousIntensityUnit.Candela));
 
             var unitSystem2 = new BaseUnitSystem(new BaseUnits(LengthUnit.Meter, MassUnit.Kilogram, DurationUnit.Second,
-                ElectricCurrentUnit.Ampere, TemperatureUnit.Kelvin, AmountOfSubstanceUnit.Mole, LuminousIntensityUnit.Candela), new Lazy<UnitSystemInfo[]>(SI.GetDefaultSystemUnits));
+                ElectricCurrentUnit.Ampere, TemperatureUnit.Kelvin, AmountOfSubstanceUnit.Mole, LuminousIntensityUnit.Candela));
 
             var unitSystem3 = new BaseUnitSystem(new BaseUnits(LengthUnit.Foot, MassUnit.Pound, DurationUnit.Second,
-                ElectricCurrentUnit.Ampere, TemperatureUnit.DegreeFahrenheit, AmountOfSubstanceUnit.Mole, LuminousIntensityUnit.Candela), new Lazy<UnitSystemInfo[]>(SI.GetDefaultSystemUnits));
+                ElectricCurrentUnit.Ampere, TemperatureUnit.DegreeFahrenheit, AmountOfSubstanceUnit.Mole, LuminousIntensityUnit.Candela));
 
             Assert.True(unitSystem1.Equals((object)unitSystem2));
             Assert.False(unitSystem1.Equals((object)unitSystem3));
 
+            // ReSharper disable once SuspiciousTypeConversion.Global
             Assert.False(unitSystem1.Equals("Some object."));
             Assert.False(unitSystem1.Equals((IFormatProvider)null));
         }
 
         [Fact]
+        [Obsolete("The constructor relies on the presence of BaseUnits property for Units- which is likely to be removed", false)]
         public void EqualsUnitSystemIsImplementedCorrectly()
         {
             var unitSystem1 = new BaseUnitSystem(new BaseUnits(LengthUnit.Meter, MassUnit.Kilogram, DurationUnit.Second,
-                ElectricCurrentUnit.Ampere, TemperatureUnit.Kelvin, AmountOfSubstanceUnit.Mole, LuminousIntensityUnit.Candela), new Lazy<UnitSystemInfo[]>(SI.GetDefaultSystemUnits));
+                ElectricCurrentUnit.Ampere, TemperatureUnit.Kelvin, AmountOfSubstanceUnit.Mole, LuminousIntensityUnit.Candela));
 
             var unitSystem2 = new BaseUnitSystem(new BaseUnits(LengthUnit.Meter, MassUnit.Kilogram, DurationUnit.Second,
-                ElectricCurrentUnit.Ampere, TemperatureUnit.Kelvin, AmountOfSubstanceUnit.Mole, LuminousIntensityUnit.Candela), new Lazy<UnitSystemInfo[]>(SI.GetDefaultSystemUnits));
+                ElectricCurrentUnit.Ampere, TemperatureUnit.Kelvin, AmountOfSubstanceUnit.Mole, LuminousIntensityUnit.Candela));
 
             var unitSystem3 = new BaseUnitSystem(new BaseUnits(LengthUnit.Foot, MassUnit.Pound, DurationUnit.Second,
-                ElectricCurrentUnit.Ampere, TemperatureUnit.DegreeFahrenheit, AmountOfSubstanceUnit.Mole, LuminousIntensityUnit.Candela), new Lazy<UnitSystemInfo[]>(SI.GetDefaultSystemUnits));
+                ElectricCurrentUnit.Ampere, TemperatureUnit.DegreeFahrenheit, AmountOfSubstanceUnit.Mole, LuminousIntensityUnit.Candela));
 
             Assert.True(unitSystem1.Equals(unitSystem2));
             Assert.True(unitSystem2.Equals(unitSystem1));
@@ -113,16 +119,17 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
+        [Obsolete("The constructor relies on the presence of BaseUnits property for Units- which is likely to be removed", false)]
         public void EqualityOperatorIsImplementedCorrectly()
         {
             var unitSystem1 = new BaseUnitSystem(new BaseUnits(LengthUnit.Meter, MassUnit.Kilogram, DurationUnit.Second,
-                ElectricCurrentUnit.Ampere, TemperatureUnit.Kelvin, AmountOfSubstanceUnit.Mole, LuminousIntensityUnit.Candela), new Lazy<UnitSystemInfo[]>(SI.GetDefaultSystemUnits));
+                ElectricCurrentUnit.Ampere, TemperatureUnit.Kelvin, AmountOfSubstanceUnit.Mole, LuminousIntensityUnit.Candela));
 
             var unitSystem2 = new BaseUnitSystem(new BaseUnits(LengthUnit.Meter, MassUnit.Kilogram, DurationUnit.Second,
-                ElectricCurrentUnit.Ampere, TemperatureUnit.Kelvin, AmountOfSubstanceUnit.Mole, LuminousIntensityUnit.Candela), new Lazy<UnitSystemInfo[]>(SI.GetDefaultSystemUnits));
+                ElectricCurrentUnit.Ampere, TemperatureUnit.Kelvin, AmountOfSubstanceUnit.Mole, LuminousIntensityUnit.Candela));
 
             var unitSystem3 = new BaseUnitSystem(new BaseUnits(LengthUnit.Foot, MassUnit.Pound, DurationUnit.Second,
-                ElectricCurrentUnit.Ampere, TemperatureUnit.DegreeFahrenheit, AmountOfSubstanceUnit.Mole, LuminousIntensityUnit.Candela), new Lazy<UnitSystemInfo[]>(SI.GetDefaultSystemUnits));
+                ElectricCurrentUnit.Ampere, TemperatureUnit.DegreeFahrenheit, AmountOfSubstanceUnit.Mole, LuminousIntensityUnit.Candela));
 
             Assert.True(unitSystem1 == unitSystem2);
             Assert.True(unitSystem2 == unitSystem1);
@@ -140,16 +147,17 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
+        [Obsolete("The constructor relies on the presence of BaseUnits property for Units- which is likely to be removed", false)]
         public void InequalityOperatorIsImplementedCorrectly()
         {
             var unitSystem1 = new BaseUnitSystem(new BaseUnits(LengthUnit.Meter, MassUnit.Kilogram, DurationUnit.Second,
-                ElectricCurrentUnit.Ampere, TemperatureUnit.Kelvin, AmountOfSubstanceUnit.Mole, LuminousIntensityUnit.Candela), new Lazy<UnitSystemInfo[]>(SI.GetDefaultSystemUnits));
+                ElectricCurrentUnit.Ampere, TemperatureUnit.Kelvin, AmountOfSubstanceUnit.Mole, LuminousIntensityUnit.Candela));
 
             var unitSystem2 = new BaseUnitSystem(new BaseUnits(LengthUnit.Meter, MassUnit.Kilogram, DurationUnit.Second,
-                ElectricCurrentUnit.Ampere, TemperatureUnit.Kelvin, AmountOfSubstanceUnit.Mole, LuminousIntensityUnit.Candela), new Lazy<UnitSystemInfo[]>(SI.GetDefaultSystemUnits));
+                ElectricCurrentUnit.Ampere, TemperatureUnit.Kelvin, AmountOfSubstanceUnit.Mole, LuminousIntensityUnit.Candela));
 
             var unitSystem3 = new BaseUnitSystem(new BaseUnits(LengthUnit.Foot, MassUnit.Pound, DurationUnit.Second,
-                ElectricCurrentUnit.Ampere, TemperatureUnit.DegreeFahrenheit, AmountOfSubstanceUnit.Mole, LuminousIntensityUnit.Candela), new Lazy<UnitSystemInfo[]>(SI.GetDefaultSystemUnits));
+                ElectricCurrentUnit.Ampere, TemperatureUnit.DegreeFahrenheit, AmountOfSubstanceUnit.Mole, LuminousIntensityUnit.Candela));
 
             Assert.False(unitSystem1 != unitSystem2);
             Assert.False(unitSystem2 != unitSystem1);
@@ -248,7 +256,7 @@ namespace UnitsNet.Tests
 
             var derivedSystem = UnitSystem.SI.WithDefaultUnit(QuantityType.Length, myDefaultLengthUnit); 
 
-            Assert.Equal(LengthUnit.Millimeter, derivedSystem.GetDefaultUnitInfo(QuantityType.Length).Value);
+            Assert.Equal(LengthUnit.Millimeter, derivedSystem.GetDefaultUnitInfo(QuantityType.Length)?.Value);
             Assert.Equal(UnitSystem.SI.GetCommonUnitsInfo(QuantityType.Length), derivedSystem.GetCommonUnitsInfo(QuantityType.Length));
         }
 

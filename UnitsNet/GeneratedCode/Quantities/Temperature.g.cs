@@ -24,6 +24,8 @@ using JetBrains.Annotations;
 using UnitsNet.InternalHelpers;
 using UnitsNet.Units;
 
+#nullable enable
+
 // ReSharper disable once CheckNamespace
 
 namespace UnitsNet
@@ -58,6 +60,7 @@ namespace UnitsNet
                     new UnitInfo<TemperatureUnit>(TemperatureUnit.DegreeReaumur, new BaseUnits(temperature: TemperatureUnit.DegreeReaumur)),
                     new UnitInfo<TemperatureUnit>(TemperatureUnit.DegreeRoemer, new BaseUnits(temperature: TemperatureUnit.DegreeRoemer)),
                     new UnitInfo<TemperatureUnit>(TemperatureUnit.Kelvin, new BaseUnits(temperature: TemperatureUnit.Kelvin)),
+                    new UnitInfo<TemperatureUnit>(TemperatureUnit.MillidegreeCelsius, new BaseUnits(temperature: TemperatureUnit.DegreeCelsius)),
                     new UnitInfo<TemperatureUnit>(TemperatureUnit.SolarTemperature, BaseUnits.Undefined),
                 },
                 BaseUnit, Zero, BaseDimensions);
@@ -88,7 +91,7 @@ namespace UnitsNet
         /// <exception cref="ArgumentException">No default unit was found for the given <see cref="UnitSystem"/>.</exception>
         public Temperature(double value, UnitSystem unitSystem)
         {
-            if(unitSystem == null) throw new ArgumentNullException(nameof(unitSystem)); 
+            if(unitSystem is null) throw new ArgumentNullException(nameof(unitSystem));
 
             _value = Guard.EnsureValidNumber(value, nameof(value));
 
@@ -212,6 +215,11 @@ namespace UnitsNet
         public double Kelvins => As(TemperatureUnit.Kelvin);
 
         /// <summary>
+        ///     Get Temperature in MillidegreesCelsius.
+        /// </summary>
+        public double MillidegreesCelsius => As(TemperatureUnit.MillidegreeCelsius);
+
+        /// <summary>
         ///     Get Temperature in SolarTemperatures.
         /// </summary>
         public double SolarTemperatures => As(TemperatureUnit.SolarTemperature);
@@ -236,7 +244,7 @@ namespace UnitsNet
         /// <param name="unit">Unit to get abbreviation for.</param>
         /// <returns>Unit abbreviation string.</returns>
         /// <param name="provider">Format to use for localization. Defaults to <see cref="CultureInfo.CurrentUICulture" /> if null.</param>
-        public static string GetAbbreviation(TemperatureUnit unit, [CanBeNull] IFormatProvider provider)
+        public static string GetAbbreviation(TemperatureUnit unit, IFormatProvider? provider)
         {
             return UnitAbbreviationsCache.Default.GetDefaultAbbreviation(unit, provider);
         }
@@ -318,6 +326,15 @@ namespace UnitsNet
             return new Temperature(value, TemperatureUnit.Kelvin);
         }
         /// <summary>
+        ///     Get Temperature from MillidegreesCelsius.
+        /// </summary>
+        /// <exception cref="ArgumentException">If value is NaN or Infinity.</exception>
+        public static Temperature FromMillidegreesCelsius(QuantityValue millidegreescelsius)
+        {
+            double value = (double) millidegreescelsius;
+            return new Temperature(value, TemperatureUnit.MillidegreeCelsius);
+        }
+        /// <summary>
         ///     Get Temperature from SolarTemperatures.
         /// </summary>
         /// <exception cref="ArgumentException">If value is NaN or Infinity.</exception>
@@ -392,7 +409,7 @@ namespace UnitsNet
         ///     Units.NET exceptions from other exceptions.
         /// </exception>
         /// <param name="provider">Format to use when parsing number and unit. Defaults to <see cref="CultureInfo.CurrentUICulture" /> if null.</param>
-        public static Temperature Parse(string str, [CanBeNull] IFormatProvider provider)
+        public static Temperature Parse(string str, IFormatProvider? provider)
         {
             return QuantityParser.Default.Parse<Temperature, TemperatureUnit>(
                 str,
@@ -408,7 +425,7 @@ namespace UnitsNet
         /// <example>
         ///     Length.Parse("5.5 m", new CultureInfo("en-US"));
         /// </example>
-        public static bool TryParse([CanBeNull] string str, out Temperature result)
+        public static bool TryParse(string? str, out Temperature result)
         {
             return TryParse(str, null, out result);
         }
@@ -423,7 +440,7 @@ namespace UnitsNet
         ///     Length.Parse("5.5 m", new CultureInfo("en-US"));
         /// </example>
         /// <param name="provider">Format to use when parsing number and unit. Defaults to <see cref="CultureInfo.CurrentUICulture" /> if null.</param>
-        public static bool TryParse([CanBeNull] string str, [CanBeNull] IFormatProvider provider, out Temperature result)
+        public static bool TryParse(string? str, IFormatProvider? provider, out Temperature result)
         {
             return QuantityParser.Default.TryParse<Temperature, TemperatureUnit>(
                 str,
@@ -456,7 +473,7 @@ namespace UnitsNet
         /// </example>
         /// <exception cref="ArgumentNullException">The value of 'str' cannot be null. </exception>
         /// <exception cref="UnitsNetException">Error parsing string.</exception>
-        public static TemperatureUnit ParseUnit(string str, [CanBeNull] IFormatProvider provider)
+        public static TemperatureUnit ParseUnit(string str, IFormatProvider? provider)
         {
             return UnitParser.Default.Parse<TemperatureUnit>(str, provider);
         }
@@ -477,7 +494,7 @@ namespace UnitsNet
         ///     Length.TryParseUnit("m", new CultureInfo("en-US"));
         /// </example>
         /// <param name="provider">Format to use when parsing number and unit. Defaults to <see cref="CultureInfo.CurrentUICulture" /> if null.</param>
-        public static bool TryParseUnit(string str, IFormatProvider provider, out TemperatureUnit unit)
+        public static bool TryParseUnit(string str, IFormatProvider? provider, out TemperatureUnit unit)
         {
             return UnitParser.Default.TryParse<TemperatureUnit>(str, provider, out unit);
         }
@@ -636,7 +653,7 @@ namespace UnitsNet
         /// <inheritdoc cref="IQuantity.As(UnitSystem)"/>
         public double As(UnitSystem unitSystem)
         {
-            if(unitSystem == null)
+            if(unitSystem is null)
                 throw new ArgumentNullException(nameof(unitSystem));
 
             var defaultUnitInfo = unitSystem.GetDefaultUnitInfo(QuantityType) as UnitInfo<TemperatureUnit>;
@@ -678,7 +695,7 @@ namespace UnitsNet
         /// <inheritdoc cref="IQuantity.ToUnit(UnitSystem)"/>
         public Temperature ToUnit(UnitSystem unitSystem)
         {
-            if(unitSystem == null)
+            if(unitSystem is null)
                 throw new ArgumentNullException(nameof(unitSystem));
 
             var defaultUnitInfo = unitSystem.GetDefaultUnitInfo(QuantityType) as UnitInfo<TemperatureUnit>;
@@ -715,6 +732,7 @@ namespace UnitsNet
                 case TemperatureUnit.DegreeReaumur: return _value*5/4 + 273.15;
                 case TemperatureUnit.DegreeRoemer: return _value*40/21 + 273.15 - 7.5*40d/21;
                 case TemperatureUnit.Kelvin: return _value;
+                case TemperatureUnit.MillidegreeCelsius: return _value / 1000 + 273.15;
                 case TemperatureUnit.SolarTemperature: return _value * 5778;
                 default:
                     throw new NotImplementedException($"Can not convert {Unit} to base units.");
@@ -749,6 +767,7 @@ namespace UnitsNet
                 case TemperatureUnit.DegreeReaumur: return (baseUnitValue - 273.15)*4/5;
                 case TemperatureUnit.DegreeRoemer: return (baseUnitValue - (273.15 - 7.5*40d/21))*21/40;
                 case TemperatureUnit.Kelvin: return baseUnitValue;
+                case TemperatureUnit.MillidegreeCelsius: return (baseUnitValue - 273.15) * 1000;
                 case TemperatureUnit.SolarTemperature: return baseUnitValue / 5778;
                 default:
                     throw new NotImplementedException($"Can not convert {Unit} to {unit}.");
@@ -773,7 +792,7 @@ namespace UnitsNet
         /// </summary>
         /// <returns>String representation.</returns>
         /// <param name="provider">Format to use for localization and number formatting. Defaults to <see cref="CultureInfo.CurrentUICulture" /> if null.</param>
-        public string ToString([CanBeNull] IFormatProvider provider)
+        public string ToString(IFormatProvider? provider)
         {
             return ToString("g", provider);
         }
@@ -785,7 +804,7 @@ namespace UnitsNet
         /// <returns>String representation.</returns>
         /// <param name="provider">Format to use for localization and number formatting. Defaults to <see cref="CultureInfo.CurrentUICulture" /> if null.</param>
         [Obsolete(@"This method is deprecated and will be removed at a future release. Please use ToString(""s2"") or ToString(""s2"", provider) where 2 is an example of the number passed to significantDigitsAfterRadix.")]
-        public string ToString([CanBeNull] IFormatProvider provider, int significantDigitsAfterRadix)
+        public string ToString(IFormatProvider? provider, int significantDigitsAfterRadix)
         {
             var value = Convert.ToDouble(Value);
             var format = UnitFormatter.GetFormat(value, significantDigitsAfterRadix);
@@ -800,7 +819,7 @@ namespace UnitsNet
         /// <returns>String representation.</returns>
         /// <param name="provider">Format to use for localization and number formatting. Defaults to <see cref="CultureInfo.CurrentUICulture" /> if null.</param>
         [Obsolete("This method is deprecated and will be removed at a future release. Please use string.Format().")]
-        public string ToString([CanBeNull] IFormatProvider provider, [NotNull] string format, [NotNull] params object[] args)
+        public string ToString(IFormatProvider? provider, [NotNull] string format, [NotNull] params object[] args)
         {
             if (format == null) throw new ArgumentNullException(nameof(format));
             if (args == null) throw new ArgumentNullException(nameof(args));
@@ -828,11 +847,11 @@ namespace UnitsNet
         /// Gets the string representation of this instance in the specified format string using the specified format provider, or <see cref="CultureInfo.CurrentUICulture" /> if null.
         /// </summary>
         /// <param name="format">The format string.</param>
-        /// <param name="formatProvider">Format to use for localization and number formatting. Defaults to <see cref="CultureInfo.CurrentUICulture" /> if null.</param>
+        /// <param name="provider">Format to use for localization and number formatting. Defaults to <see cref="CultureInfo.CurrentUICulture" /> if null.</param>
         /// <returns>The string representation.</returns>
-        public string ToString(string format, IFormatProvider formatProvider)
+        public string ToString(string format, IFormatProvider? provider)
         {
-            return QuantityFormatter.Format<TemperatureUnit>(this, format, formatProvider);
+            return QuantityFormatter.Format<TemperatureUnit>(this, format, provider);
         }
 
         #endregion

@@ -1,4 +1,4 @@
-﻿{
+{
   "Name": "Duration",
   "BaseUnit": "Second",
   "XmlDoc": "Time is a dimension in which events can be ordered from the past through the present into the future, and also the measure of durations of events and the intervals between them.",
@@ -62,7 +62,7 @@
         },
         {
           "Culture": "ru-RU",
-          "Abbreviations": [ "мин" ]
+          "Abbreviations": [ "нед" ]
         }
       ]
     },
@@ -82,7 +82,7 @@
         },
         {
           "Culture": "ru-RU",
-          "Abbreviations": [ "д" ]
+          "Abbreviations": [ "сут","д" ]
         }
       ]
     },
@@ -102,7 +102,7 @@
         },
         {
           "Culture": "ru-RU",
-          "Abbreviations": [ "ч" ]
+          "Abbreviations": [ "ч", "час" ]
         }
       ]
     },
@@ -143,7 +143,7 @@
         },
         {
           "Culture": "ru-RU",
-          "Abbreviations": [ "с", "сек" ]
+          "Abbreviations": [ "сек", "с" ]
         }
       ]
     }

@@ -12,7 +12,7 @@ namespace UnitsNet.UnitSystems
         /// <summary>
         ///     Construct a new instance of the Astronomical unit system
         /// </summary>
-        public Astronomical() : base(new Lazy<UnitSystemInfo[]>(GetDefaultSystemUnits))
+        public Astronomical() : base(new Lazy<UnitSystemInfo?[]>(GetDefaultSystemUnits))
         {
         }
     }

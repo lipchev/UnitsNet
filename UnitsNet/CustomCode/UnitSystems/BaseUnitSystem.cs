@@ -22,7 +22,7 @@ namespace UnitsNet.UnitSystems
         ///     Construct a BaseUnitSystem with default BaseUnits and a set of unit configurations (for each quantity)
         /// </summary>
         /// <param name="systemInfos">The units configuration for this unit system</param>
-        public BaseUnitSystem(UnitSystemInfo[] systemInfos) : base(systemInfos)
+        public BaseUnitSystem(UnitSystemInfo?[] systemInfos) : base(systemInfos)
         {
             BaseUnits = GetBaseUnits(systemInfos);
             if (!BaseUnits.IsFullyDefined) // TODO should we required that baseUnits are FullyDefined?
@@ -36,7 +36,7 @@ namespace UnitsNet.UnitSystems
         /// </summary>
         /// <param name="baseUnits">The base units for this unit system</param>
         /// <param name="systemInfos">The units configuration for this unit system (lazy-loaded)</param>
-        public BaseUnitSystem(BaseUnits baseUnits, Lazy<UnitSystemInfo[]> systemInfos) : base(systemInfos)
+        protected BaseUnitSystem(BaseUnits baseUnits, Lazy<UnitSystemInfo?[]> systemInfos) : base(systemInfos)
         {
             if (!baseUnits.IsFullyDefined) // TODO should we required that baseUnits are FullyDefined?
             {
@@ -56,7 +56,7 @@ namespace UnitsNet.UnitSystems
         /// </summary>
         /// <param name="systemInfos"></param>
         /// <returns></returns>
-        protected static BaseUnits GetBaseUnits(UnitSystemInfo[] systemInfos)
+        protected static BaseUnits GetBaseUnits(UnitSystemInfo?[] systemInfos)
         {
             var lengthUnit = (LengthUnit) (GetSystemInfo(systemInfos, QuantityType.Length)?.BaseUnit?.Value ?? LengthUnit.Undefined);
             var massUnit = (MassUnit) (GetSystemInfo(systemInfos, QuantityType.Mass)?.BaseUnit.Value ?? MassUnit.Undefined);
@@ -88,7 +88,7 @@ namespace UnitsNet.UnitSystems
         ///     Quantity type can not be undefined and must be compatible with the new default unit (e.g. cannot associate MassUnit
         ///     with 'Meter')
         /// </exception>
-        public new BaseUnitSystem WithDefaultUnit(QuantityType quantityType, UnitInfo defaultUnitInfo, UnitInfo[] derivedUnitInfos = null)
+        public new BaseUnitSystem WithDefaultUnit(QuantityType quantityType, UnitInfo? defaultUnitInfo, UnitInfo[]? derivedUnitInfos = null)
         {
             return new BaseUnitSystem(GetDerivedUnitAssociations(quantityType, defaultUnitInfo, derivedUnitInfos));
         }
@@ -96,22 +96,17 @@ namespace UnitsNet.UnitSystems
         #region IEquatable<BaseUnitSystem> interface implementation
 
         /// <inheritdoc />
-        public bool Equals(BaseUnitSystem other)
+        public bool Equals(BaseUnitSystem? other)
         {
-            if (other is null)
-            {
-                return false;
-            }
-
-            return BaseUnits.Equals(other.BaseUnits);
+            return other is { } && BaseUnits.Equals(other.BaseUnits);
         }
 
         /// <inheritdoc />
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             return Equals(obj as BaseUnitSystem);
         }
-
+        
         /// <summary>
         ///     Checks if this instance is equal to another.
         /// </summary>
@@ -119,11 +114,11 @@ namespace UnitsNet.UnitSystems
         /// <param name="right">The right instance.</param>
         /// <returns>True if equal, otherwise false.</returns>
         /// <seealso cref="Equals(BaseUnitSystem)" />
-        public static bool operator ==(BaseUnitSystem left, BaseUnitSystem right)
+        public static bool operator ==(BaseUnitSystem? left, BaseUnitSystem? right)
         {
-            return left?.Equals(right) ?? right is null;
+            return Equals(left, right);
         }
-
+        
         /// <summary>
         ///     Checks if this instance is equal to another.
         /// </summary>
@@ -131,9 +126,9 @@ namespace UnitsNet.UnitSystems
         /// <param name="right">The right instance.</param>
         /// <returns>True if equal, otherwise false.</returns>
         /// <seealso cref="Equals(BaseUnitSystem)" />
-        public static bool operator !=(BaseUnitSystem left, BaseUnitSystem right)
+        public static bool operator !=(BaseUnitSystem? left, BaseUnitSystem? right)
         {
-            return !(left == right);
+            return !Equals(left, right);
         }
 
         /// <inheritdoc />

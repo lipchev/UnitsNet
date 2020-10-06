@@ -59,6 +59,7 @@ namespace UnitsNet
         ElectricInductance,
         ElectricPotential,
         ElectricPotentialAc,
+        ElectricPotentialChangeRate,
         ElectricPotentialDc,
         ElectricResistance,
         ElectricResistivity,
@@ -81,6 +82,7 @@ namespace UnitsNet
         Length,
         Level,
         LinearDensity,
+        LinearPowerDensity,
         Luminosity,
         LuminousFlux,
         LuminousIntensity,
@@ -124,11 +126,14 @@ namespace UnitsNet
         ThermalConductivity,
         ThermalResistance,
         Torque,
+        TorquePerLength,
+        Turbidity,
         VitaminA,
         Volume,
         VolumeConcentration,
         VolumeFlow,
         VolumePerLength,
+        WarpingMomentOfInertia,
 // Missing XML comment for public type or member
 #pragma warning restore CS1591
     }
