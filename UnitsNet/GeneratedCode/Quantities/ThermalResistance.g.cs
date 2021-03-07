@@ -50,7 +50,7 @@ namespace UnitsNet
         {
             BaseDimensions = new BaseDimensions(0, -1, 3, 0, 1, 0, 0);
 
-            Info = new QuantityInfo<ThermalResistanceUnit>(QuantityType.ThermalResistance,
+            Info = new QuantityInfo<ThermalResistanceUnit>("ThermalResistance",
                 new UnitInfo<ThermalResistanceUnit>[] {
                     new UnitInfo<ThermalResistanceUnit>(ThermalResistanceUnit.HourSquareFeetDegreeFahrenheitPerBtu, BaseUnits.Undefined),
                     new UnitInfo<ThermalResistanceUnit>(ThermalResistanceUnit.SquareCentimeterHourDegreeCelsiusPerKilocalorie, BaseUnits.Undefined),
@@ -58,7 +58,7 @@ namespace UnitsNet
                     new UnitInfo<ThermalResistanceUnit>(ThermalResistanceUnit.SquareMeterDegreeCelsiusPerWatt, BaseUnits.Undefined),
                     new UnitInfo<ThermalResistanceUnit>(ThermalResistanceUnit.SquareMeterKelvinPerKilowatt, BaseUnits.Undefined),
                 },
-                BaseUnit, Zero, BaseDimensions);
+                BaseUnit, Zero, BaseDimensions, QuantityType.ThermalResistance);
         }
 
         /// <summary>
@@ -113,16 +113,19 @@ namespace UnitsNet
         /// <summary>
         /// Represents the largest possible value of ThermalResistance
         /// </summary>
+        [Obsolete("MaxValue and MinValue will be removed. Choose your own value or use nullability for unbounded lower/upper range checks. See discussion in https://github.com/angularsen/UnitsNet/issues/848.")]
         public static ThermalResistance MaxValue { get; } = new ThermalResistance(double.MaxValue, BaseUnit);
 
         /// <summary>
         /// Represents the smallest possible value of ThermalResistance
         /// </summary>
+        [Obsolete("MaxValue and MinValue will be removed. Choose your own value or use nullability for unbounded lower/upper range checks. See discussion in https://github.com/angularsen/UnitsNet/issues/848.")]
         public static ThermalResistance MinValue { get; } = new ThermalResistance(double.MinValue, BaseUnit);
 
         /// <summary>
         ///     The <see cref="QuantityType" /> of this quantity.
         /// </summary>
+        [Obsolete("QuantityType will be removed in the future. Use Info property instead.")]
         public static QuantityType QuantityType { get; } = QuantityType.ThermalResistance;
 
         /// <summary>
@@ -601,7 +604,7 @@ namespace UnitsNet
         /// <returns>A hash code for the current ThermalResistance.</returns>
         public override int GetHashCode()
         {
-            return new { QuantityType, Value, Unit }.GetHashCode();
+            return new { Info.Name, Value, Unit }.GetHashCode();
         }
 
         #endregion
@@ -892,6 +895,8 @@ namespace UnitsNet
                 return Unit;
             else if(conversionType == typeof(QuantityType))
                 return ThermalResistance.QuantityType;
+            else if(conversionType == typeof(QuantityInfo))
+                return ThermalResistance.Info;
             else if(conversionType == typeof(BaseDimensions))
                 return ThermalResistance.BaseDimensions;
             else

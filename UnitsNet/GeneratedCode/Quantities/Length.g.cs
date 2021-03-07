@@ -50,7 +50,7 @@ namespace UnitsNet
         {
             BaseDimensions = new BaseDimensions(1, 0, 0, 0, 0, 0, 0);
 
-            Info = new QuantityInfo<LengthUnit>(QuantityType.Length,
+            Info = new QuantityInfo<LengthUnit>("Length",
                 new UnitInfo<LengthUnit>[] {
                     new UnitInfo<LengthUnit>(LengthUnit.AstronomicalUnit, BaseUnits.Undefined),
                     new UnitInfo<LengthUnit>(LengthUnit.Centimeter, BaseUnits.Undefined),
@@ -86,7 +86,7 @@ namespace UnitsNet
                     new UnitInfo<LengthUnit>(LengthUnit.UsSurveyFoot, new BaseUnits(length: LengthUnit.UsSurveyFoot)),
                     new UnitInfo<LengthUnit>(LengthUnit.Yard, new BaseUnits(length: LengthUnit.Yard)),
                 },
-                BaseUnit, Zero, BaseDimensions);
+                BaseUnit, Zero, BaseDimensions, QuantityType.Length);
         }
 
         /// <summary>
@@ -141,16 +141,19 @@ namespace UnitsNet
         /// <summary>
         /// Represents the largest possible value of Length
         /// </summary>
+        [Obsolete("MaxValue and MinValue will be removed. Choose your own value or use nullability for unbounded lower/upper range checks. See discussion in https://github.com/angularsen/UnitsNet/issues/848.")]
         public static Length MaxValue { get; } = new Length(double.MaxValue, BaseUnit);
 
         /// <summary>
         /// Represents the smallest possible value of Length
         /// </summary>
+        [Obsolete("MaxValue and MinValue will be removed. Choose your own value or use nullability for unbounded lower/upper range checks. See discussion in https://github.com/angularsen/UnitsNet/issues/848.")]
         public static Length MinValue { get; } = new Length(double.MinValue, BaseUnit);
 
         /// <summary>
         ///     The <see cref="QuantityType" /> of this quantity.
         /// </summary>
+        [Obsolete("QuantityType will be removed in the future. Use Info property instead.")]
         public static QuantityType QuantityType { get; } = QuantityType.Length;
 
         /// <summary>
@@ -1021,7 +1024,7 @@ namespace UnitsNet
         /// <returns>A hash code for the current Length.</returns>
         public override int GetHashCode()
         {
-            return new { QuantityType, Value, Unit }.GetHashCode();
+            return new { Info.Name, Value, Unit }.GetHashCode();
         }
 
         #endregion
@@ -1368,6 +1371,8 @@ namespace UnitsNet
                 return Unit;
             else if(conversionType == typeof(QuantityType))
                 return Length.QuantityType;
+            else if(conversionType == typeof(QuantityInfo))
+                return Length.Info;
             else if(conversionType == typeof(BaseDimensions))
                 return Length.BaseDimensions;
             else

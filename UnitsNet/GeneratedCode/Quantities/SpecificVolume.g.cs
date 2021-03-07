@@ -50,13 +50,13 @@ namespace UnitsNet
         {
             BaseDimensions = new BaseDimensions(3, -1, 0, 0, 0, 0, 0);
 
-            Info = new QuantityInfo<SpecificVolumeUnit>(QuantityType.SpecificVolume,
+            Info = new QuantityInfo<SpecificVolumeUnit>("SpecificVolume",
                 new UnitInfo<SpecificVolumeUnit>[] {
                     new UnitInfo<SpecificVolumeUnit>(SpecificVolumeUnit.CubicFootPerPound, BaseUnits.Undefined),
                     new UnitInfo<SpecificVolumeUnit>(SpecificVolumeUnit.CubicMeterPerKilogram, BaseUnits.Undefined),
                     new UnitInfo<SpecificVolumeUnit>(SpecificVolumeUnit.MillicubicMeterPerKilogram, BaseUnits.Undefined),
                 },
-                BaseUnit, Zero, BaseDimensions);
+                BaseUnit, Zero, BaseDimensions, QuantityType.SpecificVolume);
         }
 
         /// <summary>
@@ -111,16 +111,19 @@ namespace UnitsNet
         /// <summary>
         /// Represents the largest possible value of SpecificVolume
         /// </summary>
+        [Obsolete("MaxValue and MinValue will be removed. Choose your own value or use nullability for unbounded lower/upper range checks. See discussion in https://github.com/angularsen/UnitsNet/issues/848.")]
         public static SpecificVolume MaxValue { get; } = new SpecificVolume(double.MaxValue, BaseUnit);
 
         /// <summary>
         /// Represents the smallest possible value of SpecificVolume
         /// </summary>
+        [Obsolete("MaxValue and MinValue will be removed. Choose your own value or use nullability for unbounded lower/upper range checks. See discussion in https://github.com/angularsen/UnitsNet/issues/848.")]
         public static SpecificVolume MinValue { get; } = new SpecificVolume(double.MinValue, BaseUnit);
 
         /// <summary>
         ///     The <see cref="QuantityType" /> of this quantity.
         /// </summary>
+        [Obsolete("QuantityType will be removed in the future. Use Info property instead.")]
         public static QuantityType QuantityType { get; } = QuantityType.SpecificVolume;
 
         /// <summary>
@@ -571,7 +574,7 @@ namespace UnitsNet
         /// <returns>A hash code for the current SpecificVolume.</returns>
         public override int GetHashCode()
         {
-            return new { QuantityType, Value, Unit }.GetHashCode();
+            return new { Info.Name, Value, Unit }.GetHashCode();
         }
 
         #endregion
@@ -858,6 +861,8 @@ namespace UnitsNet
                 return Unit;
             else if(conversionType == typeof(QuantityType))
                 return SpecificVolume.QuantityType;
+            else if(conversionType == typeof(QuantityInfo))
+                return SpecificVolume.Info;
             else if(conversionType == typeof(BaseDimensions))
                 return SpecificVolume.BaseDimensions;
             else

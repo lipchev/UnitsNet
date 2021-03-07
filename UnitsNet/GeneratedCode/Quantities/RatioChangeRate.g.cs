@@ -50,12 +50,12 @@ namespace UnitsNet
         {
             BaseDimensions = BaseDimensions.Dimensionless;
 
-            Info = new QuantityInfo<RatioChangeRateUnit>(QuantityType.RatioChangeRate,
+            Info = new QuantityInfo<RatioChangeRateUnit>("RatioChangeRate",
                 new UnitInfo<RatioChangeRateUnit>[] {
                     new UnitInfo<RatioChangeRateUnit>(RatioChangeRateUnit.DecimalFractionPerSecond, BaseUnits.Undefined),
                     new UnitInfo<RatioChangeRateUnit>(RatioChangeRateUnit.PercentPerSecond, BaseUnits.Undefined),
                 },
-                BaseUnit, Zero, BaseDimensions);
+                BaseUnit, Zero, BaseDimensions, QuantityType.RatioChangeRate);
         }
 
         /// <summary>
@@ -110,16 +110,19 @@ namespace UnitsNet
         /// <summary>
         /// Represents the largest possible value of RatioChangeRate
         /// </summary>
+        [Obsolete("MaxValue and MinValue will be removed. Choose your own value or use nullability for unbounded lower/upper range checks. See discussion in https://github.com/angularsen/UnitsNet/issues/848.")]
         public static RatioChangeRate MaxValue { get; } = new RatioChangeRate(double.MaxValue, BaseUnit);
 
         /// <summary>
         /// Represents the smallest possible value of RatioChangeRate
         /// </summary>
+        [Obsolete("MaxValue and MinValue will be removed. Choose your own value or use nullability for unbounded lower/upper range checks. See discussion in https://github.com/angularsen/UnitsNet/issues/848.")]
         public static RatioChangeRate MinValue { get; } = new RatioChangeRate(double.MinValue, BaseUnit);
 
         /// <summary>
         ///     The <see cref="QuantityType" /> of this quantity.
         /// </summary>
+        [Obsolete("QuantityType will be removed in the future. Use Info property instead.")]
         public static QuantityType QuantityType { get; } = QuantityType.RatioChangeRate;
 
         /// <summary>
@@ -556,7 +559,7 @@ namespace UnitsNet
         /// <returns>A hash code for the current RatioChangeRate.</returns>
         public override int GetHashCode()
         {
-            return new { QuantityType, Value, Unit }.GetHashCode();
+            return new { Info.Name, Value, Unit }.GetHashCode();
         }
 
         #endregion
@@ -650,8 +653,8 @@ namespace UnitsNet
         {
             switch(Unit)
             {
-                case RatioChangeRateUnit.DecimalFractionPerSecond: return _value*1e2;
-                case RatioChangeRateUnit.PercentPerSecond: return _value;
+                case RatioChangeRateUnit.DecimalFractionPerSecond: return _value;
+                case RatioChangeRateUnit.PercentPerSecond: return _value/1e2;
                 default:
                     throw new NotImplementedException($"Can not convert {Unit} to base units.");
             }
@@ -677,8 +680,8 @@ namespace UnitsNet
 
             switch(unit)
             {
-                case RatioChangeRateUnit.DecimalFractionPerSecond: return baseUnitValue/1e2;
-                case RatioChangeRateUnit.PercentPerSecond: return baseUnitValue;
+                case RatioChangeRateUnit.DecimalFractionPerSecond: return baseUnitValue;
+                case RatioChangeRateUnit.PercentPerSecond: return baseUnitValue*1e2;
                 default:
                     throw new NotImplementedException($"Can not convert {Unit} to {unit}.");
             }
@@ -841,6 +844,8 @@ namespace UnitsNet
                 return Unit;
             else if(conversionType == typeof(QuantityType))
                 return RatioChangeRate.QuantityType;
+            else if(conversionType == typeof(QuantityInfo))
+                return RatioChangeRate.Info;
             else if(conversionType == typeof(BaseDimensions))
                 return RatioChangeRate.BaseDimensions;
             else

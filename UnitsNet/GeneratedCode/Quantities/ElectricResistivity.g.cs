@@ -53,7 +53,7 @@ namespace UnitsNet
         {
             BaseDimensions = new BaseDimensions(3, 1, -3, -2, 0, 0, 0);
 
-            Info = new QuantityInfo<ElectricResistivityUnit>(QuantityType.ElectricResistivity,
+            Info = new QuantityInfo<ElectricResistivityUnit>("ElectricResistivity",
                 new UnitInfo<ElectricResistivityUnit>[] {
                     new UnitInfo<ElectricResistivityUnit>(ElectricResistivityUnit.KiloohmCentimeter, BaseUnits.Undefined),
                     new UnitInfo<ElectricResistivityUnit>(ElectricResistivityUnit.KiloohmMeter, BaseUnits.Undefined),
@@ -70,7 +70,7 @@ namespace UnitsNet
                     new UnitInfo<ElectricResistivityUnit>(ElectricResistivityUnit.PicoohmCentimeter, BaseUnits.Undefined),
                     new UnitInfo<ElectricResistivityUnit>(ElectricResistivityUnit.PicoohmMeter, BaseUnits.Undefined),
                 },
-                BaseUnit, Zero, BaseDimensions);
+                BaseUnit, Zero, BaseDimensions, QuantityType.ElectricResistivity);
         }
 
         /// <summary>
@@ -125,16 +125,19 @@ namespace UnitsNet
         /// <summary>
         /// Represents the largest possible value of ElectricResistivity
         /// </summary>
+        [Obsolete("MaxValue and MinValue will be removed. Choose your own value or use nullability for unbounded lower/upper range checks. See discussion in https://github.com/angularsen/UnitsNet/issues/848.")]
         public static ElectricResistivity MaxValue { get; } = new ElectricResistivity(double.MaxValue, BaseUnit);
 
         /// <summary>
         /// Represents the smallest possible value of ElectricResistivity
         /// </summary>
+        [Obsolete("MaxValue and MinValue will be removed. Choose your own value or use nullability for unbounded lower/upper range checks. See discussion in https://github.com/angularsen/UnitsNet/issues/848.")]
         public static ElectricResistivity MinValue { get; } = new ElectricResistivity(double.MinValue, BaseUnit);
 
         /// <summary>
         ///     The <see cref="QuantityType" /> of this quantity.
         /// </summary>
+        [Obsolete("QuantityType will be removed in the future. Use Info property instead.")]
         public static QuantityType QuantityType { get; } = QuantityType.ElectricResistivity;
 
         /// <summary>
@@ -739,7 +742,7 @@ namespace UnitsNet
         /// <returns>A hash code for the current ElectricResistivity.</returns>
         public override int GetHashCode()
         {
-            return new { QuantityType, Value, Unit }.GetHashCode();
+            return new { Info.Name, Value, Unit }.GetHashCode();
         }
 
         #endregion
@@ -1048,6 +1051,8 @@ namespace UnitsNet
                 return Unit;
             else if(conversionType == typeof(QuantityType))
                 return ElectricResistivity.QuantityType;
+            else if(conversionType == typeof(QuantityInfo))
+                return ElectricResistivity.Info;
             else if(conversionType == typeof(BaseDimensions))
                 return ElectricResistivity.BaseDimensions;
             else

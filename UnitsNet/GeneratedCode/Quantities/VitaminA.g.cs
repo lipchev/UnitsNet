@@ -50,11 +50,11 @@ namespace UnitsNet
         {
             BaseDimensions = BaseDimensions.Dimensionless;
 
-            Info = new QuantityInfo<VitaminAUnit>(QuantityType.VitaminA,
+            Info = new QuantityInfo<VitaminAUnit>("VitaminA",
                 new UnitInfo<VitaminAUnit>[] {
                     new UnitInfo<VitaminAUnit>(VitaminAUnit.InternationalUnit, BaseUnits.Undefined),
                 },
-                BaseUnit, Zero, BaseDimensions);
+                BaseUnit, Zero, BaseDimensions, QuantityType.VitaminA);
         }
 
         /// <summary>
@@ -109,16 +109,19 @@ namespace UnitsNet
         /// <summary>
         /// Represents the largest possible value of VitaminA
         /// </summary>
+        [Obsolete("MaxValue and MinValue will be removed. Choose your own value or use nullability for unbounded lower/upper range checks. See discussion in https://github.com/angularsen/UnitsNet/issues/848.")]
         public static VitaminA MaxValue { get; } = new VitaminA(double.MaxValue, BaseUnit);
 
         /// <summary>
         /// Represents the smallest possible value of VitaminA
         /// </summary>
+        [Obsolete("MaxValue and MinValue will be removed. Choose your own value or use nullability for unbounded lower/upper range checks. See discussion in https://github.com/angularsen/UnitsNet/issues/848.")]
         public static VitaminA MinValue { get; } = new VitaminA(double.MinValue, BaseUnit);
 
         /// <summary>
         ///     The <see cref="QuantityType" /> of this quantity.
         /// </summary>
+        [Obsolete("QuantityType will be removed in the future. Use Info property instead.")]
         public static QuantityType QuantityType { get; } = QuantityType.VitaminA;
 
         /// <summary>
@@ -541,7 +544,7 @@ namespace UnitsNet
         /// <returns>A hash code for the current VitaminA.</returns>
         public override int GetHashCode()
         {
-            return new { QuantityType, Value, Unit }.GetHashCode();
+            return new { Info.Name, Value, Unit }.GetHashCode();
         }
 
         #endregion
@@ -824,6 +827,8 @@ namespace UnitsNet
                 return Unit;
             else if(conversionType == typeof(QuantityType))
                 return VitaminA.QuantityType;
+            else if(conversionType == typeof(QuantityInfo))
+                return VitaminA.Info;
             else if(conversionType == typeof(BaseDimensions))
                 return VitaminA.BaseDimensions;
             else

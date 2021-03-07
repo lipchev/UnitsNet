@@ -21,6 +21,7 @@ using System;
 using System.Globalization;
 using System.Linq;
 using System.Threading;
+using UnitsNet.Tests.TestsBase;
 using UnitsNet.Units;
 using Xunit;
 
@@ -34,7 +35,7 @@ namespace UnitsNet.Tests
     /// Test of LinearDensity.
     /// </summary>
 // ReSharper disable once PartialTypeWithSinglePart
-    public abstract partial class LinearDensityTestsBase
+    public abstract partial class LinearDensityTestsBase : QuantityTestsBase
     {
         protected abstract double GramsPerCentimeterInOneKilogramPerMeter { get; }
         protected abstract double GramsPerMeterInOneKilogramPerMeter { get; }
@@ -99,7 +100,7 @@ namespace UnitsNet.Tests
         [Fact]
         public void Ctor_NullAsUnitSystem_ThrowsArgumentNullException()
         {
-            Assert.Throws<ArgumentNullException>(() => new LinearDensity(value: 1.0, unitSystem: null));
+            Assert.Throws<ArgumentNullException>(() => new LinearDensity(value: 1, unitSystem: null));
         }
 
         [Fact]
@@ -134,10 +135,8 @@ namespace UnitsNet.Tests
             var unitNames = units.Select(x => x.ToString());
 
             // Obsolete members
-#pragma warning disable 618
             Assert.Equal(units, quantityInfo.Units);
             Assert.Equal(unitNames, quantityInfo.UnitNames);
-#pragma warning restore 618
         }
 
         [Fact]
@@ -358,6 +357,13 @@ namespace UnitsNet.Tests
             var kilogrampermeter = LinearDensity.FromKilogramsPerMeter(1);
  
             Assert.Throws<ArgumentNullException>(() => kilogrampermeter.ToUnit(null));
+        }
+
+        [Fact]
+        public void ToBaseUnit_ReturnsQuantityWithBaseUnit()
+        {
+            var quantityInBaseUnit = LinearDensity.FromKilogramsPerMeter(1).ToBaseUnit();
+            Assert.Equal(LinearDensity.BaseUnit, quantityInBaseUnit.Unit);
         }
 
         [Fact]
@@ -605,7 +611,6 @@ namespace UnitsNet.Tests
             Assert.Equal("0.1235 kg/m", new LinearDensity(0.123456, LinearDensityUnit.KilogramPerMeter).ToString("s4", culture));
         }
 
-        #pragma warning disable 612, 618
 
         [Fact]
         public void ToString_NullFormat_ThrowsArgumentNullException()
@@ -628,7 +633,6 @@ namespace UnitsNet.Tests
             Assert.Equal(quantity.ToString(CultureInfo.CurrentUICulture, "g"), quantity.ToString(null, "g"));
         }
 
-        #pragma warning restore 612, 618
 
         [Fact]
         public void Convert_ToBool_ThrowsInvalidCastException()
@@ -757,6 +761,13 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
+        public void Convert_ChangeType_QuantityInfo_EqualsQuantityInfo()
+        {
+            var quantity = LinearDensity.FromKilogramsPerMeter(1.0);
+            Assert.Equal(LinearDensity.Info, Convert.ChangeType(quantity, typeof(QuantityInfo)));
+        }
+
+        [Fact]
         public void Convert_ChangeType_BaseDimensions_EqualsBaseDimensions()
         {
             var quantity = LinearDensity.FromKilogramsPerMeter(1.0);
@@ -774,7 +785,7 @@ namespace UnitsNet.Tests
         public void GetHashCode_Equals()
         {
             var quantity = LinearDensity.FromKilogramsPerMeter(1.0);
-            Assert.Equal(new {LinearDensity.QuantityType, quantity.Value, quantity.Unit}.GetHashCode(), quantity.GetHashCode());
+            Assert.Equal(new {LinearDensity.Info.Name, quantity.Value, quantity.Unit}.GetHashCode(), quantity.GetHashCode());
         }
 
         [Theory]
@@ -785,6 +796,5 @@ namespace UnitsNet.Tests
             var quantity = LinearDensity.FromKilogramsPerMeter(value);
             Assert.Equal(LinearDensity.FromKilogramsPerMeter(-value), -quantity);
         }
-
     }
 }

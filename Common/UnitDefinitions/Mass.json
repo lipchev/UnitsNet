@@ -24,6 +24,10 @@
         {
           "Culture": "ru-RU",
           "Abbreviations": [ "г" ]
+        },
+        {
+          "Culture": "zh-CN",
+          "Abbreviations": [ "克" ]
         }
       ]
     },
@@ -45,6 +49,10 @@
         {
           "Culture": "ru-RU",
           "Abbreviations": [ "т" ]
+        },
+        {
+          "Culture": "zh-CN",
+          "Abbreviations": [ "吨" ]
         }
       ]
     },
@@ -67,6 +75,10 @@
         {
           "Culture": "ru-RU",
           "Abbreviations": [ "тонна малая" ]
+        },
+        {
+          "Culture": "zh-CN",
+          "Abbreviations": [ "短吨" ]
         }
       ]
     },
@@ -89,6 +101,10 @@
         {
           "Culture": "ru-RU",
           "Abbreviations": [ "тонна большая" ]
+        },
+        {
+          "Culture": "zh-CN",
+          "Abbreviations": [ "长吨" ]
         }
       ]
     },
@@ -111,6 +127,10 @@
         {
           "Culture": "ru-RU",
           "Abbreviations": [ "фунт" ]
+        },
+        {
+          "Culture": "zh-CN",
+          "Abbreviations": [ "磅" ]
         }
       ]
     },
@@ -129,6 +149,10 @@
         {
           "Culture": "en-US",
           "Abbreviations": [ "oz" ]
+        },
+        {
+          "Culture": "zh-CN",
+          "Abbreviations": [ "盎司" ]
         }
       ]
     },

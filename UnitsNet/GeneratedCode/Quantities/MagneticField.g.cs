@@ -53,14 +53,15 @@ namespace UnitsNet
         {
             BaseDimensions = new BaseDimensions(0, 1, -2, -1, 0, 0, 0);
 
-            Info = new QuantityInfo<MagneticFieldUnit>(QuantityType.MagneticField,
+            Info = new QuantityInfo<MagneticFieldUnit>("MagneticField",
                 new UnitInfo<MagneticFieldUnit>[] {
+                    new UnitInfo<MagneticFieldUnit>(MagneticFieldUnit.Gauss, BaseUnits.Undefined),
                     new UnitInfo<MagneticFieldUnit>(MagneticFieldUnit.Microtesla, BaseUnits.Undefined),
                     new UnitInfo<MagneticFieldUnit>(MagneticFieldUnit.Millitesla, BaseUnits.Undefined),
                     new UnitInfo<MagneticFieldUnit>(MagneticFieldUnit.Nanotesla, BaseUnits.Undefined),
                     new UnitInfo<MagneticFieldUnit>(MagneticFieldUnit.Tesla, BaseUnits.Undefined),
                 },
-                BaseUnit, Zero, BaseDimensions);
+                BaseUnit, Zero, BaseDimensions, QuantityType.MagneticField);
         }
 
         /// <summary>
@@ -115,16 +116,19 @@ namespace UnitsNet
         /// <summary>
         /// Represents the largest possible value of MagneticField
         /// </summary>
+        [Obsolete("MaxValue and MinValue will be removed. Choose your own value or use nullability for unbounded lower/upper range checks. See discussion in https://github.com/angularsen/UnitsNet/issues/848.")]
         public static MagneticField MaxValue { get; } = new MagneticField(double.MaxValue, BaseUnit);
 
         /// <summary>
         /// Represents the smallest possible value of MagneticField
         /// </summary>
+        [Obsolete("MaxValue and MinValue will be removed. Choose your own value or use nullability for unbounded lower/upper range checks. See discussion in https://github.com/angularsen/UnitsNet/issues/848.")]
         public static MagneticField MinValue { get; } = new MagneticField(double.MinValue, BaseUnit);
 
         /// <summary>
         ///     The <see cref="QuantityType" /> of this quantity.
         /// </summary>
+        [Obsolete("QuantityType will be removed in the future. Use Info property instead.")]
         public static QuantityType QuantityType { get; } = QuantityType.MagneticField;
 
         /// <summary>
@@ -170,6 +174,11 @@ namespace UnitsNet
         #endregion
 
         #region Conversion Properties
+
+        /// <summary>
+        ///     Get MagneticField in Gausses.
+        /// </summary>
+        public double Gausses => As(MagneticFieldUnit.Gauss);
 
         /// <summary>
         ///     Get MagneticField in Microteslas.
@@ -220,6 +229,15 @@ namespace UnitsNet
 
         #region Static Factory Methods
 
+        /// <summary>
+        ///     Get MagneticField from Gausses.
+        /// </summary>
+        /// <exception cref="ArgumentException">If value is NaN or Infinity.</exception>
+        public static MagneticField FromGausses(QuantityValue gausses)
+        {
+            double value = (double) gausses;
+            return new MagneticField(value, MagneticFieldUnit.Gauss);
+        }
         /// <summary>
         ///     Get MagneticField from Microteslas.
         /// </summary>
@@ -589,7 +607,7 @@ namespace UnitsNet
         /// <returns>A hash code for the current MagneticField.</returns>
         public override int GetHashCode()
         {
-            return new { QuantityType, Value, Unit }.GetHashCode();
+            return new { Info.Name, Value, Unit }.GetHashCode();
         }
 
         #endregion
@@ -683,6 +701,7 @@ namespace UnitsNet
         {
             switch(Unit)
             {
+                case MagneticFieldUnit.Gauss: return _value/1e4;
                 case MagneticFieldUnit.Microtesla: return (_value) * 1e-6d;
                 case MagneticFieldUnit.Millitesla: return (_value) * 1e-3d;
                 case MagneticFieldUnit.Nanotesla: return (_value) * 1e-9d;
@@ -712,6 +731,7 @@ namespace UnitsNet
 
             switch(unit)
             {
+                case MagneticFieldUnit.Gauss: return baseUnitValue*1e4;
                 case MagneticFieldUnit.Microtesla: return (baseUnitValue) / 1e-6d;
                 case MagneticFieldUnit.Millitesla: return (baseUnitValue) / 1e-3d;
                 case MagneticFieldUnit.Nanotesla: return (baseUnitValue) / 1e-9d;
@@ -878,6 +898,8 @@ namespace UnitsNet
                 return Unit;
             else if(conversionType == typeof(QuantityType))
                 return MagneticField.QuantityType;
+            else if(conversionType == typeof(QuantityInfo))
+                return MagneticField.Info;
             else if(conversionType == typeof(BaseDimensions))
                 return MagneticField.BaseDimensions;
             else

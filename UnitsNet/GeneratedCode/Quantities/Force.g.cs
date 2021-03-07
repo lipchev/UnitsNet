@@ -50,7 +50,7 @@ namespace UnitsNet
         {
             BaseDimensions = new BaseDimensions(1, 1, -2, 0, 0, 0, 0);
 
-            Info = new QuantityInfo<ForceUnit>(QuantityType.Force,
+            Info = new QuantityInfo<ForceUnit>("Force",
                 new UnitInfo<ForceUnit>[] {
                     new UnitInfo<ForceUnit>(ForceUnit.Decanewton, BaseUnits.Undefined),
                     new UnitInfo<ForceUnit>(ForceUnit.Dyn, new BaseUnits(length: LengthUnit.Centimeter, mass: MassUnit.Gram, time: DurationUnit.Second)),
@@ -68,7 +68,7 @@ namespace UnitsNet
                     new UnitInfo<ForceUnit>(ForceUnit.ShortTonForce, BaseUnits.Undefined),
                     new UnitInfo<ForceUnit>(ForceUnit.TonneForce, BaseUnits.Undefined),
                 },
-                BaseUnit, Zero, BaseDimensions);
+                BaseUnit, Zero, BaseDimensions, QuantityType.Force);
         }
 
         /// <summary>
@@ -123,16 +123,19 @@ namespace UnitsNet
         /// <summary>
         /// Represents the largest possible value of Force
         /// </summary>
+        [Obsolete("MaxValue and MinValue will be removed. Choose your own value or use nullability for unbounded lower/upper range checks. See discussion in https://github.com/angularsen/UnitsNet/issues/848.")]
         public static Force MaxValue { get; } = new Force(double.MaxValue, BaseUnit);
 
         /// <summary>
         /// Represents the smallest possible value of Force
         /// </summary>
+        [Obsolete("MaxValue and MinValue will be removed. Choose your own value or use nullability for unbounded lower/upper range checks. See discussion in https://github.com/angularsen/UnitsNet/issues/848.")]
         public static Force MinValue { get; } = new Force(double.MinValue, BaseUnit);
 
         /// <summary>
         ///     The <see cref="QuantityType" /> of this quantity.
         /// </summary>
+        [Obsolete("QuantityType will be removed in the future. Use Info property instead.")]
         public static QuantityType QuantityType { get; } = QuantityType.Force;
 
         /// <summary>
@@ -751,7 +754,7 @@ namespace UnitsNet
         /// <returns>A hash code for the current Force.</returns>
         public override int GetHashCode()
         {
-            return new { QuantityType, Value, Unit }.GetHashCode();
+            return new { Info.Name, Value, Unit }.GetHashCode();
         }
 
         #endregion
@@ -1062,6 +1065,8 @@ namespace UnitsNet
                 return Unit;
             else if(conversionType == typeof(QuantityType))
                 return Force.QuantityType;
+            else if(conversionType == typeof(QuantityInfo))
+                return Force.Info;
             else if(conversionType == typeof(BaseDimensions))
                 return Force.BaseDimensions;
             else

@@ -21,6 +21,7 @@ using System;
 using System.Globalization;
 using System.Linq;
 using System.Threading;
+using UnitsNet.Tests.TestsBase;
 using UnitsNet.Units;
 using Xunit;
 
@@ -34,7 +35,7 @@ namespace UnitsNet.Tests
     /// Test of HeatFlux.
     /// </summary>
 // ReSharper disable once PartialTypeWithSinglePart
-    public abstract partial class HeatFluxTestsBase
+    public abstract partial class HeatFluxTestsBase : QuantityTestsBase
     {
         protected abstract double BtusPerHourSquareFootInOneWattPerSquareMeter { get; }
         protected abstract double BtusPerMinuteSquareFootInOneWattPerSquareMeter { get; }
@@ -107,7 +108,7 @@ namespace UnitsNet.Tests
         [Fact]
         public void Ctor_NullAsUnitSystem_ThrowsArgumentNullException()
         {
-            Assert.Throws<ArgumentNullException>(() => new HeatFlux(value: 1.0, unitSystem: null));
+            Assert.Throws<ArgumentNullException>(() => new HeatFlux(value: 1, unitSystem: null));
         }
 
         [Fact]
@@ -142,10 +143,8 @@ namespace UnitsNet.Tests
             var unitNames = units.Select(x => x.ToString());
 
             // Obsolete members
-#pragma warning disable 618
             Assert.Equal(units, quantityInfo.Units);
             Assert.Equal(unitNames, quantityInfo.UnitNames);
-#pragma warning restore 618
         }
 
         [Fact]
@@ -409,6 +408,13 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
+        public void ToBaseUnit_ReturnsQuantityWithBaseUnit()
+        {
+            var quantityInBaseUnit = HeatFlux.FromWattsPerSquareMeter(1).ToBaseUnit();
+            Assert.Equal(HeatFlux.BaseUnit, quantityInBaseUnit.Unit);
+        }
+
+        [Fact]
         public void ConversionRoundTrip()
         {
             HeatFlux wattpersquaremeter = HeatFlux.FromWattsPerSquareMeter(1);
@@ -665,7 +671,6 @@ namespace UnitsNet.Tests
             Assert.Equal("0.1235 W/m²", new HeatFlux(0.123456, HeatFluxUnit.WattPerSquareMeter).ToString("s4", culture));
         }
 
-        #pragma warning disable 612, 618
 
         [Fact]
         public void ToString_NullFormat_ThrowsArgumentNullException()
@@ -688,7 +693,6 @@ namespace UnitsNet.Tests
             Assert.Equal(quantity.ToString(CultureInfo.CurrentUICulture, "g"), quantity.ToString(null, "g"));
         }
 
-        #pragma warning restore 612, 618
 
         [Fact]
         public void Convert_ToBool_ThrowsInvalidCastException()
@@ -817,6 +821,13 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
+        public void Convert_ChangeType_QuantityInfo_EqualsQuantityInfo()
+        {
+            var quantity = HeatFlux.FromWattsPerSquareMeter(1.0);
+            Assert.Equal(HeatFlux.Info, Convert.ChangeType(quantity, typeof(QuantityInfo)));
+        }
+
+        [Fact]
         public void Convert_ChangeType_BaseDimensions_EqualsBaseDimensions()
         {
             var quantity = HeatFlux.FromWattsPerSquareMeter(1.0);
@@ -834,7 +845,7 @@ namespace UnitsNet.Tests
         public void GetHashCode_Equals()
         {
             var quantity = HeatFlux.FromWattsPerSquareMeter(1.0);
-            Assert.Equal(new {HeatFlux.QuantityType, quantity.Value, quantity.Unit}.GetHashCode(), quantity.GetHashCode());
+            Assert.Equal(new {HeatFlux.Info.Name, quantity.Value, quantity.Unit}.GetHashCode(), quantity.GetHashCode());
         }
 
         [Theory]
@@ -845,6 +856,5 @@ namespace UnitsNet.Tests
             var quantity = HeatFlux.FromWattsPerSquareMeter(value);
             Assert.Equal(HeatFlux.FromWattsPerSquareMeter(-value), -quantity);
         }
-
     }
 }

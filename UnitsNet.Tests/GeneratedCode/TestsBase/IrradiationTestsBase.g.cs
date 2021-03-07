@@ -21,6 +21,7 @@ using System;
 using System.Globalization;
 using System.Linq;
 using System.Threading;
+using UnitsNet.Tests.TestsBase;
 using UnitsNet.Units;
 using Xunit;
 
@@ -34,7 +35,7 @@ namespace UnitsNet.Tests
     /// Test of Irradiation.
     /// </summary>
 // ReSharper disable once PartialTypeWithSinglePart
-    public abstract partial class IrradiationTestsBase
+    public abstract partial class IrradiationTestsBase : QuantityTestsBase
     {
         protected abstract double JoulesPerSquareCentimeterInOneJoulePerSquareMeter { get; }
         protected abstract double JoulesPerSquareMeterInOneJoulePerSquareMeter { get; }
@@ -85,7 +86,7 @@ namespace UnitsNet.Tests
         [Fact]
         public void Ctor_NullAsUnitSystem_ThrowsArgumentNullException()
         {
-            Assert.Throws<ArgumentNullException>(() => new Irradiation(value: 1.0, unitSystem: null));
+            Assert.Throws<ArgumentNullException>(() => new Irradiation(value: 1, unitSystem: null));
         }
 
         [Fact]
@@ -120,10 +121,8 @@ namespace UnitsNet.Tests
             var unitNames = units.Select(x => x.ToString());
 
             // Obsolete members
-#pragma warning disable 618
             Assert.Equal(units, quantityInfo.Units);
             Assert.Equal(unitNames, quantityInfo.UnitNames);
-#pragma warning restore 618
         }
 
         [Fact]
@@ -274,6 +273,13 @@ namespace UnitsNet.Tests
             var joulepersquaremeter = Irradiation.FromJoulesPerSquareMeter(1);
  
             Assert.Throws<ArgumentNullException>(() => joulepersquaremeter.ToUnit(null));
+        }
+
+        [Fact]
+        public void ToBaseUnit_ReturnsQuantityWithBaseUnit()
+        {
+            var quantityInBaseUnit = Irradiation.FromJoulesPerSquareMeter(1).ToBaseUnit();
+            Assert.Equal(Irradiation.BaseUnit, quantityInBaseUnit.Unit);
         }
 
         [Fact]
@@ -500,7 +506,6 @@ namespace UnitsNet.Tests
             Assert.Equal("0.1235 J/m²", new Irradiation(0.123456, IrradiationUnit.JoulePerSquareMeter).ToString("s4", culture));
         }
 
-        #pragma warning disable 612, 618
 
         [Fact]
         public void ToString_NullFormat_ThrowsArgumentNullException()
@@ -523,7 +528,6 @@ namespace UnitsNet.Tests
             Assert.Equal(quantity.ToString(CultureInfo.CurrentUICulture, "g"), quantity.ToString(null, "g"));
         }
 
-        #pragma warning restore 612, 618
 
         [Fact]
         public void Convert_ToBool_ThrowsInvalidCastException()
@@ -652,6 +656,13 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
+        public void Convert_ChangeType_QuantityInfo_EqualsQuantityInfo()
+        {
+            var quantity = Irradiation.FromJoulesPerSquareMeter(1.0);
+            Assert.Equal(Irradiation.Info, Convert.ChangeType(quantity, typeof(QuantityInfo)));
+        }
+
+        [Fact]
         public void Convert_ChangeType_BaseDimensions_EqualsBaseDimensions()
         {
             var quantity = Irradiation.FromJoulesPerSquareMeter(1.0);
@@ -669,7 +680,7 @@ namespace UnitsNet.Tests
         public void GetHashCode_Equals()
         {
             var quantity = Irradiation.FromJoulesPerSquareMeter(1.0);
-            Assert.Equal(new {Irradiation.QuantityType, quantity.Value, quantity.Unit}.GetHashCode(), quantity.GetHashCode());
+            Assert.Equal(new {Irradiation.Info.Name, quantity.Value, quantity.Unit}.GetHashCode(), quantity.GetHashCode());
         }
 
         [Theory]
@@ -680,6 +691,5 @@ namespace UnitsNet.Tests
             var quantity = Irradiation.FromJoulesPerSquareMeter(value);
             Assert.Equal(Irradiation.FromJoulesPerSquareMeter(-value), -quantity);
         }
-
     }
 }

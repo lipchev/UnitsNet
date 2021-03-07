@@ -21,6 +21,7 @@ using System;
 using System.Globalization;
 using System.Linq;
 using System.Threading;
+using UnitsNet.Tests.TestsBase;
 using UnitsNet.Units;
 using Xunit;
 
@@ -34,7 +35,7 @@ namespace UnitsNet.Tests
     /// Test of PowerRatio.
     /// </summary>
 // ReSharper disable once PartialTypeWithSinglePart
-    public abstract partial class PowerRatioTestsBase
+    public abstract partial class PowerRatioTestsBase : QuantityTestsBase
     {
         protected abstract double DecibelMilliwattsInOneDecibelWatt { get; }
         protected abstract double DecibelWattsInOneDecibelWatt { get; }
@@ -75,7 +76,7 @@ namespace UnitsNet.Tests
         [Fact]
         public void Ctor_NullAsUnitSystem_ThrowsArgumentNullException()
         {
-            Assert.Throws<ArgumentNullException>(() => new PowerRatio(value: 1.0, unitSystem: null));
+            Assert.Throws<ArgumentNullException>(() => new PowerRatio(value: 1, unitSystem: null));
         }
 
         [Fact]
@@ -110,10 +111,8 @@ namespace UnitsNet.Tests
             var unitNames = units.Select(x => x.ToString());
 
             // Obsolete members
-#pragma warning disable 618
             Assert.Equal(units, quantityInfo.Units);
             Assert.Equal(unitNames, quantityInfo.UnitNames);
-#pragma warning restore 618
         }
 
         [Fact]
@@ -214,6 +213,13 @@ namespace UnitsNet.Tests
             var decibelwatt = PowerRatio.FromDecibelWatts(1);
  
             Assert.Throws<ArgumentNullException>(() => decibelwatt.ToUnit(null));
+        }
+
+        [Fact]
+        public void ToBaseUnit_ReturnsQuantityWithBaseUnit()
+        {
+            var quantityInBaseUnit = PowerRatio.FromDecibelWatts(1).ToBaseUnit();
+            Assert.Equal(PowerRatio.BaseUnit, quantityInBaseUnit.Unit);
         }
 
         [Fact]
@@ -429,7 +435,6 @@ namespace UnitsNet.Tests
             Assert.Equal("0.1235 dBW", new PowerRatio(0.123456, PowerRatioUnit.DecibelWatt).ToString("s4", culture));
         }
 
-        #pragma warning disable 612, 618
 
         [Fact]
         public void ToString_NullFormat_ThrowsArgumentNullException()
@@ -452,7 +457,6 @@ namespace UnitsNet.Tests
             Assert.Equal(quantity.ToString(CultureInfo.CurrentUICulture, "g"), quantity.ToString(null, "g"));
         }
 
-        #pragma warning restore 612, 618
 
         [Fact]
         public void Convert_ToBool_ThrowsInvalidCastException()
@@ -581,6 +585,13 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
+        public void Convert_ChangeType_QuantityInfo_EqualsQuantityInfo()
+        {
+            var quantity = PowerRatio.FromDecibelWatts(1.0);
+            Assert.Equal(PowerRatio.Info, Convert.ChangeType(quantity, typeof(QuantityInfo)));
+        }
+
+        [Fact]
         public void Convert_ChangeType_BaseDimensions_EqualsBaseDimensions()
         {
             var quantity = PowerRatio.FromDecibelWatts(1.0);
@@ -598,7 +609,7 @@ namespace UnitsNet.Tests
         public void GetHashCode_Equals()
         {
             var quantity = PowerRatio.FromDecibelWatts(1.0);
-            Assert.Equal(new {PowerRatio.QuantityType, quantity.Value, quantity.Unit}.GetHashCode(), quantity.GetHashCode());
+            Assert.Equal(new {PowerRatio.Info.Name, quantity.Value, quantity.Unit}.GetHashCode(), quantity.GetHashCode());
         }
 
         [Theory]
@@ -609,6 +620,5 @@ namespace UnitsNet.Tests
             var quantity = PowerRatio.FromDecibelWatts(value);
             Assert.Equal(PowerRatio.FromDecibelWatts(-value), -quantity);
         }
-
     }
 }

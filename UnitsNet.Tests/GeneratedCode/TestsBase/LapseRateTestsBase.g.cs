@@ -21,6 +21,7 @@ using System;
 using System.Globalization;
 using System.Linq;
 using System.Threading;
+using UnitsNet.Tests.TestsBase;
 using UnitsNet.Units;
 using Xunit;
 
@@ -34,7 +35,7 @@ namespace UnitsNet.Tests
     /// Test of LapseRate.
     /// </summary>
 // ReSharper disable once PartialTypeWithSinglePart
-    public abstract partial class LapseRateTestsBase
+    public abstract partial class LapseRateTestsBase : QuantityTestsBase
     {
         protected abstract double DegreesCelciusPerKilometerInOneDegreeCelsiusPerKilometer { get; }
 
@@ -73,7 +74,7 @@ namespace UnitsNet.Tests
         [Fact]
         public void Ctor_NullAsUnitSystem_ThrowsArgumentNullException()
         {
-            Assert.Throws<ArgumentNullException>(() => new LapseRate(value: 1.0, unitSystem: null));
+            Assert.Throws<ArgumentNullException>(() => new LapseRate(value: 1, unitSystem: null));
         }
 
         [Fact]
@@ -108,10 +109,8 @@ namespace UnitsNet.Tests
             var unitNames = units.Select(x => x.ToString());
 
             // Obsolete members
-#pragma warning disable 618
             Assert.Equal(units, quantityInfo.Units);
             Assert.Equal(unitNames, quantityInfo.UnitNames);
-#pragma warning restore 618
         }
 
         [Fact]
@@ -202,6 +201,13 @@ namespace UnitsNet.Tests
             var degreecelsiusperkilometer = LapseRate.FromDegreesCelciusPerKilometer(1);
  
             Assert.Throws<ArgumentNullException>(() => degreecelsiusperkilometer.ToUnit(null));
+        }
+
+        [Fact]
+        public void ToBaseUnit_ReturnsQuantityWithBaseUnit()
+        {
+            var quantityInBaseUnit = LapseRate.FromDegreesCelciusPerKilometer(1).ToBaseUnit();
+            Assert.Equal(LapseRate.BaseUnit, quantityInBaseUnit.Unit);
         }
 
         [Fact]
@@ -410,7 +416,6 @@ namespace UnitsNet.Tests
             Assert.Equal("0.1235 ∆°C/km", new LapseRate(0.123456, LapseRateUnit.DegreeCelsiusPerKilometer).ToString("s4", culture));
         }
 
-        #pragma warning disable 612, 618
 
         [Fact]
         public void ToString_NullFormat_ThrowsArgumentNullException()
@@ -433,7 +438,6 @@ namespace UnitsNet.Tests
             Assert.Equal(quantity.ToString(CultureInfo.CurrentUICulture, "g"), quantity.ToString(null, "g"));
         }
 
-        #pragma warning restore 612, 618
 
         [Fact]
         public void Convert_ToBool_ThrowsInvalidCastException()
@@ -562,6 +566,13 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
+        public void Convert_ChangeType_QuantityInfo_EqualsQuantityInfo()
+        {
+            var quantity = LapseRate.FromDegreesCelciusPerKilometer(1.0);
+            Assert.Equal(LapseRate.Info, Convert.ChangeType(quantity, typeof(QuantityInfo)));
+        }
+
+        [Fact]
         public void Convert_ChangeType_BaseDimensions_EqualsBaseDimensions()
         {
             var quantity = LapseRate.FromDegreesCelciusPerKilometer(1.0);
@@ -579,7 +590,7 @@ namespace UnitsNet.Tests
         public void GetHashCode_Equals()
         {
             var quantity = LapseRate.FromDegreesCelciusPerKilometer(1.0);
-            Assert.Equal(new {LapseRate.QuantityType, quantity.Value, quantity.Unit}.GetHashCode(), quantity.GetHashCode());
+            Assert.Equal(new {LapseRate.Info.Name, quantity.Value, quantity.Unit}.GetHashCode(), quantity.GetHashCode());
         }
 
         [Theory]
@@ -590,6 +601,5 @@ namespace UnitsNet.Tests
             var quantity = LapseRate.FromDegreesCelciusPerKilometer(value);
             Assert.Equal(LapseRate.FromDegreesCelciusPerKilometer(-value), -quantity);
         }
-
     }
 }

@@ -21,6 +21,7 @@ using System;
 using System.Globalization;
 using System.Linq;
 using System.Threading;
+using UnitsNet.Tests.TestsBase;
 using UnitsNet.Units;
 using Xunit;
 
@@ -34,7 +35,7 @@ namespace UnitsNet.Tests
     /// Test of Density.
     /// </summary>
 // ReSharper disable once PartialTypeWithSinglePart
-    public abstract partial class DensityTestsBase
+    public abstract partial class DensityTestsBase : QuantityTestsBase
     {
         protected abstract double CentigramsPerDeciLiterInOneKilogramPerCubicMeter { get; }
         protected abstract double CentigramsPerLiterInOneKilogramPerCubicMeter { get; }
@@ -151,7 +152,7 @@ namespace UnitsNet.Tests
         [Fact]
         public void Ctor_NullAsUnitSystem_ThrowsArgumentNullException()
         {
-            Assert.Throws<ArgumentNullException>(() => new Density(value: 1.0, unitSystem: null));
+            Assert.Throws<ArgumentNullException>(() => new Density(value: 1, unitSystem: null));
         }
 
         [Fact]
@@ -186,10 +187,8 @@ namespace UnitsNet.Tests
             var unitNames = units.Select(x => x.ToString());
 
             // Obsolete members
-#pragma warning disable 618
             Assert.Equal(units, quantityInfo.Units);
             Assert.Equal(unitNames, quantityInfo.UnitNames);
-#pragma warning restore 618
         }
 
         [Fact]
@@ -673,6 +672,13 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
+        public void ToBaseUnit_ReturnsQuantityWithBaseUnit()
+        {
+            var quantityInBaseUnit = Density.FromKilogramsPerCubicMeter(1).ToBaseUnit();
+            Assert.Equal(Density.BaseUnit, quantityInBaseUnit.Unit);
+        }
+
+        [Fact]
         public void ConversionRoundTrip()
         {
             Density kilogrampercubicmeter = Density.FromKilogramsPerCubicMeter(1);
@@ -995,7 +1001,6 @@ namespace UnitsNet.Tests
             Assert.Equal("0.1235 kg/m³", new Density(0.123456, DensityUnit.KilogramPerCubicMeter).ToString("s4", culture));
         }
 
-        #pragma warning disable 612, 618
 
         [Fact]
         public void ToString_NullFormat_ThrowsArgumentNullException()
@@ -1018,7 +1023,6 @@ namespace UnitsNet.Tests
             Assert.Equal(quantity.ToString(CultureInfo.CurrentUICulture, "g"), quantity.ToString(null, "g"));
         }
 
-        #pragma warning restore 612, 618
 
         [Fact]
         public void Convert_ToBool_ThrowsInvalidCastException()
@@ -1147,6 +1151,13 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
+        public void Convert_ChangeType_QuantityInfo_EqualsQuantityInfo()
+        {
+            var quantity = Density.FromKilogramsPerCubicMeter(1.0);
+            Assert.Equal(Density.Info, Convert.ChangeType(quantity, typeof(QuantityInfo)));
+        }
+
+        [Fact]
         public void Convert_ChangeType_BaseDimensions_EqualsBaseDimensions()
         {
             var quantity = Density.FromKilogramsPerCubicMeter(1.0);
@@ -1164,7 +1175,7 @@ namespace UnitsNet.Tests
         public void GetHashCode_Equals()
         {
             var quantity = Density.FromKilogramsPerCubicMeter(1.0);
-            Assert.Equal(new {Density.QuantityType, quantity.Value, quantity.Unit}.GetHashCode(), quantity.GetHashCode());
+            Assert.Equal(new {Density.Info.Name, quantity.Value, quantity.Unit}.GetHashCode(), quantity.GetHashCode());
         }
 
         [Theory]
@@ -1175,6 +1186,5 @@ namespace UnitsNet.Tests
             var quantity = Density.FromKilogramsPerCubicMeter(value);
             Assert.Equal(Density.FromKilogramsPerCubicMeter(-value), -quantity);
         }
-
     }
 }

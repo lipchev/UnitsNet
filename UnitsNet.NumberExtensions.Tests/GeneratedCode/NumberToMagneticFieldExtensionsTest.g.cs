@@ -21,9 +21,13 @@ using UnitsNet.NumberExtensions.NumberToMagneticField;
 using Xunit;
 
 namespace UnitsNet.Tests
-{    
+{
     public class NumberToMagneticFieldExtensionsTests
     {
+        [Fact]
+        public void NumberToGaussesTest() =>
+            Assert.Equal(MagneticField.FromGausses(2), 2.Gausses());
+
         [Fact]
         public void NumberToMicroteslasTest() =>
             Assert.Equal(MagneticField.FromMicroteslas(2), 2.Microteslas());

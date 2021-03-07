@@ -50,7 +50,7 @@ namespace UnitsNet
         {
             BaseDimensions = new BaseDimensions(0, 1, 0, 0, 0, 0, 0);
 
-            Info = new QuantityInfo<MassUnit>(QuantityType.Mass,
+            Info = new QuantityInfo<MassUnit>("Mass",
                 new UnitInfo<MassUnit>[] {
                     new UnitInfo<MassUnit>(MassUnit.Centigram, BaseUnits.Undefined),
                     new UnitInfo<MassUnit>(MassUnit.Decagram, BaseUnits.Undefined),
@@ -78,7 +78,7 @@ namespace UnitsNet
                     new UnitInfo<MassUnit>(MassUnit.Stone, new BaseUnits(mass: MassUnit.Stone)),
                     new UnitInfo<MassUnit>(MassUnit.Tonne, new BaseUnits(mass: MassUnit.Tonne)),
                 },
-                BaseUnit, Zero, BaseDimensions);
+                BaseUnit, Zero, BaseDimensions, QuantityType.Mass);
         }
 
         /// <summary>
@@ -133,16 +133,19 @@ namespace UnitsNet
         /// <summary>
         /// Represents the largest possible value of Mass
         /// </summary>
+        [Obsolete("MaxValue and MinValue will be removed. Choose your own value or use nullability for unbounded lower/upper range checks. See discussion in https://github.com/angularsen/UnitsNet/issues/848.")]
         public static Mass MaxValue { get; } = new Mass(double.MaxValue, BaseUnit);
 
         /// <summary>
         /// Represents the smallest possible value of Mass
         /// </summary>
+        [Obsolete("MaxValue and MinValue will be removed. Choose your own value or use nullability for unbounded lower/upper range checks. See discussion in https://github.com/angularsen/UnitsNet/issues/848.")]
         public static Mass MinValue { get; } = new Mass(double.MinValue, BaseUnit);
 
         /// <summary>
         ///     The <see cref="QuantityType" /> of this quantity.
         /// </summary>
+        [Obsolete("QuantityType will be removed in the future. Use Info property instead.")]
         public static QuantityType QuantityType { get; } = QuantityType.Mass;
 
         /// <summary>
@@ -901,7 +904,7 @@ namespace UnitsNet
         /// <returns>A hash code for the current Mass.</returns>
         public override int GetHashCode()
         {
-            return new { QuantityType, Value, Unit }.GetHashCode();
+            return new { Info.Name, Value, Unit }.GetHashCode();
         }
 
         #endregion
@@ -1232,6 +1235,8 @@ namespace UnitsNet
                 return Unit;
             else if(conversionType == typeof(QuantityType))
                 return Mass.QuantityType;
+            else if(conversionType == typeof(QuantityInfo))
+                return Mass.Info;
             else if(conversionType == typeof(BaseDimensions))
                 return Mass.BaseDimensions;
             else

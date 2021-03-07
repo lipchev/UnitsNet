@@ -21,6 +21,7 @@ using System;
 using System.Globalization;
 using System.Linq;
 using System.Threading;
+using UnitsNet.Tests.TestsBase;
 using UnitsNet.Units;
 using Xunit;
 
@@ -34,7 +35,7 @@ namespace UnitsNet.Tests
     /// Test of AreaMomentOfInertia.
     /// </summary>
 // ReSharper disable once PartialTypeWithSinglePart
-    public abstract partial class AreaMomentOfInertiaTestsBase
+    public abstract partial class AreaMomentOfInertiaTestsBase : QuantityTestsBase
     {
         protected abstract double CentimetersToTheFourthInOneMeterToTheFourth { get; }
         protected abstract double DecimetersToTheFourthInOneMeterToTheFourth { get; }
@@ -83,7 +84,7 @@ namespace UnitsNet.Tests
         [Fact]
         public void Ctor_NullAsUnitSystem_ThrowsArgumentNullException()
         {
-            Assert.Throws<ArgumentNullException>(() => new AreaMomentOfInertia(value: 1.0, unitSystem: null));
+            Assert.Throws<ArgumentNullException>(() => new AreaMomentOfInertia(value: 1, unitSystem: null));
         }
 
         [Fact]
@@ -118,10 +119,8 @@ namespace UnitsNet.Tests
             var unitNames = units.Select(x => x.ToString());
 
             // Obsolete members
-#pragma warning disable 618
             Assert.Equal(units, quantityInfo.Units);
             Assert.Equal(unitNames, quantityInfo.UnitNames);
-#pragma warning restore 618
         }
 
         [Fact]
@@ -262,6 +261,13 @@ namespace UnitsNet.Tests
             var metertothefourth = AreaMomentOfInertia.FromMetersToTheFourth(1);
  
             Assert.Throws<ArgumentNullException>(() => metertothefourth.ToUnit(null));
+        }
+
+        [Fact]
+        public void ToBaseUnit_ReturnsQuantityWithBaseUnit()
+        {
+            var quantityInBaseUnit = AreaMomentOfInertia.FromMetersToTheFourth(1).ToBaseUnit();
+            Assert.Equal(AreaMomentOfInertia.BaseUnit, quantityInBaseUnit.Unit);
         }
 
         [Fact]
@@ -485,7 +491,6 @@ namespace UnitsNet.Tests
             Assert.Equal("0.1235 m⁴", new AreaMomentOfInertia(0.123456, AreaMomentOfInertiaUnit.MeterToTheFourth).ToString("s4", culture));
         }
 
-        #pragma warning disable 612, 618
 
         [Fact]
         public void ToString_NullFormat_ThrowsArgumentNullException()
@@ -508,7 +513,6 @@ namespace UnitsNet.Tests
             Assert.Equal(quantity.ToString(CultureInfo.CurrentUICulture, "g"), quantity.ToString(null, "g"));
         }
 
-        #pragma warning restore 612, 618
 
         [Fact]
         public void Convert_ToBool_ThrowsInvalidCastException()
@@ -637,6 +641,13 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
+        public void Convert_ChangeType_QuantityInfo_EqualsQuantityInfo()
+        {
+            var quantity = AreaMomentOfInertia.FromMetersToTheFourth(1.0);
+            Assert.Equal(AreaMomentOfInertia.Info, Convert.ChangeType(quantity, typeof(QuantityInfo)));
+        }
+
+        [Fact]
         public void Convert_ChangeType_BaseDimensions_EqualsBaseDimensions()
         {
             var quantity = AreaMomentOfInertia.FromMetersToTheFourth(1.0);
@@ -654,7 +665,7 @@ namespace UnitsNet.Tests
         public void GetHashCode_Equals()
         {
             var quantity = AreaMomentOfInertia.FromMetersToTheFourth(1.0);
-            Assert.Equal(new {AreaMomentOfInertia.QuantityType, quantity.Value, quantity.Unit}.GetHashCode(), quantity.GetHashCode());
+            Assert.Equal(new {AreaMomentOfInertia.Info.Name, quantity.Value, quantity.Unit}.GetHashCode(), quantity.GetHashCode());
         }
 
         [Theory]
@@ -665,6 +676,5 @@ namespace UnitsNet.Tests
             var quantity = AreaMomentOfInertia.FromMetersToTheFourth(value);
             Assert.Equal(AreaMomentOfInertia.FromMetersToTheFourth(-value), -quantity);
         }
-
     }
 }

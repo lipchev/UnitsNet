@@ -50,7 +50,7 @@ namespace UnitsNet
         {
             BaseDimensions = new BaseDimensions(-2, 1, -1, 0, 0, 0, 0);
 
-            Info = new QuantityInfo<MassFluxUnit>(QuantityType.MassFlux,
+            Info = new QuantityInfo<MassFluxUnit>("MassFlux",
                 new UnitInfo<MassFluxUnit>[] {
                     new UnitInfo<MassFluxUnit>(MassFluxUnit.GramPerHourPerSquareCentimeter, BaseUnits.Undefined),
                     new UnitInfo<MassFluxUnit>(MassFluxUnit.GramPerHourPerSquareMeter, BaseUnits.Undefined),
@@ -65,7 +65,7 @@ namespace UnitsNet
                     new UnitInfo<MassFluxUnit>(MassFluxUnit.KilogramPerSecondPerSquareMeter, BaseUnits.Undefined),
                     new UnitInfo<MassFluxUnit>(MassFluxUnit.KilogramPerSecondPerSquareMillimeter, BaseUnits.Undefined),
                 },
-                BaseUnit, Zero, BaseDimensions);
+                BaseUnit, Zero, BaseDimensions, QuantityType.MassFlux);
         }
 
         /// <summary>
@@ -120,16 +120,19 @@ namespace UnitsNet
         /// <summary>
         /// Represents the largest possible value of MassFlux
         /// </summary>
+        [Obsolete("MaxValue and MinValue will be removed. Choose your own value or use nullability for unbounded lower/upper range checks. See discussion in https://github.com/angularsen/UnitsNet/issues/848.")]
         public static MassFlux MaxValue { get; } = new MassFlux(double.MaxValue, BaseUnit);
 
         /// <summary>
         /// Represents the smallest possible value of MassFlux
         /// </summary>
+        [Obsolete("MaxValue and MinValue will be removed. Choose your own value or use nullability for unbounded lower/upper range checks. See discussion in https://github.com/angularsen/UnitsNet/issues/848.")]
         public static MassFlux MinValue { get; } = new MassFlux(double.MinValue, BaseUnit);
 
         /// <summary>
         ///     The <see cref="QuantityType" /> of this quantity.
         /// </summary>
+        [Obsolete("QuantityType will be removed in the future. Use Info property instead.")]
         public static QuantityType QuantityType { get; } = QuantityType.MassFlux;
 
         /// <summary>
@@ -706,7 +709,7 @@ namespace UnitsNet
         /// <returns>A hash code for the current MassFlux.</returns>
         public override int GetHashCode()
         {
-            return new { QuantityType, Value, Unit }.GetHashCode();
+            return new { Info.Name, Value, Unit }.GetHashCode();
         }
 
         #endregion
@@ -1011,6 +1014,8 @@ namespace UnitsNet
                 return Unit;
             else if(conversionType == typeof(QuantityType))
                 return MassFlux.QuantityType;
+            else if(conversionType == typeof(QuantityInfo))
+                return MassFlux.Info;
             else if(conversionType == typeof(BaseDimensions))
                 return MassFlux.BaseDimensions;
             else

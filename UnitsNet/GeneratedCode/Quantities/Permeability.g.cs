@@ -53,11 +53,11 @@ namespace UnitsNet
         {
             BaseDimensions = new BaseDimensions(1, 1, -2, -2, 0, 0, 0);
 
-            Info = new QuantityInfo<PermeabilityUnit>(QuantityType.Permeability,
+            Info = new QuantityInfo<PermeabilityUnit>("Permeability",
                 new UnitInfo<PermeabilityUnit>[] {
                     new UnitInfo<PermeabilityUnit>(PermeabilityUnit.HenryPerMeter, BaseUnits.Undefined),
                 },
-                BaseUnit, Zero, BaseDimensions);
+                BaseUnit, Zero, BaseDimensions, QuantityType.Permeability);
         }
 
         /// <summary>
@@ -112,16 +112,19 @@ namespace UnitsNet
         /// <summary>
         /// Represents the largest possible value of Permeability
         /// </summary>
+        [Obsolete("MaxValue and MinValue will be removed. Choose your own value or use nullability for unbounded lower/upper range checks. See discussion in https://github.com/angularsen/UnitsNet/issues/848.")]
         public static Permeability MaxValue { get; } = new Permeability(double.MaxValue, BaseUnit);
 
         /// <summary>
         /// Represents the smallest possible value of Permeability
         /// </summary>
+        [Obsolete("MaxValue and MinValue will be removed. Choose your own value or use nullability for unbounded lower/upper range checks. See discussion in https://github.com/angularsen/UnitsNet/issues/848.")]
         public static Permeability MinValue { get; } = new Permeability(double.MinValue, BaseUnit);
 
         /// <summary>
         ///     The <see cref="QuantityType" /> of this quantity.
         /// </summary>
+        [Obsolete("QuantityType will be removed in the future. Use Info property instead.")]
         public static QuantityType QuantityType { get; } = QuantityType.Permeability;
 
         /// <summary>
@@ -544,7 +547,7 @@ namespace UnitsNet
         /// <returns>A hash code for the current Permeability.</returns>
         public override int GetHashCode()
         {
-            return new { QuantityType, Value, Unit }.GetHashCode();
+            return new { Info.Name, Value, Unit }.GetHashCode();
         }
 
         #endregion
@@ -827,6 +830,8 @@ namespace UnitsNet
                 return Unit;
             else if(conversionType == typeof(QuantityType))
                 return Permeability.QuantityType;
+            else if(conversionType == typeof(QuantityInfo))
+                return Permeability.Info;
             else if(conversionType == typeof(BaseDimensions))
                 return Permeability.BaseDimensions;
             else

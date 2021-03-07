@@ -21,6 +21,7 @@ using System;
 using System.Globalization;
 using System.Linq;
 using System.Threading;
+using UnitsNet.Tests.TestsBase;
 using UnitsNet.Units;
 using Xunit;
 
@@ -34,7 +35,7 @@ namespace UnitsNet.Tests
     /// Test of Area.
     /// </summary>
 // ReSharper disable once PartialTypeWithSinglePart
-    public abstract partial class AreaTestsBase
+    public abstract partial class AreaTestsBase : QuantityTestsBase
     {
         protected abstract double AcresInOneSquareMeter { get; }
         protected abstract double HectaresInOneSquareMeter { get; }
@@ -99,7 +100,7 @@ namespace UnitsNet.Tests
         [Fact]
         public void Ctor_NullAsUnitSystem_ThrowsArgumentNullException()
         {
-            Assert.Throws<ArgumentNullException>(() => new Area(value: 1.0, unitSystem: null));
+            Assert.Throws<ArgumentNullException>(() => new Area(value: 1, unitSystem: null));
         }
 
         [Fact]
@@ -143,10 +144,8 @@ namespace UnitsNet.Tests
             var unitNames = units.Select(x => x.ToString());
 
             // Obsolete members
-#pragma warning disable 618
             Assert.Equal(units, quantityInfo.Units);
             Assert.Equal(unitNames, quantityInfo.UnitNames);
-#pragma warning restore 618
         }
 
         [Fact]
@@ -377,6 +376,13 @@ namespace UnitsNet.Tests
             var squaremeter = Area.FromSquareMeters(1);
  
             Assert.Throws<ArgumentNullException>(() => squaremeter.ToUnit(null));
+        }
+
+        [Fact]
+        public void ToBaseUnit_ReturnsQuantityWithBaseUnit()
+        {
+            var quantityInBaseUnit = Area.FromSquareMeters(1).ToBaseUnit();
+            Assert.Equal(Area.BaseUnit, quantityInBaseUnit.Unit);
         }
 
         [Fact]
@@ -624,7 +630,6 @@ namespace UnitsNet.Tests
             Assert.Equal("0.1235 m²", new Area(0.123456, AreaUnit.SquareMeter).ToString("s4", culture));
         }
 
-        #pragma warning disable 612, 618
 
         [Fact]
         public void ToString_NullFormat_ThrowsArgumentNullException()
@@ -647,7 +652,6 @@ namespace UnitsNet.Tests
             Assert.Equal(quantity.ToString(CultureInfo.CurrentUICulture, "g"), quantity.ToString(null, "g"));
         }
 
-        #pragma warning restore 612, 618
 
         [Fact]
         public void Convert_ToBool_ThrowsInvalidCastException()
@@ -776,6 +780,13 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
+        public void Convert_ChangeType_QuantityInfo_EqualsQuantityInfo()
+        {
+            var quantity = Area.FromSquareMeters(1.0);
+            Assert.Equal(Area.Info, Convert.ChangeType(quantity, typeof(QuantityInfo)));
+        }
+
+        [Fact]
         public void Convert_ChangeType_BaseDimensions_EqualsBaseDimensions()
         {
             var quantity = Area.FromSquareMeters(1.0);
@@ -793,7 +804,7 @@ namespace UnitsNet.Tests
         public void GetHashCode_Equals()
         {
             var quantity = Area.FromSquareMeters(1.0);
-            Assert.Equal(new {Area.QuantityType, quantity.Value, quantity.Unit}.GetHashCode(), quantity.GetHashCode());
+            Assert.Equal(new {Area.Info.Name, quantity.Value, quantity.Unit}.GetHashCode(), quantity.GetHashCode());
         }
 
         [Theory]
@@ -804,6 +815,5 @@ namespace UnitsNet.Tests
             var quantity = Area.FromSquareMeters(value);
             Assert.Equal(Area.FromSquareMeters(-value), -quantity);
         }
-
     }
 }

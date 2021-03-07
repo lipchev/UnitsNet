@@ -278,6 +278,9 @@ namespace UnitsNet
                 case ReactivePowerUnit reactivePowerUnit:
                     quantity = ReactivePower.From(value, reactivePowerUnit);
                     return true;
+                case RelativeHumidityUnit relativeHumidityUnit:
+                    quantity = RelativeHumidity.From(value, relativeHumidityUnit);
+                    return true;
                 case RotationalAccelerationUnit rotationalAccelerationUnit:
                     quantity = RotationalAcceleration.From(value, rotationalAccelerationUnit);
                     return true;
@@ -289,6 +292,9 @@ namespace UnitsNet
                     return true;
                 case RotationalStiffnessPerLengthUnit rotationalStiffnessPerLengthUnit:
                     quantity = RotationalStiffnessPerLength.From(value, rotationalStiffnessPerLengthUnit);
+                    return true;
+                case ScalarUnit scalarUnit:
+                    quantity = Scalar.From(value, scalarUnit);
                     return true;
                 case SolidAngleUnit solidAngleUnit:
                     quantity = SolidAngle.From(value, solidAngleUnit);
@@ -307,6 +313,9 @@ namespace UnitsNet
                     return true;
                 case SpeedUnit speedUnit:
                     quantity = Speed.From(value, speedUnit);
+                    return true;
+                case StandardVolumeFlowUnit standardVolumeFlowUnit:
+                    quantity = StandardVolumeFlow.From(value, standardVolumeFlowUnit);
                     return true;
                 case TemperatureUnit temperatureUnit:
                     quantity = Temperature.From(value, temperatureUnit);
@@ -637,6 +646,9 @@ namespace UnitsNet
             if (quantityType == typeof(ReactivePower))
                 return parser.TryParse<ReactivePower, ReactivePowerUnit>(quantityString, formatProvider, ReactivePower.From, out quantity);
 
+            if (quantityType == typeof(RelativeHumidity))
+                return parser.TryParse<RelativeHumidity, RelativeHumidityUnit>(quantityString, formatProvider, RelativeHumidity.From, out quantity);
+
             if (quantityType == typeof(RotationalAcceleration))
                 return parser.TryParse<RotationalAcceleration, RotationalAccelerationUnit>(quantityString, formatProvider, RotationalAcceleration.From, out quantity);
 
@@ -648,6 +660,9 @@ namespace UnitsNet
 
             if (quantityType == typeof(RotationalStiffnessPerLength))
                 return parser.TryParse<RotationalStiffnessPerLength, RotationalStiffnessPerLengthUnit>(quantityString, formatProvider, RotationalStiffnessPerLength.From, out quantity);
+
+            if (quantityType == typeof(Scalar))
+                return parser.TryParse<Scalar, ScalarUnit>(quantityString, formatProvider, Scalar.From, out quantity);
 
             if (quantityType == typeof(SolidAngle))
                 return parser.TryParse<SolidAngle, SolidAngleUnit>(quantityString, formatProvider, SolidAngle.From, out quantity);
@@ -666,6 +681,9 @@ namespace UnitsNet
 
             if (quantityType == typeof(Speed))
                 return parser.TryParse<Speed, SpeedUnit>(quantityString, formatProvider, Speed.From, out quantity);
+
+            if (quantityType == typeof(StandardVolumeFlow))
+                return parser.TryParse<StandardVolumeFlow, StandardVolumeFlowUnit>(quantityString, formatProvider, StandardVolumeFlow.From, out quantity);
 
             if (quantityType == typeof(Temperature))
                 return parser.TryParse<Temperature, TemperatureUnit>(quantityString, formatProvider, Temperature.From, out quantity);

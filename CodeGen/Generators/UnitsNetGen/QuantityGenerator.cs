@@ -69,8 +69,15 @@ namespace UnitsNet
     ///     {_quantity.XmlDocRemarks}
     /// </remarks>");
 
+            Writer.W(@$"
+    public partial struct {_quantity.Name} : IQuantity<{_unitEnumName}>, ");
+            if (_quantity.BaseType == "decimal")
+            {
+                Writer.W("IDecimalQuantity, ");
+            }
+
+            Writer.WL($"IEquatable<{_quantity.Name}>, IComparable, IComparable<{_quantity.Name}>, IConvertible, IFormattable");
             Writer.WL($@"
-    public partial struct {_quantity.Name} : IQuantity<{_unitEnumName}>, IEquatable<{_quantity.Name}>, IComparable, IComparable<{_quantity.Name}>, IConvertible, IFormattable
     {{
         /// <summary>
         ///     The numeric value this quantity was constructed with.
@@ -117,7 +124,7 @@ namespace UnitsNet
 ");
 
             Writer.WL($@"
-            Info = new QuantityInfo<{_unitEnumName}>(QuantityType.{_quantity.Name},
+            Info = new QuantityInfo<{_unitEnumName}>(""{_quantity.Name}"",
                 new UnitInfo<{_unitEnumName}>[] {{");
 
             foreach (var unit in _quantity.Units)
@@ -147,10 +154,10 @@ namespace UnitsNet
                 }
             }
 
-            Writer.WL(@"
-                },
-                BaseUnit, Zero, BaseDimensions);
-        }
+            Writer.WL($@"
+                }},
+                BaseUnit, Zero, BaseDimensions, QuantityType.{_quantity.Name});
+        }}
 ");
         }
 
@@ -228,16 +235,19 @@ namespace UnitsNet
         /// <summary>
         /// Represents the largest possible value of {_quantity.Name}
         /// </summary>
+        [Obsolete(""MaxValue and MinValue will be removed. Choose your own value or use nullability for unbounded lower/upper range checks. See discussion in https://github.com/angularsen/UnitsNet/issues/848."")]
         public static {_quantity.Name} MaxValue {{ get; }} = new {_quantity.Name}({_valueType}.MaxValue, BaseUnit);
 
         /// <summary>
         /// Represents the smallest possible value of {_quantity.Name}
         /// </summary>
+        [Obsolete(""MaxValue and MinValue will be removed. Choose your own value or use nullability for unbounded lower/upper range checks. See discussion in https://github.com/angularsen/UnitsNet/issues/848."")]
         public static {_quantity.Name} MinValue {{ get; }} = new {_quantity.Name}({_valueType}.MinValue, BaseUnit);
 
         /// <summary>
         ///     The <see cref=""QuantityType"" /> of this quantity.
         /// </summary>
+        [Obsolete(""QuantityType will be removed in the future. Use Info property instead."")]
         public static QuantityType QuantityType {{ get; }} = QuantityType.{_quantity.Name};
 
         /// <summary>
@@ -269,6 +279,11 @@ namespace UnitsNet
             if (_quantity.BaseType != "double")
                 Writer.WL(@"
         double IQuantity.Value => (double) _value;
+");
+            if (_quantity.BaseType == "decimal")
+                Writer.WL(@"
+        /// <inheritdoc cref=""IDecimalQuantity.Value""/>
+        decimal IDecimalQuantity.Value => _value;
 ");
 
             Writer.WL($@"
@@ -794,7 +809,7 @@ namespace UnitsNet
         /// <returns>A hash code for the current {_quantity.Name}.</returns>
         public override int GetHashCode()
         {{
-            return new {{ QuantityType, Value, Unit }}.GetHashCode();
+            return new {{ Info.Name, Value, Unit }}.GetHashCode();
         }}
 
         #endregion
@@ -1106,6 +1121,8 @@ namespace UnitsNet
                 return Unit;
             else if(conversionType == typeof(QuantityType))
                 return {_quantity.Name}.QuantityType;
+            else if(conversionType == typeof(QuantityInfo))
+                return {_quantity.Name}.Info;
             else if(conversionType == typeof(BaseDimensions))
                 return {_quantity.Name}.BaseDimensions;
             else
@@ -1142,6 +1159,6 @@ namespace UnitsNet
         /// </summary>
         private static string GetObsoleteAttributeOrNull(string obsoleteText) => string.IsNullOrWhiteSpace(obsoleteText)
             ? null
-            : $"[System.Obsolete({obsoleteText})]";
+            : $"[System.Obsolete(\"{obsoleteText}\")]";
     }
 }

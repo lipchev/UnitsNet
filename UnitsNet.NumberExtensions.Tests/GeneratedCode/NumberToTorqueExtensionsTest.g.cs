@@ -21,7 +21,7 @@ using UnitsNet.NumberExtensions.NumberToTorque;
 using Xunit;
 
 namespace UnitsNet.Tests
-{    
+{
     public class NumberToTorqueExtensionsTests
     {
         [Fact]
@@ -87,6 +87,10 @@ namespace UnitsNet.Tests
         [Fact]
         public void NumberToNewtonMillimetersTest() =>
             Assert.Equal(Torque.FromNewtonMillimeters(2), 2.NewtonMillimeters());
+
+        [Fact]
+        public void NumberToPoundalFeetTest() =>
+            Assert.Equal(Torque.FromPoundalFeet(2), 2.PoundalFeet());
 
         [Fact]
         public void NumberToPoundForceFeetTest() =>

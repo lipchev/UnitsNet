@@ -50,9 +50,10 @@ namespace UnitsNet
         {
             BaseDimensions = new BaseDimensions(0, 0, -1, 0, 0, 0, 0);
 
-            Info = new QuantityInfo<FrequencyUnit>(QuantityType.Frequency,
+            Info = new QuantityInfo<FrequencyUnit>("Frequency",
                 new UnitInfo<FrequencyUnit>[] {
                     new UnitInfo<FrequencyUnit>(FrequencyUnit.BeatPerMinute, BaseUnits.Undefined),
+                    new UnitInfo<FrequencyUnit>(FrequencyUnit.BUnit, BaseUnits.Undefined),
                     new UnitInfo<FrequencyUnit>(FrequencyUnit.CyclePerHour, BaseUnits.Undefined),
                     new UnitInfo<FrequencyUnit>(FrequencyUnit.CyclePerMinute, BaseUnits.Undefined),
                     new UnitInfo<FrequencyUnit>(FrequencyUnit.Gigahertz, BaseUnits.Undefined),
@@ -63,7 +64,7 @@ namespace UnitsNet
                     new UnitInfo<FrequencyUnit>(FrequencyUnit.RadianPerSecond, BaseUnits.Undefined),
                     new UnitInfo<FrequencyUnit>(FrequencyUnit.Terahertz, BaseUnits.Undefined),
                 },
-                BaseUnit, Zero, BaseDimensions);
+                BaseUnit, Zero, BaseDimensions, QuantityType.Frequency);
         }
 
         /// <summary>
@@ -118,16 +119,19 @@ namespace UnitsNet
         /// <summary>
         /// Represents the largest possible value of Frequency
         /// </summary>
+        [Obsolete("MaxValue and MinValue will be removed. Choose your own value or use nullability for unbounded lower/upper range checks. See discussion in https://github.com/angularsen/UnitsNet/issues/848.")]
         public static Frequency MaxValue { get; } = new Frequency(double.MaxValue, BaseUnit);
 
         /// <summary>
         /// Represents the smallest possible value of Frequency
         /// </summary>
+        [Obsolete("MaxValue and MinValue will be removed. Choose your own value or use nullability for unbounded lower/upper range checks. See discussion in https://github.com/angularsen/UnitsNet/issues/848.")]
         public static Frequency MinValue { get; } = new Frequency(double.MinValue, BaseUnit);
 
         /// <summary>
         ///     The <see cref="QuantityType" /> of this quantity.
         /// </summary>
+        [Obsolete("QuantityType will be removed in the future. Use Info property instead.")]
         public static QuantityType QuantityType { get; } = QuantityType.Frequency;
 
         /// <summary>
@@ -178,6 +182,11 @@ namespace UnitsNet
         ///     Get Frequency in BeatsPerMinute.
         /// </summary>
         public double BeatsPerMinute => As(FrequencyUnit.BeatPerMinute);
+
+        /// <summary>
+        ///     Get Frequency in BUnits.
+        /// </summary>
+        public double BUnits => As(FrequencyUnit.BUnit);
 
         /// <summary>
         ///     Get Frequency in CyclesPerHour.
@@ -261,6 +270,15 @@ namespace UnitsNet
         {
             double value = (double) beatsperminute;
             return new Frequency(value, FrequencyUnit.BeatPerMinute);
+        }
+        /// <summary>
+        ///     Get Frequency from BUnits.
+        /// </summary>
+        /// <exception cref="ArgumentException">If value is NaN or Infinity.</exception>
+        public static Frequency FromBUnits(QuantityValue bunits)
+        {
+            double value = (double) bunits;
+            return new Frequency(value, FrequencyUnit.BUnit);
         }
         /// <summary>
         ///     Get Frequency from CyclesPerHour.
@@ -676,7 +694,7 @@ namespace UnitsNet
         /// <returns>A hash code for the current Frequency.</returns>
         public override int GetHashCode()
         {
-            return new { QuantityType, Value, Unit }.GetHashCode();
+            return new { Info.Name, Value, Unit }.GetHashCode();
         }
 
         #endregion
@@ -771,6 +789,7 @@ namespace UnitsNet
             switch(Unit)
             {
                 case FrequencyUnit.BeatPerMinute: return _value/60;
+                case FrequencyUnit.BUnit: return Math.Sqrt(_value * 1e3);
                 case FrequencyUnit.CyclePerHour: return _value/3600;
                 case FrequencyUnit.CyclePerMinute: return _value/60;
                 case FrequencyUnit.Gigahertz: return (_value) * 1e9d;
@@ -806,6 +825,7 @@ namespace UnitsNet
             switch(unit)
             {
                 case FrequencyUnit.BeatPerMinute: return baseUnitValue*60;
+                case FrequencyUnit.BUnit: return baseUnitValue * baseUnitValue * 1e-3;
                 case FrequencyUnit.CyclePerHour: return baseUnitValue*3600;
                 case FrequencyUnit.CyclePerMinute: return baseUnitValue*60;
                 case FrequencyUnit.Gigahertz: return (baseUnitValue) / 1e9d;
@@ -977,6 +997,8 @@ namespace UnitsNet
                 return Unit;
             else if(conversionType == typeof(QuantityType))
                 return Frequency.QuantityType;
+            else if(conversionType == typeof(QuantityInfo))
+                return Frequency.Info;
             else if(conversionType == typeof(BaseDimensions))
                 return Frequency.BaseDimensions;
             else

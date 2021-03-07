@@ -21,6 +21,7 @@ using System;
 using System.Globalization;
 using System.Linq;
 using System.Threading;
+using UnitsNet.Tests.TestsBase;
 using UnitsNet.Units;
 using Xunit;
 
@@ -34,7 +35,7 @@ namespace UnitsNet.Tests
     /// Test of RotationalAcceleration.
     /// </summary>
 // ReSharper disable once PartialTypeWithSinglePart
-    public abstract partial class RotationalAccelerationTestsBase
+    public abstract partial class RotationalAccelerationTestsBase : QuantityTestsBase
     {
         protected abstract double DegreesPerSecondSquaredInOneRadianPerSecondSquared { get; }
         protected abstract double RadiansPerSecondSquaredInOneRadianPerSecondSquared { get; }
@@ -79,7 +80,7 @@ namespace UnitsNet.Tests
         [Fact]
         public void Ctor_NullAsUnitSystem_ThrowsArgumentNullException()
         {
-            Assert.Throws<ArgumentNullException>(() => new RotationalAcceleration(value: 1.0, unitSystem: null));
+            Assert.Throws<ArgumentNullException>(() => new RotationalAcceleration(value: 1, unitSystem: null));
         }
 
         [Fact]
@@ -114,10 +115,8 @@ namespace UnitsNet.Tests
             var unitNames = units.Select(x => x.ToString());
 
             // Obsolete members
-#pragma warning disable 618
             Assert.Equal(units, quantityInfo.Units);
             Assert.Equal(unitNames, quantityInfo.UnitNames);
-#pragma warning restore 618
         }
 
         [Fact]
@@ -238,6 +237,13 @@ namespace UnitsNet.Tests
             var radianpersecondsquared = RotationalAcceleration.FromRadiansPerSecondSquared(1);
  
             Assert.Throws<ArgumentNullException>(() => radianpersecondsquared.ToUnit(null));
+        }
+
+        [Fact]
+        public void ToBaseUnit_ReturnsQuantityWithBaseUnit()
+        {
+            var quantityInBaseUnit = RotationalAcceleration.FromRadiansPerSecondSquared(1).ToBaseUnit();
+            Assert.Equal(RotationalAcceleration.BaseUnit, quantityInBaseUnit.Unit);
         }
 
         [Fact]
@@ -455,7 +461,6 @@ namespace UnitsNet.Tests
             Assert.Equal("0.1235 rad/s²", new RotationalAcceleration(0.123456, RotationalAccelerationUnit.RadianPerSecondSquared).ToString("s4", culture));
         }
 
-        #pragma warning disable 612, 618
 
         [Fact]
         public void ToString_NullFormat_ThrowsArgumentNullException()
@@ -478,7 +483,6 @@ namespace UnitsNet.Tests
             Assert.Equal(quantity.ToString(CultureInfo.CurrentUICulture, "g"), quantity.ToString(null, "g"));
         }
 
-        #pragma warning restore 612, 618
 
         [Fact]
         public void Convert_ToBool_ThrowsInvalidCastException()
@@ -607,6 +611,13 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
+        public void Convert_ChangeType_QuantityInfo_EqualsQuantityInfo()
+        {
+            var quantity = RotationalAcceleration.FromRadiansPerSecondSquared(1.0);
+            Assert.Equal(RotationalAcceleration.Info, Convert.ChangeType(quantity, typeof(QuantityInfo)));
+        }
+
+        [Fact]
         public void Convert_ChangeType_BaseDimensions_EqualsBaseDimensions()
         {
             var quantity = RotationalAcceleration.FromRadiansPerSecondSquared(1.0);
@@ -624,7 +635,7 @@ namespace UnitsNet.Tests
         public void GetHashCode_Equals()
         {
             var quantity = RotationalAcceleration.FromRadiansPerSecondSquared(1.0);
-            Assert.Equal(new {RotationalAcceleration.QuantityType, quantity.Value, quantity.Unit}.GetHashCode(), quantity.GetHashCode());
+            Assert.Equal(new {RotationalAcceleration.Info.Name, quantity.Value, quantity.Unit}.GetHashCode(), quantity.GetHashCode());
         }
 
         [Theory]
@@ -635,6 +646,5 @@ namespace UnitsNet.Tests
             var quantity = RotationalAcceleration.FromRadiansPerSecondSquared(value);
             Assert.Equal(RotationalAcceleration.FromRadiansPerSecondSquared(-value), -quantity);
         }
-
     }
 }

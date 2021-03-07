@@ -21,6 +21,7 @@ using System;
 using System.Globalization;
 using System.Linq;
 using System.Threading;
+using UnitsNet.Tests.TestsBase;
 using UnitsNet.Units;
 using Xunit;
 
@@ -34,7 +35,7 @@ namespace UnitsNet.Tests
     /// Test of Force.
     /// </summary>
 // ReSharper disable once PartialTypeWithSinglePart
-    public abstract partial class ForceTestsBase
+    public abstract partial class ForceTestsBase : QuantityTestsBase
     {
         protected abstract double DecanewtonsInOneNewton { get; }
         protected abstract double DyneInOneNewton { get; }
@@ -101,7 +102,7 @@ namespace UnitsNet.Tests
         [Fact]
         public void Ctor_NullAsUnitSystem_ThrowsArgumentNullException()
         {
-            Assert.Throws<ArgumentNullException>(() => new Force(value: 1.0, unitSystem: null));
+            Assert.Throws<ArgumentNullException>(() => new Force(value: 1, unitSystem: null));
         }
 
         [Fact]
@@ -136,10 +137,8 @@ namespace UnitsNet.Tests
             var unitNames = units.Select(x => x.ToString());
 
             // Obsolete members
-#pragma warning disable 618
             Assert.Equal(units, quantityInfo.Units);
             Assert.Equal(unitNames, quantityInfo.UnitNames);
-#pragma warning restore 618
         }
 
         [Fact]
@@ -370,6 +369,13 @@ namespace UnitsNet.Tests
             var newton = Force.FromNewtons(1);
  
             Assert.Throws<ArgumentNullException>(() => newton.ToUnit(null));
+        }
+
+        [Fact]
+        public void ToBaseUnit_ReturnsQuantityWithBaseUnit()
+        {
+            var quantityInBaseUnit = Force.FromNewtons(1).ToBaseUnit();
+            Assert.Equal(Force.BaseUnit, quantityInBaseUnit.Unit);
         }
 
         [Fact]
@@ -620,7 +626,6 @@ namespace UnitsNet.Tests
             Assert.Equal("0.1235 N", new Force(0.123456, ForceUnit.Newton).ToString("s4", culture));
         }
 
-        #pragma warning disable 612, 618
 
         [Fact]
         public void ToString_NullFormat_ThrowsArgumentNullException()
@@ -643,7 +648,6 @@ namespace UnitsNet.Tests
             Assert.Equal(quantity.ToString(CultureInfo.CurrentUICulture, "g"), quantity.ToString(null, "g"));
         }
 
-        #pragma warning restore 612, 618
 
         [Fact]
         public void Convert_ToBool_ThrowsInvalidCastException()
@@ -772,6 +776,13 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
+        public void Convert_ChangeType_QuantityInfo_EqualsQuantityInfo()
+        {
+            var quantity = Force.FromNewtons(1.0);
+            Assert.Equal(Force.Info, Convert.ChangeType(quantity, typeof(QuantityInfo)));
+        }
+
+        [Fact]
         public void Convert_ChangeType_BaseDimensions_EqualsBaseDimensions()
         {
             var quantity = Force.FromNewtons(1.0);
@@ -789,7 +800,7 @@ namespace UnitsNet.Tests
         public void GetHashCode_Equals()
         {
             var quantity = Force.FromNewtons(1.0);
-            Assert.Equal(new {Force.QuantityType, quantity.Value, quantity.Unit}.GetHashCode(), quantity.GetHashCode());
+            Assert.Equal(new {Force.Info.Name, quantity.Value, quantity.Unit}.GetHashCode(), quantity.GetHashCode());
         }
 
         [Theory]
@@ -800,6 +811,5 @@ namespace UnitsNet.Tests
             var quantity = Force.FromNewtons(value);
             Assert.Equal(Force.FromNewtons(-value), -quantity);
         }
-
     }
 }

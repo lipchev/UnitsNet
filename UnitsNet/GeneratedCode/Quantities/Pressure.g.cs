@@ -50,7 +50,7 @@ namespace UnitsNet
         {
             BaseDimensions = new BaseDimensions(-1, 1, -2, 0, 0, 0, 0);
 
-            Info = new QuantityInfo<PressureUnit>(QuantityType.Pressure,
+            Info = new QuantityInfo<PressureUnit>("Pressure",
                 new UnitInfo<PressureUnit>[] {
                     new UnitInfo<PressureUnit>(PressureUnit.Atmosphere, BaseUnits.Undefined),
                     new UnitInfo<PressureUnit>(PressureUnit.Bar, BaseUnits.Undefined),
@@ -95,7 +95,7 @@ namespace UnitsNet
                     new UnitInfo<PressureUnit>(PressureUnit.TonneForcePerSquareMillimeter, BaseUnits.Undefined),
                     new UnitInfo<PressureUnit>(PressureUnit.Torr, BaseUnits.Undefined),
                 },
-                BaseUnit, Zero, BaseDimensions);
+                BaseUnit, Zero, BaseDimensions, QuantityType.Pressure);
         }
 
         /// <summary>
@@ -150,16 +150,19 @@ namespace UnitsNet
         /// <summary>
         /// Represents the largest possible value of Pressure
         /// </summary>
+        [Obsolete("MaxValue and MinValue will be removed. Choose your own value or use nullability for unbounded lower/upper range checks. See discussion in https://github.com/angularsen/UnitsNet/issues/848.")]
         public static Pressure MaxValue { get; } = new Pressure(double.MaxValue, BaseUnit);
 
         /// <summary>
         /// Represents the smallest possible value of Pressure
         /// </summary>
+        [Obsolete("MaxValue and MinValue will be removed. Choose your own value or use nullability for unbounded lower/upper range checks. See discussion in https://github.com/angularsen/UnitsNet/issues/848.")]
         public static Pressure MinValue { get; } = new Pressure(double.MinValue, BaseUnit);
 
         /// <summary>
         ///     The <see cref="QuantityType" /> of this quantity.
         /// </summary>
+        [Obsolete("QuantityType will be removed in the future. Use Info property instead.")]
         public static QuantityType QuantityType { get; } = QuantityType.Pressure;
 
         /// <summary>
@@ -1156,7 +1159,7 @@ namespace UnitsNet
         /// <returns>A hash code for the current Pressure.</returns>
         public override int GetHashCode()
         {
-            return new { QuantityType, Value, Unit }.GetHashCode();
+            return new { Info.Name, Value, Unit }.GetHashCode();
         }
 
         #endregion
@@ -1521,6 +1524,8 @@ namespace UnitsNet
                 return Unit;
             else if(conversionType == typeof(QuantityType))
                 return Pressure.QuantityType;
+            else if(conversionType == typeof(QuantityInfo))
+                return Pressure.Info;
             else if(conversionType == typeof(BaseDimensions))
                 return Pressure.BaseDimensions;
             else

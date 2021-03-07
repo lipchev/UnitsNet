@@ -50,7 +50,7 @@ namespace UnitsNet
         {
             BaseDimensions = new BaseDimensions(1, 0, -2, 0, 0, 0, 0);
 
-            Info = new QuantityInfo<AccelerationUnit>(QuantityType.Acceleration,
+            Info = new QuantityInfo<AccelerationUnit>("Acceleration",
                 new UnitInfo<AccelerationUnit>[] {
                     new UnitInfo<AccelerationUnit>(AccelerationUnit.CentimeterPerSecondSquared, BaseUnits.Undefined),
                     new UnitInfo<AccelerationUnit>(AccelerationUnit.DecimeterPerSecondSquared, BaseUnits.Undefined),
@@ -67,7 +67,7 @@ namespace UnitsNet
                     new UnitInfo<AccelerationUnit>(AccelerationUnit.NanometerPerSecondSquared, BaseUnits.Undefined),
                     new UnitInfo<AccelerationUnit>(AccelerationUnit.StandardGravity, new BaseUnits(length: LengthUnit.Meter, time: DurationUnit.Second)),
                 },
-                BaseUnit, Zero, BaseDimensions);
+                BaseUnit, Zero, BaseDimensions, QuantityType.Acceleration);
         }
 
         /// <summary>
@@ -122,16 +122,19 @@ namespace UnitsNet
         /// <summary>
         /// Represents the largest possible value of Acceleration
         /// </summary>
+        [Obsolete("MaxValue and MinValue will be removed. Choose your own value or use nullability for unbounded lower/upper range checks. See discussion in https://github.com/angularsen/UnitsNet/issues/848.")]
         public static Acceleration MaxValue { get; } = new Acceleration(double.MaxValue, BaseUnit);
 
         /// <summary>
         /// Represents the smallest possible value of Acceleration
         /// </summary>
+        [Obsolete("MaxValue and MinValue will be removed. Choose your own value or use nullability for unbounded lower/upper range checks. See discussion in https://github.com/angularsen/UnitsNet/issues/848.")]
         public static Acceleration MinValue { get; } = new Acceleration(double.MinValue, BaseUnit);
 
         /// <summary>
         ///     The <see cref="QuantityType" /> of this quantity.
         /// </summary>
+        [Obsolete("QuantityType will be removed in the future. Use Info property instead.")]
         public static QuantityType QuantityType { get; } = QuantityType.Acceleration;
 
         /// <summary>
@@ -736,7 +739,7 @@ namespace UnitsNet
         /// <returns>A hash code for the current Acceleration.</returns>
         public override int GetHashCode()
         {
-            return new { QuantityType, Value, Unit }.GetHashCode();
+            return new { Info.Name, Value, Unit }.GetHashCode();
         }
 
         #endregion
@@ -1045,6 +1048,8 @@ namespace UnitsNet
                 return Unit;
             else if(conversionType == typeof(QuantityType))
                 return Acceleration.QuantityType;
+            else if(conversionType == typeof(QuantityInfo))
+                return Acceleration.Info;
             else if(conversionType == typeof(BaseDimensions))
                 return Acceleration.BaseDimensions;
             else

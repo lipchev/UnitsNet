@@ -50,14 +50,14 @@ namespace UnitsNet
         {
             BaseDimensions = new BaseDimensions(2, 1, -3, 0, 0, 0, 0);
 
-            Info = new QuantityInfo<ReactivePowerUnit>(QuantityType.ReactivePower,
+            Info = new QuantityInfo<ReactivePowerUnit>("ReactivePower",
                 new UnitInfo<ReactivePowerUnit>[] {
                     new UnitInfo<ReactivePowerUnit>(ReactivePowerUnit.GigavoltampereReactive, BaseUnits.Undefined),
                     new UnitInfo<ReactivePowerUnit>(ReactivePowerUnit.KilovoltampereReactive, BaseUnits.Undefined),
                     new UnitInfo<ReactivePowerUnit>(ReactivePowerUnit.MegavoltampereReactive, BaseUnits.Undefined),
                     new UnitInfo<ReactivePowerUnit>(ReactivePowerUnit.VoltampereReactive, BaseUnits.Undefined),
                 },
-                BaseUnit, Zero, BaseDimensions);
+                BaseUnit, Zero, BaseDimensions, QuantityType.ReactivePower);
         }
 
         /// <summary>
@@ -112,16 +112,19 @@ namespace UnitsNet
         /// <summary>
         /// Represents the largest possible value of ReactivePower
         /// </summary>
+        [Obsolete("MaxValue and MinValue will be removed. Choose your own value or use nullability for unbounded lower/upper range checks. See discussion in https://github.com/angularsen/UnitsNet/issues/848.")]
         public static ReactivePower MaxValue { get; } = new ReactivePower(double.MaxValue, BaseUnit);
 
         /// <summary>
         /// Represents the smallest possible value of ReactivePower
         /// </summary>
+        [Obsolete("MaxValue and MinValue will be removed. Choose your own value or use nullability for unbounded lower/upper range checks. See discussion in https://github.com/angularsen/UnitsNet/issues/848.")]
         public static ReactivePower MinValue { get; } = new ReactivePower(double.MinValue, BaseUnit);
 
         /// <summary>
         ///     The <see cref="QuantityType" /> of this quantity.
         /// </summary>
+        [Obsolete("QuantityType will be removed in the future. Use Info property instead.")]
         public static QuantityType QuantityType { get; } = QuantityType.ReactivePower;
 
         /// <summary>
@@ -586,7 +589,7 @@ namespace UnitsNet
         /// <returns>A hash code for the current ReactivePower.</returns>
         public override int GetHashCode()
         {
-            return new { QuantityType, Value, Unit }.GetHashCode();
+            return new { Info.Name, Value, Unit }.GetHashCode();
         }
 
         #endregion
@@ -875,6 +878,8 @@ namespace UnitsNet
                 return Unit;
             else if(conversionType == typeof(QuantityType))
                 return ReactivePower.QuantityType;
+            else if(conversionType == typeof(QuantityInfo))
+                return ReactivePower.Info;
             else if(conversionType == typeof(BaseDimensions))
                 return ReactivePower.BaseDimensions;
             else

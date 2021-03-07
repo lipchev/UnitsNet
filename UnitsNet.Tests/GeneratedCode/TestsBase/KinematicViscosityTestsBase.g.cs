@@ -21,6 +21,7 @@ using System;
 using System.Globalization;
 using System.Linq;
 using System.Threading;
+using UnitsNet.Tests.TestsBase;
 using UnitsNet.Units;
 using Xunit;
 
@@ -34,7 +35,7 @@ namespace UnitsNet.Tests
     /// Test of KinematicViscosity.
     /// </summary>
 // ReSharper disable once PartialTypeWithSinglePart
-    public abstract partial class KinematicViscosityTestsBase
+    public abstract partial class KinematicViscosityTestsBase : QuantityTestsBase
     {
         protected abstract double CentistokesInOneSquareMeterPerSecond { get; }
         protected abstract double DecistokesInOneSquareMeterPerSecond { get; }
@@ -87,7 +88,7 @@ namespace UnitsNet.Tests
         [Fact]
         public void Ctor_NullAsUnitSystem_ThrowsArgumentNullException()
         {
-            Assert.Throws<ArgumentNullException>(() => new KinematicViscosity(value: 1.0, unitSystem: null));
+            Assert.Throws<ArgumentNullException>(() => new KinematicViscosity(value: 1, unitSystem: null));
         }
 
         [Fact]
@@ -122,10 +123,8 @@ namespace UnitsNet.Tests
             var unitNames = units.Select(x => x.ToString());
 
             // Obsolete members
-#pragma warning disable 618
             Assert.Equal(units, quantityInfo.Units);
             Assert.Equal(unitNames, quantityInfo.UnitNames);
-#pragma warning restore 618
         }
 
         [Fact]
@@ -286,6 +285,13 @@ namespace UnitsNet.Tests
             var squaremeterpersecond = KinematicViscosity.FromSquareMetersPerSecond(1);
  
             Assert.Throws<ArgumentNullException>(() => squaremeterpersecond.ToUnit(null));
+        }
+
+        [Fact]
+        public void ToBaseUnit_ReturnsQuantityWithBaseUnit()
+        {
+            var quantityInBaseUnit = KinematicViscosity.FromSquareMetersPerSecond(1).ToBaseUnit();
+            Assert.Equal(KinematicViscosity.BaseUnit, quantityInBaseUnit.Unit);
         }
 
         [Fact]
@@ -515,7 +521,6 @@ namespace UnitsNet.Tests
             Assert.Equal("0.1235 m²/s", new KinematicViscosity(0.123456, KinematicViscosityUnit.SquareMeterPerSecond).ToString("s4", culture));
         }
 
-        #pragma warning disable 612, 618
 
         [Fact]
         public void ToString_NullFormat_ThrowsArgumentNullException()
@@ -538,7 +543,6 @@ namespace UnitsNet.Tests
             Assert.Equal(quantity.ToString(CultureInfo.CurrentUICulture, "g"), quantity.ToString(null, "g"));
         }
 
-        #pragma warning restore 612, 618
 
         [Fact]
         public void Convert_ToBool_ThrowsInvalidCastException()
@@ -667,6 +671,13 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
+        public void Convert_ChangeType_QuantityInfo_EqualsQuantityInfo()
+        {
+            var quantity = KinematicViscosity.FromSquareMetersPerSecond(1.0);
+            Assert.Equal(KinematicViscosity.Info, Convert.ChangeType(quantity, typeof(QuantityInfo)));
+        }
+
+        [Fact]
         public void Convert_ChangeType_BaseDimensions_EqualsBaseDimensions()
         {
             var quantity = KinematicViscosity.FromSquareMetersPerSecond(1.0);
@@ -684,7 +695,7 @@ namespace UnitsNet.Tests
         public void GetHashCode_Equals()
         {
             var quantity = KinematicViscosity.FromSquareMetersPerSecond(1.0);
-            Assert.Equal(new {KinematicViscosity.QuantityType, quantity.Value, quantity.Unit}.GetHashCode(), quantity.GetHashCode());
+            Assert.Equal(new {KinematicViscosity.Info.Name, quantity.Value, quantity.Unit}.GetHashCode(), quantity.GetHashCode());
         }
 
         [Theory]
@@ -695,6 +706,5 @@ namespace UnitsNet.Tests
             var quantity = KinematicViscosity.FromSquareMetersPerSecond(value);
             Assert.Equal(KinematicViscosity.FromSquareMetersPerSecond(-value), -quantity);
         }
-
     }
 }

@@ -34,7 +34,7 @@ namespace UnitsNet
     /// <summary>
     ///     In computing and telecommunications, a unit of information is the capacity of some standard data storage system or communication channel, used to measure the capacities of other systems and channels. In information theory, units of information are also used to measure the information contents or entropy of random variables.
     /// </summary>
-    public partial struct Information : IQuantity<InformationUnit>, IEquatable<Information>, IComparable, IComparable<Information>, IConvertible, IFormattable
+    public partial struct Information : IQuantity<InformationUnit>, IDecimalQuantity, IEquatable<Information>, IComparable, IComparable<Information>, IConvertible, IFormattable
     {
         /// <summary>
         ///     The numeric value this quantity was constructed with.
@@ -50,7 +50,7 @@ namespace UnitsNet
         {
             BaseDimensions = BaseDimensions.Dimensionless;
 
-            Info = new QuantityInfo<InformationUnit>(QuantityType.Information,
+            Info = new QuantityInfo<InformationUnit>("Information",
                 new UnitInfo<InformationUnit>[] {
                     new UnitInfo<InformationUnit>(InformationUnit.Bit, BaseUnits.Undefined),
                     new UnitInfo<InformationUnit>(InformationUnit.Byte, BaseUnits.Undefined),
@@ -79,7 +79,7 @@ namespace UnitsNet
                     new UnitInfo<InformationUnit>(InformationUnit.Terabit, BaseUnits.Undefined),
                     new UnitInfo<InformationUnit>(InformationUnit.Terabyte, BaseUnits.Undefined),
                 },
-                BaseUnit, Zero, BaseDimensions);
+                BaseUnit, Zero, BaseDimensions, QuantityType.Information);
         }
 
         /// <summary>
@@ -134,16 +134,19 @@ namespace UnitsNet
         /// <summary>
         /// Represents the largest possible value of Information
         /// </summary>
+        [Obsolete("MaxValue and MinValue will be removed. Choose your own value or use nullability for unbounded lower/upper range checks. See discussion in https://github.com/angularsen/UnitsNet/issues/848.")]
         public static Information MaxValue { get; } = new Information(decimal.MaxValue, BaseUnit);
 
         /// <summary>
         /// Represents the smallest possible value of Information
         /// </summary>
+        [Obsolete("MaxValue and MinValue will be removed. Choose your own value or use nullability for unbounded lower/upper range checks. See discussion in https://github.com/angularsen/UnitsNet/issues/848.")]
         public static Information MinValue { get; } = new Information(decimal.MinValue, BaseUnit);
 
         /// <summary>
         ///     The <see cref="QuantityType" /> of this quantity.
         /// </summary>
+        [Obsolete("QuantityType will be removed in the future. Use Info property instead.")]
         public static QuantityType QuantityType { get; } = QuantityType.Information;
 
         /// <summary>
@@ -166,6 +169,9 @@ namespace UnitsNet
         public decimal Value => _value;
 
         double IQuantity.Value => (double) _value;
+
+        /// <inheritdoc cref="IDecimalQuantity.Value"/>
+        decimal IDecimalQuantity.Value => _value;
 
         Enum IQuantity.Unit => Unit;
 
@@ -918,7 +924,7 @@ namespace UnitsNet
         /// <returns>A hash code for the current Information.</returns>
         public override int GetHashCode()
         {
-            return new { QuantityType, Value, Unit }.GetHashCode();
+            return new { Info.Name, Value, Unit }.GetHashCode();
         }
 
         #endregion
@@ -1251,6 +1257,8 @@ namespace UnitsNet
                 return Unit;
             else if(conversionType == typeof(QuantityType))
                 return Information.QuantityType;
+            else if(conversionType == typeof(QuantityInfo))
+                return Information.Info;
             else if(conversionType == typeof(BaseDimensions))
                 return Information.BaseDimensions;
             else
