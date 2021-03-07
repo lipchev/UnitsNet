@@ -155,21 +155,6 @@ namespace UnitsNet.Tests
         }}
 
         [Fact]
-        public void Ctor_SIUnitSystem_ThrowsArgumentExceptionIfNotSupported()
-        {{
-            Func<object> TestCode = () => new {_quantity.Name}(value: 1, unitSystem: UnitSystem.SI);
-            if (SupportsSIUnitSystem)
-            {{
-                var quantity = ({_quantity.Name}) TestCode();
-                Assert.Equal(1, quantity.Value);
-            }}
-            else
-            {{
-                Assert.Throws<ArgumentException>(TestCode);
-            }}
-        }}
-
-        [Fact]
         public void Ctor_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
         {{");
             foreach (var unit in _unitSystemUnits)

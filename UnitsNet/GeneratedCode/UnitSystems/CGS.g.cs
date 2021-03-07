@@ -199,6 +199,9 @@ namespace UnitsNet.UnitSystems
                 null,
                 null,
                 null,
+                null,
+                null,
+                null,
                 new UnitSystemInfo(Temperature.Info.UnitInfos[7], new UnitInfo[]{
                     Temperature.Info.UnitInfos[0],
                     Temperature.Info.UnitInfos[7],
