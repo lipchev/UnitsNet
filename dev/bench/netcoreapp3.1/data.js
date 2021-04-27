@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1619520553193,
+  "lastUpdate": 1619520943908,
   "repoUrl": "https://github.com/lipchev/UnitsNet",
   "entries": {
     "UnitsNet Benchmarks (netcoreapp3.1)": [
@@ -72,6 +72,42 @@ window.BENCHMARK_DATA = {
             "value": 28.47261627515157,
             "unit": "ns",
             "range": "± 0.7581172586545769"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "lipchev@gmail.com",
+            "name": "lipchev",
+            "username": "lipchev"
+          },
+          "committer": {
+            "email": "lipchev@gmail.com",
+            "name": "lipchev",
+            "username": "lipchev"
+          },
+          "distinct": true,
+          "id": "880e7b7d17161eb0af6c7ecf47f5f560880f92a3",
+          "message": "setup dotnet",
+          "timestamp": "2021-04-27T13:51:44+03:00",
+          "tree_id": "df5c1092780ff832a1326d8185177606b5fa929d",
+          "url": "https://github.com/lipchev/UnitsNet/commit/880e7b7d17161eb0af6c7ecf47f5f560880f92a3"
+        },
+        "date": 1619520939089,
+        "tool": "benchmarkdotnet",
+        "benches": [
+          {
+            "name": "UnitsNet.Benchmark.UnitsNetBenchmarks.Constructor",
+            "value": 11.821583012739817,
+            "unit": "ns",
+            "range": "± 0.07221717748571405"
+          },
+          {
+            "name": "UnitsNet.Benchmark.UnitsNetBenchmarks.FromMethod",
+            "value": 31.19580586751302,
+            "unit": "ns",
+            "range": "± 0.44627819291579945"
           }
         ]
       }
