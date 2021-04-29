@@ -1,4 +1,4 @@
-﻿// Licensed under MIT No Attribution, see LICENSE file at the root.
+// Licensed under MIT No Attribution, see LICENSE file at the root.
 // Copyright 2013 Andreas Gullberg Larsen (andreas.larsen84@gmail.com). Maintained at https://github.com/angularsen/UnitsNet.
 
 using System;
@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using CodeGen.Exceptions;
 using CodeGen.Helpers;
 using CodeGen.JsonTypes;
 using Newtonsoft.Json;
@@ -41,11 +42,9 @@ namespace CodeGen.Generators
         {
             try
             {
-                var quantity = JsonConvert.DeserializeObject<Quantity>(File.ReadAllText(jsonFile, Encoding.UTF8), JsonSerializerSettings);
-                if (quantity == null)
-                {
-                    throw new NullReferenceException(); // CS8604: Possible null reference argument for parameter quantity
-                }
+                var quantity = JsonConvert.DeserializeObject<Quantity>(File.ReadAllText(jsonFile, Encoding.UTF8), JsonSerializerSettings)
+                               ?? throw new UnitsNetCodeGenException($"Unable to parse quantity from JSON file: {jsonFile}");
+
                 AddPrefixUnits(quantity);
                 FixConversionFunctionsForDecimalValueTypes(quantity);
                 OrderUnitsByName(quantity);
@@ -90,8 +89,7 @@ namespace CodeGen.Generators
                     {
                         SingularName = $"{prefix}{unit.SingularName.ToCamelCase()}", // "Kilo" + "NewtonPerMeter" => "KilonewtonPerMeter"
                         PluralName = $"{prefix}{unit.PluralName.ToCamelCase()}", // "Kilo" + "NewtonsPerMeter" => "KilonewtonsPerMeter"
-                        BaseUnits = null, // Can we determine this somehow?,
-                        UnitSystems =  unit.UnitSystems, // Unit systems mappings are inherited for prefixed units
+                        BaseUnits = null, // Can we determine this somehow?
                         FromBaseToUnitFunc = $"({unit.FromBaseToUnitFunc}) / {prefixInfo.Factor}",
                         FromUnitToBaseFunc = $"({unit.FromUnitToBaseFunc}) * {prefixInfo.Factor}",
                         Localization = GetLocalizationForPrefixUnit(unit.Localization, prefixInfo)
