@@ -33,12 +33,6 @@ namespace UnitsNet.UnitSystems
             {
                 null,
                 new UnitSystemInfo(AmountOfSubstance.Info.UnitInfos[14], new UnitInfo[]{
-                    AmountOfSubstance.Info.UnitInfos[1],
-                    AmountOfSubstance.Info.UnitInfos[3],
-                    AmountOfSubstance.Info.UnitInfos[5],
-                    AmountOfSubstance.Info.UnitInfos[8],
-                    AmountOfSubstance.Info.UnitInfos[10],
-                    AmountOfSubstance.Info.UnitInfos[13],
                     AmountOfSubstance.Info.UnitInfos[14],
                     }),
                 null,
@@ -56,11 +50,8 @@ namespace UnitsNet.UnitSystems
                 new UnitSystemInfo(Duration.Info.UnitInfos[7], new UnitInfo[]{
                     Duration.Info.UnitInfos[0],
                     Duration.Info.UnitInfos[1],
-                    Duration.Info.UnitInfos[2],
-                    Duration.Info.UnitInfos[3],
                     Duration.Info.UnitInfos[4],
                     Duration.Info.UnitInfos[5],
-                    Duration.Info.UnitInfos[6],
                     Duration.Info.UnitInfos[7],
                     Duration.Info.UnitInfos[8],
                     Duration.Info.UnitInfos[9],
@@ -73,13 +64,6 @@ namespace UnitsNet.UnitSystems
                 null,
                 new UnitSystemInfo(ElectricCurrent.Info.UnitInfos[0], new UnitInfo[]{
                     ElectricCurrent.Info.UnitInfos[0],
-                    ElectricCurrent.Info.UnitInfos[1],
-                    ElectricCurrent.Info.UnitInfos[2],
-                    ElectricCurrent.Info.UnitInfos[3],
-                    ElectricCurrent.Info.UnitInfos[4],
-                    ElectricCurrent.Info.UnitInfos[5],
-                    ElectricCurrent.Info.UnitInfos[6],
-                    ElectricCurrent.Info.UnitInfos[7],
                     }),
                 null,
                 null,

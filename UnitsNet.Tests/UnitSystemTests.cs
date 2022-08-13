@@ -250,14 +250,15 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
-        public void WithDefaultUnit_GivenNullForDerivedUnits_ReturnsUnitSystemWithOldDerivedUnits()
+        public void WithDefaultUnit_GivenNullForDerivedUnits_ReturnsUnitSystemWithOldDerivedUnits_IncludingTheNewBaseUnit()
         {
             var myDefaultLengthUnit = Length.Info.UnitInfos.First(x => x.Value == LengthUnit.Millimeter);
 
             var derivedSystem = UnitSystem.SI.WithDefaultUnit(QuantityType.Length, myDefaultLengthUnit); 
 
             Assert.Equal(LengthUnit.Millimeter, derivedSystem.GetDefaultUnitInfo(QuantityType.Length)?.Value);
-            Assert.Equal(UnitSystem.SI.GetCommonUnitsInfo(QuantityType.Length), derivedSystem.GetCommonUnitsInfo(QuantityType.Length));
+            Assert.ProperSuperset(UnitSystem.SI.GetCommonUnitsInfo(QuantityType.Length).ToHashSet(), derivedSystem.GetCommonUnitsInfo(QuantityType.Length).ToHashSet());
+            Assert.Contains(myDefaultLengthUnit, derivedSystem.GetCommonUnitsInfo(QuantityType.Length));
         }
 
         [Fact]

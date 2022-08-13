@@ -104,21 +104,6 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
-        public void Ctor_SIUnitSystem_ThrowsArgumentExceptionIfNotSupported()
-        {
-            Func<object> TestCode = () => new Acceleration(value: 1, unitSystem: UnitSystem.SI);
-            if (SupportsSIUnitSystem)
-            {
-                var quantity = (Acceleration) TestCode();
-                Assert.Equal(1, quantity.Value);
-            }
-            else
-            {
-                Assert.Throws<ArgumentException>(TestCode);
-            }
-        }
-
-        [Fact]
         public void Ctor_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
         {
             var siQuantity = new Acceleration(1, UnitSystem.SI);
@@ -278,23 +263,6 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
-        public void As_SIUnitSystem_ThrowsArgumentExceptionIfNotSupported()
-        {
-            var quantity = new Acceleration(value: 1, unit: Acceleration.BaseUnit);
-            Func<object> AsWithSIUnitSystem = () => quantity.As(UnitSystem.SI);
-
-            if (SupportsSIUnitSystem)
-            {
-                var value = (double) AsWithSIUnitSystem();
-                Assert.Equal(1, value);
-            }
-            else
-            {
-                Assert.Throws<ArgumentException>(AsWithSIUnitSystem);
-            }
-        }
-
-        [Fact]
         public void As_UnitSystem_ThrowsArgumentExceptionIfNotSupported()
         {
             var meterpersecondsquared = Acceleration.FromMetersPerSecondSquared(1);
@@ -408,6 +376,13 @@ namespace UnitsNet.Tests
             var meterpersecondsquared = Acceleration.FromMetersPerSecondSquared(1);
  
             Assert.Throws<ArgumentNullException>(() => meterpersecondsquared.ToUnit(null));
+        }
+
+        [Fact]
+        public void ToBaseUnit_ReturnsQuantityWithBaseUnit()
+        {
+            var quantityInBaseUnit = Acceleration.FromMetersPerSecondSquared(1).ToBaseUnit();
+            Assert.Equal(Acceleration.BaseUnit, quantityInBaseUnit.Unit);
         }
 
         [Fact]
