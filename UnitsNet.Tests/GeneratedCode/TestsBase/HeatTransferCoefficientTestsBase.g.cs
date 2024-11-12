@@ -109,15 +109,14 @@ namespace UnitsNet.Tests
         [Fact]
         public void Ctor_SIUnitSystem_ThrowsArgumentExceptionIfNotSupported()
         {
-            Func<object> TestCode = () => new HeatTransferCoefficient(value: 1, unitSystem: UnitSystem.SI);
             if (SupportsSIUnitSystem)
             {
-                var quantity = (HeatTransferCoefficient) TestCode();
+                var quantity = new HeatTransferCoefficient(value: 1, unitSystem: UnitSystem.SI);
                 Assert.Equal(1, quantity.Value);
             }
             else
             {
-                Assert.Throws<ArgumentException>(TestCode);
+                Assert.Throws<ArgumentException>(() => new HeatTransferCoefficient(value: 1, unitSystem: UnitSystem.SI));
             }
         }
 
@@ -150,23 +149,23 @@ namespace UnitsNet.Tests
         public void From_ValueAndUnit_ReturnsQuantityWithSameValueAndUnit()
         {
             var quantity00 = HeatTransferCoefficient.From(1, HeatTransferCoefficientUnit.BtuPerHourSquareFootDegreeFahrenheit);
-            AssertEx.EqualTolerance(1, quantity00.BtusPerHourSquareFootDegreeFahrenheit, BtusPerHourSquareFootDegreeFahrenheitTolerance);
+            Assert.Equal(1, quantity00.BtusPerHourSquareFootDegreeFahrenheit);
             Assert.Equal(HeatTransferCoefficientUnit.BtuPerHourSquareFootDegreeFahrenheit, quantity00.Unit);
 
             var quantity01 = HeatTransferCoefficient.From(1, HeatTransferCoefficientUnit.CaloriePerHourSquareMeterDegreeCelsius);
-            AssertEx.EqualTolerance(1, quantity01.CaloriesPerHourSquareMeterDegreeCelsius, CaloriesPerHourSquareMeterDegreeCelsiusTolerance);
+            Assert.Equal(1, quantity01.CaloriesPerHourSquareMeterDegreeCelsius);
             Assert.Equal(HeatTransferCoefficientUnit.CaloriePerHourSquareMeterDegreeCelsius, quantity01.Unit);
 
             var quantity02 = HeatTransferCoefficient.From(1, HeatTransferCoefficientUnit.KilocaloriePerHourSquareMeterDegreeCelsius);
-            AssertEx.EqualTolerance(1, quantity02.KilocaloriesPerHourSquareMeterDegreeCelsius, KilocaloriesPerHourSquareMeterDegreeCelsiusTolerance);
+            Assert.Equal(1, quantity02.KilocaloriesPerHourSquareMeterDegreeCelsius);
             Assert.Equal(HeatTransferCoefficientUnit.KilocaloriePerHourSquareMeterDegreeCelsius, quantity02.Unit);
 
             var quantity03 = HeatTransferCoefficient.From(1, HeatTransferCoefficientUnit.WattPerSquareMeterCelsius);
-            AssertEx.EqualTolerance(1, quantity03.WattsPerSquareMeterCelsius, WattsPerSquareMeterCelsiusTolerance);
+            Assert.Equal(1, quantity03.WattsPerSquareMeterCelsius);
             Assert.Equal(HeatTransferCoefficientUnit.WattPerSquareMeterCelsius, quantity03.Unit);
 
             var quantity04 = HeatTransferCoefficient.From(1, HeatTransferCoefficientUnit.WattPerSquareMeterKelvin);
-            AssertEx.EqualTolerance(1, quantity04.WattsPerSquareMeterKelvin, WattsPerSquareMeterKelvinTolerance);
+            Assert.Equal(1, quantity04.WattsPerSquareMeterKelvin);
             Assert.Equal(HeatTransferCoefficientUnit.WattPerSquareMeterKelvin, quantity04.Unit);
 
         }
@@ -204,16 +203,13 @@ namespace UnitsNet.Tests
         public void As_SIUnitSystem_ThrowsArgumentExceptionIfNotSupported()
         {
             var quantity = new HeatTransferCoefficient(value: 1, unit: HeatTransferCoefficient.BaseUnit);
-            Func<object> AsWithSIUnitSystem = () => quantity.As(UnitSystem.SI);
-
             if (SupportsSIUnitSystem)
             {
-                var value = Convert.ToDouble(AsWithSIUnitSystem());
-                Assert.Equal(1, value);
+                Assert.Equal(1, quantity.As(UnitSystem.SI));
             }
             else
             {
-                Assert.Throws<ArgumentException>(AsWithSIUnitSystem);
+                Assert.Throws<ArgumentException>(() => quantity.As(UnitSystem.SI));
             }
         }
 
@@ -223,98 +219,98 @@ namespace UnitsNet.Tests
             try
             {
                 var parsed = HeatTransferCoefficient.Parse("1 Btu/(h·ft²·°F)", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.BtusPerHourSquareFootDegreeFahrenheit, BtusPerHourSquareFootDegreeFahrenheitTolerance);
+                Assert.Equal(1, parsed.BtusPerHourSquareFootDegreeFahrenheit);
                 Assert.Equal(HeatTransferCoefficientUnit.BtuPerHourSquareFootDegreeFahrenheit, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = HeatTransferCoefficient.Parse("1 Btu/(ft²·h·°F)", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.BtusPerHourSquareFootDegreeFahrenheit, BtusPerHourSquareFootDegreeFahrenheitTolerance);
+                Assert.Equal(1, parsed.BtusPerHourSquareFootDegreeFahrenheit);
                 Assert.Equal(HeatTransferCoefficientUnit.BtuPerHourSquareFootDegreeFahrenheit, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = HeatTransferCoefficient.Parse("1 Btu/(hr·ft²·°F)", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.BtusPerHourSquareFootDegreeFahrenheit, BtusPerHourSquareFootDegreeFahrenheitTolerance);
+                Assert.Equal(1, parsed.BtusPerHourSquareFootDegreeFahrenheit);
                 Assert.Equal(HeatTransferCoefficientUnit.BtuPerHourSquareFootDegreeFahrenheit, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = HeatTransferCoefficient.Parse("1 Btu/(ft²·hr·°F)", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.BtusPerHourSquareFootDegreeFahrenheit, BtusPerHourSquareFootDegreeFahrenheitTolerance);
+                Assert.Equal(1, parsed.BtusPerHourSquareFootDegreeFahrenheit);
                 Assert.Equal(HeatTransferCoefficientUnit.BtuPerHourSquareFootDegreeFahrenheit, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = HeatTransferCoefficient.Parse("1 kcal/(h·m²·°C)", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.CaloriesPerHourSquareMeterDegreeCelsius, CaloriesPerHourSquareMeterDegreeCelsiusTolerance);
+                Assert.Equal(1, parsed.CaloriesPerHourSquareMeterDegreeCelsius);
                 Assert.Equal(HeatTransferCoefficientUnit.CaloriePerHourSquareMeterDegreeCelsius, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = HeatTransferCoefficient.Parse("1 kcal/(m²·h·°C)", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.CaloriesPerHourSquareMeterDegreeCelsius, CaloriesPerHourSquareMeterDegreeCelsiusTolerance);
+                Assert.Equal(1, parsed.CaloriesPerHourSquareMeterDegreeCelsius);
                 Assert.Equal(HeatTransferCoefficientUnit.CaloriePerHourSquareMeterDegreeCelsius, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = HeatTransferCoefficient.Parse("1 kcal/(hr·m²·°C)", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.CaloriesPerHourSquareMeterDegreeCelsius, CaloriesPerHourSquareMeterDegreeCelsiusTolerance);
+                Assert.Equal(1, parsed.CaloriesPerHourSquareMeterDegreeCelsius);
                 Assert.Equal(HeatTransferCoefficientUnit.CaloriePerHourSquareMeterDegreeCelsius, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = HeatTransferCoefficient.Parse("1 kcal/(m²·hr·°C)", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.CaloriesPerHourSquareMeterDegreeCelsius, CaloriesPerHourSquareMeterDegreeCelsiusTolerance);
+                Assert.Equal(1, parsed.CaloriesPerHourSquareMeterDegreeCelsius);
                 Assert.Equal(HeatTransferCoefficientUnit.CaloriePerHourSquareMeterDegreeCelsius, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = HeatTransferCoefficient.Parse("1 kkcal/(h·m²·°C)", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.KilocaloriesPerHourSquareMeterDegreeCelsius, KilocaloriesPerHourSquareMeterDegreeCelsiusTolerance);
+                Assert.Equal(1, parsed.KilocaloriesPerHourSquareMeterDegreeCelsius);
                 Assert.Equal(HeatTransferCoefficientUnit.KilocaloriePerHourSquareMeterDegreeCelsius, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = HeatTransferCoefficient.Parse("1 kkcal/(m²·h·°C)", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.KilocaloriesPerHourSquareMeterDegreeCelsius, KilocaloriesPerHourSquareMeterDegreeCelsiusTolerance);
+                Assert.Equal(1, parsed.KilocaloriesPerHourSquareMeterDegreeCelsius);
                 Assert.Equal(HeatTransferCoefficientUnit.KilocaloriePerHourSquareMeterDegreeCelsius, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = HeatTransferCoefficient.Parse("1 kkcal/(hr·m²·°C)", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.KilocaloriesPerHourSquareMeterDegreeCelsius, KilocaloriesPerHourSquareMeterDegreeCelsiusTolerance);
+                Assert.Equal(1, parsed.KilocaloriesPerHourSquareMeterDegreeCelsius);
                 Assert.Equal(HeatTransferCoefficientUnit.KilocaloriePerHourSquareMeterDegreeCelsius, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = HeatTransferCoefficient.Parse("1 kkcal/(m²·hr·°C)", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.KilocaloriesPerHourSquareMeterDegreeCelsius, KilocaloriesPerHourSquareMeterDegreeCelsiusTolerance);
+                Assert.Equal(1, parsed.KilocaloriesPerHourSquareMeterDegreeCelsius);
                 Assert.Equal(HeatTransferCoefficientUnit.KilocaloriePerHourSquareMeterDegreeCelsius, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = HeatTransferCoefficient.Parse("1 W/(m²·°C)", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.WattsPerSquareMeterCelsius, WattsPerSquareMeterCelsiusTolerance);
+                Assert.Equal(1, parsed.WattsPerSquareMeterCelsius);
                 Assert.Equal(HeatTransferCoefficientUnit.WattPerSquareMeterCelsius, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = HeatTransferCoefficient.Parse("1 W/(m²·K)", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.WattsPerSquareMeterKelvin, WattsPerSquareMeterKelvinTolerance);
+                Assert.Equal(1, parsed.WattsPerSquareMeterKelvin);
                 Assert.Equal(HeatTransferCoefficientUnit.WattPerSquareMeterKelvin, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
@@ -325,85 +321,85 @@ namespace UnitsNet.Tests
         {
             {
                 Assert.True(HeatTransferCoefficient.TryParse("1 Btu/(h·ft²·°F)", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.BtusPerHourSquareFootDegreeFahrenheit, BtusPerHourSquareFootDegreeFahrenheitTolerance);
+                Assert.Equal(1, parsed.BtusPerHourSquareFootDegreeFahrenheit);
                 Assert.Equal(HeatTransferCoefficientUnit.BtuPerHourSquareFootDegreeFahrenheit, parsed.Unit);
             }
 
             {
                 Assert.True(HeatTransferCoefficient.TryParse("1 Btu/(ft²·h·°F)", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.BtusPerHourSquareFootDegreeFahrenheit, BtusPerHourSquareFootDegreeFahrenheitTolerance);
+                Assert.Equal(1, parsed.BtusPerHourSquareFootDegreeFahrenheit);
                 Assert.Equal(HeatTransferCoefficientUnit.BtuPerHourSquareFootDegreeFahrenheit, parsed.Unit);
             }
 
             {
                 Assert.True(HeatTransferCoefficient.TryParse("1 Btu/(hr·ft²·°F)", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.BtusPerHourSquareFootDegreeFahrenheit, BtusPerHourSquareFootDegreeFahrenheitTolerance);
+                Assert.Equal(1, parsed.BtusPerHourSquareFootDegreeFahrenheit);
                 Assert.Equal(HeatTransferCoefficientUnit.BtuPerHourSquareFootDegreeFahrenheit, parsed.Unit);
             }
 
             {
                 Assert.True(HeatTransferCoefficient.TryParse("1 Btu/(ft²·hr·°F)", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.BtusPerHourSquareFootDegreeFahrenheit, BtusPerHourSquareFootDegreeFahrenheitTolerance);
+                Assert.Equal(1, parsed.BtusPerHourSquareFootDegreeFahrenheit);
                 Assert.Equal(HeatTransferCoefficientUnit.BtuPerHourSquareFootDegreeFahrenheit, parsed.Unit);
             }
 
             {
                 Assert.True(HeatTransferCoefficient.TryParse("1 kcal/(h·m²·°C)", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.CaloriesPerHourSquareMeterDegreeCelsius, CaloriesPerHourSquareMeterDegreeCelsiusTolerance);
+                Assert.Equal(1, parsed.CaloriesPerHourSquareMeterDegreeCelsius);
                 Assert.Equal(HeatTransferCoefficientUnit.CaloriePerHourSquareMeterDegreeCelsius, parsed.Unit);
             }
 
             {
                 Assert.True(HeatTransferCoefficient.TryParse("1 kcal/(m²·h·°C)", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.CaloriesPerHourSquareMeterDegreeCelsius, CaloriesPerHourSquareMeterDegreeCelsiusTolerance);
+                Assert.Equal(1, parsed.CaloriesPerHourSquareMeterDegreeCelsius);
                 Assert.Equal(HeatTransferCoefficientUnit.CaloriePerHourSquareMeterDegreeCelsius, parsed.Unit);
             }
 
             {
                 Assert.True(HeatTransferCoefficient.TryParse("1 kcal/(hr·m²·°C)", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.CaloriesPerHourSquareMeterDegreeCelsius, CaloriesPerHourSquareMeterDegreeCelsiusTolerance);
+                Assert.Equal(1, parsed.CaloriesPerHourSquareMeterDegreeCelsius);
                 Assert.Equal(HeatTransferCoefficientUnit.CaloriePerHourSquareMeterDegreeCelsius, parsed.Unit);
             }
 
             {
                 Assert.True(HeatTransferCoefficient.TryParse("1 kcal/(m²·hr·°C)", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.CaloriesPerHourSquareMeterDegreeCelsius, CaloriesPerHourSquareMeterDegreeCelsiusTolerance);
+                Assert.Equal(1, parsed.CaloriesPerHourSquareMeterDegreeCelsius);
                 Assert.Equal(HeatTransferCoefficientUnit.CaloriePerHourSquareMeterDegreeCelsius, parsed.Unit);
             }
 
             {
                 Assert.True(HeatTransferCoefficient.TryParse("1 kkcal/(h·m²·°C)", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.KilocaloriesPerHourSquareMeterDegreeCelsius, KilocaloriesPerHourSquareMeterDegreeCelsiusTolerance);
+                Assert.Equal(1, parsed.KilocaloriesPerHourSquareMeterDegreeCelsius);
                 Assert.Equal(HeatTransferCoefficientUnit.KilocaloriePerHourSquareMeterDegreeCelsius, parsed.Unit);
             }
 
             {
                 Assert.True(HeatTransferCoefficient.TryParse("1 kkcal/(m²·h·°C)", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.KilocaloriesPerHourSquareMeterDegreeCelsius, KilocaloriesPerHourSquareMeterDegreeCelsiusTolerance);
+                Assert.Equal(1, parsed.KilocaloriesPerHourSquareMeterDegreeCelsius);
                 Assert.Equal(HeatTransferCoefficientUnit.KilocaloriePerHourSquareMeterDegreeCelsius, parsed.Unit);
             }
 
             {
                 Assert.True(HeatTransferCoefficient.TryParse("1 kkcal/(hr·m²·°C)", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.KilocaloriesPerHourSquareMeterDegreeCelsius, KilocaloriesPerHourSquareMeterDegreeCelsiusTolerance);
+                Assert.Equal(1, parsed.KilocaloriesPerHourSquareMeterDegreeCelsius);
                 Assert.Equal(HeatTransferCoefficientUnit.KilocaloriePerHourSquareMeterDegreeCelsius, parsed.Unit);
             }
 
             {
                 Assert.True(HeatTransferCoefficient.TryParse("1 kkcal/(m²·hr·°C)", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.KilocaloriesPerHourSquareMeterDegreeCelsius, KilocaloriesPerHourSquareMeterDegreeCelsiusTolerance);
+                Assert.Equal(1, parsed.KilocaloriesPerHourSquareMeterDegreeCelsius);
                 Assert.Equal(HeatTransferCoefficientUnit.KilocaloriePerHourSquareMeterDegreeCelsius, parsed.Unit);
             }
 
             {
                 Assert.True(HeatTransferCoefficient.TryParse("1 W/(m²·°C)", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.WattsPerSquareMeterCelsius, WattsPerSquareMeterCelsiusTolerance);
+                Assert.Equal(1, parsed.WattsPerSquareMeterCelsius);
                 Assert.Equal(HeatTransferCoefficientUnit.WattPerSquareMeterCelsius, parsed.Unit);
             }
 
             {
                 Assert.True(HeatTransferCoefficient.TryParse("1 W/(m²·K)", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.WattsPerSquareMeterKelvin, WattsPerSquareMeterKelvinTolerance);
+                Assert.Equal(1, parsed.WattsPerSquareMeterKelvin);
                 Assert.Equal(HeatTransferCoefficientUnit.WattPerSquareMeterKelvin, parsed.Unit);
             }
 
@@ -619,24 +615,24 @@ namespace UnitsNet.Tests
         public void ConversionRoundTrip()
         {
             HeatTransferCoefficient wattpersquaremeterkelvin = HeatTransferCoefficient.FromWattsPerSquareMeterKelvin(1);
-            AssertEx.EqualTolerance(1, HeatTransferCoefficient.FromBtusPerHourSquareFootDegreeFahrenheit(wattpersquaremeterkelvin.BtusPerHourSquareFootDegreeFahrenheit).WattsPerSquareMeterKelvin, BtusPerHourSquareFootDegreeFahrenheitTolerance);
-            AssertEx.EqualTolerance(1, HeatTransferCoefficient.FromCaloriesPerHourSquareMeterDegreeCelsius(wattpersquaremeterkelvin.CaloriesPerHourSquareMeterDegreeCelsius).WattsPerSquareMeterKelvin, CaloriesPerHourSquareMeterDegreeCelsiusTolerance);
-            AssertEx.EqualTolerance(1, HeatTransferCoefficient.FromKilocaloriesPerHourSquareMeterDegreeCelsius(wattpersquaremeterkelvin.KilocaloriesPerHourSquareMeterDegreeCelsius).WattsPerSquareMeterKelvin, KilocaloriesPerHourSquareMeterDegreeCelsiusTolerance);
-            AssertEx.EqualTolerance(1, HeatTransferCoefficient.FromWattsPerSquareMeterCelsius(wattpersquaremeterkelvin.WattsPerSquareMeterCelsius).WattsPerSquareMeterKelvin, WattsPerSquareMeterCelsiusTolerance);
-            AssertEx.EqualTolerance(1, HeatTransferCoefficient.FromWattsPerSquareMeterKelvin(wattpersquaremeterkelvin.WattsPerSquareMeterKelvin).WattsPerSquareMeterKelvin, WattsPerSquareMeterKelvinTolerance);
+            Assert.Equal(1, HeatTransferCoefficient.FromBtusPerHourSquareFootDegreeFahrenheit(wattpersquaremeterkelvin.BtusPerHourSquareFootDegreeFahrenheit).WattsPerSquareMeterKelvin);
+            Assert.Equal(1, HeatTransferCoefficient.FromCaloriesPerHourSquareMeterDegreeCelsius(wattpersquaremeterkelvin.CaloriesPerHourSquareMeterDegreeCelsius).WattsPerSquareMeterKelvin);
+            Assert.Equal(1, HeatTransferCoefficient.FromKilocaloriesPerHourSquareMeterDegreeCelsius(wattpersquaremeterkelvin.KilocaloriesPerHourSquareMeterDegreeCelsius).WattsPerSquareMeterKelvin);
+            Assert.Equal(1, HeatTransferCoefficient.FromWattsPerSquareMeterCelsius(wattpersquaremeterkelvin.WattsPerSquareMeterCelsius).WattsPerSquareMeterKelvin);
+            Assert.Equal(1, HeatTransferCoefficient.FromWattsPerSquareMeterKelvin(wattpersquaremeterkelvin.WattsPerSquareMeterKelvin).WattsPerSquareMeterKelvin);
         }
 
         [Fact]
         public void ArithmeticOperators()
         {
             HeatTransferCoefficient v = HeatTransferCoefficient.FromWattsPerSquareMeterKelvin(1);
-            AssertEx.EqualTolerance(-1, -v.WattsPerSquareMeterKelvin, WattsPerSquareMeterKelvinTolerance);
-            AssertEx.EqualTolerance(2, (HeatTransferCoefficient.FromWattsPerSquareMeterKelvin(3)-v).WattsPerSquareMeterKelvin, WattsPerSquareMeterKelvinTolerance);
-            AssertEx.EqualTolerance(2, (v + v).WattsPerSquareMeterKelvin, WattsPerSquareMeterKelvinTolerance);
-            AssertEx.EqualTolerance(10, (v*10).WattsPerSquareMeterKelvin, WattsPerSquareMeterKelvinTolerance);
-            AssertEx.EqualTolerance(10, (10*v).WattsPerSquareMeterKelvin, WattsPerSquareMeterKelvinTolerance);
-            AssertEx.EqualTolerance(2, (HeatTransferCoefficient.FromWattsPerSquareMeterKelvin(10)/5).WattsPerSquareMeterKelvin, WattsPerSquareMeterKelvinTolerance);
-            AssertEx.EqualTolerance(2, HeatTransferCoefficient.FromWattsPerSquareMeterKelvin(10)/HeatTransferCoefficient.FromWattsPerSquareMeterKelvin(5), WattsPerSquareMeterKelvinTolerance);
+            Assert.Equal(-1, -v.WattsPerSquareMeterKelvin);
+            Assert.Equal(2, (HeatTransferCoefficient.FromWattsPerSquareMeterKelvin(3) - v).WattsPerSquareMeterKelvin);
+            Assert.Equal(2, (v + v).WattsPerSquareMeterKelvin);
+            Assert.Equal(10, (v * 10).WattsPerSquareMeterKelvin);
+            Assert.Equal(10, (10 * v).WattsPerSquareMeterKelvin);
+            Assert.Equal(2, (HeatTransferCoefficient.FromWattsPerSquareMeterKelvin(10) / 5).WattsPerSquareMeterKelvin);
+            Assert.Equal(2, HeatTransferCoefficient.FromWattsPerSquareMeterKelvin(10) / HeatTransferCoefficient.FromWattsPerSquareMeterKelvin(5));
         }
 
         [Fact]
@@ -682,8 +678,6 @@ namespace UnitsNet.Tests
         [Theory]
         [InlineData(1, HeatTransferCoefficientUnit.WattPerSquareMeterKelvin, 1, HeatTransferCoefficientUnit.WattPerSquareMeterKelvin, true)]  // Same value and unit.
         [InlineData(1, HeatTransferCoefficientUnit.WattPerSquareMeterKelvin, 2, HeatTransferCoefficientUnit.WattPerSquareMeterKelvin, false)] // Different value.
-        [InlineData(2, HeatTransferCoefficientUnit.WattPerSquareMeterKelvin, 1, HeatTransferCoefficientUnit.BtuPerHourSquareFootDegreeFahrenheit, false)] // Different value and unit.
-        [InlineData(1, HeatTransferCoefficientUnit.WattPerSquareMeterKelvin, 1, HeatTransferCoefficientUnit.BtuPerHourSquareFootDegreeFahrenheit, false)] // Different unit.
         public void Equals_ReturnsTrue_IfValueAndUnitAreEqual(double valueA, HeatTransferCoefficientUnit unitA, double valueB, HeatTransferCoefficientUnit unitB, bool expectEqual)
         {
             var a = new HeatTransferCoefficient(valueA, unitA);
@@ -721,20 +715,22 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
-        public void Equals_RelativeTolerance_IsImplemented()
+        public void Equals_WithTolerance_IsImplemented()
         {
             var v = HeatTransferCoefficient.FromWattsPerSquareMeterKelvin(1);
-            Assert.True(v.Equals(HeatTransferCoefficient.FromWattsPerSquareMeterKelvin(1), WattsPerSquareMeterKelvinTolerance, ComparisonType.Relative));
-            Assert.False(v.Equals(HeatTransferCoefficient.Zero, WattsPerSquareMeterKelvinTolerance, ComparisonType.Relative));
-            Assert.True(HeatTransferCoefficient.FromWattsPerSquareMeterKelvin(100).Equals(HeatTransferCoefficient.FromWattsPerSquareMeterKelvin(120), 0.3, ComparisonType.Relative));
-            Assert.False(HeatTransferCoefficient.FromWattsPerSquareMeterKelvin(100).Equals(HeatTransferCoefficient.FromWattsPerSquareMeterKelvin(120), 0.1, ComparisonType.Relative));
+            Assert.True(v.Equals(HeatTransferCoefficient.FromWattsPerSquareMeterKelvin(1), HeatTransferCoefficient.FromWattsPerSquareMeterKelvin(0)));
+            Assert.True(v.Equals(HeatTransferCoefficient.FromWattsPerSquareMeterKelvin(1), HeatTransferCoefficient.FromWattsPerSquareMeterKelvin(0.001m)));
+            Assert.True(v.Equals(HeatTransferCoefficient.FromWattsPerSquareMeterKelvin(0.9999), HeatTransferCoefficient.FromWattsPerSquareMeterKelvin(0.001m)));
+            Assert.False(v.Equals(HeatTransferCoefficient.FromWattsPerSquareMeterKelvin(0.99), HeatTransferCoefficient.FromWattsPerSquareMeterKelvin(0.001m)));
+            Assert.False(v.Equals(HeatTransferCoefficient.Zero, HeatTransferCoefficient.FromWattsPerSquareMeterKelvin(0.001m)));
         }
 
         [Fact]
-        public void Equals_NegativeRelativeTolerance_ThrowsArgumentOutOfRangeException()
+        public void Equals_WithNegativeTolerance_ThrowsArgumentOutOfRangeException()
         {
             var v = HeatTransferCoefficient.FromWattsPerSquareMeterKelvin(1);
-            Assert.Throws<ArgumentOutOfRangeException>(() => v.Equals(HeatTransferCoefficient.FromWattsPerSquareMeterKelvin(1), -1, ComparisonType.Relative));
+            var negativeTolerance = HeatTransferCoefficient.FromWattsPerSquareMeterKelvin(-1);
+            Assert.Throws<ArgumentOutOfRangeException>(() => v.Equals(HeatTransferCoefficient.FromWattsPerSquareMeterKelvin(1), negativeTolerance));
         }
 
         [Fact]
@@ -757,7 +753,7 @@ namespace UnitsNet.Tests
             var units = Enum.GetValues(typeof(HeatTransferCoefficientUnit)).Cast<HeatTransferCoefficientUnit>();
             foreach (var unit in units)
             {
-                var defaultAbbreviation = UnitAbbreviationsCache.Default.GetDefaultAbbreviation(unit);
+                var defaultAbbreviation = UnitsNetSetup.Default.UnitAbbreviations.GetDefaultAbbreviation(unit);
             }
         }
 
@@ -992,7 +988,12 @@ namespace UnitsNet.Tests
         public void GetHashCode_Equals()
         {
             var quantity = HeatTransferCoefficient.FromWattsPerSquareMeterKelvin(1.0);
-            Assert.Equal(new {HeatTransferCoefficient.Info.Name, quantity.Value, quantity.Unit}.GetHashCode(), quantity.GetHashCode());
+            #if NET7_0_OR_GREATER
+            var expected = HashCode.Combine(HeatTransferCoefficient.Info.Name, quantity.WattsPerSquareMeterKelvin);
+            #else
+            var expected = new {HeatTransferCoefficient.Info.Name, valueInBaseUnit = quantity.WattsPerSquareMeterKelvin}.GetHashCode();
+            #endif
+            Assert.Equal(expected, quantity.GetHashCode());
         }
 
         [Theory]

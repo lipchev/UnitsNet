@@ -23,8 +23,8 @@ using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
 using System.Runtime.Serialization;
-using UnitsNet.InternalHelpers;
 using UnitsNet.Units;
+using System.Numerics;
 
 #nullable enable
 
@@ -49,13 +49,13 @@ namespace UnitsNet
         /// <summary>
         ///     The numeric value this quantity was constructed with.
         /// </summary>
-        [DataMember(Name = "Value", Order = 1)]
-        private readonly double _value;
+        [DataMember(Name = "Value", Order = 1, EmitDefaultValue = false)]
+        private readonly QuantityValue _value;
 
         /// <summary>
         ///     The unit this quantity was constructed with.
         /// </summary>
-        [DataMember(Name = "Unit", Order = 2)]
+        [DataMember(Name = "Unit", Order = 2, EmitDefaultValue = false)]
         private readonly ElectricPotentialChangeRateUnit? _unit;
 
         static ElectricPotentialChangeRate()
@@ -99,7 +99,7 @@ namespace UnitsNet
         /// </summary>
         /// <param name="value">The numeric value to construct this quantity with.</param>
         /// <param name="unit">The unit representation to construct this quantity with.</param>
-        public ElectricPotentialChangeRate(double value, ElectricPotentialChangeRateUnit unit)
+        public ElectricPotentialChangeRate(QuantityValue value, ElectricPotentialChangeRateUnit unit)
         {
             _value = value;
             _unit = unit;
@@ -113,7 +113,7 @@ namespace UnitsNet
         /// <param name="unitSystem">The unit system to create the quantity with.</param>
         /// <exception cref="ArgumentNullException">The given <see cref="UnitSystem"/> is null.</exception>
         /// <exception cref="ArgumentException">No unit was found for the given <see cref="UnitSystem"/>.</exception>
-        public ElectricPotentialChangeRate(double value, UnitSystem unitSystem)
+        public ElectricPotentialChangeRate(QuantityValue value, UnitSystem unitSystem)
         {
             if (unitSystem is null) throw new ArgumentNullException(nameof(unitSystem));
 
@@ -164,10 +164,10 @@ namespace UnitsNet
         /// <summary>
         ///     The numeric value this quantity was constructed with.
         /// </summary>
-        public double Value => _value;
+        public QuantityValue Value => _value;
 
         /// <inheritdoc />
-        double IQuantity.Value => _value;
+        QuantityValue IQuantity.Value => _value;
 
         Enum IQuantity.Unit => Unit;
 
@@ -192,102 +192,102 @@ namespace UnitsNet
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="ElectricPotentialChangeRateUnit.KilovoltPerHour"/>
         /// </summary>
-        public double KilovoltsPerHour => As(ElectricPotentialChangeRateUnit.KilovoltPerHour);
+        public QuantityValue KilovoltsPerHour => As(ElectricPotentialChangeRateUnit.KilovoltPerHour);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="ElectricPotentialChangeRateUnit.KilovoltPerMicrosecond"/>
         /// </summary>
-        public double KilovoltsPerMicrosecond => As(ElectricPotentialChangeRateUnit.KilovoltPerMicrosecond);
+        public QuantityValue KilovoltsPerMicrosecond => As(ElectricPotentialChangeRateUnit.KilovoltPerMicrosecond);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="ElectricPotentialChangeRateUnit.KilovoltPerMinute"/>
         /// </summary>
-        public double KilovoltsPerMinute => As(ElectricPotentialChangeRateUnit.KilovoltPerMinute);
+        public QuantityValue KilovoltsPerMinute => As(ElectricPotentialChangeRateUnit.KilovoltPerMinute);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="ElectricPotentialChangeRateUnit.KilovoltPerSecond"/>
         /// </summary>
-        public double KilovoltsPerSecond => As(ElectricPotentialChangeRateUnit.KilovoltPerSecond);
+        public QuantityValue KilovoltsPerSecond => As(ElectricPotentialChangeRateUnit.KilovoltPerSecond);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="ElectricPotentialChangeRateUnit.MegavoltPerHour"/>
         /// </summary>
-        public double MegavoltsPerHour => As(ElectricPotentialChangeRateUnit.MegavoltPerHour);
+        public QuantityValue MegavoltsPerHour => As(ElectricPotentialChangeRateUnit.MegavoltPerHour);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="ElectricPotentialChangeRateUnit.MegavoltPerMicrosecond"/>
         /// </summary>
-        public double MegavoltsPerMicrosecond => As(ElectricPotentialChangeRateUnit.MegavoltPerMicrosecond);
+        public QuantityValue MegavoltsPerMicrosecond => As(ElectricPotentialChangeRateUnit.MegavoltPerMicrosecond);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="ElectricPotentialChangeRateUnit.MegavoltPerMinute"/>
         /// </summary>
-        public double MegavoltsPerMinute => As(ElectricPotentialChangeRateUnit.MegavoltPerMinute);
+        public QuantityValue MegavoltsPerMinute => As(ElectricPotentialChangeRateUnit.MegavoltPerMinute);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="ElectricPotentialChangeRateUnit.MegavoltPerSecond"/>
         /// </summary>
-        public double MegavoltsPerSecond => As(ElectricPotentialChangeRateUnit.MegavoltPerSecond);
+        public QuantityValue MegavoltsPerSecond => As(ElectricPotentialChangeRateUnit.MegavoltPerSecond);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="ElectricPotentialChangeRateUnit.MicrovoltPerHour"/>
         /// </summary>
-        public double MicrovoltsPerHour => As(ElectricPotentialChangeRateUnit.MicrovoltPerHour);
+        public QuantityValue MicrovoltsPerHour => As(ElectricPotentialChangeRateUnit.MicrovoltPerHour);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="ElectricPotentialChangeRateUnit.MicrovoltPerMicrosecond"/>
         /// </summary>
-        public double MicrovoltsPerMicrosecond => As(ElectricPotentialChangeRateUnit.MicrovoltPerMicrosecond);
+        public QuantityValue MicrovoltsPerMicrosecond => As(ElectricPotentialChangeRateUnit.MicrovoltPerMicrosecond);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="ElectricPotentialChangeRateUnit.MicrovoltPerMinute"/>
         /// </summary>
-        public double MicrovoltsPerMinute => As(ElectricPotentialChangeRateUnit.MicrovoltPerMinute);
+        public QuantityValue MicrovoltsPerMinute => As(ElectricPotentialChangeRateUnit.MicrovoltPerMinute);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="ElectricPotentialChangeRateUnit.MicrovoltPerSecond"/>
         /// </summary>
-        public double MicrovoltsPerSecond => As(ElectricPotentialChangeRateUnit.MicrovoltPerSecond);
+        public QuantityValue MicrovoltsPerSecond => As(ElectricPotentialChangeRateUnit.MicrovoltPerSecond);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="ElectricPotentialChangeRateUnit.MillivoltPerHour"/>
         /// </summary>
-        public double MillivoltsPerHour => As(ElectricPotentialChangeRateUnit.MillivoltPerHour);
+        public QuantityValue MillivoltsPerHour => As(ElectricPotentialChangeRateUnit.MillivoltPerHour);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="ElectricPotentialChangeRateUnit.MillivoltPerMicrosecond"/>
         /// </summary>
-        public double MillivoltsPerMicrosecond => As(ElectricPotentialChangeRateUnit.MillivoltPerMicrosecond);
+        public QuantityValue MillivoltsPerMicrosecond => As(ElectricPotentialChangeRateUnit.MillivoltPerMicrosecond);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="ElectricPotentialChangeRateUnit.MillivoltPerMinute"/>
         /// </summary>
-        public double MillivoltsPerMinute => As(ElectricPotentialChangeRateUnit.MillivoltPerMinute);
+        public QuantityValue MillivoltsPerMinute => As(ElectricPotentialChangeRateUnit.MillivoltPerMinute);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="ElectricPotentialChangeRateUnit.MillivoltPerSecond"/>
         /// </summary>
-        public double MillivoltsPerSecond => As(ElectricPotentialChangeRateUnit.MillivoltPerSecond);
+        public QuantityValue MillivoltsPerSecond => As(ElectricPotentialChangeRateUnit.MillivoltPerSecond);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="ElectricPotentialChangeRateUnit.VoltPerHour"/>
         /// </summary>
-        public double VoltsPerHour => As(ElectricPotentialChangeRateUnit.VoltPerHour);
+        public QuantityValue VoltsPerHour => As(ElectricPotentialChangeRateUnit.VoltPerHour);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="ElectricPotentialChangeRateUnit.VoltPerMicrosecond"/>
         /// </summary>
-        public double VoltsPerMicrosecond => As(ElectricPotentialChangeRateUnit.VoltPerMicrosecond);
+        public QuantityValue VoltsPerMicrosecond => As(ElectricPotentialChangeRateUnit.VoltPerMicrosecond);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="ElectricPotentialChangeRateUnit.VoltPerMinute"/>
         /// </summary>
-        public double VoltsPerMinute => As(ElectricPotentialChangeRateUnit.VoltPerMinute);
+        public QuantityValue VoltsPerMinute => As(ElectricPotentialChangeRateUnit.VoltPerMinute);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="ElectricPotentialChangeRateUnit.VoltPerSecond"/>
         /// </summary>
-        public double VoltsPerSecond => As(ElectricPotentialChangeRateUnit.VoltPerSecond);
+        public QuantityValue VoltsPerSecond => As(ElectricPotentialChangeRateUnit.VoltPerSecond);
 
         #endregion
 
@@ -363,7 +363,7 @@ namespace UnitsNet
         /// <param name="provider">Format to use for localization. Defaults to <see cref="CultureInfo.CurrentCulture" /> if null.</param>
         public static string GetAbbreviation(ElectricPotentialChangeRateUnit unit, IFormatProvider? provider)
         {
-            return UnitAbbreviationsCache.Default.GetDefaultAbbreviation(unit, provider);
+            return UnitsNetSetup.Default.UnitAbbreviations.GetDefaultAbbreviation(unit, provider);
         }
 
         #endregion
@@ -373,7 +373,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="ElectricPotentialChangeRate"/> from <see cref="ElectricPotentialChangeRateUnit.KilovoltPerHour"/>.
         /// </summary>
-        public static ElectricPotentialChangeRate FromKilovoltsPerHour(double value)
+        public static ElectricPotentialChangeRate FromKilovoltsPerHour(QuantityValue value)
         {
             return new ElectricPotentialChangeRate(value, ElectricPotentialChangeRateUnit.KilovoltPerHour);
         }
@@ -381,7 +381,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="ElectricPotentialChangeRate"/> from <see cref="ElectricPotentialChangeRateUnit.KilovoltPerMicrosecond"/>.
         /// </summary>
-        public static ElectricPotentialChangeRate FromKilovoltsPerMicrosecond(double value)
+        public static ElectricPotentialChangeRate FromKilovoltsPerMicrosecond(QuantityValue value)
         {
             return new ElectricPotentialChangeRate(value, ElectricPotentialChangeRateUnit.KilovoltPerMicrosecond);
         }
@@ -389,7 +389,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="ElectricPotentialChangeRate"/> from <see cref="ElectricPotentialChangeRateUnit.KilovoltPerMinute"/>.
         /// </summary>
-        public static ElectricPotentialChangeRate FromKilovoltsPerMinute(double value)
+        public static ElectricPotentialChangeRate FromKilovoltsPerMinute(QuantityValue value)
         {
             return new ElectricPotentialChangeRate(value, ElectricPotentialChangeRateUnit.KilovoltPerMinute);
         }
@@ -397,7 +397,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="ElectricPotentialChangeRate"/> from <see cref="ElectricPotentialChangeRateUnit.KilovoltPerSecond"/>.
         /// </summary>
-        public static ElectricPotentialChangeRate FromKilovoltsPerSecond(double value)
+        public static ElectricPotentialChangeRate FromKilovoltsPerSecond(QuantityValue value)
         {
             return new ElectricPotentialChangeRate(value, ElectricPotentialChangeRateUnit.KilovoltPerSecond);
         }
@@ -405,7 +405,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="ElectricPotentialChangeRate"/> from <see cref="ElectricPotentialChangeRateUnit.MegavoltPerHour"/>.
         /// </summary>
-        public static ElectricPotentialChangeRate FromMegavoltsPerHour(double value)
+        public static ElectricPotentialChangeRate FromMegavoltsPerHour(QuantityValue value)
         {
             return new ElectricPotentialChangeRate(value, ElectricPotentialChangeRateUnit.MegavoltPerHour);
         }
@@ -413,7 +413,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="ElectricPotentialChangeRate"/> from <see cref="ElectricPotentialChangeRateUnit.MegavoltPerMicrosecond"/>.
         /// </summary>
-        public static ElectricPotentialChangeRate FromMegavoltsPerMicrosecond(double value)
+        public static ElectricPotentialChangeRate FromMegavoltsPerMicrosecond(QuantityValue value)
         {
             return new ElectricPotentialChangeRate(value, ElectricPotentialChangeRateUnit.MegavoltPerMicrosecond);
         }
@@ -421,7 +421,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="ElectricPotentialChangeRate"/> from <see cref="ElectricPotentialChangeRateUnit.MegavoltPerMinute"/>.
         /// </summary>
-        public static ElectricPotentialChangeRate FromMegavoltsPerMinute(double value)
+        public static ElectricPotentialChangeRate FromMegavoltsPerMinute(QuantityValue value)
         {
             return new ElectricPotentialChangeRate(value, ElectricPotentialChangeRateUnit.MegavoltPerMinute);
         }
@@ -429,7 +429,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="ElectricPotentialChangeRate"/> from <see cref="ElectricPotentialChangeRateUnit.MegavoltPerSecond"/>.
         /// </summary>
-        public static ElectricPotentialChangeRate FromMegavoltsPerSecond(double value)
+        public static ElectricPotentialChangeRate FromMegavoltsPerSecond(QuantityValue value)
         {
             return new ElectricPotentialChangeRate(value, ElectricPotentialChangeRateUnit.MegavoltPerSecond);
         }
@@ -437,7 +437,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="ElectricPotentialChangeRate"/> from <see cref="ElectricPotentialChangeRateUnit.MicrovoltPerHour"/>.
         /// </summary>
-        public static ElectricPotentialChangeRate FromMicrovoltsPerHour(double value)
+        public static ElectricPotentialChangeRate FromMicrovoltsPerHour(QuantityValue value)
         {
             return new ElectricPotentialChangeRate(value, ElectricPotentialChangeRateUnit.MicrovoltPerHour);
         }
@@ -445,7 +445,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="ElectricPotentialChangeRate"/> from <see cref="ElectricPotentialChangeRateUnit.MicrovoltPerMicrosecond"/>.
         /// </summary>
-        public static ElectricPotentialChangeRate FromMicrovoltsPerMicrosecond(double value)
+        public static ElectricPotentialChangeRate FromMicrovoltsPerMicrosecond(QuantityValue value)
         {
             return new ElectricPotentialChangeRate(value, ElectricPotentialChangeRateUnit.MicrovoltPerMicrosecond);
         }
@@ -453,7 +453,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="ElectricPotentialChangeRate"/> from <see cref="ElectricPotentialChangeRateUnit.MicrovoltPerMinute"/>.
         /// </summary>
-        public static ElectricPotentialChangeRate FromMicrovoltsPerMinute(double value)
+        public static ElectricPotentialChangeRate FromMicrovoltsPerMinute(QuantityValue value)
         {
             return new ElectricPotentialChangeRate(value, ElectricPotentialChangeRateUnit.MicrovoltPerMinute);
         }
@@ -461,7 +461,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="ElectricPotentialChangeRate"/> from <see cref="ElectricPotentialChangeRateUnit.MicrovoltPerSecond"/>.
         /// </summary>
-        public static ElectricPotentialChangeRate FromMicrovoltsPerSecond(double value)
+        public static ElectricPotentialChangeRate FromMicrovoltsPerSecond(QuantityValue value)
         {
             return new ElectricPotentialChangeRate(value, ElectricPotentialChangeRateUnit.MicrovoltPerSecond);
         }
@@ -469,7 +469,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="ElectricPotentialChangeRate"/> from <see cref="ElectricPotentialChangeRateUnit.MillivoltPerHour"/>.
         /// </summary>
-        public static ElectricPotentialChangeRate FromMillivoltsPerHour(double value)
+        public static ElectricPotentialChangeRate FromMillivoltsPerHour(QuantityValue value)
         {
             return new ElectricPotentialChangeRate(value, ElectricPotentialChangeRateUnit.MillivoltPerHour);
         }
@@ -477,7 +477,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="ElectricPotentialChangeRate"/> from <see cref="ElectricPotentialChangeRateUnit.MillivoltPerMicrosecond"/>.
         /// </summary>
-        public static ElectricPotentialChangeRate FromMillivoltsPerMicrosecond(double value)
+        public static ElectricPotentialChangeRate FromMillivoltsPerMicrosecond(QuantityValue value)
         {
             return new ElectricPotentialChangeRate(value, ElectricPotentialChangeRateUnit.MillivoltPerMicrosecond);
         }
@@ -485,7 +485,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="ElectricPotentialChangeRate"/> from <see cref="ElectricPotentialChangeRateUnit.MillivoltPerMinute"/>.
         /// </summary>
-        public static ElectricPotentialChangeRate FromMillivoltsPerMinute(double value)
+        public static ElectricPotentialChangeRate FromMillivoltsPerMinute(QuantityValue value)
         {
             return new ElectricPotentialChangeRate(value, ElectricPotentialChangeRateUnit.MillivoltPerMinute);
         }
@@ -493,7 +493,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="ElectricPotentialChangeRate"/> from <see cref="ElectricPotentialChangeRateUnit.MillivoltPerSecond"/>.
         /// </summary>
-        public static ElectricPotentialChangeRate FromMillivoltsPerSecond(double value)
+        public static ElectricPotentialChangeRate FromMillivoltsPerSecond(QuantityValue value)
         {
             return new ElectricPotentialChangeRate(value, ElectricPotentialChangeRateUnit.MillivoltPerSecond);
         }
@@ -501,7 +501,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="ElectricPotentialChangeRate"/> from <see cref="ElectricPotentialChangeRateUnit.VoltPerHour"/>.
         /// </summary>
-        public static ElectricPotentialChangeRate FromVoltsPerHour(double value)
+        public static ElectricPotentialChangeRate FromVoltsPerHour(QuantityValue value)
         {
             return new ElectricPotentialChangeRate(value, ElectricPotentialChangeRateUnit.VoltPerHour);
         }
@@ -509,7 +509,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="ElectricPotentialChangeRate"/> from <see cref="ElectricPotentialChangeRateUnit.VoltPerMicrosecond"/>.
         /// </summary>
-        public static ElectricPotentialChangeRate FromVoltsPerMicrosecond(double value)
+        public static ElectricPotentialChangeRate FromVoltsPerMicrosecond(QuantityValue value)
         {
             return new ElectricPotentialChangeRate(value, ElectricPotentialChangeRateUnit.VoltPerMicrosecond);
         }
@@ -517,7 +517,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="ElectricPotentialChangeRate"/> from <see cref="ElectricPotentialChangeRateUnit.VoltPerMinute"/>.
         /// </summary>
-        public static ElectricPotentialChangeRate FromVoltsPerMinute(double value)
+        public static ElectricPotentialChangeRate FromVoltsPerMinute(QuantityValue value)
         {
             return new ElectricPotentialChangeRate(value, ElectricPotentialChangeRateUnit.VoltPerMinute);
         }
@@ -525,7 +525,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="ElectricPotentialChangeRate"/> from <see cref="ElectricPotentialChangeRateUnit.VoltPerSecond"/>.
         /// </summary>
-        public static ElectricPotentialChangeRate FromVoltsPerSecond(double value)
+        public static ElectricPotentialChangeRate FromVoltsPerSecond(QuantityValue value)
         {
             return new ElectricPotentialChangeRate(value, ElectricPotentialChangeRateUnit.VoltPerSecond);
         }
@@ -536,7 +536,7 @@ namespace UnitsNet
         /// <param name="value">Value to convert from.</param>
         /// <param name="fromUnit">Unit to convert from.</param>
         /// <returns>ElectricPotentialChangeRate unit value.</returns>
-        public static ElectricPotentialChangeRate From(double value, ElectricPotentialChangeRateUnit fromUnit)
+        public static ElectricPotentialChangeRate From(QuantityValue value, ElectricPotentialChangeRateUnit fromUnit)
         {
             return new ElectricPotentialChangeRate(value, fromUnit);
         }
@@ -597,7 +597,7 @@ namespace UnitsNet
         /// <param name="provider">Format to use when parsing number and unit. Defaults to <see cref="CultureInfo.CurrentCulture" /> if null.</param>
         public static ElectricPotentialChangeRate Parse(string str, IFormatProvider? provider)
         {
-            return QuantityParser.Default.Parse<ElectricPotentialChangeRate, ElectricPotentialChangeRateUnit>(
+            return UnitsNetSetup.Default.QuantityParser.Parse<ElectricPotentialChangeRate, ElectricPotentialChangeRateUnit>(
                 str,
                 provider,
                 From);
@@ -628,7 +628,7 @@ namespace UnitsNet
         /// <param name="provider">Format to use when parsing number and unit. Defaults to <see cref="CultureInfo.CurrentCulture" /> if null.</param>
         public static bool TryParse(string? str, IFormatProvider? provider, out ElectricPotentialChangeRate result)
         {
-            return QuantityParser.Default.TryParse<ElectricPotentialChangeRate, ElectricPotentialChangeRateUnit>(
+            return UnitsNetSetup.Default.QuantityParser.TryParse<ElectricPotentialChangeRate, ElectricPotentialChangeRateUnit>(
                 str,
                 provider,
                 From,
@@ -661,7 +661,7 @@ namespace UnitsNet
         /// <exception cref="UnitsNetException">Error parsing string.</exception>
         public static ElectricPotentialChangeRateUnit ParseUnit(string str, IFormatProvider? provider)
         {
-            return UnitParser.Default.Parse<ElectricPotentialChangeRateUnit>(str, provider);
+            return UnitsNetSetup.Default.UnitParser.Parse<ElectricPotentialChangeRateUnit>(str, provider);
         }
 
         /// <inheritdoc cref="TryParseUnit(string,IFormatProvider,out UnitsNet.Units.ElectricPotentialChangeRateUnit)"/>
@@ -682,7 +682,7 @@ namespace UnitsNet
         /// <param name="provider">Format to use when parsing number and unit. Defaults to <see cref="CultureInfo.CurrentCulture" /> if null.</param>
         public static bool TryParseUnit(string str, IFormatProvider? provider, out ElectricPotentialChangeRateUnit unit)
         {
-            return UnitParser.Default.TryParse<ElectricPotentialChangeRateUnit>(str, provider, out unit);
+            return UnitsNetSetup.Default.UnitParser.TryParse<ElectricPotentialChangeRateUnit>(str, provider, out unit);
         }
 
         #endregion
@@ -708,25 +708,25 @@ namespace UnitsNet
         }
 
         /// <summary>Get <see cref="ElectricPotentialChangeRate"/> from multiplying value and <see cref="ElectricPotentialChangeRate"/>.</summary>
-        public static ElectricPotentialChangeRate operator *(double left, ElectricPotentialChangeRate right)
+        public static ElectricPotentialChangeRate operator *(QuantityValue left, ElectricPotentialChangeRate right)
         {
             return new ElectricPotentialChangeRate(left * right.Value, right.Unit);
         }
 
         /// <summary>Get <see cref="ElectricPotentialChangeRate"/> from multiplying value and <see cref="ElectricPotentialChangeRate"/>.</summary>
-        public static ElectricPotentialChangeRate operator *(ElectricPotentialChangeRate left, double right)
+        public static ElectricPotentialChangeRate operator *(ElectricPotentialChangeRate left, QuantityValue right)
         {
             return new ElectricPotentialChangeRate(left.Value * right, left.Unit);
         }
 
         /// <summary>Get <see cref="ElectricPotentialChangeRate"/> from dividing <see cref="ElectricPotentialChangeRate"/> by value.</summary>
-        public static ElectricPotentialChangeRate operator /(ElectricPotentialChangeRate left, double right)
+        public static ElectricPotentialChangeRate operator /(ElectricPotentialChangeRate left, QuantityValue right)
         {
             return new ElectricPotentialChangeRate(left.Value / right, left.Unit);
         }
 
         /// <summary>Get ratio value from dividing <see cref="ElectricPotentialChangeRate"/> by <see cref="ElectricPotentialChangeRate"/>.</summary>
-        public static double operator /(ElectricPotentialChangeRate left, ElectricPotentialChangeRate right)
+        public static QuantityValue operator /(ElectricPotentialChangeRate left, ElectricPotentialChangeRate right)
         {
             return left.VoltsPerSecond / right.VoltsPerSecond;
         }
@@ -759,27 +759,20 @@ namespace UnitsNet
             return left.Value > right.ToUnit(left.Unit).Value;
         }
 
-        // We use obsolete attribute to communicate the preferred equality members to use.
-        // CS0809: Obsolete member 'memberA' overrides non-obsolete member 'memberB'.
-        #pragma warning disable CS0809
-
-        /// <summary>Indicates strict equality of two <see cref="ElectricPotentialChangeRate"/> quantities, where both <see cref="Value" /> and <see cref="Unit" /> are exactly equal.</summary>
-        [Obsolete("For null checks, use `x is null` syntax to not invoke overloads. For equality checks, use Equals(ElectricPotentialChangeRate other, ElectricPotentialChangeRate tolerance) instead, to check equality across units and to specify the max tolerance for rounding errors due to floating-point arithmetic when converting between units.")]
+        /// <summary>Indicates strict equality of two <see cref="ElectricPotentialChangeRate"/> quantities.</summary>
         public static bool operator ==(ElectricPotentialChangeRate left, ElectricPotentialChangeRate right)
         {
             return left.Equals(right);
         }
 
-        /// <summary>Indicates strict inequality of two <see cref="ElectricPotentialChangeRate"/> quantities, where both <see cref="Value" /> and <see cref="Unit" /> are exactly equal.</summary>
-        [Obsolete("For null checks, use `x is null` syntax to not invoke overloads. For equality checks, use Equals(ElectricPotentialChangeRate other, ElectricPotentialChangeRate tolerance) instead, to check equality across units and to specify the max tolerance for rounding errors due to floating-point arithmetic when converting between units.")]
+        /// <summary>Indicates strict inequality of two <see cref="ElectricPotentialChangeRate"/> quantities.</summary>
         public static bool operator !=(ElectricPotentialChangeRate left, ElectricPotentialChangeRate right)
         {
             return !(left == right);
         }
 
         /// <inheritdoc />
-        /// <summary>Indicates strict equality of two <see cref="ElectricPotentialChangeRate"/> quantities, where both <see cref="Value" /> and <see cref="Unit" /> are exactly equal.</summary>
-        [Obsolete("Use Equals(ElectricPotentialChangeRate other, ElectricPotentialChangeRate tolerance) instead, to check equality across units and to specify the max tolerance for rounding errors due to floating-point arithmetic when converting between units.")]
+        /// <summary>Indicates strict equality of two <see cref="ElectricPotentialChangeRate"/> quantities.</summary>
         public override bool Equals(object? obj)
         {
             if (obj is null || !(obj is ElectricPotentialChangeRate otherQuantity))
@@ -789,14 +782,11 @@ namespace UnitsNet
         }
 
         /// <inheritdoc />
-        /// <summary>Indicates strict equality of two <see cref="ElectricPotentialChangeRate"/> quantities, where both <see cref="Value" /> and <see cref="Unit" /> are exactly equal.</summary>
-        [Obsolete("Use Equals(ElectricPotentialChangeRate other, ElectricPotentialChangeRate tolerance) instead, to check equality across units and to specify the max tolerance for rounding errors due to floating-point arithmetic when converting between units.")]
+        /// <summary>Indicates strict equality of two <see cref="ElectricPotentialChangeRate"/> quantities.</summary>
         public bool Equals(ElectricPotentialChangeRate other)
         {
-            return new { Value, Unit }.Equals(new { other.Value, other.Unit });
+            return _value.Equals(other.As(this.Unit));
         }
-
-        #pragma warning restore CS0809
 
         /// <summary>Compares the current <see cref="ElectricPotentialChangeRate"/> with another object of the same type and returns an integer that indicates whether the current instance precedes, follows, or occurs in the same position in the sort order as the other when converted to the same unit.</summary>
         /// <param name="obj">An object to compare with this instance.</param>
@@ -834,59 +824,6 @@ namespace UnitsNet
             return _value.CompareTo(other.ToUnit(this.Unit).Value);
         }
 
-        /// <summary>
-        ///     <para>
-        ///     Compare equality to another ElectricPotentialChangeRate within the given absolute or relative tolerance.
-        ///     </para>
-        ///     <para>
-        ///     Relative tolerance is defined as the maximum allowable absolute difference between this quantity's value and
-        ///     <paramref name="other"/> as a percentage of this quantity's value. <paramref name="other"/> will be converted into
-        ///     this quantity's unit for comparison. A relative tolerance of 0.01 means the absolute difference must be within +/- 1% of
-        ///     this quantity's value to be considered equal.
-        ///     <example>
-        ///     In this example, the two quantities will be equal if the value of b is within +/- 1% of a (0.02m or 2cm).
-        ///     <code>
-        ///     var a = Length.FromMeters(2.0);
-        ///     var b = Length.FromInches(50.0);
-        ///     a.Equals(b, 0.01, ComparisonType.Relative);
-        ///     </code>
-        ///     </example>
-        ///     </para>
-        ///     <para>
-        ///     Absolute tolerance is defined as the maximum allowable absolute difference between this quantity's value and
-        ///     <paramref name="other"/> as a fixed number in this quantity's unit. <paramref name="other"/> will be converted into
-        ///     this quantity's unit for comparison.
-        ///     <example>
-        ///     In this example, the two quantities will be equal if the value of b is within 0.01 of a (0.01m or 1cm).
-        ///     <code>
-        ///     var a = Length.FromMeters(2.0);
-        ///     var b = Length.FromInches(50.0);
-        ///     a.Equals(b, 0.01, ComparisonType.Absolute);
-        ///     </code>
-        ///     </example>
-        ///     </para>
-        ///     <para>
-        ///     Note that it is advised against specifying zero difference, due to the nature
-        ///     of floating-point operations and using double internally.
-        ///     </para>
-        /// </summary>
-        /// <param name="other">The other quantity to compare to.</param>
-        /// <param name="tolerance">The absolute or relative tolerance value. Must be greater than or equal to 0.</param>
-        /// <param name="comparisonType">The comparison type: either relative or absolute.</param>
-        /// <returns>True if the absolute difference between the two values is not greater than the specified relative or absolute tolerance.</returns>
-        [Obsolete("Use Equals(ElectricPotentialChangeRate other, ElectricPotentialChangeRate tolerance) instead, to check equality across units and to specify the max tolerance for rounding errors due to floating-point arithmetic when converting between units.")]
-        public bool Equals(ElectricPotentialChangeRate other, double tolerance, ComparisonType comparisonType)
-        {
-            if (tolerance < 0)
-                throw new ArgumentOutOfRangeException(nameof(tolerance), "Tolerance must be greater than or equal to 0.");
-
-            return UnitsNet.Comparison.Equals(
-                referenceValue: this.Value,
-                otherValue: other.As(this.Unit),
-                tolerance: tolerance,
-                comparisonType: comparisonType);
-        }
-
         /// <inheritdoc />
         public bool Equals(IQuantity? other, IQuantity tolerance)
         {
@@ -900,11 +837,10 @@ namespace UnitsNet
         /// <inheritdoc />
         public bool Equals(ElectricPotentialChangeRate other, ElectricPotentialChangeRate tolerance)
         {
-            return UnitsNet.Comparison.Equals(
-                referenceValue: this.Value,
-                otherValue: other.As(this.Unit),
-                tolerance: tolerance.As(this.Unit),
-                comparisonType: ComparisonType.Absolute);
+            return UnitsNet.Comparison.EqualsAbsolute(
+                this.Value,
+                other.As(this.Unit),
+                tolerance: tolerance.As(this.Unit));
         }
 
         /// <summary>
@@ -913,7 +849,12 @@ namespace UnitsNet
         /// <returns>A hash code for the current ElectricPotentialChangeRate.</returns>
         public override int GetHashCode()
         {
-            return new { Info.Name, Value, Unit }.GetHashCode();
+            var valueInBaseUnit = As(BaseUnit);
+            #if NET7_0_OR_GREATER
+            return HashCode.Combine(Info.Name, valueInBaseUnit);
+            #else
+            return new { Info.Name, valueInBaseUnit }.GetHashCode();
+            #endif
         }
 
         #endregion
@@ -924,7 +865,7 @@ namespace UnitsNet
         ///     Convert to the unit representation <paramref name="unit" />.
         /// </summary>
         /// <returns>Value converted to the specified unit.</returns>
-        public double As(ElectricPotentialChangeRateUnit unit)
+        public QuantityValue As(ElectricPotentialChangeRateUnit unit)
         {
             if (Unit == unit)
                 return Value;
@@ -933,7 +874,7 @@ namespace UnitsNet
         }
 
         /// <inheritdoc cref="IQuantity.As(UnitSystem)"/>
-        public double As(UnitSystem unitSystem)
+        public QuantityValue As(UnitSystem unitSystem)
         {
             if (unitSystem is null)
                 throw new ArgumentNullException(nameof(unitSystem));
@@ -948,7 +889,7 @@ namespace UnitsNet
         }
 
         /// <inheritdoc />
-        double IQuantity.As(Enum unit)
+        QuantityValue IQuantity.As(Enum unit)
         {
             if (!(unit is ElectricPotentialChangeRateUnit typedUnit))
                 throw new ArgumentException($"The given unit is of type {unit.GetType()}. Only {typeof(ElectricPotentialChangeRateUnit)} is supported.", nameof(unit));
@@ -1014,45 +955,45 @@ namespace UnitsNet
             ElectricPotentialChangeRate? convertedOrNull = (Unit, unit) switch
             {
                 // ElectricPotentialChangeRateUnit -> BaseUnit
-                (ElectricPotentialChangeRateUnit.KilovoltPerHour, ElectricPotentialChangeRateUnit.VoltPerSecond) => new ElectricPotentialChangeRate((_value / 3600) * 1e3d, ElectricPotentialChangeRateUnit.VoltPerSecond),
-                (ElectricPotentialChangeRateUnit.KilovoltPerMicrosecond, ElectricPotentialChangeRateUnit.VoltPerSecond) => new ElectricPotentialChangeRate((_value * 1E6) * 1e3d, ElectricPotentialChangeRateUnit.VoltPerSecond),
-                (ElectricPotentialChangeRateUnit.KilovoltPerMinute, ElectricPotentialChangeRateUnit.VoltPerSecond) => new ElectricPotentialChangeRate((_value / 60) * 1e3d, ElectricPotentialChangeRateUnit.VoltPerSecond),
-                (ElectricPotentialChangeRateUnit.KilovoltPerSecond, ElectricPotentialChangeRateUnit.VoltPerSecond) => new ElectricPotentialChangeRate((_value) * 1e3d, ElectricPotentialChangeRateUnit.VoltPerSecond),
-                (ElectricPotentialChangeRateUnit.MegavoltPerHour, ElectricPotentialChangeRateUnit.VoltPerSecond) => new ElectricPotentialChangeRate((_value / 3600) * 1e6d, ElectricPotentialChangeRateUnit.VoltPerSecond),
-                (ElectricPotentialChangeRateUnit.MegavoltPerMicrosecond, ElectricPotentialChangeRateUnit.VoltPerSecond) => new ElectricPotentialChangeRate((_value * 1E6) * 1e6d, ElectricPotentialChangeRateUnit.VoltPerSecond),
-                (ElectricPotentialChangeRateUnit.MegavoltPerMinute, ElectricPotentialChangeRateUnit.VoltPerSecond) => new ElectricPotentialChangeRate((_value / 60) * 1e6d, ElectricPotentialChangeRateUnit.VoltPerSecond),
-                (ElectricPotentialChangeRateUnit.MegavoltPerSecond, ElectricPotentialChangeRateUnit.VoltPerSecond) => new ElectricPotentialChangeRate((_value) * 1e6d, ElectricPotentialChangeRateUnit.VoltPerSecond),
-                (ElectricPotentialChangeRateUnit.MicrovoltPerHour, ElectricPotentialChangeRateUnit.VoltPerSecond) => new ElectricPotentialChangeRate((_value / 3600) * 1e-6d, ElectricPotentialChangeRateUnit.VoltPerSecond),
-                (ElectricPotentialChangeRateUnit.MicrovoltPerMicrosecond, ElectricPotentialChangeRateUnit.VoltPerSecond) => new ElectricPotentialChangeRate((_value * 1E6) * 1e-6d, ElectricPotentialChangeRateUnit.VoltPerSecond),
-                (ElectricPotentialChangeRateUnit.MicrovoltPerMinute, ElectricPotentialChangeRateUnit.VoltPerSecond) => new ElectricPotentialChangeRate((_value / 60) * 1e-6d, ElectricPotentialChangeRateUnit.VoltPerSecond),
-                (ElectricPotentialChangeRateUnit.MicrovoltPerSecond, ElectricPotentialChangeRateUnit.VoltPerSecond) => new ElectricPotentialChangeRate((_value) * 1e-6d, ElectricPotentialChangeRateUnit.VoltPerSecond),
-                (ElectricPotentialChangeRateUnit.MillivoltPerHour, ElectricPotentialChangeRateUnit.VoltPerSecond) => new ElectricPotentialChangeRate((_value / 3600) * 1e-3d, ElectricPotentialChangeRateUnit.VoltPerSecond),
-                (ElectricPotentialChangeRateUnit.MillivoltPerMicrosecond, ElectricPotentialChangeRateUnit.VoltPerSecond) => new ElectricPotentialChangeRate((_value * 1E6) * 1e-3d, ElectricPotentialChangeRateUnit.VoltPerSecond),
-                (ElectricPotentialChangeRateUnit.MillivoltPerMinute, ElectricPotentialChangeRateUnit.VoltPerSecond) => new ElectricPotentialChangeRate((_value / 60) * 1e-3d, ElectricPotentialChangeRateUnit.VoltPerSecond),
-                (ElectricPotentialChangeRateUnit.MillivoltPerSecond, ElectricPotentialChangeRateUnit.VoltPerSecond) => new ElectricPotentialChangeRate((_value) * 1e-3d, ElectricPotentialChangeRateUnit.VoltPerSecond),
+                (ElectricPotentialChangeRateUnit.KilovoltPerHour, ElectricPotentialChangeRateUnit.VoltPerSecond) => new ElectricPotentialChangeRate(_value * new QuantityValue(5, 18), ElectricPotentialChangeRateUnit.VoltPerSecond),
+                (ElectricPotentialChangeRateUnit.KilovoltPerMicrosecond, ElectricPotentialChangeRateUnit.VoltPerSecond) => new ElectricPotentialChangeRate(_value * 1000000000, ElectricPotentialChangeRateUnit.VoltPerSecond),
+                (ElectricPotentialChangeRateUnit.KilovoltPerMinute, ElectricPotentialChangeRateUnit.VoltPerSecond) => new ElectricPotentialChangeRate(_value * new QuantityValue(50, 3), ElectricPotentialChangeRateUnit.VoltPerSecond),
+                (ElectricPotentialChangeRateUnit.KilovoltPerSecond, ElectricPotentialChangeRateUnit.VoltPerSecond) => new ElectricPotentialChangeRate(_value * 1000, ElectricPotentialChangeRateUnit.VoltPerSecond),
+                (ElectricPotentialChangeRateUnit.MegavoltPerHour, ElectricPotentialChangeRateUnit.VoltPerSecond) => new ElectricPotentialChangeRate(_value * new QuantityValue(2500, 9), ElectricPotentialChangeRateUnit.VoltPerSecond),
+                (ElectricPotentialChangeRateUnit.MegavoltPerMicrosecond, ElectricPotentialChangeRateUnit.VoltPerSecond) => new ElectricPotentialChangeRate(_value * 1000000000000, ElectricPotentialChangeRateUnit.VoltPerSecond),
+                (ElectricPotentialChangeRateUnit.MegavoltPerMinute, ElectricPotentialChangeRateUnit.VoltPerSecond) => new ElectricPotentialChangeRate(_value * new QuantityValue(50000, 3), ElectricPotentialChangeRateUnit.VoltPerSecond),
+                (ElectricPotentialChangeRateUnit.MegavoltPerSecond, ElectricPotentialChangeRateUnit.VoltPerSecond) => new ElectricPotentialChangeRate(_value * 1000000, ElectricPotentialChangeRateUnit.VoltPerSecond),
+                (ElectricPotentialChangeRateUnit.MicrovoltPerHour, ElectricPotentialChangeRateUnit.VoltPerSecond) => new ElectricPotentialChangeRate(_value / 3600000000, ElectricPotentialChangeRateUnit.VoltPerSecond),
+                (ElectricPotentialChangeRateUnit.MicrovoltPerMicrosecond, ElectricPotentialChangeRateUnit.VoltPerSecond) => new ElectricPotentialChangeRate(_value, ElectricPotentialChangeRateUnit.VoltPerSecond),
+                (ElectricPotentialChangeRateUnit.MicrovoltPerMinute, ElectricPotentialChangeRateUnit.VoltPerSecond) => new ElectricPotentialChangeRate(_value / 60000000, ElectricPotentialChangeRateUnit.VoltPerSecond),
+                (ElectricPotentialChangeRateUnit.MicrovoltPerSecond, ElectricPotentialChangeRateUnit.VoltPerSecond) => new ElectricPotentialChangeRate(_value / 1000000, ElectricPotentialChangeRateUnit.VoltPerSecond),
+                (ElectricPotentialChangeRateUnit.MillivoltPerHour, ElectricPotentialChangeRateUnit.VoltPerSecond) => new ElectricPotentialChangeRate(_value / 3600000, ElectricPotentialChangeRateUnit.VoltPerSecond),
+                (ElectricPotentialChangeRateUnit.MillivoltPerMicrosecond, ElectricPotentialChangeRateUnit.VoltPerSecond) => new ElectricPotentialChangeRate(_value * 1000, ElectricPotentialChangeRateUnit.VoltPerSecond),
+                (ElectricPotentialChangeRateUnit.MillivoltPerMinute, ElectricPotentialChangeRateUnit.VoltPerSecond) => new ElectricPotentialChangeRate(_value / 60000, ElectricPotentialChangeRateUnit.VoltPerSecond),
+                (ElectricPotentialChangeRateUnit.MillivoltPerSecond, ElectricPotentialChangeRateUnit.VoltPerSecond) => new ElectricPotentialChangeRate(_value / 1000, ElectricPotentialChangeRateUnit.VoltPerSecond),
                 (ElectricPotentialChangeRateUnit.VoltPerHour, ElectricPotentialChangeRateUnit.VoltPerSecond) => new ElectricPotentialChangeRate(_value / 3600, ElectricPotentialChangeRateUnit.VoltPerSecond),
-                (ElectricPotentialChangeRateUnit.VoltPerMicrosecond, ElectricPotentialChangeRateUnit.VoltPerSecond) => new ElectricPotentialChangeRate(_value * 1E6, ElectricPotentialChangeRateUnit.VoltPerSecond),
+                (ElectricPotentialChangeRateUnit.VoltPerMicrosecond, ElectricPotentialChangeRateUnit.VoltPerSecond) => new ElectricPotentialChangeRate(_value * 1000000, ElectricPotentialChangeRateUnit.VoltPerSecond),
                 (ElectricPotentialChangeRateUnit.VoltPerMinute, ElectricPotentialChangeRateUnit.VoltPerSecond) => new ElectricPotentialChangeRate(_value / 60, ElectricPotentialChangeRateUnit.VoltPerSecond),
 
                 // BaseUnit -> ElectricPotentialChangeRateUnit
-                (ElectricPotentialChangeRateUnit.VoltPerSecond, ElectricPotentialChangeRateUnit.KilovoltPerHour) => new ElectricPotentialChangeRate((_value * 3600) / 1e3d, ElectricPotentialChangeRateUnit.KilovoltPerHour),
-                (ElectricPotentialChangeRateUnit.VoltPerSecond, ElectricPotentialChangeRateUnit.KilovoltPerMicrosecond) => new ElectricPotentialChangeRate((_value / 1E6) / 1e3d, ElectricPotentialChangeRateUnit.KilovoltPerMicrosecond),
-                (ElectricPotentialChangeRateUnit.VoltPerSecond, ElectricPotentialChangeRateUnit.KilovoltPerMinute) => new ElectricPotentialChangeRate((_value * 60) / 1e3d, ElectricPotentialChangeRateUnit.KilovoltPerMinute),
-                (ElectricPotentialChangeRateUnit.VoltPerSecond, ElectricPotentialChangeRateUnit.KilovoltPerSecond) => new ElectricPotentialChangeRate((_value) / 1e3d, ElectricPotentialChangeRateUnit.KilovoltPerSecond),
-                (ElectricPotentialChangeRateUnit.VoltPerSecond, ElectricPotentialChangeRateUnit.MegavoltPerHour) => new ElectricPotentialChangeRate((_value * 3600) / 1e6d, ElectricPotentialChangeRateUnit.MegavoltPerHour),
-                (ElectricPotentialChangeRateUnit.VoltPerSecond, ElectricPotentialChangeRateUnit.MegavoltPerMicrosecond) => new ElectricPotentialChangeRate((_value / 1E6) / 1e6d, ElectricPotentialChangeRateUnit.MegavoltPerMicrosecond),
-                (ElectricPotentialChangeRateUnit.VoltPerSecond, ElectricPotentialChangeRateUnit.MegavoltPerMinute) => new ElectricPotentialChangeRate((_value * 60) / 1e6d, ElectricPotentialChangeRateUnit.MegavoltPerMinute),
-                (ElectricPotentialChangeRateUnit.VoltPerSecond, ElectricPotentialChangeRateUnit.MegavoltPerSecond) => new ElectricPotentialChangeRate((_value) / 1e6d, ElectricPotentialChangeRateUnit.MegavoltPerSecond),
-                (ElectricPotentialChangeRateUnit.VoltPerSecond, ElectricPotentialChangeRateUnit.MicrovoltPerHour) => new ElectricPotentialChangeRate((_value * 3600) / 1e-6d, ElectricPotentialChangeRateUnit.MicrovoltPerHour),
-                (ElectricPotentialChangeRateUnit.VoltPerSecond, ElectricPotentialChangeRateUnit.MicrovoltPerMicrosecond) => new ElectricPotentialChangeRate((_value / 1E6) / 1e-6d, ElectricPotentialChangeRateUnit.MicrovoltPerMicrosecond),
-                (ElectricPotentialChangeRateUnit.VoltPerSecond, ElectricPotentialChangeRateUnit.MicrovoltPerMinute) => new ElectricPotentialChangeRate((_value * 60) / 1e-6d, ElectricPotentialChangeRateUnit.MicrovoltPerMinute),
-                (ElectricPotentialChangeRateUnit.VoltPerSecond, ElectricPotentialChangeRateUnit.MicrovoltPerSecond) => new ElectricPotentialChangeRate((_value) / 1e-6d, ElectricPotentialChangeRateUnit.MicrovoltPerSecond),
-                (ElectricPotentialChangeRateUnit.VoltPerSecond, ElectricPotentialChangeRateUnit.MillivoltPerHour) => new ElectricPotentialChangeRate((_value * 3600) / 1e-3d, ElectricPotentialChangeRateUnit.MillivoltPerHour),
-                (ElectricPotentialChangeRateUnit.VoltPerSecond, ElectricPotentialChangeRateUnit.MillivoltPerMicrosecond) => new ElectricPotentialChangeRate((_value / 1E6) / 1e-3d, ElectricPotentialChangeRateUnit.MillivoltPerMicrosecond),
-                (ElectricPotentialChangeRateUnit.VoltPerSecond, ElectricPotentialChangeRateUnit.MillivoltPerMinute) => new ElectricPotentialChangeRate((_value * 60) / 1e-3d, ElectricPotentialChangeRateUnit.MillivoltPerMinute),
-                (ElectricPotentialChangeRateUnit.VoltPerSecond, ElectricPotentialChangeRateUnit.MillivoltPerSecond) => new ElectricPotentialChangeRate((_value) / 1e-3d, ElectricPotentialChangeRateUnit.MillivoltPerSecond),
+                (ElectricPotentialChangeRateUnit.VoltPerSecond, ElectricPotentialChangeRateUnit.KilovoltPerHour) => new ElectricPotentialChangeRate(_value * new QuantityValue(18, 5), ElectricPotentialChangeRateUnit.KilovoltPerHour),
+                (ElectricPotentialChangeRateUnit.VoltPerSecond, ElectricPotentialChangeRateUnit.KilovoltPerMicrosecond) => new ElectricPotentialChangeRate(_value / 1000000000, ElectricPotentialChangeRateUnit.KilovoltPerMicrosecond),
+                (ElectricPotentialChangeRateUnit.VoltPerSecond, ElectricPotentialChangeRateUnit.KilovoltPerMinute) => new ElectricPotentialChangeRate(_value * new QuantityValue(3, 50), ElectricPotentialChangeRateUnit.KilovoltPerMinute),
+                (ElectricPotentialChangeRateUnit.VoltPerSecond, ElectricPotentialChangeRateUnit.KilovoltPerSecond) => new ElectricPotentialChangeRate(_value / 1000, ElectricPotentialChangeRateUnit.KilovoltPerSecond),
+                (ElectricPotentialChangeRateUnit.VoltPerSecond, ElectricPotentialChangeRateUnit.MegavoltPerHour) => new ElectricPotentialChangeRate(_value * new QuantityValue(9, 2500), ElectricPotentialChangeRateUnit.MegavoltPerHour),
+                (ElectricPotentialChangeRateUnit.VoltPerSecond, ElectricPotentialChangeRateUnit.MegavoltPerMicrosecond) => new ElectricPotentialChangeRate(_value / 1000000000000, ElectricPotentialChangeRateUnit.MegavoltPerMicrosecond),
+                (ElectricPotentialChangeRateUnit.VoltPerSecond, ElectricPotentialChangeRateUnit.MegavoltPerMinute) => new ElectricPotentialChangeRate(_value * new QuantityValue(3, 50000), ElectricPotentialChangeRateUnit.MegavoltPerMinute),
+                (ElectricPotentialChangeRateUnit.VoltPerSecond, ElectricPotentialChangeRateUnit.MegavoltPerSecond) => new ElectricPotentialChangeRate(_value / 1000000, ElectricPotentialChangeRateUnit.MegavoltPerSecond),
+                (ElectricPotentialChangeRateUnit.VoltPerSecond, ElectricPotentialChangeRateUnit.MicrovoltPerHour) => new ElectricPotentialChangeRate(_value * 3600000000, ElectricPotentialChangeRateUnit.MicrovoltPerHour),
+                (ElectricPotentialChangeRateUnit.VoltPerSecond, ElectricPotentialChangeRateUnit.MicrovoltPerMicrosecond) => new ElectricPotentialChangeRate(_value, ElectricPotentialChangeRateUnit.MicrovoltPerMicrosecond),
+                (ElectricPotentialChangeRateUnit.VoltPerSecond, ElectricPotentialChangeRateUnit.MicrovoltPerMinute) => new ElectricPotentialChangeRate(_value * 60000000, ElectricPotentialChangeRateUnit.MicrovoltPerMinute),
+                (ElectricPotentialChangeRateUnit.VoltPerSecond, ElectricPotentialChangeRateUnit.MicrovoltPerSecond) => new ElectricPotentialChangeRate(_value * 1000000, ElectricPotentialChangeRateUnit.MicrovoltPerSecond),
+                (ElectricPotentialChangeRateUnit.VoltPerSecond, ElectricPotentialChangeRateUnit.MillivoltPerHour) => new ElectricPotentialChangeRate(_value * 3600000, ElectricPotentialChangeRateUnit.MillivoltPerHour),
+                (ElectricPotentialChangeRateUnit.VoltPerSecond, ElectricPotentialChangeRateUnit.MillivoltPerMicrosecond) => new ElectricPotentialChangeRate(_value / 1000, ElectricPotentialChangeRateUnit.MillivoltPerMicrosecond),
+                (ElectricPotentialChangeRateUnit.VoltPerSecond, ElectricPotentialChangeRateUnit.MillivoltPerMinute) => new ElectricPotentialChangeRate(_value * 60000, ElectricPotentialChangeRateUnit.MillivoltPerMinute),
+                (ElectricPotentialChangeRateUnit.VoltPerSecond, ElectricPotentialChangeRateUnit.MillivoltPerSecond) => new ElectricPotentialChangeRate(_value * 1000, ElectricPotentialChangeRateUnit.MillivoltPerSecond),
                 (ElectricPotentialChangeRateUnit.VoltPerSecond, ElectricPotentialChangeRateUnit.VoltPerHour) => new ElectricPotentialChangeRate(_value * 3600, ElectricPotentialChangeRateUnit.VoltPerHour),
-                (ElectricPotentialChangeRateUnit.VoltPerSecond, ElectricPotentialChangeRateUnit.VoltPerMicrosecond) => new ElectricPotentialChangeRate(_value / 1E6, ElectricPotentialChangeRateUnit.VoltPerMicrosecond),
+                (ElectricPotentialChangeRateUnit.VoltPerSecond, ElectricPotentialChangeRateUnit.VoltPerMicrosecond) => new ElectricPotentialChangeRate(_value / 1000000, ElectricPotentialChangeRateUnit.VoltPerMicrosecond),
                 (ElectricPotentialChangeRateUnit.VoltPerSecond, ElectricPotentialChangeRateUnit.VoltPerMinute) => new ElectricPotentialChangeRate(_value * 60, ElectricPotentialChangeRateUnit.VoltPerMinute),
 
                 _ => null

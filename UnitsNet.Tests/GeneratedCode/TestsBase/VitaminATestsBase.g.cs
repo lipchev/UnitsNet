@@ -93,15 +93,14 @@ namespace UnitsNet.Tests
         [Fact]
         public void Ctor_SIUnitSystem_ThrowsArgumentExceptionIfNotSupported()
         {
-            Func<object> TestCode = () => new VitaminA(value: 1, unitSystem: UnitSystem.SI);
             if (SupportsSIUnitSystem)
             {
-                var quantity = (VitaminA) TestCode();
+                var quantity = new VitaminA(value: 1, unitSystem: UnitSystem.SI);
                 Assert.Equal(1, quantity.Value);
             }
             else
             {
-                Assert.Throws<ArgumentException>(TestCode);
+                Assert.Throws<ArgumentException>(() => new VitaminA(value: 1, unitSystem: UnitSystem.SI));
             }
         }
 
@@ -130,7 +129,7 @@ namespace UnitsNet.Tests
         public void From_ValueAndUnit_ReturnsQuantityWithSameValueAndUnit()
         {
             var quantity00 = VitaminA.From(1, VitaminAUnit.InternationalUnit);
-            AssertEx.EqualTolerance(1, quantity00.InternationalUnits, InternationalUnitsTolerance);
+            Assert.Equal(1, quantity00.InternationalUnits);
             Assert.Equal(VitaminAUnit.InternationalUnit, quantity00.Unit);
 
         }
@@ -164,16 +163,13 @@ namespace UnitsNet.Tests
         public void As_SIUnitSystem_ThrowsArgumentExceptionIfNotSupported()
         {
             var quantity = new VitaminA(value: 1, unit: VitaminA.BaseUnit);
-            Func<object> AsWithSIUnitSystem = () => quantity.As(UnitSystem.SI);
-
             if (SupportsSIUnitSystem)
             {
-                var value = Convert.ToDouble(AsWithSIUnitSystem());
-                Assert.Equal(1, value);
+                Assert.Equal(1, quantity.As(UnitSystem.SI));
             }
             else
             {
-                Assert.Throws<ArgumentException>(AsWithSIUnitSystem);
+                Assert.Throws<ArgumentException>(() => quantity.As(UnitSystem.SI));
             }
         }
 
@@ -183,7 +179,7 @@ namespace UnitsNet.Tests
             try
             {
                 var parsed = VitaminA.Parse("1 IU", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.InternationalUnits, InternationalUnitsTolerance);
+                Assert.Equal(1, parsed.InternationalUnits);
                 Assert.Equal(VitaminAUnit.InternationalUnit, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
@@ -194,7 +190,7 @@ namespace UnitsNet.Tests
         {
             {
                 Assert.True(VitaminA.TryParse("1 IU", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.InternationalUnits, InternationalUnitsTolerance);
+                Assert.Equal(1, parsed.InternationalUnits);
                 Assert.Equal(VitaminAUnit.InternationalUnit, parsed.Unit);
             }
 
@@ -267,20 +263,20 @@ namespace UnitsNet.Tests
         public void ConversionRoundTrip()
         {
             VitaminA internationalunit = VitaminA.FromInternationalUnits(1);
-            AssertEx.EqualTolerance(1, VitaminA.FromInternationalUnits(internationalunit.InternationalUnits).InternationalUnits, InternationalUnitsTolerance);
+            Assert.Equal(1, VitaminA.FromInternationalUnits(internationalunit.InternationalUnits).InternationalUnits);
         }
 
         [Fact]
         public void ArithmeticOperators()
         {
             VitaminA v = VitaminA.FromInternationalUnits(1);
-            AssertEx.EqualTolerance(-1, -v.InternationalUnits, InternationalUnitsTolerance);
-            AssertEx.EqualTolerance(2, (VitaminA.FromInternationalUnits(3)-v).InternationalUnits, InternationalUnitsTolerance);
-            AssertEx.EqualTolerance(2, (v + v).InternationalUnits, InternationalUnitsTolerance);
-            AssertEx.EqualTolerance(10, (v*10).InternationalUnits, InternationalUnitsTolerance);
-            AssertEx.EqualTolerance(10, (10*v).InternationalUnits, InternationalUnitsTolerance);
-            AssertEx.EqualTolerance(2, (VitaminA.FromInternationalUnits(10)/5).InternationalUnits, InternationalUnitsTolerance);
-            AssertEx.EqualTolerance(2, VitaminA.FromInternationalUnits(10)/VitaminA.FromInternationalUnits(5), InternationalUnitsTolerance);
+            Assert.Equal(-1, -v.InternationalUnits);
+            Assert.Equal(2, (VitaminA.FromInternationalUnits(3) - v).InternationalUnits);
+            Assert.Equal(2, (v + v).InternationalUnits);
+            Assert.Equal(10, (v * 10).InternationalUnits);
+            Assert.Equal(10, (10 * v).InternationalUnits);
+            Assert.Equal(2, (VitaminA.FromInternationalUnits(10) / 5).InternationalUnits);
+            Assert.Equal(2, VitaminA.FromInternationalUnits(10) / VitaminA.FromInternationalUnits(5));
         }
 
         [Fact]
@@ -326,7 +322,6 @@ namespace UnitsNet.Tests
         [Theory]
         [InlineData(1, VitaminAUnit.InternationalUnit, 1, VitaminAUnit.InternationalUnit, true)]  // Same value and unit.
         [InlineData(1, VitaminAUnit.InternationalUnit, 2, VitaminAUnit.InternationalUnit, false)] // Different value.
-        [InlineData(2, VitaminAUnit.InternationalUnit, 1, VitaminAUnit.InternationalUnit, false)] // Different value and unit.
         public void Equals_ReturnsTrue_IfValueAndUnitAreEqual(double valueA, VitaminAUnit unitA, double valueB, VitaminAUnit unitB, bool expectEqual)
         {
             var a = new VitaminA(valueA, unitA);
@@ -364,20 +359,22 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
-        public void Equals_RelativeTolerance_IsImplemented()
+        public void Equals_WithTolerance_IsImplemented()
         {
             var v = VitaminA.FromInternationalUnits(1);
-            Assert.True(v.Equals(VitaminA.FromInternationalUnits(1), InternationalUnitsTolerance, ComparisonType.Relative));
-            Assert.False(v.Equals(VitaminA.Zero, InternationalUnitsTolerance, ComparisonType.Relative));
-            Assert.True(VitaminA.FromInternationalUnits(100).Equals(VitaminA.FromInternationalUnits(120), 0.3, ComparisonType.Relative));
-            Assert.False(VitaminA.FromInternationalUnits(100).Equals(VitaminA.FromInternationalUnits(120), 0.1, ComparisonType.Relative));
+            Assert.True(v.Equals(VitaminA.FromInternationalUnits(1), VitaminA.FromInternationalUnits(0)));
+            Assert.True(v.Equals(VitaminA.FromInternationalUnits(1), VitaminA.FromInternationalUnits(0.001m)));
+            Assert.True(v.Equals(VitaminA.FromInternationalUnits(0.9999), VitaminA.FromInternationalUnits(0.001m)));
+            Assert.False(v.Equals(VitaminA.FromInternationalUnits(0.99), VitaminA.FromInternationalUnits(0.001m)));
+            Assert.False(v.Equals(VitaminA.Zero, VitaminA.FromInternationalUnits(0.001m)));
         }
 
         [Fact]
-        public void Equals_NegativeRelativeTolerance_ThrowsArgumentOutOfRangeException()
+        public void Equals_WithNegativeTolerance_ThrowsArgumentOutOfRangeException()
         {
             var v = VitaminA.FromInternationalUnits(1);
-            Assert.Throws<ArgumentOutOfRangeException>(() => v.Equals(VitaminA.FromInternationalUnits(1), -1, ComparisonType.Relative));
+            var negativeTolerance = VitaminA.FromInternationalUnits(-1);
+            Assert.Throws<ArgumentOutOfRangeException>(() => v.Equals(VitaminA.FromInternationalUnits(1), negativeTolerance));
         }
 
         [Fact]
@@ -400,7 +397,7 @@ namespace UnitsNet.Tests
             var units = Enum.GetValues(typeof(VitaminAUnit)).Cast<VitaminAUnit>();
             foreach (var unit in units)
             {
-                var defaultAbbreviation = UnitAbbreviationsCache.Default.GetDefaultAbbreviation(unit);
+                var defaultAbbreviation = UnitsNetSetup.Default.UnitAbbreviations.GetDefaultAbbreviation(unit);
             }
         }
 
@@ -627,7 +624,12 @@ namespace UnitsNet.Tests
         public void GetHashCode_Equals()
         {
             var quantity = VitaminA.FromInternationalUnits(1.0);
-            Assert.Equal(new {VitaminA.Info.Name, quantity.Value, quantity.Unit}.GetHashCode(), quantity.GetHashCode());
+            #if NET7_0_OR_GREATER
+            var expected = HashCode.Combine(VitaminA.Info.Name, quantity.InternationalUnits);
+            #else
+            var expected = new {VitaminA.Info.Name, valueInBaseUnit = quantity.InternationalUnits}.GetHashCode();
+            #endif
+            Assert.Equal(expected, quantity.GetHashCode());
         }
 
         [Theory]

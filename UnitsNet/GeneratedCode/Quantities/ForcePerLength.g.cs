@@ -22,12 +22,9 @@ using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
-#if NET7_0_OR_GREATER
-using System.Numerics;
-#endif
 using System.Runtime.Serialization;
-using UnitsNet.InternalHelpers;
 using UnitsNet.Units;
+using System.Numerics;
 
 #nullable enable
 
@@ -63,13 +60,13 @@ namespace UnitsNet
         /// <summary>
         ///     The numeric value this quantity was constructed with.
         /// </summary>
-        [DataMember(Name = "Value", Order = 1)]
-        private readonly double _value;
+        [DataMember(Name = "Value", Order = 1, EmitDefaultValue = false)]
+        private readonly QuantityValue _value;
 
         /// <summary>
         ///     The unit this quantity was constructed with.
         /// </summary>
-        [DataMember(Name = "Unit", Order = 2)]
+        [DataMember(Name = "Unit", Order = 2, EmitDefaultValue = false)]
         private readonly ForcePerLengthUnit? _unit;
 
         static ForcePerLength()
@@ -131,7 +128,7 @@ namespace UnitsNet
         /// </summary>
         /// <param name="value">The numeric value to construct this quantity with.</param>
         /// <param name="unit">The unit representation to construct this quantity with.</param>
-        public ForcePerLength(double value, ForcePerLengthUnit unit)
+        public ForcePerLength(QuantityValue value, ForcePerLengthUnit unit)
         {
             _value = value;
             _unit = unit;
@@ -145,7 +142,7 @@ namespace UnitsNet
         /// <param name="unitSystem">The unit system to create the quantity with.</param>
         /// <exception cref="ArgumentNullException">The given <see cref="UnitSystem"/> is null.</exception>
         /// <exception cref="ArgumentException">No unit was found for the given <see cref="UnitSystem"/>.</exception>
-        public ForcePerLength(double value, UnitSystem unitSystem)
+        public ForcePerLength(QuantityValue value, UnitSystem unitSystem)
         {
             if (unitSystem is null) throw new ArgumentNullException(nameof(unitSystem));
 
@@ -196,10 +193,10 @@ namespace UnitsNet
         /// <summary>
         ///     The numeric value this quantity was constructed with.
         /// </summary>
-        public double Value => _value;
+        public QuantityValue Value => _value;
 
         /// <inheritdoc />
-        double IQuantity.Value => _value;
+        QuantityValue IQuantity.Value => _value;
 
         Enum IQuantity.Unit => Unit;
 
@@ -224,192 +221,192 @@ namespace UnitsNet
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="ForcePerLengthUnit.CentinewtonPerCentimeter"/>
         /// </summary>
-        public double CentinewtonsPerCentimeter => As(ForcePerLengthUnit.CentinewtonPerCentimeter);
+        public QuantityValue CentinewtonsPerCentimeter => As(ForcePerLengthUnit.CentinewtonPerCentimeter);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="ForcePerLengthUnit.CentinewtonPerMeter"/>
         /// </summary>
-        public double CentinewtonsPerMeter => As(ForcePerLengthUnit.CentinewtonPerMeter);
+        public QuantityValue CentinewtonsPerMeter => As(ForcePerLengthUnit.CentinewtonPerMeter);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="ForcePerLengthUnit.CentinewtonPerMillimeter"/>
         /// </summary>
-        public double CentinewtonsPerMillimeter => As(ForcePerLengthUnit.CentinewtonPerMillimeter);
+        public QuantityValue CentinewtonsPerMillimeter => As(ForcePerLengthUnit.CentinewtonPerMillimeter);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="ForcePerLengthUnit.DecanewtonPerCentimeter"/>
         /// </summary>
-        public double DecanewtonsPerCentimeter => As(ForcePerLengthUnit.DecanewtonPerCentimeter);
+        public QuantityValue DecanewtonsPerCentimeter => As(ForcePerLengthUnit.DecanewtonPerCentimeter);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="ForcePerLengthUnit.DecanewtonPerMeter"/>
         /// </summary>
-        public double DecanewtonsPerMeter => As(ForcePerLengthUnit.DecanewtonPerMeter);
+        public QuantityValue DecanewtonsPerMeter => As(ForcePerLengthUnit.DecanewtonPerMeter);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="ForcePerLengthUnit.DecanewtonPerMillimeter"/>
         /// </summary>
-        public double DecanewtonsPerMillimeter => As(ForcePerLengthUnit.DecanewtonPerMillimeter);
+        public QuantityValue DecanewtonsPerMillimeter => As(ForcePerLengthUnit.DecanewtonPerMillimeter);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="ForcePerLengthUnit.DecinewtonPerCentimeter"/>
         /// </summary>
-        public double DecinewtonsPerCentimeter => As(ForcePerLengthUnit.DecinewtonPerCentimeter);
+        public QuantityValue DecinewtonsPerCentimeter => As(ForcePerLengthUnit.DecinewtonPerCentimeter);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="ForcePerLengthUnit.DecinewtonPerMeter"/>
         /// </summary>
-        public double DecinewtonsPerMeter => As(ForcePerLengthUnit.DecinewtonPerMeter);
+        public QuantityValue DecinewtonsPerMeter => As(ForcePerLengthUnit.DecinewtonPerMeter);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="ForcePerLengthUnit.DecinewtonPerMillimeter"/>
         /// </summary>
-        public double DecinewtonsPerMillimeter => As(ForcePerLengthUnit.DecinewtonPerMillimeter);
+        public QuantityValue DecinewtonsPerMillimeter => As(ForcePerLengthUnit.DecinewtonPerMillimeter);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="ForcePerLengthUnit.KilogramForcePerCentimeter"/>
         /// </summary>
-        public double KilogramsForcePerCentimeter => As(ForcePerLengthUnit.KilogramForcePerCentimeter);
+        public QuantityValue KilogramsForcePerCentimeter => As(ForcePerLengthUnit.KilogramForcePerCentimeter);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="ForcePerLengthUnit.KilogramForcePerMeter"/>
         /// </summary>
-        public double KilogramsForcePerMeter => As(ForcePerLengthUnit.KilogramForcePerMeter);
+        public QuantityValue KilogramsForcePerMeter => As(ForcePerLengthUnit.KilogramForcePerMeter);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="ForcePerLengthUnit.KilogramForcePerMillimeter"/>
         /// </summary>
-        public double KilogramsForcePerMillimeter => As(ForcePerLengthUnit.KilogramForcePerMillimeter);
+        public QuantityValue KilogramsForcePerMillimeter => As(ForcePerLengthUnit.KilogramForcePerMillimeter);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="ForcePerLengthUnit.KilonewtonPerCentimeter"/>
         /// </summary>
-        public double KilonewtonsPerCentimeter => As(ForcePerLengthUnit.KilonewtonPerCentimeter);
+        public QuantityValue KilonewtonsPerCentimeter => As(ForcePerLengthUnit.KilonewtonPerCentimeter);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="ForcePerLengthUnit.KilonewtonPerMeter"/>
         /// </summary>
-        public double KilonewtonsPerMeter => As(ForcePerLengthUnit.KilonewtonPerMeter);
+        public QuantityValue KilonewtonsPerMeter => As(ForcePerLengthUnit.KilonewtonPerMeter);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="ForcePerLengthUnit.KilonewtonPerMillimeter"/>
         /// </summary>
-        public double KilonewtonsPerMillimeter => As(ForcePerLengthUnit.KilonewtonPerMillimeter);
+        public QuantityValue KilonewtonsPerMillimeter => As(ForcePerLengthUnit.KilonewtonPerMillimeter);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="ForcePerLengthUnit.KilopoundForcePerFoot"/>
         /// </summary>
-        public double KilopoundsForcePerFoot => As(ForcePerLengthUnit.KilopoundForcePerFoot);
+        public QuantityValue KilopoundsForcePerFoot => As(ForcePerLengthUnit.KilopoundForcePerFoot);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="ForcePerLengthUnit.KilopoundForcePerInch"/>
         /// </summary>
-        public double KilopoundsForcePerInch => As(ForcePerLengthUnit.KilopoundForcePerInch);
+        public QuantityValue KilopoundsForcePerInch => As(ForcePerLengthUnit.KilopoundForcePerInch);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="ForcePerLengthUnit.MeganewtonPerCentimeter"/>
         /// </summary>
-        public double MeganewtonsPerCentimeter => As(ForcePerLengthUnit.MeganewtonPerCentimeter);
+        public QuantityValue MeganewtonsPerCentimeter => As(ForcePerLengthUnit.MeganewtonPerCentimeter);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="ForcePerLengthUnit.MeganewtonPerMeter"/>
         /// </summary>
-        public double MeganewtonsPerMeter => As(ForcePerLengthUnit.MeganewtonPerMeter);
+        public QuantityValue MeganewtonsPerMeter => As(ForcePerLengthUnit.MeganewtonPerMeter);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="ForcePerLengthUnit.MeganewtonPerMillimeter"/>
         /// </summary>
-        public double MeganewtonsPerMillimeter => As(ForcePerLengthUnit.MeganewtonPerMillimeter);
+        public QuantityValue MeganewtonsPerMillimeter => As(ForcePerLengthUnit.MeganewtonPerMillimeter);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="ForcePerLengthUnit.MicronewtonPerCentimeter"/>
         /// </summary>
-        public double MicronewtonsPerCentimeter => As(ForcePerLengthUnit.MicronewtonPerCentimeter);
+        public QuantityValue MicronewtonsPerCentimeter => As(ForcePerLengthUnit.MicronewtonPerCentimeter);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="ForcePerLengthUnit.MicronewtonPerMeter"/>
         /// </summary>
-        public double MicronewtonsPerMeter => As(ForcePerLengthUnit.MicronewtonPerMeter);
+        public QuantityValue MicronewtonsPerMeter => As(ForcePerLengthUnit.MicronewtonPerMeter);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="ForcePerLengthUnit.MicronewtonPerMillimeter"/>
         /// </summary>
-        public double MicronewtonsPerMillimeter => As(ForcePerLengthUnit.MicronewtonPerMillimeter);
+        public QuantityValue MicronewtonsPerMillimeter => As(ForcePerLengthUnit.MicronewtonPerMillimeter);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="ForcePerLengthUnit.MillinewtonPerCentimeter"/>
         /// </summary>
-        public double MillinewtonsPerCentimeter => As(ForcePerLengthUnit.MillinewtonPerCentimeter);
+        public QuantityValue MillinewtonsPerCentimeter => As(ForcePerLengthUnit.MillinewtonPerCentimeter);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="ForcePerLengthUnit.MillinewtonPerMeter"/>
         /// </summary>
-        public double MillinewtonsPerMeter => As(ForcePerLengthUnit.MillinewtonPerMeter);
+        public QuantityValue MillinewtonsPerMeter => As(ForcePerLengthUnit.MillinewtonPerMeter);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="ForcePerLengthUnit.MillinewtonPerMillimeter"/>
         /// </summary>
-        public double MillinewtonsPerMillimeter => As(ForcePerLengthUnit.MillinewtonPerMillimeter);
+        public QuantityValue MillinewtonsPerMillimeter => As(ForcePerLengthUnit.MillinewtonPerMillimeter);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="ForcePerLengthUnit.NanonewtonPerCentimeter"/>
         /// </summary>
-        public double NanonewtonsPerCentimeter => As(ForcePerLengthUnit.NanonewtonPerCentimeter);
+        public QuantityValue NanonewtonsPerCentimeter => As(ForcePerLengthUnit.NanonewtonPerCentimeter);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="ForcePerLengthUnit.NanonewtonPerMeter"/>
         /// </summary>
-        public double NanonewtonsPerMeter => As(ForcePerLengthUnit.NanonewtonPerMeter);
+        public QuantityValue NanonewtonsPerMeter => As(ForcePerLengthUnit.NanonewtonPerMeter);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="ForcePerLengthUnit.NanonewtonPerMillimeter"/>
         /// </summary>
-        public double NanonewtonsPerMillimeter => As(ForcePerLengthUnit.NanonewtonPerMillimeter);
+        public QuantityValue NanonewtonsPerMillimeter => As(ForcePerLengthUnit.NanonewtonPerMillimeter);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="ForcePerLengthUnit.NewtonPerCentimeter"/>
         /// </summary>
-        public double NewtonsPerCentimeter => As(ForcePerLengthUnit.NewtonPerCentimeter);
+        public QuantityValue NewtonsPerCentimeter => As(ForcePerLengthUnit.NewtonPerCentimeter);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="ForcePerLengthUnit.NewtonPerMeter"/>
         /// </summary>
-        public double NewtonsPerMeter => As(ForcePerLengthUnit.NewtonPerMeter);
+        public QuantityValue NewtonsPerMeter => As(ForcePerLengthUnit.NewtonPerMeter);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="ForcePerLengthUnit.NewtonPerMillimeter"/>
         /// </summary>
-        public double NewtonsPerMillimeter => As(ForcePerLengthUnit.NewtonPerMillimeter);
+        public QuantityValue NewtonsPerMillimeter => As(ForcePerLengthUnit.NewtonPerMillimeter);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="ForcePerLengthUnit.PoundForcePerFoot"/>
         /// </summary>
-        public double PoundsForcePerFoot => As(ForcePerLengthUnit.PoundForcePerFoot);
+        public QuantityValue PoundsForcePerFoot => As(ForcePerLengthUnit.PoundForcePerFoot);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="ForcePerLengthUnit.PoundForcePerInch"/>
         /// </summary>
-        public double PoundsForcePerInch => As(ForcePerLengthUnit.PoundForcePerInch);
+        public QuantityValue PoundsForcePerInch => As(ForcePerLengthUnit.PoundForcePerInch);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="ForcePerLengthUnit.PoundForcePerYard"/>
         /// </summary>
-        public double PoundsForcePerYard => As(ForcePerLengthUnit.PoundForcePerYard);
+        public QuantityValue PoundsForcePerYard => As(ForcePerLengthUnit.PoundForcePerYard);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="ForcePerLengthUnit.TonneForcePerCentimeter"/>
         /// </summary>
-        public double TonnesForcePerCentimeter => As(ForcePerLengthUnit.TonneForcePerCentimeter);
+        public QuantityValue TonnesForcePerCentimeter => As(ForcePerLengthUnit.TonneForcePerCentimeter);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="ForcePerLengthUnit.TonneForcePerMeter"/>
         /// </summary>
-        public double TonnesForcePerMeter => As(ForcePerLengthUnit.TonneForcePerMeter);
+        public QuantityValue TonnesForcePerMeter => As(ForcePerLengthUnit.TonneForcePerMeter);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="ForcePerLengthUnit.TonneForcePerMillimeter"/>
         /// </summary>
-        public double TonnesForcePerMillimeter => As(ForcePerLengthUnit.TonneForcePerMillimeter);
+        public QuantityValue TonnesForcePerMillimeter => As(ForcePerLengthUnit.TonneForcePerMillimeter);
 
         #endregion
 
@@ -521,7 +518,7 @@ namespace UnitsNet
         /// <param name="provider">Format to use for localization. Defaults to <see cref="CultureInfo.CurrentCulture" /> if null.</param>
         public static string GetAbbreviation(ForcePerLengthUnit unit, IFormatProvider? provider)
         {
-            return UnitAbbreviationsCache.Default.GetDefaultAbbreviation(unit, provider);
+            return UnitsNetSetup.Default.UnitAbbreviations.GetDefaultAbbreviation(unit, provider);
         }
 
         #endregion
@@ -531,7 +528,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="ForcePerLength"/> from <see cref="ForcePerLengthUnit.CentinewtonPerCentimeter"/>.
         /// </summary>
-        public static ForcePerLength FromCentinewtonsPerCentimeter(double value)
+        public static ForcePerLength FromCentinewtonsPerCentimeter(QuantityValue value)
         {
             return new ForcePerLength(value, ForcePerLengthUnit.CentinewtonPerCentimeter);
         }
@@ -539,7 +536,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="ForcePerLength"/> from <see cref="ForcePerLengthUnit.CentinewtonPerMeter"/>.
         /// </summary>
-        public static ForcePerLength FromCentinewtonsPerMeter(double value)
+        public static ForcePerLength FromCentinewtonsPerMeter(QuantityValue value)
         {
             return new ForcePerLength(value, ForcePerLengthUnit.CentinewtonPerMeter);
         }
@@ -547,7 +544,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="ForcePerLength"/> from <see cref="ForcePerLengthUnit.CentinewtonPerMillimeter"/>.
         /// </summary>
-        public static ForcePerLength FromCentinewtonsPerMillimeter(double value)
+        public static ForcePerLength FromCentinewtonsPerMillimeter(QuantityValue value)
         {
             return new ForcePerLength(value, ForcePerLengthUnit.CentinewtonPerMillimeter);
         }
@@ -555,7 +552,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="ForcePerLength"/> from <see cref="ForcePerLengthUnit.DecanewtonPerCentimeter"/>.
         /// </summary>
-        public static ForcePerLength FromDecanewtonsPerCentimeter(double value)
+        public static ForcePerLength FromDecanewtonsPerCentimeter(QuantityValue value)
         {
             return new ForcePerLength(value, ForcePerLengthUnit.DecanewtonPerCentimeter);
         }
@@ -563,7 +560,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="ForcePerLength"/> from <see cref="ForcePerLengthUnit.DecanewtonPerMeter"/>.
         /// </summary>
-        public static ForcePerLength FromDecanewtonsPerMeter(double value)
+        public static ForcePerLength FromDecanewtonsPerMeter(QuantityValue value)
         {
             return new ForcePerLength(value, ForcePerLengthUnit.DecanewtonPerMeter);
         }
@@ -571,7 +568,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="ForcePerLength"/> from <see cref="ForcePerLengthUnit.DecanewtonPerMillimeter"/>.
         /// </summary>
-        public static ForcePerLength FromDecanewtonsPerMillimeter(double value)
+        public static ForcePerLength FromDecanewtonsPerMillimeter(QuantityValue value)
         {
             return new ForcePerLength(value, ForcePerLengthUnit.DecanewtonPerMillimeter);
         }
@@ -579,7 +576,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="ForcePerLength"/> from <see cref="ForcePerLengthUnit.DecinewtonPerCentimeter"/>.
         /// </summary>
-        public static ForcePerLength FromDecinewtonsPerCentimeter(double value)
+        public static ForcePerLength FromDecinewtonsPerCentimeter(QuantityValue value)
         {
             return new ForcePerLength(value, ForcePerLengthUnit.DecinewtonPerCentimeter);
         }
@@ -587,7 +584,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="ForcePerLength"/> from <see cref="ForcePerLengthUnit.DecinewtonPerMeter"/>.
         /// </summary>
-        public static ForcePerLength FromDecinewtonsPerMeter(double value)
+        public static ForcePerLength FromDecinewtonsPerMeter(QuantityValue value)
         {
             return new ForcePerLength(value, ForcePerLengthUnit.DecinewtonPerMeter);
         }
@@ -595,7 +592,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="ForcePerLength"/> from <see cref="ForcePerLengthUnit.DecinewtonPerMillimeter"/>.
         /// </summary>
-        public static ForcePerLength FromDecinewtonsPerMillimeter(double value)
+        public static ForcePerLength FromDecinewtonsPerMillimeter(QuantityValue value)
         {
             return new ForcePerLength(value, ForcePerLengthUnit.DecinewtonPerMillimeter);
         }
@@ -603,7 +600,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="ForcePerLength"/> from <see cref="ForcePerLengthUnit.KilogramForcePerCentimeter"/>.
         /// </summary>
-        public static ForcePerLength FromKilogramsForcePerCentimeter(double value)
+        public static ForcePerLength FromKilogramsForcePerCentimeter(QuantityValue value)
         {
             return new ForcePerLength(value, ForcePerLengthUnit.KilogramForcePerCentimeter);
         }
@@ -611,7 +608,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="ForcePerLength"/> from <see cref="ForcePerLengthUnit.KilogramForcePerMeter"/>.
         /// </summary>
-        public static ForcePerLength FromKilogramsForcePerMeter(double value)
+        public static ForcePerLength FromKilogramsForcePerMeter(QuantityValue value)
         {
             return new ForcePerLength(value, ForcePerLengthUnit.KilogramForcePerMeter);
         }
@@ -619,7 +616,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="ForcePerLength"/> from <see cref="ForcePerLengthUnit.KilogramForcePerMillimeter"/>.
         /// </summary>
-        public static ForcePerLength FromKilogramsForcePerMillimeter(double value)
+        public static ForcePerLength FromKilogramsForcePerMillimeter(QuantityValue value)
         {
             return new ForcePerLength(value, ForcePerLengthUnit.KilogramForcePerMillimeter);
         }
@@ -627,7 +624,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="ForcePerLength"/> from <see cref="ForcePerLengthUnit.KilonewtonPerCentimeter"/>.
         /// </summary>
-        public static ForcePerLength FromKilonewtonsPerCentimeter(double value)
+        public static ForcePerLength FromKilonewtonsPerCentimeter(QuantityValue value)
         {
             return new ForcePerLength(value, ForcePerLengthUnit.KilonewtonPerCentimeter);
         }
@@ -635,7 +632,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="ForcePerLength"/> from <see cref="ForcePerLengthUnit.KilonewtonPerMeter"/>.
         /// </summary>
-        public static ForcePerLength FromKilonewtonsPerMeter(double value)
+        public static ForcePerLength FromKilonewtonsPerMeter(QuantityValue value)
         {
             return new ForcePerLength(value, ForcePerLengthUnit.KilonewtonPerMeter);
         }
@@ -643,7 +640,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="ForcePerLength"/> from <see cref="ForcePerLengthUnit.KilonewtonPerMillimeter"/>.
         /// </summary>
-        public static ForcePerLength FromKilonewtonsPerMillimeter(double value)
+        public static ForcePerLength FromKilonewtonsPerMillimeter(QuantityValue value)
         {
             return new ForcePerLength(value, ForcePerLengthUnit.KilonewtonPerMillimeter);
         }
@@ -651,7 +648,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="ForcePerLength"/> from <see cref="ForcePerLengthUnit.KilopoundForcePerFoot"/>.
         /// </summary>
-        public static ForcePerLength FromKilopoundsForcePerFoot(double value)
+        public static ForcePerLength FromKilopoundsForcePerFoot(QuantityValue value)
         {
             return new ForcePerLength(value, ForcePerLengthUnit.KilopoundForcePerFoot);
         }
@@ -659,7 +656,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="ForcePerLength"/> from <see cref="ForcePerLengthUnit.KilopoundForcePerInch"/>.
         /// </summary>
-        public static ForcePerLength FromKilopoundsForcePerInch(double value)
+        public static ForcePerLength FromKilopoundsForcePerInch(QuantityValue value)
         {
             return new ForcePerLength(value, ForcePerLengthUnit.KilopoundForcePerInch);
         }
@@ -667,7 +664,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="ForcePerLength"/> from <see cref="ForcePerLengthUnit.MeganewtonPerCentimeter"/>.
         /// </summary>
-        public static ForcePerLength FromMeganewtonsPerCentimeter(double value)
+        public static ForcePerLength FromMeganewtonsPerCentimeter(QuantityValue value)
         {
             return new ForcePerLength(value, ForcePerLengthUnit.MeganewtonPerCentimeter);
         }
@@ -675,7 +672,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="ForcePerLength"/> from <see cref="ForcePerLengthUnit.MeganewtonPerMeter"/>.
         /// </summary>
-        public static ForcePerLength FromMeganewtonsPerMeter(double value)
+        public static ForcePerLength FromMeganewtonsPerMeter(QuantityValue value)
         {
             return new ForcePerLength(value, ForcePerLengthUnit.MeganewtonPerMeter);
         }
@@ -683,7 +680,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="ForcePerLength"/> from <see cref="ForcePerLengthUnit.MeganewtonPerMillimeter"/>.
         /// </summary>
-        public static ForcePerLength FromMeganewtonsPerMillimeter(double value)
+        public static ForcePerLength FromMeganewtonsPerMillimeter(QuantityValue value)
         {
             return new ForcePerLength(value, ForcePerLengthUnit.MeganewtonPerMillimeter);
         }
@@ -691,7 +688,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="ForcePerLength"/> from <see cref="ForcePerLengthUnit.MicronewtonPerCentimeter"/>.
         /// </summary>
-        public static ForcePerLength FromMicronewtonsPerCentimeter(double value)
+        public static ForcePerLength FromMicronewtonsPerCentimeter(QuantityValue value)
         {
             return new ForcePerLength(value, ForcePerLengthUnit.MicronewtonPerCentimeter);
         }
@@ -699,7 +696,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="ForcePerLength"/> from <see cref="ForcePerLengthUnit.MicronewtonPerMeter"/>.
         /// </summary>
-        public static ForcePerLength FromMicronewtonsPerMeter(double value)
+        public static ForcePerLength FromMicronewtonsPerMeter(QuantityValue value)
         {
             return new ForcePerLength(value, ForcePerLengthUnit.MicronewtonPerMeter);
         }
@@ -707,7 +704,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="ForcePerLength"/> from <see cref="ForcePerLengthUnit.MicronewtonPerMillimeter"/>.
         /// </summary>
-        public static ForcePerLength FromMicronewtonsPerMillimeter(double value)
+        public static ForcePerLength FromMicronewtonsPerMillimeter(QuantityValue value)
         {
             return new ForcePerLength(value, ForcePerLengthUnit.MicronewtonPerMillimeter);
         }
@@ -715,7 +712,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="ForcePerLength"/> from <see cref="ForcePerLengthUnit.MillinewtonPerCentimeter"/>.
         /// </summary>
-        public static ForcePerLength FromMillinewtonsPerCentimeter(double value)
+        public static ForcePerLength FromMillinewtonsPerCentimeter(QuantityValue value)
         {
             return new ForcePerLength(value, ForcePerLengthUnit.MillinewtonPerCentimeter);
         }
@@ -723,7 +720,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="ForcePerLength"/> from <see cref="ForcePerLengthUnit.MillinewtonPerMeter"/>.
         /// </summary>
-        public static ForcePerLength FromMillinewtonsPerMeter(double value)
+        public static ForcePerLength FromMillinewtonsPerMeter(QuantityValue value)
         {
             return new ForcePerLength(value, ForcePerLengthUnit.MillinewtonPerMeter);
         }
@@ -731,7 +728,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="ForcePerLength"/> from <see cref="ForcePerLengthUnit.MillinewtonPerMillimeter"/>.
         /// </summary>
-        public static ForcePerLength FromMillinewtonsPerMillimeter(double value)
+        public static ForcePerLength FromMillinewtonsPerMillimeter(QuantityValue value)
         {
             return new ForcePerLength(value, ForcePerLengthUnit.MillinewtonPerMillimeter);
         }
@@ -739,7 +736,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="ForcePerLength"/> from <see cref="ForcePerLengthUnit.NanonewtonPerCentimeter"/>.
         /// </summary>
-        public static ForcePerLength FromNanonewtonsPerCentimeter(double value)
+        public static ForcePerLength FromNanonewtonsPerCentimeter(QuantityValue value)
         {
             return new ForcePerLength(value, ForcePerLengthUnit.NanonewtonPerCentimeter);
         }
@@ -747,7 +744,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="ForcePerLength"/> from <see cref="ForcePerLengthUnit.NanonewtonPerMeter"/>.
         /// </summary>
-        public static ForcePerLength FromNanonewtonsPerMeter(double value)
+        public static ForcePerLength FromNanonewtonsPerMeter(QuantityValue value)
         {
             return new ForcePerLength(value, ForcePerLengthUnit.NanonewtonPerMeter);
         }
@@ -755,7 +752,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="ForcePerLength"/> from <see cref="ForcePerLengthUnit.NanonewtonPerMillimeter"/>.
         /// </summary>
-        public static ForcePerLength FromNanonewtonsPerMillimeter(double value)
+        public static ForcePerLength FromNanonewtonsPerMillimeter(QuantityValue value)
         {
             return new ForcePerLength(value, ForcePerLengthUnit.NanonewtonPerMillimeter);
         }
@@ -763,7 +760,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="ForcePerLength"/> from <see cref="ForcePerLengthUnit.NewtonPerCentimeter"/>.
         /// </summary>
-        public static ForcePerLength FromNewtonsPerCentimeter(double value)
+        public static ForcePerLength FromNewtonsPerCentimeter(QuantityValue value)
         {
             return new ForcePerLength(value, ForcePerLengthUnit.NewtonPerCentimeter);
         }
@@ -771,7 +768,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="ForcePerLength"/> from <see cref="ForcePerLengthUnit.NewtonPerMeter"/>.
         /// </summary>
-        public static ForcePerLength FromNewtonsPerMeter(double value)
+        public static ForcePerLength FromNewtonsPerMeter(QuantityValue value)
         {
             return new ForcePerLength(value, ForcePerLengthUnit.NewtonPerMeter);
         }
@@ -779,7 +776,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="ForcePerLength"/> from <see cref="ForcePerLengthUnit.NewtonPerMillimeter"/>.
         /// </summary>
-        public static ForcePerLength FromNewtonsPerMillimeter(double value)
+        public static ForcePerLength FromNewtonsPerMillimeter(QuantityValue value)
         {
             return new ForcePerLength(value, ForcePerLengthUnit.NewtonPerMillimeter);
         }
@@ -787,7 +784,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="ForcePerLength"/> from <see cref="ForcePerLengthUnit.PoundForcePerFoot"/>.
         /// </summary>
-        public static ForcePerLength FromPoundsForcePerFoot(double value)
+        public static ForcePerLength FromPoundsForcePerFoot(QuantityValue value)
         {
             return new ForcePerLength(value, ForcePerLengthUnit.PoundForcePerFoot);
         }
@@ -795,7 +792,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="ForcePerLength"/> from <see cref="ForcePerLengthUnit.PoundForcePerInch"/>.
         /// </summary>
-        public static ForcePerLength FromPoundsForcePerInch(double value)
+        public static ForcePerLength FromPoundsForcePerInch(QuantityValue value)
         {
             return new ForcePerLength(value, ForcePerLengthUnit.PoundForcePerInch);
         }
@@ -803,7 +800,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="ForcePerLength"/> from <see cref="ForcePerLengthUnit.PoundForcePerYard"/>.
         /// </summary>
-        public static ForcePerLength FromPoundsForcePerYard(double value)
+        public static ForcePerLength FromPoundsForcePerYard(QuantityValue value)
         {
             return new ForcePerLength(value, ForcePerLengthUnit.PoundForcePerYard);
         }
@@ -811,7 +808,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="ForcePerLength"/> from <see cref="ForcePerLengthUnit.TonneForcePerCentimeter"/>.
         /// </summary>
-        public static ForcePerLength FromTonnesForcePerCentimeter(double value)
+        public static ForcePerLength FromTonnesForcePerCentimeter(QuantityValue value)
         {
             return new ForcePerLength(value, ForcePerLengthUnit.TonneForcePerCentimeter);
         }
@@ -819,7 +816,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="ForcePerLength"/> from <see cref="ForcePerLengthUnit.TonneForcePerMeter"/>.
         /// </summary>
-        public static ForcePerLength FromTonnesForcePerMeter(double value)
+        public static ForcePerLength FromTonnesForcePerMeter(QuantityValue value)
         {
             return new ForcePerLength(value, ForcePerLengthUnit.TonneForcePerMeter);
         }
@@ -827,7 +824,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="ForcePerLength"/> from <see cref="ForcePerLengthUnit.TonneForcePerMillimeter"/>.
         /// </summary>
-        public static ForcePerLength FromTonnesForcePerMillimeter(double value)
+        public static ForcePerLength FromTonnesForcePerMillimeter(QuantityValue value)
         {
             return new ForcePerLength(value, ForcePerLengthUnit.TonneForcePerMillimeter);
         }
@@ -838,7 +835,7 @@ namespace UnitsNet
         /// <param name="value">Value to convert from.</param>
         /// <param name="fromUnit">Unit to convert from.</param>
         /// <returns>ForcePerLength unit value.</returns>
-        public static ForcePerLength From(double value, ForcePerLengthUnit fromUnit)
+        public static ForcePerLength From(QuantityValue value, ForcePerLengthUnit fromUnit)
         {
             return new ForcePerLength(value, fromUnit);
         }
@@ -899,7 +896,7 @@ namespace UnitsNet
         /// <param name="provider">Format to use when parsing number and unit. Defaults to <see cref="CultureInfo.CurrentCulture" /> if null.</param>
         public static ForcePerLength Parse(string str, IFormatProvider? provider)
         {
-            return QuantityParser.Default.Parse<ForcePerLength, ForcePerLengthUnit>(
+            return UnitsNetSetup.Default.QuantityParser.Parse<ForcePerLength, ForcePerLengthUnit>(
                 str,
                 provider,
                 From);
@@ -930,7 +927,7 @@ namespace UnitsNet
         /// <param name="provider">Format to use when parsing number and unit. Defaults to <see cref="CultureInfo.CurrentCulture" /> if null.</param>
         public static bool TryParse(string? str, IFormatProvider? provider, out ForcePerLength result)
         {
-            return QuantityParser.Default.TryParse<ForcePerLength, ForcePerLengthUnit>(
+            return UnitsNetSetup.Default.QuantityParser.TryParse<ForcePerLength, ForcePerLengthUnit>(
                 str,
                 provider,
                 From,
@@ -963,7 +960,7 @@ namespace UnitsNet
         /// <exception cref="UnitsNetException">Error parsing string.</exception>
         public static ForcePerLengthUnit ParseUnit(string str, IFormatProvider? provider)
         {
-            return UnitParser.Default.Parse<ForcePerLengthUnit>(str, provider);
+            return UnitsNetSetup.Default.UnitParser.Parse<ForcePerLengthUnit>(str, provider);
         }
 
         /// <inheritdoc cref="TryParseUnit(string,IFormatProvider,out UnitsNet.Units.ForcePerLengthUnit)"/>
@@ -984,7 +981,7 @@ namespace UnitsNet
         /// <param name="provider">Format to use when parsing number and unit. Defaults to <see cref="CultureInfo.CurrentCulture" /> if null.</param>
         public static bool TryParseUnit(string str, IFormatProvider? provider, out ForcePerLengthUnit unit)
         {
-            return UnitParser.Default.TryParse<ForcePerLengthUnit>(str, provider, out unit);
+            return UnitsNetSetup.Default.UnitParser.TryParse<ForcePerLengthUnit>(str, provider, out unit);
         }
 
         #endregion
@@ -1010,25 +1007,25 @@ namespace UnitsNet
         }
 
         /// <summary>Get <see cref="ForcePerLength"/> from multiplying value and <see cref="ForcePerLength"/>.</summary>
-        public static ForcePerLength operator *(double left, ForcePerLength right)
+        public static ForcePerLength operator *(QuantityValue left, ForcePerLength right)
         {
             return new ForcePerLength(left * right.Value, right.Unit);
         }
 
         /// <summary>Get <see cref="ForcePerLength"/> from multiplying value and <see cref="ForcePerLength"/>.</summary>
-        public static ForcePerLength operator *(ForcePerLength left, double right)
+        public static ForcePerLength operator *(ForcePerLength left, QuantityValue right)
         {
             return new ForcePerLength(left.Value * right, left.Unit);
         }
 
         /// <summary>Get <see cref="ForcePerLength"/> from dividing <see cref="ForcePerLength"/> by value.</summary>
-        public static ForcePerLength operator /(ForcePerLength left, double right)
+        public static ForcePerLength operator /(ForcePerLength left, QuantityValue right)
         {
             return new ForcePerLength(left.Value / right, left.Unit);
         }
 
         /// <summary>Get ratio value from dividing <see cref="ForcePerLength"/> by <see cref="ForcePerLength"/>.</summary>
-        public static double operator /(ForcePerLength left, ForcePerLength right)
+        public static QuantityValue operator /(ForcePerLength left, ForcePerLength right)
         {
             return left.NewtonsPerMeter / right.NewtonsPerMeter;
         }
@@ -1119,27 +1116,20 @@ namespace UnitsNet
             return left.Value > right.ToUnit(left.Unit).Value;
         }
 
-        // We use obsolete attribute to communicate the preferred equality members to use.
-        // CS0809: Obsolete member 'memberA' overrides non-obsolete member 'memberB'.
-        #pragma warning disable CS0809
-
-        /// <summary>Indicates strict equality of two <see cref="ForcePerLength"/> quantities, where both <see cref="Value" /> and <see cref="Unit" /> are exactly equal.</summary>
-        [Obsolete("For null checks, use `x is null` syntax to not invoke overloads. For equality checks, use Equals(ForcePerLength other, ForcePerLength tolerance) instead, to check equality across units and to specify the max tolerance for rounding errors due to floating-point arithmetic when converting between units.")]
+        /// <summary>Indicates strict equality of two <see cref="ForcePerLength"/> quantities.</summary>
         public static bool operator ==(ForcePerLength left, ForcePerLength right)
         {
             return left.Equals(right);
         }
 
-        /// <summary>Indicates strict inequality of two <see cref="ForcePerLength"/> quantities, where both <see cref="Value" /> and <see cref="Unit" /> are exactly equal.</summary>
-        [Obsolete("For null checks, use `x is null` syntax to not invoke overloads. For equality checks, use Equals(ForcePerLength other, ForcePerLength tolerance) instead, to check equality across units and to specify the max tolerance for rounding errors due to floating-point arithmetic when converting between units.")]
+        /// <summary>Indicates strict inequality of two <see cref="ForcePerLength"/> quantities.</summary>
         public static bool operator !=(ForcePerLength left, ForcePerLength right)
         {
             return !(left == right);
         }
 
         /// <inheritdoc />
-        /// <summary>Indicates strict equality of two <see cref="ForcePerLength"/> quantities, where both <see cref="Value" /> and <see cref="Unit" /> are exactly equal.</summary>
-        [Obsolete("Use Equals(ForcePerLength other, ForcePerLength tolerance) instead, to check equality across units and to specify the max tolerance for rounding errors due to floating-point arithmetic when converting between units.")]
+        /// <summary>Indicates strict equality of two <see cref="ForcePerLength"/> quantities.</summary>
         public override bool Equals(object? obj)
         {
             if (obj is null || !(obj is ForcePerLength otherQuantity))
@@ -1149,14 +1139,11 @@ namespace UnitsNet
         }
 
         /// <inheritdoc />
-        /// <summary>Indicates strict equality of two <see cref="ForcePerLength"/> quantities, where both <see cref="Value" /> and <see cref="Unit" /> are exactly equal.</summary>
-        [Obsolete("Use Equals(ForcePerLength other, ForcePerLength tolerance) instead, to check equality across units and to specify the max tolerance for rounding errors due to floating-point arithmetic when converting between units.")]
+        /// <summary>Indicates strict equality of two <see cref="ForcePerLength"/> quantities.</summary>
         public bool Equals(ForcePerLength other)
         {
-            return new { Value, Unit }.Equals(new { other.Value, other.Unit });
+            return _value.Equals(other.As(this.Unit));
         }
-
-        #pragma warning restore CS0809
 
         /// <summary>Compares the current <see cref="ForcePerLength"/> with another object of the same type and returns an integer that indicates whether the current instance precedes, follows, or occurs in the same position in the sort order as the other when converted to the same unit.</summary>
         /// <param name="obj">An object to compare with this instance.</param>
@@ -1194,59 +1181,6 @@ namespace UnitsNet
             return _value.CompareTo(other.ToUnit(this.Unit).Value);
         }
 
-        /// <summary>
-        ///     <para>
-        ///     Compare equality to another ForcePerLength within the given absolute or relative tolerance.
-        ///     </para>
-        ///     <para>
-        ///     Relative tolerance is defined as the maximum allowable absolute difference between this quantity's value and
-        ///     <paramref name="other"/> as a percentage of this quantity's value. <paramref name="other"/> will be converted into
-        ///     this quantity's unit for comparison. A relative tolerance of 0.01 means the absolute difference must be within +/- 1% of
-        ///     this quantity's value to be considered equal.
-        ///     <example>
-        ///     In this example, the two quantities will be equal if the value of b is within +/- 1% of a (0.02m or 2cm).
-        ///     <code>
-        ///     var a = Length.FromMeters(2.0);
-        ///     var b = Length.FromInches(50.0);
-        ///     a.Equals(b, 0.01, ComparisonType.Relative);
-        ///     </code>
-        ///     </example>
-        ///     </para>
-        ///     <para>
-        ///     Absolute tolerance is defined as the maximum allowable absolute difference between this quantity's value and
-        ///     <paramref name="other"/> as a fixed number in this quantity's unit. <paramref name="other"/> will be converted into
-        ///     this quantity's unit for comparison.
-        ///     <example>
-        ///     In this example, the two quantities will be equal if the value of b is within 0.01 of a (0.01m or 1cm).
-        ///     <code>
-        ///     var a = Length.FromMeters(2.0);
-        ///     var b = Length.FromInches(50.0);
-        ///     a.Equals(b, 0.01, ComparisonType.Absolute);
-        ///     </code>
-        ///     </example>
-        ///     </para>
-        ///     <para>
-        ///     Note that it is advised against specifying zero difference, due to the nature
-        ///     of floating-point operations and using double internally.
-        ///     </para>
-        /// </summary>
-        /// <param name="other">The other quantity to compare to.</param>
-        /// <param name="tolerance">The absolute or relative tolerance value. Must be greater than or equal to 0.</param>
-        /// <param name="comparisonType">The comparison type: either relative or absolute.</param>
-        /// <returns>True if the absolute difference between the two values is not greater than the specified relative or absolute tolerance.</returns>
-        [Obsolete("Use Equals(ForcePerLength other, ForcePerLength tolerance) instead, to check equality across units and to specify the max tolerance for rounding errors due to floating-point arithmetic when converting between units.")]
-        public bool Equals(ForcePerLength other, double tolerance, ComparisonType comparisonType)
-        {
-            if (tolerance < 0)
-                throw new ArgumentOutOfRangeException(nameof(tolerance), "Tolerance must be greater than or equal to 0.");
-
-            return UnitsNet.Comparison.Equals(
-                referenceValue: this.Value,
-                otherValue: other.As(this.Unit),
-                tolerance: tolerance,
-                comparisonType: comparisonType);
-        }
-
         /// <inheritdoc />
         public bool Equals(IQuantity? other, IQuantity tolerance)
         {
@@ -1260,11 +1194,10 @@ namespace UnitsNet
         /// <inheritdoc />
         public bool Equals(ForcePerLength other, ForcePerLength tolerance)
         {
-            return UnitsNet.Comparison.Equals(
-                referenceValue: this.Value,
-                otherValue: other.As(this.Unit),
-                tolerance: tolerance.As(this.Unit),
-                comparisonType: ComparisonType.Absolute);
+            return UnitsNet.Comparison.EqualsAbsolute(
+                this.Value,
+                other.As(this.Unit),
+                tolerance: tolerance.As(this.Unit));
         }
 
         /// <summary>
@@ -1273,7 +1206,12 @@ namespace UnitsNet
         /// <returns>A hash code for the current ForcePerLength.</returns>
         public override int GetHashCode()
         {
-            return new { Info.Name, Value, Unit }.GetHashCode();
+            var valueInBaseUnit = As(BaseUnit);
+            #if NET7_0_OR_GREATER
+            return HashCode.Combine(Info.Name, valueInBaseUnit);
+            #else
+            return new { Info.Name, valueInBaseUnit }.GetHashCode();
+            #endif
         }
 
         #endregion
@@ -1284,7 +1222,7 @@ namespace UnitsNet
         ///     Convert to the unit representation <paramref name="unit" />.
         /// </summary>
         /// <returns>Value converted to the specified unit.</returns>
-        public double As(ForcePerLengthUnit unit)
+        public QuantityValue As(ForcePerLengthUnit unit)
         {
             if (Unit == unit)
                 return Value;
@@ -1293,7 +1231,7 @@ namespace UnitsNet
         }
 
         /// <inheritdoc cref="IQuantity.As(UnitSystem)"/>
-        public double As(UnitSystem unitSystem)
+        public QuantityValue As(UnitSystem unitSystem)
         {
             if (unitSystem is null)
                 throw new ArgumentNullException(nameof(unitSystem));
@@ -1308,7 +1246,7 @@ namespace UnitsNet
         }
 
         /// <inheritdoc />
-        double IQuantity.As(Enum unit)
+        QuantityValue IQuantity.As(Enum unit)
         {
             if (!(unit is ForcePerLengthUnit typedUnit))
                 throw new ArgumentException($"The given unit is of type {unit.GetType()}. Only {typeof(ForcePerLengthUnit)} is supported.", nameof(unit));
@@ -1374,82 +1312,82 @@ namespace UnitsNet
             ForcePerLength? convertedOrNull = (Unit, unit) switch
             {
                 // ForcePerLengthUnit -> BaseUnit
-                (ForcePerLengthUnit.CentinewtonPerCentimeter, ForcePerLengthUnit.NewtonPerMeter) => new ForcePerLength((_value * 1e2) * 1e-2d, ForcePerLengthUnit.NewtonPerMeter),
-                (ForcePerLengthUnit.CentinewtonPerMeter, ForcePerLengthUnit.NewtonPerMeter) => new ForcePerLength((_value) * 1e-2d, ForcePerLengthUnit.NewtonPerMeter),
-                (ForcePerLengthUnit.CentinewtonPerMillimeter, ForcePerLengthUnit.NewtonPerMeter) => new ForcePerLength((_value * 1e3) * 1e-2d, ForcePerLengthUnit.NewtonPerMeter),
-                (ForcePerLengthUnit.DecanewtonPerCentimeter, ForcePerLengthUnit.NewtonPerMeter) => new ForcePerLength((_value * 1e2) * 1e1d, ForcePerLengthUnit.NewtonPerMeter),
-                (ForcePerLengthUnit.DecanewtonPerMeter, ForcePerLengthUnit.NewtonPerMeter) => new ForcePerLength((_value) * 1e1d, ForcePerLengthUnit.NewtonPerMeter),
-                (ForcePerLengthUnit.DecanewtonPerMillimeter, ForcePerLengthUnit.NewtonPerMeter) => new ForcePerLength((_value * 1e3) * 1e1d, ForcePerLengthUnit.NewtonPerMeter),
-                (ForcePerLengthUnit.DecinewtonPerCentimeter, ForcePerLengthUnit.NewtonPerMeter) => new ForcePerLength((_value * 1e2) * 1e-1d, ForcePerLengthUnit.NewtonPerMeter),
-                (ForcePerLengthUnit.DecinewtonPerMeter, ForcePerLengthUnit.NewtonPerMeter) => new ForcePerLength((_value) * 1e-1d, ForcePerLengthUnit.NewtonPerMeter),
-                (ForcePerLengthUnit.DecinewtonPerMillimeter, ForcePerLengthUnit.NewtonPerMeter) => new ForcePerLength((_value * 1e3) * 1e-1d, ForcePerLengthUnit.NewtonPerMeter),
-                (ForcePerLengthUnit.KilogramForcePerCentimeter, ForcePerLengthUnit.NewtonPerMeter) => new ForcePerLength(_value * 980.665002864, ForcePerLengthUnit.NewtonPerMeter),
-                (ForcePerLengthUnit.KilogramForcePerMeter, ForcePerLengthUnit.NewtonPerMeter) => new ForcePerLength(_value * 9.80665002864, ForcePerLengthUnit.NewtonPerMeter),
-                (ForcePerLengthUnit.KilogramForcePerMillimeter, ForcePerLengthUnit.NewtonPerMeter) => new ForcePerLength(_value * 9.80665002864e3, ForcePerLengthUnit.NewtonPerMeter),
-                (ForcePerLengthUnit.KilonewtonPerCentimeter, ForcePerLengthUnit.NewtonPerMeter) => new ForcePerLength((_value * 1e2) * 1e3d, ForcePerLengthUnit.NewtonPerMeter),
-                (ForcePerLengthUnit.KilonewtonPerMeter, ForcePerLengthUnit.NewtonPerMeter) => new ForcePerLength((_value) * 1e3d, ForcePerLengthUnit.NewtonPerMeter),
-                (ForcePerLengthUnit.KilonewtonPerMillimeter, ForcePerLengthUnit.NewtonPerMeter) => new ForcePerLength((_value * 1e3) * 1e3d, ForcePerLengthUnit.NewtonPerMeter),
-                (ForcePerLengthUnit.KilopoundForcePerFoot, ForcePerLengthUnit.NewtonPerMeter) => new ForcePerLength(_value * 14593.90292, ForcePerLengthUnit.NewtonPerMeter),
-                (ForcePerLengthUnit.KilopoundForcePerInch, ForcePerLengthUnit.NewtonPerMeter) => new ForcePerLength(_value * 1.75126835e5, ForcePerLengthUnit.NewtonPerMeter),
-                (ForcePerLengthUnit.MeganewtonPerCentimeter, ForcePerLengthUnit.NewtonPerMeter) => new ForcePerLength((_value * 1e2) * 1e6d, ForcePerLengthUnit.NewtonPerMeter),
-                (ForcePerLengthUnit.MeganewtonPerMeter, ForcePerLengthUnit.NewtonPerMeter) => new ForcePerLength((_value) * 1e6d, ForcePerLengthUnit.NewtonPerMeter),
-                (ForcePerLengthUnit.MeganewtonPerMillimeter, ForcePerLengthUnit.NewtonPerMeter) => new ForcePerLength((_value * 1e3) * 1e6d, ForcePerLengthUnit.NewtonPerMeter),
-                (ForcePerLengthUnit.MicronewtonPerCentimeter, ForcePerLengthUnit.NewtonPerMeter) => new ForcePerLength((_value * 1e2) * 1e-6d, ForcePerLengthUnit.NewtonPerMeter),
-                (ForcePerLengthUnit.MicronewtonPerMeter, ForcePerLengthUnit.NewtonPerMeter) => new ForcePerLength((_value) * 1e-6d, ForcePerLengthUnit.NewtonPerMeter),
-                (ForcePerLengthUnit.MicronewtonPerMillimeter, ForcePerLengthUnit.NewtonPerMeter) => new ForcePerLength((_value * 1e3) * 1e-6d, ForcePerLengthUnit.NewtonPerMeter),
-                (ForcePerLengthUnit.MillinewtonPerCentimeter, ForcePerLengthUnit.NewtonPerMeter) => new ForcePerLength((_value * 1e2) * 1e-3d, ForcePerLengthUnit.NewtonPerMeter),
-                (ForcePerLengthUnit.MillinewtonPerMeter, ForcePerLengthUnit.NewtonPerMeter) => new ForcePerLength((_value) * 1e-3d, ForcePerLengthUnit.NewtonPerMeter),
-                (ForcePerLengthUnit.MillinewtonPerMillimeter, ForcePerLengthUnit.NewtonPerMeter) => new ForcePerLength((_value * 1e3) * 1e-3d, ForcePerLengthUnit.NewtonPerMeter),
-                (ForcePerLengthUnit.NanonewtonPerCentimeter, ForcePerLengthUnit.NewtonPerMeter) => new ForcePerLength((_value * 1e2) * 1e-9d, ForcePerLengthUnit.NewtonPerMeter),
-                (ForcePerLengthUnit.NanonewtonPerMeter, ForcePerLengthUnit.NewtonPerMeter) => new ForcePerLength((_value) * 1e-9d, ForcePerLengthUnit.NewtonPerMeter),
-                (ForcePerLengthUnit.NanonewtonPerMillimeter, ForcePerLengthUnit.NewtonPerMeter) => new ForcePerLength((_value * 1e3) * 1e-9d, ForcePerLengthUnit.NewtonPerMeter),
-                (ForcePerLengthUnit.NewtonPerCentimeter, ForcePerLengthUnit.NewtonPerMeter) => new ForcePerLength(_value * 1e2, ForcePerLengthUnit.NewtonPerMeter),
-                (ForcePerLengthUnit.NewtonPerMillimeter, ForcePerLengthUnit.NewtonPerMeter) => new ForcePerLength(_value * 1e3, ForcePerLengthUnit.NewtonPerMeter),
-                (ForcePerLengthUnit.PoundForcePerFoot, ForcePerLengthUnit.NewtonPerMeter) => new ForcePerLength(_value * 14.59390292, ForcePerLengthUnit.NewtonPerMeter),
-                (ForcePerLengthUnit.PoundForcePerInch, ForcePerLengthUnit.NewtonPerMeter) => new ForcePerLength(_value * 1.75126835e2, ForcePerLengthUnit.NewtonPerMeter),
-                (ForcePerLengthUnit.PoundForcePerYard, ForcePerLengthUnit.NewtonPerMeter) => new ForcePerLength(_value * 4.864634307, ForcePerLengthUnit.NewtonPerMeter),
-                (ForcePerLengthUnit.TonneForcePerCentimeter, ForcePerLengthUnit.NewtonPerMeter) => new ForcePerLength(_value * 9.80665002864e5, ForcePerLengthUnit.NewtonPerMeter),
-                (ForcePerLengthUnit.TonneForcePerMeter, ForcePerLengthUnit.NewtonPerMeter) => new ForcePerLength(_value * 9.80665002864e3, ForcePerLengthUnit.NewtonPerMeter),
-                (ForcePerLengthUnit.TonneForcePerMillimeter, ForcePerLengthUnit.NewtonPerMeter) => new ForcePerLength(_value * 9.80665002864e6, ForcePerLengthUnit.NewtonPerMeter),
+                (ForcePerLengthUnit.CentinewtonPerCentimeter, ForcePerLengthUnit.NewtonPerMeter) => new ForcePerLength(_value, ForcePerLengthUnit.NewtonPerMeter),
+                (ForcePerLengthUnit.CentinewtonPerMeter, ForcePerLengthUnit.NewtonPerMeter) => new ForcePerLength(_value / 100, ForcePerLengthUnit.NewtonPerMeter),
+                (ForcePerLengthUnit.CentinewtonPerMillimeter, ForcePerLengthUnit.NewtonPerMeter) => new ForcePerLength(_value * 10, ForcePerLengthUnit.NewtonPerMeter),
+                (ForcePerLengthUnit.DecanewtonPerCentimeter, ForcePerLengthUnit.NewtonPerMeter) => new ForcePerLength(_value * 1000, ForcePerLengthUnit.NewtonPerMeter),
+                (ForcePerLengthUnit.DecanewtonPerMeter, ForcePerLengthUnit.NewtonPerMeter) => new ForcePerLength(_value * 10, ForcePerLengthUnit.NewtonPerMeter),
+                (ForcePerLengthUnit.DecanewtonPerMillimeter, ForcePerLengthUnit.NewtonPerMeter) => new ForcePerLength(_value * 10000, ForcePerLengthUnit.NewtonPerMeter),
+                (ForcePerLengthUnit.DecinewtonPerCentimeter, ForcePerLengthUnit.NewtonPerMeter) => new ForcePerLength(_value * 10, ForcePerLengthUnit.NewtonPerMeter),
+                (ForcePerLengthUnit.DecinewtonPerMeter, ForcePerLengthUnit.NewtonPerMeter) => new ForcePerLength(_value / 10, ForcePerLengthUnit.NewtonPerMeter),
+                (ForcePerLengthUnit.DecinewtonPerMillimeter, ForcePerLengthUnit.NewtonPerMeter) => new ForcePerLength(_value * 100, ForcePerLengthUnit.NewtonPerMeter),
+                (ForcePerLengthUnit.KilogramForcePerCentimeter, ForcePerLengthUnit.NewtonPerMeter) => new ForcePerLength(_value * new QuantityValue(196133, 200), ForcePerLengthUnit.NewtonPerMeter),
+                (ForcePerLengthUnit.KilogramForcePerMeter, ForcePerLengthUnit.NewtonPerMeter) => new ForcePerLength(_value * new QuantityValue(196133, 20000), ForcePerLengthUnit.NewtonPerMeter),
+                (ForcePerLengthUnit.KilogramForcePerMillimeter, ForcePerLengthUnit.NewtonPerMeter) => new ForcePerLength(_value * new QuantityValue(196133, 20), ForcePerLengthUnit.NewtonPerMeter),
+                (ForcePerLengthUnit.KilonewtonPerCentimeter, ForcePerLengthUnit.NewtonPerMeter) => new ForcePerLength(_value * 100000, ForcePerLengthUnit.NewtonPerMeter),
+                (ForcePerLengthUnit.KilonewtonPerMeter, ForcePerLengthUnit.NewtonPerMeter) => new ForcePerLength(_value * 1000, ForcePerLengthUnit.NewtonPerMeter),
+                (ForcePerLengthUnit.KilonewtonPerMillimeter, ForcePerLengthUnit.NewtonPerMeter) => new ForcePerLength(_value * 1000000, ForcePerLengthUnit.NewtonPerMeter),
+                (ForcePerLengthUnit.KilopoundForcePerFoot, ForcePerLengthUnit.NewtonPerMeter) => new ForcePerLength(_value * new QuantityValue(8896443230521, 609600000), ForcePerLengthUnit.NewtonPerMeter),
+                (ForcePerLengthUnit.KilopoundForcePerInch, ForcePerLengthUnit.NewtonPerMeter) => new ForcePerLength(_value * new QuantityValue(8896443230521, 50800000), ForcePerLengthUnit.NewtonPerMeter),
+                (ForcePerLengthUnit.MeganewtonPerCentimeter, ForcePerLengthUnit.NewtonPerMeter) => new ForcePerLength(_value * 100000000, ForcePerLengthUnit.NewtonPerMeter),
+                (ForcePerLengthUnit.MeganewtonPerMeter, ForcePerLengthUnit.NewtonPerMeter) => new ForcePerLength(_value * 1000000, ForcePerLengthUnit.NewtonPerMeter),
+                (ForcePerLengthUnit.MeganewtonPerMillimeter, ForcePerLengthUnit.NewtonPerMeter) => new ForcePerLength(_value * 1000000000, ForcePerLengthUnit.NewtonPerMeter),
+                (ForcePerLengthUnit.MicronewtonPerCentimeter, ForcePerLengthUnit.NewtonPerMeter) => new ForcePerLength(_value / 10000, ForcePerLengthUnit.NewtonPerMeter),
+                (ForcePerLengthUnit.MicronewtonPerMeter, ForcePerLengthUnit.NewtonPerMeter) => new ForcePerLength(_value / 1000000, ForcePerLengthUnit.NewtonPerMeter),
+                (ForcePerLengthUnit.MicronewtonPerMillimeter, ForcePerLengthUnit.NewtonPerMeter) => new ForcePerLength(_value / 1000, ForcePerLengthUnit.NewtonPerMeter),
+                (ForcePerLengthUnit.MillinewtonPerCentimeter, ForcePerLengthUnit.NewtonPerMeter) => new ForcePerLength(_value / 10, ForcePerLengthUnit.NewtonPerMeter),
+                (ForcePerLengthUnit.MillinewtonPerMeter, ForcePerLengthUnit.NewtonPerMeter) => new ForcePerLength(_value / 1000, ForcePerLengthUnit.NewtonPerMeter),
+                (ForcePerLengthUnit.MillinewtonPerMillimeter, ForcePerLengthUnit.NewtonPerMeter) => new ForcePerLength(_value, ForcePerLengthUnit.NewtonPerMeter),
+                (ForcePerLengthUnit.NanonewtonPerCentimeter, ForcePerLengthUnit.NewtonPerMeter) => new ForcePerLength(_value / 10000000, ForcePerLengthUnit.NewtonPerMeter),
+                (ForcePerLengthUnit.NanonewtonPerMeter, ForcePerLengthUnit.NewtonPerMeter) => new ForcePerLength(_value / 1000000000, ForcePerLengthUnit.NewtonPerMeter),
+                (ForcePerLengthUnit.NanonewtonPerMillimeter, ForcePerLengthUnit.NewtonPerMeter) => new ForcePerLength(_value / 1000000, ForcePerLengthUnit.NewtonPerMeter),
+                (ForcePerLengthUnit.NewtonPerCentimeter, ForcePerLengthUnit.NewtonPerMeter) => new ForcePerLength(_value * 100, ForcePerLengthUnit.NewtonPerMeter),
+                (ForcePerLengthUnit.NewtonPerMillimeter, ForcePerLengthUnit.NewtonPerMeter) => new ForcePerLength(_value * 1000, ForcePerLengthUnit.NewtonPerMeter),
+                (ForcePerLengthUnit.PoundForcePerFoot, ForcePerLengthUnit.NewtonPerMeter) => new ForcePerLength(_value * new QuantityValue(8896443230521, 609600000000), ForcePerLengthUnit.NewtonPerMeter),
+                (ForcePerLengthUnit.PoundForcePerInch, ForcePerLengthUnit.NewtonPerMeter) => new ForcePerLength(_value * new QuantityValue(8896443230521, 50800000000), ForcePerLengthUnit.NewtonPerMeter),
+                (ForcePerLengthUnit.PoundForcePerYard, ForcePerLengthUnit.NewtonPerMeter) => new ForcePerLength(_value * new QuantityValue(8896443230521, 1828800000000), ForcePerLengthUnit.NewtonPerMeter),
+                (ForcePerLengthUnit.TonneForcePerCentimeter, ForcePerLengthUnit.NewtonPerMeter) => new ForcePerLength(_value * 980665, ForcePerLengthUnit.NewtonPerMeter),
+                (ForcePerLengthUnit.TonneForcePerMeter, ForcePerLengthUnit.NewtonPerMeter) => new ForcePerLength(_value * new QuantityValue(196133, 20), ForcePerLengthUnit.NewtonPerMeter),
+                (ForcePerLengthUnit.TonneForcePerMillimeter, ForcePerLengthUnit.NewtonPerMeter) => new ForcePerLength(_value * 9806650, ForcePerLengthUnit.NewtonPerMeter),
 
                 // BaseUnit -> ForcePerLengthUnit
-                (ForcePerLengthUnit.NewtonPerMeter, ForcePerLengthUnit.CentinewtonPerCentimeter) => new ForcePerLength((_value / 1e2) / 1e-2d, ForcePerLengthUnit.CentinewtonPerCentimeter),
-                (ForcePerLengthUnit.NewtonPerMeter, ForcePerLengthUnit.CentinewtonPerMeter) => new ForcePerLength((_value) / 1e-2d, ForcePerLengthUnit.CentinewtonPerMeter),
-                (ForcePerLengthUnit.NewtonPerMeter, ForcePerLengthUnit.CentinewtonPerMillimeter) => new ForcePerLength((_value / 1e3) / 1e-2d, ForcePerLengthUnit.CentinewtonPerMillimeter),
-                (ForcePerLengthUnit.NewtonPerMeter, ForcePerLengthUnit.DecanewtonPerCentimeter) => new ForcePerLength((_value / 1e2) / 1e1d, ForcePerLengthUnit.DecanewtonPerCentimeter),
-                (ForcePerLengthUnit.NewtonPerMeter, ForcePerLengthUnit.DecanewtonPerMeter) => new ForcePerLength((_value) / 1e1d, ForcePerLengthUnit.DecanewtonPerMeter),
-                (ForcePerLengthUnit.NewtonPerMeter, ForcePerLengthUnit.DecanewtonPerMillimeter) => new ForcePerLength((_value / 1e3) / 1e1d, ForcePerLengthUnit.DecanewtonPerMillimeter),
-                (ForcePerLengthUnit.NewtonPerMeter, ForcePerLengthUnit.DecinewtonPerCentimeter) => new ForcePerLength((_value / 1e2) / 1e-1d, ForcePerLengthUnit.DecinewtonPerCentimeter),
-                (ForcePerLengthUnit.NewtonPerMeter, ForcePerLengthUnit.DecinewtonPerMeter) => new ForcePerLength((_value) / 1e-1d, ForcePerLengthUnit.DecinewtonPerMeter),
-                (ForcePerLengthUnit.NewtonPerMeter, ForcePerLengthUnit.DecinewtonPerMillimeter) => new ForcePerLength((_value / 1e3) / 1e-1d, ForcePerLengthUnit.DecinewtonPerMillimeter),
-                (ForcePerLengthUnit.NewtonPerMeter, ForcePerLengthUnit.KilogramForcePerCentimeter) => new ForcePerLength(_value / 980.665002864, ForcePerLengthUnit.KilogramForcePerCentimeter),
-                (ForcePerLengthUnit.NewtonPerMeter, ForcePerLengthUnit.KilogramForcePerMeter) => new ForcePerLength(_value / 9.80665002864, ForcePerLengthUnit.KilogramForcePerMeter),
-                (ForcePerLengthUnit.NewtonPerMeter, ForcePerLengthUnit.KilogramForcePerMillimeter) => new ForcePerLength(_value / 9.80665002864e3, ForcePerLengthUnit.KilogramForcePerMillimeter),
-                (ForcePerLengthUnit.NewtonPerMeter, ForcePerLengthUnit.KilonewtonPerCentimeter) => new ForcePerLength((_value / 1e2) / 1e3d, ForcePerLengthUnit.KilonewtonPerCentimeter),
-                (ForcePerLengthUnit.NewtonPerMeter, ForcePerLengthUnit.KilonewtonPerMeter) => new ForcePerLength((_value) / 1e3d, ForcePerLengthUnit.KilonewtonPerMeter),
-                (ForcePerLengthUnit.NewtonPerMeter, ForcePerLengthUnit.KilonewtonPerMillimeter) => new ForcePerLength((_value / 1e3) / 1e3d, ForcePerLengthUnit.KilonewtonPerMillimeter),
-                (ForcePerLengthUnit.NewtonPerMeter, ForcePerLengthUnit.KilopoundForcePerFoot) => new ForcePerLength(_value / 14593.90292, ForcePerLengthUnit.KilopoundForcePerFoot),
-                (ForcePerLengthUnit.NewtonPerMeter, ForcePerLengthUnit.KilopoundForcePerInch) => new ForcePerLength(_value / 1.75126835e5, ForcePerLengthUnit.KilopoundForcePerInch),
-                (ForcePerLengthUnit.NewtonPerMeter, ForcePerLengthUnit.MeganewtonPerCentimeter) => new ForcePerLength((_value / 1e2) / 1e6d, ForcePerLengthUnit.MeganewtonPerCentimeter),
-                (ForcePerLengthUnit.NewtonPerMeter, ForcePerLengthUnit.MeganewtonPerMeter) => new ForcePerLength((_value) / 1e6d, ForcePerLengthUnit.MeganewtonPerMeter),
-                (ForcePerLengthUnit.NewtonPerMeter, ForcePerLengthUnit.MeganewtonPerMillimeter) => new ForcePerLength((_value / 1e3) / 1e6d, ForcePerLengthUnit.MeganewtonPerMillimeter),
-                (ForcePerLengthUnit.NewtonPerMeter, ForcePerLengthUnit.MicronewtonPerCentimeter) => new ForcePerLength((_value / 1e2) / 1e-6d, ForcePerLengthUnit.MicronewtonPerCentimeter),
-                (ForcePerLengthUnit.NewtonPerMeter, ForcePerLengthUnit.MicronewtonPerMeter) => new ForcePerLength((_value) / 1e-6d, ForcePerLengthUnit.MicronewtonPerMeter),
-                (ForcePerLengthUnit.NewtonPerMeter, ForcePerLengthUnit.MicronewtonPerMillimeter) => new ForcePerLength((_value / 1e3) / 1e-6d, ForcePerLengthUnit.MicronewtonPerMillimeter),
-                (ForcePerLengthUnit.NewtonPerMeter, ForcePerLengthUnit.MillinewtonPerCentimeter) => new ForcePerLength((_value / 1e2) / 1e-3d, ForcePerLengthUnit.MillinewtonPerCentimeter),
-                (ForcePerLengthUnit.NewtonPerMeter, ForcePerLengthUnit.MillinewtonPerMeter) => new ForcePerLength((_value) / 1e-3d, ForcePerLengthUnit.MillinewtonPerMeter),
-                (ForcePerLengthUnit.NewtonPerMeter, ForcePerLengthUnit.MillinewtonPerMillimeter) => new ForcePerLength((_value / 1e3) / 1e-3d, ForcePerLengthUnit.MillinewtonPerMillimeter),
-                (ForcePerLengthUnit.NewtonPerMeter, ForcePerLengthUnit.NanonewtonPerCentimeter) => new ForcePerLength((_value / 1e2) / 1e-9d, ForcePerLengthUnit.NanonewtonPerCentimeter),
-                (ForcePerLengthUnit.NewtonPerMeter, ForcePerLengthUnit.NanonewtonPerMeter) => new ForcePerLength((_value) / 1e-9d, ForcePerLengthUnit.NanonewtonPerMeter),
-                (ForcePerLengthUnit.NewtonPerMeter, ForcePerLengthUnit.NanonewtonPerMillimeter) => new ForcePerLength((_value / 1e3) / 1e-9d, ForcePerLengthUnit.NanonewtonPerMillimeter),
-                (ForcePerLengthUnit.NewtonPerMeter, ForcePerLengthUnit.NewtonPerCentimeter) => new ForcePerLength(_value / 1e2, ForcePerLengthUnit.NewtonPerCentimeter),
-                (ForcePerLengthUnit.NewtonPerMeter, ForcePerLengthUnit.NewtonPerMillimeter) => new ForcePerLength(_value / 1e3, ForcePerLengthUnit.NewtonPerMillimeter),
-                (ForcePerLengthUnit.NewtonPerMeter, ForcePerLengthUnit.PoundForcePerFoot) => new ForcePerLength(_value / 14.59390292, ForcePerLengthUnit.PoundForcePerFoot),
-                (ForcePerLengthUnit.NewtonPerMeter, ForcePerLengthUnit.PoundForcePerInch) => new ForcePerLength(_value / 1.75126835e2, ForcePerLengthUnit.PoundForcePerInch),
-                (ForcePerLengthUnit.NewtonPerMeter, ForcePerLengthUnit.PoundForcePerYard) => new ForcePerLength(_value / 4.864634307, ForcePerLengthUnit.PoundForcePerYard),
-                (ForcePerLengthUnit.NewtonPerMeter, ForcePerLengthUnit.TonneForcePerCentimeter) => new ForcePerLength(_value / 9.80665002864e5, ForcePerLengthUnit.TonneForcePerCentimeter),
-                (ForcePerLengthUnit.NewtonPerMeter, ForcePerLengthUnit.TonneForcePerMeter) => new ForcePerLength(_value / 9.80665002864e3, ForcePerLengthUnit.TonneForcePerMeter),
-                (ForcePerLengthUnit.NewtonPerMeter, ForcePerLengthUnit.TonneForcePerMillimeter) => new ForcePerLength(_value / 9.80665002864e6, ForcePerLengthUnit.TonneForcePerMillimeter),
+                (ForcePerLengthUnit.NewtonPerMeter, ForcePerLengthUnit.CentinewtonPerCentimeter) => new ForcePerLength(_value, ForcePerLengthUnit.CentinewtonPerCentimeter),
+                (ForcePerLengthUnit.NewtonPerMeter, ForcePerLengthUnit.CentinewtonPerMeter) => new ForcePerLength(_value * 100, ForcePerLengthUnit.CentinewtonPerMeter),
+                (ForcePerLengthUnit.NewtonPerMeter, ForcePerLengthUnit.CentinewtonPerMillimeter) => new ForcePerLength(_value / 10, ForcePerLengthUnit.CentinewtonPerMillimeter),
+                (ForcePerLengthUnit.NewtonPerMeter, ForcePerLengthUnit.DecanewtonPerCentimeter) => new ForcePerLength(_value / 1000, ForcePerLengthUnit.DecanewtonPerCentimeter),
+                (ForcePerLengthUnit.NewtonPerMeter, ForcePerLengthUnit.DecanewtonPerMeter) => new ForcePerLength(_value / 10, ForcePerLengthUnit.DecanewtonPerMeter),
+                (ForcePerLengthUnit.NewtonPerMeter, ForcePerLengthUnit.DecanewtonPerMillimeter) => new ForcePerLength(_value / 10000, ForcePerLengthUnit.DecanewtonPerMillimeter),
+                (ForcePerLengthUnit.NewtonPerMeter, ForcePerLengthUnit.DecinewtonPerCentimeter) => new ForcePerLength(_value / 10, ForcePerLengthUnit.DecinewtonPerCentimeter),
+                (ForcePerLengthUnit.NewtonPerMeter, ForcePerLengthUnit.DecinewtonPerMeter) => new ForcePerLength(_value * 10, ForcePerLengthUnit.DecinewtonPerMeter),
+                (ForcePerLengthUnit.NewtonPerMeter, ForcePerLengthUnit.DecinewtonPerMillimeter) => new ForcePerLength(_value / 100, ForcePerLengthUnit.DecinewtonPerMillimeter),
+                (ForcePerLengthUnit.NewtonPerMeter, ForcePerLengthUnit.KilogramForcePerCentimeter) => new ForcePerLength(_value * new QuantityValue(200, 196133), ForcePerLengthUnit.KilogramForcePerCentimeter),
+                (ForcePerLengthUnit.NewtonPerMeter, ForcePerLengthUnit.KilogramForcePerMeter) => new ForcePerLength(_value * new QuantityValue(20000, 196133), ForcePerLengthUnit.KilogramForcePerMeter),
+                (ForcePerLengthUnit.NewtonPerMeter, ForcePerLengthUnit.KilogramForcePerMillimeter) => new ForcePerLength(_value * new QuantityValue(20, 196133), ForcePerLengthUnit.KilogramForcePerMillimeter),
+                (ForcePerLengthUnit.NewtonPerMeter, ForcePerLengthUnit.KilonewtonPerCentimeter) => new ForcePerLength(_value / 100000, ForcePerLengthUnit.KilonewtonPerCentimeter),
+                (ForcePerLengthUnit.NewtonPerMeter, ForcePerLengthUnit.KilonewtonPerMeter) => new ForcePerLength(_value / 1000, ForcePerLengthUnit.KilonewtonPerMeter),
+                (ForcePerLengthUnit.NewtonPerMeter, ForcePerLengthUnit.KilonewtonPerMillimeter) => new ForcePerLength(_value / 1000000, ForcePerLengthUnit.KilonewtonPerMillimeter),
+                (ForcePerLengthUnit.NewtonPerMeter, ForcePerLengthUnit.KilopoundForcePerFoot) => new ForcePerLength(_value * new QuantityValue(609600000, 8896443230521), ForcePerLengthUnit.KilopoundForcePerFoot),
+                (ForcePerLengthUnit.NewtonPerMeter, ForcePerLengthUnit.KilopoundForcePerInch) => new ForcePerLength(_value * new QuantityValue(50800000, 8896443230521), ForcePerLengthUnit.KilopoundForcePerInch),
+                (ForcePerLengthUnit.NewtonPerMeter, ForcePerLengthUnit.MeganewtonPerCentimeter) => new ForcePerLength(_value / 100000000, ForcePerLengthUnit.MeganewtonPerCentimeter),
+                (ForcePerLengthUnit.NewtonPerMeter, ForcePerLengthUnit.MeganewtonPerMeter) => new ForcePerLength(_value / 1000000, ForcePerLengthUnit.MeganewtonPerMeter),
+                (ForcePerLengthUnit.NewtonPerMeter, ForcePerLengthUnit.MeganewtonPerMillimeter) => new ForcePerLength(_value / 1000000000, ForcePerLengthUnit.MeganewtonPerMillimeter),
+                (ForcePerLengthUnit.NewtonPerMeter, ForcePerLengthUnit.MicronewtonPerCentimeter) => new ForcePerLength(_value * 10000, ForcePerLengthUnit.MicronewtonPerCentimeter),
+                (ForcePerLengthUnit.NewtonPerMeter, ForcePerLengthUnit.MicronewtonPerMeter) => new ForcePerLength(_value * 1000000, ForcePerLengthUnit.MicronewtonPerMeter),
+                (ForcePerLengthUnit.NewtonPerMeter, ForcePerLengthUnit.MicronewtonPerMillimeter) => new ForcePerLength(_value * 1000, ForcePerLengthUnit.MicronewtonPerMillimeter),
+                (ForcePerLengthUnit.NewtonPerMeter, ForcePerLengthUnit.MillinewtonPerCentimeter) => new ForcePerLength(_value * 10, ForcePerLengthUnit.MillinewtonPerCentimeter),
+                (ForcePerLengthUnit.NewtonPerMeter, ForcePerLengthUnit.MillinewtonPerMeter) => new ForcePerLength(_value * 1000, ForcePerLengthUnit.MillinewtonPerMeter),
+                (ForcePerLengthUnit.NewtonPerMeter, ForcePerLengthUnit.MillinewtonPerMillimeter) => new ForcePerLength(_value, ForcePerLengthUnit.MillinewtonPerMillimeter),
+                (ForcePerLengthUnit.NewtonPerMeter, ForcePerLengthUnit.NanonewtonPerCentimeter) => new ForcePerLength(_value * 10000000, ForcePerLengthUnit.NanonewtonPerCentimeter),
+                (ForcePerLengthUnit.NewtonPerMeter, ForcePerLengthUnit.NanonewtonPerMeter) => new ForcePerLength(_value * 1000000000, ForcePerLengthUnit.NanonewtonPerMeter),
+                (ForcePerLengthUnit.NewtonPerMeter, ForcePerLengthUnit.NanonewtonPerMillimeter) => new ForcePerLength(_value * 1000000, ForcePerLengthUnit.NanonewtonPerMillimeter),
+                (ForcePerLengthUnit.NewtonPerMeter, ForcePerLengthUnit.NewtonPerCentimeter) => new ForcePerLength(_value / 100, ForcePerLengthUnit.NewtonPerCentimeter),
+                (ForcePerLengthUnit.NewtonPerMeter, ForcePerLengthUnit.NewtonPerMillimeter) => new ForcePerLength(_value / 1000, ForcePerLengthUnit.NewtonPerMillimeter),
+                (ForcePerLengthUnit.NewtonPerMeter, ForcePerLengthUnit.PoundForcePerFoot) => new ForcePerLength(_value * new QuantityValue(609600000000, 8896443230521), ForcePerLengthUnit.PoundForcePerFoot),
+                (ForcePerLengthUnit.NewtonPerMeter, ForcePerLengthUnit.PoundForcePerInch) => new ForcePerLength(_value * new QuantityValue(50800000000, 8896443230521), ForcePerLengthUnit.PoundForcePerInch),
+                (ForcePerLengthUnit.NewtonPerMeter, ForcePerLengthUnit.PoundForcePerYard) => new ForcePerLength(_value * new QuantityValue(1828800000000, 8896443230521), ForcePerLengthUnit.PoundForcePerYard),
+                (ForcePerLengthUnit.NewtonPerMeter, ForcePerLengthUnit.TonneForcePerCentimeter) => new ForcePerLength(_value / 980665, ForcePerLengthUnit.TonneForcePerCentimeter),
+                (ForcePerLengthUnit.NewtonPerMeter, ForcePerLengthUnit.TonneForcePerMeter) => new ForcePerLength(_value * new QuantityValue(20, 196133), ForcePerLengthUnit.TonneForcePerMeter),
+                (ForcePerLengthUnit.NewtonPerMeter, ForcePerLengthUnit.TonneForcePerMillimeter) => new ForcePerLength(_value / 9806650, ForcePerLengthUnit.TonneForcePerMillimeter),
 
                 _ => null
             };

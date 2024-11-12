@@ -97,15 +97,14 @@ namespace UnitsNet.Tests
         [Fact]
         public void Ctor_SIUnitSystem_ThrowsArgumentExceptionIfNotSupported()
         {
-            Func<object> TestCode = () => new VolumeFlowPerArea(value: 1, unitSystem: UnitSystem.SI);
             if (SupportsSIUnitSystem)
             {
-                var quantity = (VolumeFlowPerArea) TestCode();
+                var quantity = new VolumeFlowPerArea(value: 1, unitSystem: UnitSystem.SI);
                 Assert.Equal(1, quantity.Value);
             }
             else
             {
-                Assert.Throws<ArgumentException>(TestCode);
+                Assert.Throws<ArgumentException>(() => new VolumeFlowPerArea(value: 1, unitSystem: UnitSystem.SI));
             }
         }
 
@@ -135,11 +134,11 @@ namespace UnitsNet.Tests
         public void From_ValueAndUnit_ReturnsQuantityWithSameValueAndUnit()
         {
             var quantity00 = VolumeFlowPerArea.From(1, VolumeFlowPerAreaUnit.CubicFootPerMinutePerSquareFoot);
-            AssertEx.EqualTolerance(1, quantity00.CubicFeetPerMinutePerSquareFoot, CubicFeetPerMinutePerSquareFootTolerance);
+            Assert.Equal(1, quantity00.CubicFeetPerMinutePerSquareFoot);
             Assert.Equal(VolumeFlowPerAreaUnit.CubicFootPerMinutePerSquareFoot, quantity00.Unit);
 
             var quantity01 = VolumeFlowPerArea.From(1, VolumeFlowPerAreaUnit.CubicMeterPerSecondPerSquareMeter);
-            AssertEx.EqualTolerance(1, quantity01.CubicMetersPerSecondPerSquareMeter, CubicMetersPerSecondPerSquareMeterTolerance);
+            Assert.Equal(1, quantity01.CubicMetersPerSecondPerSquareMeter);
             Assert.Equal(VolumeFlowPerAreaUnit.CubicMeterPerSecondPerSquareMeter, quantity01.Unit);
 
         }
@@ -174,16 +173,13 @@ namespace UnitsNet.Tests
         public void As_SIUnitSystem_ThrowsArgumentExceptionIfNotSupported()
         {
             var quantity = new VolumeFlowPerArea(value: 1, unit: VolumeFlowPerArea.BaseUnit);
-            Func<object> AsWithSIUnitSystem = () => quantity.As(UnitSystem.SI);
-
             if (SupportsSIUnitSystem)
             {
-                var value = Convert.ToDouble(AsWithSIUnitSystem());
-                Assert.Equal(1, value);
+                Assert.Equal(1, quantity.As(UnitSystem.SI));
             }
             else
             {
-                Assert.Throws<ArgumentException>(AsWithSIUnitSystem);
+                Assert.Throws<ArgumentException>(() => quantity.As(UnitSystem.SI));
             }
         }
 
@@ -193,14 +189,14 @@ namespace UnitsNet.Tests
             try
             {
                 var parsed = VolumeFlowPerArea.Parse("1 CFM/ft²", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.CubicFeetPerMinutePerSquareFoot, CubicFeetPerMinutePerSquareFootTolerance);
+                Assert.Equal(1, parsed.CubicFeetPerMinutePerSquareFoot);
                 Assert.Equal(VolumeFlowPerAreaUnit.CubicFootPerMinutePerSquareFoot, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = VolumeFlowPerArea.Parse("1 m³/(s·m²)", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.CubicMetersPerSecondPerSquareMeter, CubicMetersPerSecondPerSquareMeterTolerance);
+                Assert.Equal(1, parsed.CubicMetersPerSecondPerSquareMeter);
                 Assert.Equal(VolumeFlowPerAreaUnit.CubicMeterPerSecondPerSquareMeter, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
@@ -211,13 +207,13 @@ namespace UnitsNet.Tests
         {
             {
                 Assert.True(VolumeFlowPerArea.TryParse("1 CFM/ft²", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.CubicFeetPerMinutePerSquareFoot, CubicFeetPerMinutePerSquareFootTolerance);
+                Assert.Equal(1, parsed.CubicFeetPerMinutePerSquareFoot);
                 Assert.Equal(VolumeFlowPerAreaUnit.CubicFootPerMinutePerSquareFoot, parsed.Unit);
             }
 
             {
                 Assert.True(VolumeFlowPerArea.TryParse("1 m³/(s·m²)", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.CubicMetersPerSecondPerSquareMeter, CubicMetersPerSecondPerSquareMeterTolerance);
+                Assert.Equal(1, parsed.CubicMetersPerSecondPerSquareMeter);
                 Assert.Equal(VolumeFlowPerAreaUnit.CubicMeterPerSecondPerSquareMeter, parsed.Unit);
             }
 
@@ -301,21 +297,21 @@ namespace UnitsNet.Tests
         public void ConversionRoundTrip()
         {
             VolumeFlowPerArea cubicmeterpersecondpersquaremeter = VolumeFlowPerArea.FromCubicMetersPerSecondPerSquareMeter(1);
-            AssertEx.EqualTolerance(1, VolumeFlowPerArea.FromCubicFeetPerMinutePerSquareFoot(cubicmeterpersecondpersquaremeter.CubicFeetPerMinutePerSquareFoot).CubicMetersPerSecondPerSquareMeter, CubicFeetPerMinutePerSquareFootTolerance);
-            AssertEx.EqualTolerance(1, VolumeFlowPerArea.FromCubicMetersPerSecondPerSquareMeter(cubicmeterpersecondpersquaremeter.CubicMetersPerSecondPerSquareMeter).CubicMetersPerSecondPerSquareMeter, CubicMetersPerSecondPerSquareMeterTolerance);
+            Assert.Equal(1, VolumeFlowPerArea.FromCubicFeetPerMinutePerSquareFoot(cubicmeterpersecondpersquaremeter.CubicFeetPerMinutePerSquareFoot).CubicMetersPerSecondPerSquareMeter);
+            Assert.Equal(1, VolumeFlowPerArea.FromCubicMetersPerSecondPerSquareMeter(cubicmeterpersecondpersquaremeter.CubicMetersPerSecondPerSquareMeter).CubicMetersPerSecondPerSquareMeter);
         }
 
         [Fact]
         public void ArithmeticOperators()
         {
             VolumeFlowPerArea v = VolumeFlowPerArea.FromCubicMetersPerSecondPerSquareMeter(1);
-            AssertEx.EqualTolerance(-1, -v.CubicMetersPerSecondPerSquareMeter, CubicMetersPerSecondPerSquareMeterTolerance);
-            AssertEx.EqualTolerance(2, (VolumeFlowPerArea.FromCubicMetersPerSecondPerSquareMeter(3)-v).CubicMetersPerSecondPerSquareMeter, CubicMetersPerSecondPerSquareMeterTolerance);
-            AssertEx.EqualTolerance(2, (v + v).CubicMetersPerSecondPerSquareMeter, CubicMetersPerSecondPerSquareMeterTolerance);
-            AssertEx.EqualTolerance(10, (v*10).CubicMetersPerSecondPerSquareMeter, CubicMetersPerSecondPerSquareMeterTolerance);
-            AssertEx.EqualTolerance(10, (10*v).CubicMetersPerSecondPerSquareMeter, CubicMetersPerSecondPerSquareMeterTolerance);
-            AssertEx.EqualTolerance(2, (VolumeFlowPerArea.FromCubicMetersPerSecondPerSquareMeter(10)/5).CubicMetersPerSecondPerSquareMeter, CubicMetersPerSecondPerSquareMeterTolerance);
-            AssertEx.EqualTolerance(2, VolumeFlowPerArea.FromCubicMetersPerSecondPerSquareMeter(10)/VolumeFlowPerArea.FromCubicMetersPerSecondPerSquareMeter(5), CubicMetersPerSecondPerSquareMeterTolerance);
+            Assert.Equal(-1, -v.CubicMetersPerSecondPerSquareMeter);
+            Assert.Equal(2, (VolumeFlowPerArea.FromCubicMetersPerSecondPerSquareMeter(3) - v).CubicMetersPerSecondPerSquareMeter);
+            Assert.Equal(2, (v + v).CubicMetersPerSecondPerSquareMeter);
+            Assert.Equal(10, (v * 10).CubicMetersPerSecondPerSquareMeter);
+            Assert.Equal(10, (10 * v).CubicMetersPerSecondPerSquareMeter);
+            Assert.Equal(2, (VolumeFlowPerArea.FromCubicMetersPerSecondPerSquareMeter(10) / 5).CubicMetersPerSecondPerSquareMeter);
+            Assert.Equal(2, VolumeFlowPerArea.FromCubicMetersPerSecondPerSquareMeter(10) / VolumeFlowPerArea.FromCubicMetersPerSecondPerSquareMeter(5));
         }
 
         [Fact]
@@ -361,8 +357,6 @@ namespace UnitsNet.Tests
         [Theory]
         [InlineData(1, VolumeFlowPerAreaUnit.CubicMeterPerSecondPerSquareMeter, 1, VolumeFlowPerAreaUnit.CubicMeterPerSecondPerSquareMeter, true)]  // Same value and unit.
         [InlineData(1, VolumeFlowPerAreaUnit.CubicMeterPerSecondPerSquareMeter, 2, VolumeFlowPerAreaUnit.CubicMeterPerSecondPerSquareMeter, false)] // Different value.
-        [InlineData(2, VolumeFlowPerAreaUnit.CubicMeterPerSecondPerSquareMeter, 1, VolumeFlowPerAreaUnit.CubicFootPerMinutePerSquareFoot, false)] // Different value and unit.
-        [InlineData(1, VolumeFlowPerAreaUnit.CubicMeterPerSecondPerSquareMeter, 1, VolumeFlowPerAreaUnit.CubicFootPerMinutePerSquareFoot, false)] // Different unit.
         public void Equals_ReturnsTrue_IfValueAndUnitAreEqual(double valueA, VolumeFlowPerAreaUnit unitA, double valueB, VolumeFlowPerAreaUnit unitB, bool expectEqual)
         {
             var a = new VolumeFlowPerArea(valueA, unitA);
@@ -400,20 +394,22 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
-        public void Equals_RelativeTolerance_IsImplemented()
+        public void Equals_WithTolerance_IsImplemented()
         {
             var v = VolumeFlowPerArea.FromCubicMetersPerSecondPerSquareMeter(1);
-            Assert.True(v.Equals(VolumeFlowPerArea.FromCubicMetersPerSecondPerSquareMeter(1), CubicMetersPerSecondPerSquareMeterTolerance, ComparisonType.Relative));
-            Assert.False(v.Equals(VolumeFlowPerArea.Zero, CubicMetersPerSecondPerSquareMeterTolerance, ComparisonType.Relative));
-            Assert.True(VolumeFlowPerArea.FromCubicMetersPerSecondPerSquareMeter(100).Equals(VolumeFlowPerArea.FromCubicMetersPerSecondPerSquareMeter(120), 0.3, ComparisonType.Relative));
-            Assert.False(VolumeFlowPerArea.FromCubicMetersPerSecondPerSquareMeter(100).Equals(VolumeFlowPerArea.FromCubicMetersPerSecondPerSquareMeter(120), 0.1, ComparisonType.Relative));
+            Assert.True(v.Equals(VolumeFlowPerArea.FromCubicMetersPerSecondPerSquareMeter(1), VolumeFlowPerArea.FromCubicMetersPerSecondPerSquareMeter(0)));
+            Assert.True(v.Equals(VolumeFlowPerArea.FromCubicMetersPerSecondPerSquareMeter(1), VolumeFlowPerArea.FromCubicMetersPerSecondPerSquareMeter(0.001m)));
+            Assert.True(v.Equals(VolumeFlowPerArea.FromCubicMetersPerSecondPerSquareMeter(0.9999), VolumeFlowPerArea.FromCubicMetersPerSecondPerSquareMeter(0.001m)));
+            Assert.False(v.Equals(VolumeFlowPerArea.FromCubicMetersPerSecondPerSquareMeter(0.99), VolumeFlowPerArea.FromCubicMetersPerSecondPerSquareMeter(0.001m)));
+            Assert.False(v.Equals(VolumeFlowPerArea.Zero, VolumeFlowPerArea.FromCubicMetersPerSecondPerSquareMeter(0.001m)));
         }
 
         [Fact]
-        public void Equals_NegativeRelativeTolerance_ThrowsArgumentOutOfRangeException()
+        public void Equals_WithNegativeTolerance_ThrowsArgumentOutOfRangeException()
         {
             var v = VolumeFlowPerArea.FromCubicMetersPerSecondPerSquareMeter(1);
-            Assert.Throws<ArgumentOutOfRangeException>(() => v.Equals(VolumeFlowPerArea.FromCubicMetersPerSecondPerSquareMeter(1), -1, ComparisonType.Relative));
+            var negativeTolerance = VolumeFlowPerArea.FromCubicMetersPerSecondPerSquareMeter(-1);
+            Assert.Throws<ArgumentOutOfRangeException>(() => v.Equals(VolumeFlowPerArea.FromCubicMetersPerSecondPerSquareMeter(1), negativeTolerance));
         }
 
         [Fact]
@@ -436,7 +432,7 @@ namespace UnitsNet.Tests
             var units = Enum.GetValues(typeof(VolumeFlowPerAreaUnit)).Cast<VolumeFlowPerAreaUnit>();
             foreach (var unit in units)
             {
-                var defaultAbbreviation = UnitAbbreviationsCache.Default.GetDefaultAbbreviation(unit);
+                var defaultAbbreviation = UnitsNetSetup.Default.UnitAbbreviations.GetDefaultAbbreviation(unit);
             }
         }
 
@@ -665,7 +661,12 @@ namespace UnitsNet.Tests
         public void GetHashCode_Equals()
         {
             var quantity = VolumeFlowPerArea.FromCubicMetersPerSecondPerSquareMeter(1.0);
-            Assert.Equal(new {VolumeFlowPerArea.Info.Name, quantity.Value, quantity.Unit}.GetHashCode(), quantity.GetHashCode());
+            #if NET7_0_OR_GREATER
+            var expected = HashCode.Combine(VolumeFlowPerArea.Info.Name, quantity.CubicMetersPerSecondPerSquareMeter);
+            #else
+            var expected = new {VolumeFlowPerArea.Info.Name, valueInBaseUnit = quantity.CubicMetersPerSecondPerSquareMeter}.GetHashCode();
+            #endif
+            Assert.Equal(expected, quantity.GetHashCode());
         }
 
         [Theory]

@@ -22,12 +22,9 @@ using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
-#if NET7_0_OR_GREATER
-using System.Numerics;
-#endif
 using System.Runtime.Serialization;
-using UnitsNet.InternalHelpers;
 using UnitsNet.Units;
+using System.Numerics;
 
 #nullable enable
 
@@ -68,13 +65,13 @@ namespace UnitsNet
         /// <summary>
         ///     The numeric value this quantity was constructed with.
         /// </summary>
-        [DataMember(Name = "Value", Order = 1)]
-        private readonly double _value;
+        [DataMember(Name = "Value", Order = 1, EmitDefaultValue = false)]
+        private readonly QuantityValue _value;
 
         /// <summary>
         ///     The unit this quantity was constructed with.
         /// </summary>
-        [DataMember(Name = "Unit", Order = 2)]
+        [DataMember(Name = "Unit", Order = 2, EmitDefaultValue = false)]
         private readonly PowerUnit? _unit;
 
         static Power()
@@ -125,7 +122,7 @@ namespace UnitsNet
         /// </summary>
         /// <param name="value">The numeric value to construct this quantity with.</param>
         /// <param name="unit">The unit representation to construct this quantity with.</param>
-        public Power(double value, PowerUnit unit)
+        public Power(QuantityValue value, PowerUnit unit)
         {
             _value = value;
             _unit = unit;
@@ -139,7 +136,7 @@ namespace UnitsNet
         /// <param name="unitSystem">The unit system to create the quantity with.</param>
         /// <exception cref="ArgumentNullException">The given <see cref="UnitSystem"/> is null.</exception>
         /// <exception cref="ArgumentException">No unit was found for the given <see cref="UnitSystem"/>.</exception>
-        public Power(double value, UnitSystem unitSystem)
+        public Power(QuantityValue value, UnitSystem unitSystem)
         {
             if (unitSystem is null) throw new ArgumentNullException(nameof(unitSystem));
 
@@ -190,10 +187,10 @@ namespace UnitsNet
         /// <summary>
         ///     The numeric value this quantity was constructed with.
         /// </summary>
-        public double Value => _value;
+        public QuantityValue Value => _value;
 
         /// <inheritdoc />
-        double IQuantity.Value => _value;
+        QuantityValue IQuantity.Value => _value;
 
         Enum IQuantity.Unit => Unit;
 
@@ -218,137 +215,137 @@ namespace UnitsNet
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="PowerUnit.BoilerHorsepower"/>
         /// </summary>
-        public double BoilerHorsepower => As(PowerUnit.BoilerHorsepower);
+        public QuantityValue BoilerHorsepower => As(PowerUnit.BoilerHorsepower);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="PowerUnit.BritishThermalUnitPerHour"/>
         /// </summary>
-        public double BritishThermalUnitsPerHour => As(PowerUnit.BritishThermalUnitPerHour);
+        public QuantityValue BritishThermalUnitsPerHour => As(PowerUnit.BritishThermalUnitPerHour);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="PowerUnit.Decawatt"/>
         /// </summary>
-        public double Decawatts => As(PowerUnit.Decawatt);
+        public QuantityValue Decawatts => As(PowerUnit.Decawatt);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="PowerUnit.Deciwatt"/>
         /// </summary>
-        public double Deciwatts => As(PowerUnit.Deciwatt);
+        public QuantityValue Deciwatts => As(PowerUnit.Deciwatt);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="PowerUnit.ElectricalHorsepower"/>
         /// </summary>
-        public double ElectricalHorsepower => As(PowerUnit.ElectricalHorsepower);
+        public QuantityValue ElectricalHorsepower => As(PowerUnit.ElectricalHorsepower);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="PowerUnit.Femtowatt"/>
         /// </summary>
-        public double Femtowatts => As(PowerUnit.Femtowatt);
+        public QuantityValue Femtowatts => As(PowerUnit.Femtowatt);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="PowerUnit.GigajoulePerHour"/>
         /// </summary>
-        public double GigajoulesPerHour => As(PowerUnit.GigajoulePerHour);
+        public QuantityValue GigajoulesPerHour => As(PowerUnit.GigajoulePerHour);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="PowerUnit.Gigawatt"/>
         /// </summary>
-        public double Gigawatts => As(PowerUnit.Gigawatt);
+        public QuantityValue Gigawatts => As(PowerUnit.Gigawatt);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="PowerUnit.HydraulicHorsepower"/>
         /// </summary>
-        public double HydraulicHorsepower => As(PowerUnit.HydraulicHorsepower);
+        public QuantityValue HydraulicHorsepower => As(PowerUnit.HydraulicHorsepower);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="PowerUnit.JoulePerHour"/>
         /// </summary>
-        public double JoulesPerHour => As(PowerUnit.JoulePerHour);
+        public QuantityValue JoulesPerHour => As(PowerUnit.JoulePerHour);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="PowerUnit.KilobritishThermalUnitPerHour"/>
         /// </summary>
-        public double KilobritishThermalUnitsPerHour => As(PowerUnit.KilobritishThermalUnitPerHour);
+        public QuantityValue KilobritishThermalUnitsPerHour => As(PowerUnit.KilobritishThermalUnitPerHour);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="PowerUnit.KilojoulePerHour"/>
         /// </summary>
-        public double KilojoulesPerHour => As(PowerUnit.KilojoulePerHour);
+        public QuantityValue KilojoulesPerHour => As(PowerUnit.KilojoulePerHour);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="PowerUnit.Kilowatt"/>
         /// </summary>
-        public double Kilowatts => As(PowerUnit.Kilowatt);
+        public QuantityValue Kilowatts => As(PowerUnit.Kilowatt);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="PowerUnit.MechanicalHorsepower"/>
         /// </summary>
-        public double MechanicalHorsepower => As(PowerUnit.MechanicalHorsepower);
+        public QuantityValue MechanicalHorsepower => As(PowerUnit.MechanicalHorsepower);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="PowerUnit.MegabritishThermalUnitPerHour"/>
         /// </summary>
-        public double MegabritishThermalUnitsPerHour => As(PowerUnit.MegabritishThermalUnitPerHour);
+        public QuantityValue MegabritishThermalUnitsPerHour => As(PowerUnit.MegabritishThermalUnitPerHour);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="PowerUnit.MegajoulePerHour"/>
         /// </summary>
-        public double MegajoulesPerHour => As(PowerUnit.MegajoulePerHour);
+        public QuantityValue MegajoulesPerHour => As(PowerUnit.MegajoulePerHour);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="PowerUnit.Megawatt"/>
         /// </summary>
-        public double Megawatts => As(PowerUnit.Megawatt);
+        public QuantityValue Megawatts => As(PowerUnit.Megawatt);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="PowerUnit.MetricHorsepower"/>
         /// </summary>
-        public double MetricHorsepower => As(PowerUnit.MetricHorsepower);
+        public QuantityValue MetricHorsepower => As(PowerUnit.MetricHorsepower);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="PowerUnit.Microwatt"/>
         /// </summary>
-        public double Microwatts => As(PowerUnit.Microwatt);
+        public QuantityValue Microwatts => As(PowerUnit.Microwatt);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="PowerUnit.MillijoulePerHour"/>
         /// </summary>
-        public double MillijoulesPerHour => As(PowerUnit.MillijoulePerHour);
+        public QuantityValue MillijoulesPerHour => As(PowerUnit.MillijoulePerHour);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="PowerUnit.Milliwatt"/>
         /// </summary>
-        public double Milliwatts => As(PowerUnit.Milliwatt);
+        public QuantityValue Milliwatts => As(PowerUnit.Milliwatt);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="PowerUnit.Nanowatt"/>
         /// </summary>
-        public double Nanowatts => As(PowerUnit.Nanowatt);
+        public QuantityValue Nanowatts => As(PowerUnit.Nanowatt);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="PowerUnit.Petawatt"/>
         /// </summary>
-        public double Petawatts => As(PowerUnit.Petawatt);
+        public QuantityValue Petawatts => As(PowerUnit.Petawatt);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="PowerUnit.Picowatt"/>
         /// </summary>
-        public double Picowatts => As(PowerUnit.Picowatt);
+        public QuantityValue Picowatts => As(PowerUnit.Picowatt);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="PowerUnit.Terawatt"/>
         /// </summary>
-        public double Terawatts => As(PowerUnit.Terawatt);
+        public QuantityValue Terawatts => As(PowerUnit.Terawatt);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="PowerUnit.TonOfRefrigeration"/>
         /// </summary>
-        public double TonsOfRefrigeration => As(PowerUnit.TonOfRefrigeration);
+        public QuantityValue TonsOfRefrigeration => As(PowerUnit.TonOfRefrigeration);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="PowerUnit.Watt"/>
         /// </summary>
-        public double Watts => As(PowerUnit.Watt);
+        public QuantityValue Watts => As(PowerUnit.Watt);
 
         #endregion
 
@@ -438,7 +435,7 @@ namespace UnitsNet
         /// <param name="provider">Format to use for localization. Defaults to <see cref="CultureInfo.CurrentCulture" /> if null.</param>
         public static string GetAbbreviation(PowerUnit unit, IFormatProvider? provider)
         {
-            return UnitAbbreviationsCache.Default.GetDefaultAbbreviation(unit, provider);
+            return UnitsNetSetup.Default.UnitAbbreviations.GetDefaultAbbreviation(unit, provider);
         }
 
         #endregion
@@ -448,7 +445,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="Power"/> from <see cref="PowerUnit.BoilerHorsepower"/>.
         /// </summary>
-        public static Power FromBoilerHorsepower(double value)
+        public static Power FromBoilerHorsepower(QuantityValue value)
         {
             return new Power(value, PowerUnit.BoilerHorsepower);
         }
@@ -456,7 +453,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="Power"/> from <see cref="PowerUnit.BritishThermalUnitPerHour"/>.
         /// </summary>
-        public static Power FromBritishThermalUnitsPerHour(double value)
+        public static Power FromBritishThermalUnitsPerHour(QuantityValue value)
         {
             return new Power(value, PowerUnit.BritishThermalUnitPerHour);
         }
@@ -464,7 +461,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="Power"/> from <see cref="PowerUnit.Decawatt"/>.
         /// </summary>
-        public static Power FromDecawatts(double value)
+        public static Power FromDecawatts(QuantityValue value)
         {
             return new Power(value, PowerUnit.Decawatt);
         }
@@ -472,7 +469,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="Power"/> from <see cref="PowerUnit.Deciwatt"/>.
         /// </summary>
-        public static Power FromDeciwatts(double value)
+        public static Power FromDeciwatts(QuantityValue value)
         {
             return new Power(value, PowerUnit.Deciwatt);
         }
@@ -480,7 +477,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="Power"/> from <see cref="PowerUnit.ElectricalHorsepower"/>.
         /// </summary>
-        public static Power FromElectricalHorsepower(double value)
+        public static Power FromElectricalHorsepower(QuantityValue value)
         {
             return new Power(value, PowerUnit.ElectricalHorsepower);
         }
@@ -488,7 +485,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="Power"/> from <see cref="PowerUnit.Femtowatt"/>.
         /// </summary>
-        public static Power FromFemtowatts(double value)
+        public static Power FromFemtowatts(QuantityValue value)
         {
             return new Power(value, PowerUnit.Femtowatt);
         }
@@ -496,7 +493,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="Power"/> from <see cref="PowerUnit.GigajoulePerHour"/>.
         /// </summary>
-        public static Power FromGigajoulesPerHour(double value)
+        public static Power FromGigajoulesPerHour(QuantityValue value)
         {
             return new Power(value, PowerUnit.GigajoulePerHour);
         }
@@ -504,7 +501,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="Power"/> from <see cref="PowerUnit.Gigawatt"/>.
         /// </summary>
-        public static Power FromGigawatts(double value)
+        public static Power FromGigawatts(QuantityValue value)
         {
             return new Power(value, PowerUnit.Gigawatt);
         }
@@ -512,7 +509,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="Power"/> from <see cref="PowerUnit.HydraulicHorsepower"/>.
         /// </summary>
-        public static Power FromHydraulicHorsepower(double value)
+        public static Power FromHydraulicHorsepower(QuantityValue value)
         {
             return new Power(value, PowerUnit.HydraulicHorsepower);
         }
@@ -520,7 +517,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="Power"/> from <see cref="PowerUnit.JoulePerHour"/>.
         /// </summary>
-        public static Power FromJoulesPerHour(double value)
+        public static Power FromJoulesPerHour(QuantityValue value)
         {
             return new Power(value, PowerUnit.JoulePerHour);
         }
@@ -528,7 +525,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="Power"/> from <see cref="PowerUnit.KilobritishThermalUnitPerHour"/>.
         /// </summary>
-        public static Power FromKilobritishThermalUnitsPerHour(double value)
+        public static Power FromKilobritishThermalUnitsPerHour(QuantityValue value)
         {
             return new Power(value, PowerUnit.KilobritishThermalUnitPerHour);
         }
@@ -536,7 +533,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="Power"/> from <see cref="PowerUnit.KilojoulePerHour"/>.
         /// </summary>
-        public static Power FromKilojoulesPerHour(double value)
+        public static Power FromKilojoulesPerHour(QuantityValue value)
         {
             return new Power(value, PowerUnit.KilojoulePerHour);
         }
@@ -544,7 +541,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="Power"/> from <see cref="PowerUnit.Kilowatt"/>.
         /// </summary>
-        public static Power FromKilowatts(double value)
+        public static Power FromKilowatts(QuantityValue value)
         {
             return new Power(value, PowerUnit.Kilowatt);
         }
@@ -552,7 +549,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="Power"/> from <see cref="PowerUnit.MechanicalHorsepower"/>.
         /// </summary>
-        public static Power FromMechanicalHorsepower(double value)
+        public static Power FromMechanicalHorsepower(QuantityValue value)
         {
             return new Power(value, PowerUnit.MechanicalHorsepower);
         }
@@ -560,7 +557,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="Power"/> from <see cref="PowerUnit.MegabritishThermalUnitPerHour"/>.
         /// </summary>
-        public static Power FromMegabritishThermalUnitsPerHour(double value)
+        public static Power FromMegabritishThermalUnitsPerHour(QuantityValue value)
         {
             return new Power(value, PowerUnit.MegabritishThermalUnitPerHour);
         }
@@ -568,7 +565,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="Power"/> from <see cref="PowerUnit.MegajoulePerHour"/>.
         /// </summary>
-        public static Power FromMegajoulesPerHour(double value)
+        public static Power FromMegajoulesPerHour(QuantityValue value)
         {
             return new Power(value, PowerUnit.MegajoulePerHour);
         }
@@ -576,7 +573,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="Power"/> from <see cref="PowerUnit.Megawatt"/>.
         /// </summary>
-        public static Power FromMegawatts(double value)
+        public static Power FromMegawatts(QuantityValue value)
         {
             return new Power(value, PowerUnit.Megawatt);
         }
@@ -584,7 +581,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="Power"/> from <see cref="PowerUnit.MetricHorsepower"/>.
         /// </summary>
-        public static Power FromMetricHorsepower(double value)
+        public static Power FromMetricHorsepower(QuantityValue value)
         {
             return new Power(value, PowerUnit.MetricHorsepower);
         }
@@ -592,7 +589,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="Power"/> from <see cref="PowerUnit.Microwatt"/>.
         /// </summary>
-        public static Power FromMicrowatts(double value)
+        public static Power FromMicrowatts(QuantityValue value)
         {
             return new Power(value, PowerUnit.Microwatt);
         }
@@ -600,7 +597,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="Power"/> from <see cref="PowerUnit.MillijoulePerHour"/>.
         /// </summary>
-        public static Power FromMillijoulesPerHour(double value)
+        public static Power FromMillijoulesPerHour(QuantityValue value)
         {
             return new Power(value, PowerUnit.MillijoulePerHour);
         }
@@ -608,7 +605,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="Power"/> from <see cref="PowerUnit.Milliwatt"/>.
         /// </summary>
-        public static Power FromMilliwatts(double value)
+        public static Power FromMilliwatts(QuantityValue value)
         {
             return new Power(value, PowerUnit.Milliwatt);
         }
@@ -616,7 +613,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="Power"/> from <see cref="PowerUnit.Nanowatt"/>.
         /// </summary>
-        public static Power FromNanowatts(double value)
+        public static Power FromNanowatts(QuantityValue value)
         {
             return new Power(value, PowerUnit.Nanowatt);
         }
@@ -624,7 +621,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="Power"/> from <see cref="PowerUnit.Petawatt"/>.
         /// </summary>
-        public static Power FromPetawatts(double value)
+        public static Power FromPetawatts(QuantityValue value)
         {
             return new Power(value, PowerUnit.Petawatt);
         }
@@ -632,7 +629,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="Power"/> from <see cref="PowerUnit.Picowatt"/>.
         /// </summary>
-        public static Power FromPicowatts(double value)
+        public static Power FromPicowatts(QuantityValue value)
         {
             return new Power(value, PowerUnit.Picowatt);
         }
@@ -640,7 +637,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="Power"/> from <see cref="PowerUnit.Terawatt"/>.
         /// </summary>
-        public static Power FromTerawatts(double value)
+        public static Power FromTerawatts(QuantityValue value)
         {
             return new Power(value, PowerUnit.Terawatt);
         }
@@ -648,7 +645,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="Power"/> from <see cref="PowerUnit.TonOfRefrigeration"/>.
         /// </summary>
-        public static Power FromTonsOfRefrigeration(double value)
+        public static Power FromTonsOfRefrigeration(QuantityValue value)
         {
             return new Power(value, PowerUnit.TonOfRefrigeration);
         }
@@ -656,7 +653,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="Power"/> from <see cref="PowerUnit.Watt"/>.
         /// </summary>
-        public static Power FromWatts(double value)
+        public static Power FromWatts(QuantityValue value)
         {
             return new Power(value, PowerUnit.Watt);
         }
@@ -667,7 +664,7 @@ namespace UnitsNet
         /// <param name="value">Value to convert from.</param>
         /// <param name="fromUnit">Unit to convert from.</param>
         /// <returns>Power unit value.</returns>
-        public static Power From(double value, PowerUnit fromUnit)
+        public static Power From(QuantityValue value, PowerUnit fromUnit)
         {
             return new Power(value, fromUnit);
         }
@@ -728,7 +725,7 @@ namespace UnitsNet
         /// <param name="provider">Format to use when parsing number and unit. Defaults to <see cref="CultureInfo.CurrentCulture" /> if null.</param>
         public static Power Parse(string str, IFormatProvider? provider)
         {
-            return QuantityParser.Default.Parse<Power, PowerUnit>(
+            return UnitsNetSetup.Default.QuantityParser.Parse<Power, PowerUnit>(
                 str,
                 provider,
                 From);
@@ -759,7 +756,7 @@ namespace UnitsNet
         /// <param name="provider">Format to use when parsing number and unit. Defaults to <see cref="CultureInfo.CurrentCulture" /> if null.</param>
         public static bool TryParse(string? str, IFormatProvider? provider, out Power result)
         {
-            return QuantityParser.Default.TryParse<Power, PowerUnit>(
+            return UnitsNetSetup.Default.QuantityParser.TryParse<Power, PowerUnit>(
                 str,
                 provider,
                 From,
@@ -792,7 +789,7 @@ namespace UnitsNet
         /// <exception cref="UnitsNetException">Error parsing string.</exception>
         public static PowerUnit ParseUnit(string str, IFormatProvider? provider)
         {
-            return UnitParser.Default.Parse<PowerUnit>(str, provider);
+            return UnitsNetSetup.Default.UnitParser.Parse<PowerUnit>(str, provider);
         }
 
         /// <inheritdoc cref="TryParseUnit(string,IFormatProvider,out UnitsNet.Units.PowerUnit)"/>
@@ -813,7 +810,7 @@ namespace UnitsNet
         /// <param name="provider">Format to use when parsing number and unit. Defaults to <see cref="CultureInfo.CurrentCulture" /> if null.</param>
         public static bool TryParseUnit(string str, IFormatProvider? provider, out PowerUnit unit)
         {
-            return UnitParser.Default.TryParse<PowerUnit>(str, provider, out unit);
+            return UnitsNetSetup.Default.UnitParser.TryParse<PowerUnit>(str, provider, out unit);
         }
 
         #endregion
@@ -839,25 +836,25 @@ namespace UnitsNet
         }
 
         /// <summary>Get <see cref="Power"/> from multiplying value and <see cref="Power"/>.</summary>
-        public static Power operator *(double left, Power right)
+        public static Power operator *(QuantityValue left, Power right)
         {
             return new Power(left * right.Value, right.Unit);
         }
 
         /// <summary>Get <see cref="Power"/> from multiplying value and <see cref="Power"/>.</summary>
-        public static Power operator *(Power left, double right)
+        public static Power operator *(Power left, QuantityValue right)
         {
             return new Power(left.Value * right, left.Unit);
         }
 
         /// <summary>Get <see cref="Power"/> from dividing <see cref="Power"/> by value.</summary>
-        public static Power operator /(Power left, double right)
+        public static Power operator /(Power left, QuantityValue right)
         {
             return new Power(left.Value / right, left.Unit);
         }
 
         /// <summary>Get ratio value from dividing <see cref="Power"/> by <see cref="Power"/>.</summary>
-        public static double operator /(Power left, Power right)
+        public static QuantityValue operator /(Power left, Power right)
         {
             return left.Watts / right.Watts;
         }
@@ -978,27 +975,20 @@ namespace UnitsNet
             return left.Value > right.ToUnit(left.Unit).Value;
         }
 
-        // We use obsolete attribute to communicate the preferred equality members to use.
-        // CS0809: Obsolete member 'memberA' overrides non-obsolete member 'memberB'.
-        #pragma warning disable CS0809
-
-        /// <summary>Indicates strict equality of two <see cref="Power"/> quantities, where both <see cref="Value" /> and <see cref="Unit" /> are exactly equal.</summary>
-        [Obsolete("For null checks, use `x is null` syntax to not invoke overloads. For equality checks, use Equals(Power other, Power tolerance) instead, to check equality across units and to specify the max tolerance for rounding errors due to floating-point arithmetic when converting between units.")]
+        /// <summary>Indicates strict equality of two <see cref="Power"/> quantities.</summary>
         public static bool operator ==(Power left, Power right)
         {
             return left.Equals(right);
         }
 
-        /// <summary>Indicates strict inequality of two <see cref="Power"/> quantities, where both <see cref="Value" /> and <see cref="Unit" /> are exactly equal.</summary>
-        [Obsolete("For null checks, use `x is null` syntax to not invoke overloads. For equality checks, use Equals(Power other, Power tolerance) instead, to check equality across units and to specify the max tolerance for rounding errors due to floating-point arithmetic when converting between units.")]
+        /// <summary>Indicates strict inequality of two <see cref="Power"/> quantities.</summary>
         public static bool operator !=(Power left, Power right)
         {
             return !(left == right);
         }
 
         /// <inheritdoc />
-        /// <summary>Indicates strict equality of two <see cref="Power"/> quantities, where both <see cref="Value" /> and <see cref="Unit" /> are exactly equal.</summary>
-        [Obsolete("Use Equals(Power other, Power tolerance) instead, to check equality across units and to specify the max tolerance for rounding errors due to floating-point arithmetic when converting between units.")]
+        /// <summary>Indicates strict equality of two <see cref="Power"/> quantities.</summary>
         public override bool Equals(object? obj)
         {
             if (obj is null || !(obj is Power otherQuantity))
@@ -1008,14 +998,11 @@ namespace UnitsNet
         }
 
         /// <inheritdoc />
-        /// <summary>Indicates strict equality of two <see cref="Power"/> quantities, where both <see cref="Value" /> and <see cref="Unit" /> are exactly equal.</summary>
-        [Obsolete("Use Equals(Power other, Power tolerance) instead, to check equality across units and to specify the max tolerance for rounding errors due to floating-point arithmetic when converting between units.")]
+        /// <summary>Indicates strict equality of two <see cref="Power"/> quantities.</summary>
         public bool Equals(Power other)
         {
-            return new { Value, Unit }.Equals(new { other.Value, other.Unit });
+            return _value.Equals(other.As(this.Unit));
         }
-
-        #pragma warning restore CS0809
 
         /// <summary>Compares the current <see cref="Power"/> with another object of the same type and returns an integer that indicates whether the current instance precedes, follows, or occurs in the same position in the sort order as the other when converted to the same unit.</summary>
         /// <param name="obj">An object to compare with this instance.</param>
@@ -1053,59 +1040,6 @@ namespace UnitsNet
             return _value.CompareTo(other.ToUnit(this.Unit).Value);
         }
 
-        /// <summary>
-        ///     <para>
-        ///     Compare equality to another Power within the given absolute or relative tolerance.
-        ///     </para>
-        ///     <para>
-        ///     Relative tolerance is defined as the maximum allowable absolute difference between this quantity's value and
-        ///     <paramref name="other"/> as a percentage of this quantity's value. <paramref name="other"/> will be converted into
-        ///     this quantity's unit for comparison. A relative tolerance of 0.01 means the absolute difference must be within +/- 1% of
-        ///     this quantity's value to be considered equal.
-        ///     <example>
-        ///     In this example, the two quantities will be equal if the value of b is within +/- 1% of a (0.02m or 2cm).
-        ///     <code>
-        ///     var a = Length.FromMeters(2.0);
-        ///     var b = Length.FromInches(50.0);
-        ///     a.Equals(b, 0.01, ComparisonType.Relative);
-        ///     </code>
-        ///     </example>
-        ///     </para>
-        ///     <para>
-        ///     Absolute tolerance is defined as the maximum allowable absolute difference between this quantity's value and
-        ///     <paramref name="other"/> as a fixed number in this quantity's unit. <paramref name="other"/> will be converted into
-        ///     this quantity's unit for comparison.
-        ///     <example>
-        ///     In this example, the two quantities will be equal if the value of b is within 0.01 of a (0.01m or 1cm).
-        ///     <code>
-        ///     var a = Length.FromMeters(2.0);
-        ///     var b = Length.FromInches(50.0);
-        ///     a.Equals(b, 0.01, ComparisonType.Absolute);
-        ///     </code>
-        ///     </example>
-        ///     </para>
-        ///     <para>
-        ///     Note that it is advised against specifying zero difference, due to the nature
-        ///     of floating-point operations and using double internally.
-        ///     </para>
-        /// </summary>
-        /// <param name="other">The other quantity to compare to.</param>
-        /// <param name="tolerance">The absolute or relative tolerance value. Must be greater than or equal to 0.</param>
-        /// <param name="comparisonType">The comparison type: either relative or absolute.</param>
-        /// <returns>True if the absolute difference between the two values is not greater than the specified relative or absolute tolerance.</returns>
-        [Obsolete("Use Equals(Power other, Power tolerance) instead, to check equality across units and to specify the max tolerance for rounding errors due to floating-point arithmetic when converting between units.")]
-        public bool Equals(Power other, double tolerance, ComparisonType comparisonType)
-        {
-            if (tolerance < 0)
-                throw new ArgumentOutOfRangeException(nameof(tolerance), "Tolerance must be greater than or equal to 0.");
-
-            return UnitsNet.Comparison.Equals(
-                referenceValue: this.Value,
-                otherValue: other.As(this.Unit),
-                tolerance: tolerance,
-                comparisonType: comparisonType);
-        }
-
         /// <inheritdoc />
         public bool Equals(IQuantity? other, IQuantity tolerance)
         {
@@ -1119,11 +1053,10 @@ namespace UnitsNet
         /// <inheritdoc />
         public bool Equals(Power other, Power tolerance)
         {
-            return UnitsNet.Comparison.Equals(
-                referenceValue: this.Value,
-                otherValue: other.As(this.Unit),
-                tolerance: tolerance.As(this.Unit),
-                comparisonType: ComparisonType.Absolute);
+            return UnitsNet.Comparison.EqualsAbsolute(
+                this.Value,
+                other.As(this.Unit),
+                tolerance: tolerance.As(this.Unit));
         }
 
         /// <summary>
@@ -1132,7 +1065,12 @@ namespace UnitsNet
         /// <returns>A hash code for the current Power.</returns>
         public override int GetHashCode()
         {
-            return new { Info.Name, Value, Unit }.GetHashCode();
+            var valueInBaseUnit = As(BaseUnit);
+            #if NET7_0_OR_GREATER
+            return HashCode.Combine(Info.Name, valueInBaseUnit);
+            #else
+            return new { Info.Name, valueInBaseUnit }.GetHashCode();
+            #endif
         }
 
         #endregion
@@ -1143,7 +1081,7 @@ namespace UnitsNet
         ///     Convert to the unit representation <paramref name="unit" />.
         /// </summary>
         /// <returns>Value converted to the specified unit.</returns>
-        public double As(PowerUnit unit)
+        public QuantityValue As(PowerUnit unit)
         {
             if (Unit == unit)
                 return Value;
@@ -1152,7 +1090,7 @@ namespace UnitsNet
         }
 
         /// <inheritdoc cref="IQuantity.As(UnitSystem)"/>
-        public double As(UnitSystem unitSystem)
+        public QuantityValue As(UnitSystem unitSystem)
         {
             if (unitSystem is null)
                 throw new ArgumentNullException(nameof(unitSystem));
@@ -1167,7 +1105,7 @@ namespace UnitsNet
         }
 
         /// <inheritdoc />
-        double IQuantity.As(Enum unit)
+        QuantityValue IQuantity.As(Enum unit)
         {
             if (!(unit is PowerUnit typedUnit))
                 throw new ArgumentException($"The given unit is of type {unit.GetType()}. Only {typeof(PowerUnit)} is supported.", nameof(unit));
@@ -1233,60 +1171,60 @@ namespace UnitsNet
             Power? convertedOrNull = (Unit, unit) switch
             {
                 // PowerUnit -> BaseUnit
-                (PowerUnit.BoilerHorsepower, PowerUnit.Watt) => new Power(_value * 9812.5, PowerUnit.Watt),
-                (PowerUnit.BritishThermalUnitPerHour, PowerUnit.Watt) => new Power(_value * 0.29307107017, PowerUnit.Watt),
-                (PowerUnit.Decawatt, PowerUnit.Watt) => new Power((_value) * 1e1d, PowerUnit.Watt),
-                (PowerUnit.Deciwatt, PowerUnit.Watt) => new Power((_value) * 1e-1d, PowerUnit.Watt),
+                (PowerUnit.BoilerHorsepower, PowerUnit.Watt) => new Power(_value * new QuantityValue(19625, 2), PowerUnit.Watt),
+                (PowerUnit.BritishThermalUnitPerHour, PowerUnit.Watt) => new Power(_value * new QuantityValue(52752792631, 180000000000), PowerUnit.Watt),
+                (PowerUnit.Decawatt, PowerUnit.Watt) => new Power(_value * 10, PowerUnit.Watt),
+                (PowerUnit.Deciwatt, PowerUnit.Watt) => new Power(_value / 10, PowerUnit.Watt),
                 (PowerUnit.ElectricalHorsepower, PowerUnit.Watt) => new Power(_value * 746, PowerUnit.Watt),
-                (PowerUnit.Femtowatt, PowerUnit.Watt) => new Power((_value) * 1e-15d, PowerUnit.Watt),
-                (PowerUnit.GigajoulePerHour, PowerUnit.Watt) => new Power((_value / 3600) * 1e9d, PowerUnit.Watt),
-                (PowerUnit.Gigawatt, PowerUnit.Watt) => new Power((_value) * 1e9d, PowerUnit.Watt),
-                (PowerUnit.HydraulicHorsepower, PowerUnit.Watt) => new Power(_value * 745.69988145, PowerUnit.Watt),
+                (PowerUnit.Femtowatt, PowerUnit.Watt) => new Power(_value / 1000000000000000, PowerUnit.Watt),
+                (PowerUnit.GigajoulePerHour, PowerUnit.Watt) => new Power(_value * new QuantityValue(2500000, 9), PowerUnit.Watt),
+                (PowerUnit.Gigawatt, PowerUnit.Watt) => new Power(_value * 1000000000, PowerUnit.Watt),
+                (PowerUnit.HydraulicHorsepower, PowerUnit.Watt) => new Power(_value * new QuantityValue(14913997629, 20000000), PowerUnit.Watt),
                 (PowerUnit.JoulePerHour, PowerUnit.Watt) => new Power(_value / 3600, PowerUnit.Watt),
-                (PowerUnit.KilobritishThermalUnitPerHour, PowerUnit.Watt) => new Power((_value * 0.29307107017) * 1e3d, PowerUnit.Watt),
-                (PowerUnit.KilojoulePerHour, PowerUnit.Watt) => new Power((_value / 3600) * 1e3d, PowerUnit.Watt),
-                (PowerUnit.Kilowatt, PowerUnit.Watt) => new Power((_value) * 1e3d, PowerUnit.Watt),
-                (PowerUnit.MechanicalHorsepower, PowerUnit.Watt) => new Power(_value * 745.69, PowerUnit.Watt),
-                (PowerUnit.MegabritishThermalUnitPerHour, PowerUnit.Watt) => new Power((_value * 0.29307107017) * 1e6d, PowerUnit.Watt),
-                (PowerUnit.MegajoulePerHour, PowerUnit.Watt) => new Power((_value / 3600) * 1e6d, PowerUnit.Watt),
-                (PowerUnit.Megawatt, PowerUnit.Watt) => new Power((_value) * 1e6d, PowerUnit.Watt),
-                (PowerUnit.MetricHorsepower, PowerUnit.Watt) => new Power(_value * 735.49875, PowerUnit.Watt),
-                (PowerUnit.Microwatt, PowerUnit.Watt) => new Power((_value) * 1e-6d, PowerUnit.Watt),
-                (PowerUnit.MillijoulePerHour, PowerUnit.Watt) => new Power((_value / 3600) * 1e-3d, PowerUnit.Watt),
-                (PowerUnit.Milliwatt, PowerUnit.Watt) => new Power((_value) * 1e-3d, PowerUnit.Watt),
-                (PowerUnit.Nanowatt, PowerUnit.Watt) => new Power((_value) * 1e-9d, PowerUnit.Watt),
-                (PowerUnit.Petawatt, PowerUnit.Watt) => new Power((_value) * 1e15d, PowerUnit.Watt),
-                (PowerUnit.Picowatt, PowerUnit.Watt) => new Power((_value) * 1e-12d, PowerUnit.Watt),
-                (PowerUnit.Terawatt, PowerUnit.Watt) => new Power((_value) * 1e12d, PowerUnit.Watt),
-                (PowerUnit.TonOfRefrigeration, PowerUnit.Watt) => new Power(_value * 3516.853m, PowerUnit.Watt),
+                (PowerUnit.KilobritishThermalUnitPerHour, PowerUnit.Watt) => new Power(_value * new QuantityValue(52752792631, 180000000), PowerUnit.Watt),
+                (PowerUnit.KilojoulePerHour, PowerUnit.Watt) => new Power(_value * new QuantityValue(5, 18), PowerUnit.Watt),
+                (PowerUnit.Kilowatt, PowerUnit.Watt) => new Power(_value * 1000, PowerUnit.Watt),
+                (PowerUnit.MechanicalHorsepower, PowerUnit.Watt) => new Power(_value * new QuantityValue(149139974303117, 200000000000), PowerUnit.Watt),
+                (PowerUnit.MegabritishThermalUnitPerHour, PowerUnit.Watt) => new Power(_value * new QuantityValue(52752792631, 180000), PowerUnit.Watt),
+                (PowerUnit.MegajoulePerHour, PowerUnit.Watt) => new Power(_value * new QuantityValue(2500, 9), PowerUnit.Watt),
+                (PowerUnit.Megawatt, PowerUnit.Watt) => new Power(_value * 1000000, PowerUnit.Watt),
+                (PowerUnit.MetricHorsepower, PowerUnit.Watt) => new Power(_value * new QuantityValue(588399, 800), PowerUnit.Watt),
+                (PowerUnit.Microwatt, PowerUnit.Watt) => new Power(_value / 1000000, PowerUnit.Watt),
+                (PowerUnit.MillijoulePerHour, PowerUnit.Watt) => new Power(_value / 3600000, PowerUnit.Watt),
+                (PowerUnit.Milliwatt, PowerUnit.Watt) => new Power(_value / 1000, PowerUnit.Watt),
+                (PowerUnit.Nanowatt, PowerUnit.Watt) => new Power(_value / 1000000000, PowerUnit.Watt),
+                (PowerUnit.Petawatt, PowerUnit.Watt) => new Power(_value * 1000000000000000, PowerUnit.Watt),
+                (PowerUnit.Picowatt, PowerUnit.Watt) => new Power(_value / 1000000000000, PowerUnit.Watt),
+                (PowerUnit.Terawatt, PowerUnit.Watt) => new Power(_value * 1000000000000, PowerUnit.Watt),
+                (PowerUnit.TonOfRefrigeration, PowerUnit.Watt) => new Power(_value * new QuantityValue(3516853, 1000), PowerUnit.Watt),
 
                 // BaseUnit -> PowerUnit
-                (PowerUnit.Watt, PowerUnit.BoilerHorsepower) => new Power(_value / 9812.5, PowerUnit.BoilerHorsepower),
-                (PowerUnit.Watt, PowerUnit.BritishThermalUnitPerHour) => new Power(_value / 0.29307107017, PowerUnit.BritishThermalUnitPerHour),
-                (PowerUnit.Watt, PowerUnit.Decawatt) => new Power((_value) / 1e1d, PowerUnit.Decawatt),
-                (PowerUnit.Watt, PowerUnit.Deciwatt) => new Power((_value) / 1e-1d, PowerUnit.Deciwatt),
+                (PowerUnit.Watt, PowerUnit.BoilerHorsepower) => new Power(_value * new QuantityValue(2, 19625), PowerUnit.BoilerHorsepower),
+                (PowerUnit.Watt, PowerUnit.BritishThermalUnitPerHour) => new Power(_value * new QuantityValue(180000000000, 52752792631), PowerUnit.BritishThermalUnitPerHour),
+                (PowerUnit.Watt, PowerUnit.Decawatt) => new Power(_value / 10, PowerUnit.Decawatt),
+                (PowerUnit.Watt, PowerUnit.Deciwatt) => new Power(_value * 10, PowerUnit.Deciwatt),
                 (PowerUnit.Watt, PowerUnit.ElectricalHorsepower) => new Power(_value / 746, PowerUnit.ElectricalHorsepower),
-                (PowerUnit.Watt, PowerUnit.Femtowatt) => new Power((_value) / 1e-15d, PowerUnit.Femtowatt),
-                (PowerUnit.Watt, PowerUnit.GigajoulePerHour) => new Power((_value * 3600) / 1e9d, PowerUnit.GigajoulePerHour),
-                (PowerUnit.Watt, PowerUnit.Gigawatt) => new Power((_value) / 1e9d, PowerUnit.Gigawatt),
-                (PowerUnit.Watt, PowerUnit.HydraulicHorsepower) => new Power(_value / 745.69988145, PowerUnit.HydraulicHorsepower),
+                (PowerUnit.Watt, PowerUnit.Femtowatt) => new Power(_value * 1000000000000000, PowerUnit.Femtowatt),
+                (PowerUnit.Watt, PowerUnit.GigajoulePerHour) => new Power(_value * new QuantityValue(9, 2500000), PowerUnit.GigajoulePerHour),
+                (PowerUnit.Watt, PowerUnit.Gigawatt) => new Power(_value / 1000000000, PowerUnit.Gigawatt),
+                (PowerUnit.Watt, PowerUnit.HydraulicHorsepower) => new Power(_value * new QuantityValue(20000000, 14913997629), PowerUnit.HydraulicHorsepower),
                 (PowerUnit.Watt, PowerUnit.JoulePerHour) => new Power(_value * 3600, PowerUnit.JoulePerHour),
-                (PowerUnit.Watt, PowerUnit.KilobritishThermalUnitPerHour) => new Power((_value / 0.29307107017) / 1e3d, PowerUnit.KilobritishThermalUnitPerHour),
-                (PowerUnit.Watt, PowerUnit.KilojoulePerHour) => new Power((_value * 3600) / 1e3d, PowerUnit.KilojoulePerHour),
-                (PowerUnit.Watt, PowerUnit.Kilowatt) => new Power((_value) / 1e3d, PowerUnit.Kilowatt),
-                (PowerUnit.Watt, PowerUnit.MechanicalHorsepower) => new Power(_value / 745.69, PowerUnit.MechanicalHorsepower),
-                (PowerUnit.Watt, PowerUnit.MegabritishThermalUnitPerHour) => new Power((_value / 0.29307107017) / 1e6d, PowerUnit.MegabritishThermalUnitPerHour),
-                (PowerUnit.Watt, PowerUnit.MegajoulePerHour) => new Power((_value * 3600) / 1e6d, PowerUnit.MegajoulePerHour),
-                (PowerUnit.Watt, PowerUnit.Megawatt) => new Power((_value) / 1e6d, PowerUnit.Megawatt),
-                (PowerUnit.Watt, PowerUnit.MetricHorsepower) => new Power(_value / 735.49875, PowerUnit.MetricHorsepower),
-                (PowerUnit.Watt, PowerUnit.Microwatt) => new Power((_value) / 1e-6d, PowerUnit.Microwatt),
-                (PowerUnit.Watt, PowerUnit.MillijoulePerHour) => new Power((_value * 3600) / 1e-3d, PowerUnit.MillijoulePerHour),
-                (PowerUnit.Watt, PowerUnit.Milliwatt) => new Power((_value) / 1e-3d, PowerUnit.Milliwatt),
-                (PowerUnit.Watt, PowerUnit.Nanowatt) => new Power((_value) / 1e-9d, PowerUnit.Nanowatt),
-                (PowerUnit.Watt, PowerUnit.Petawatt) => new Power((_value) / 1e15d, PowerUnit.Petawatt),
-                (PowerUnit.Watt, PowerUnit.Picowatt) => new Power((_value) / 1e-12d, PowerUnit.Picowatt),
-                (PowerUnit.Watt, PowerUnit.Terawatt) => new Power((_value) / 1e12d, PowerUnit.Terawatt),
-                (PowerUnit.Watt, PowerUnit.TonOfRefrigeration) => new Power(_value / 3516.853m, PowerUnit.TonOfRefrigeration),
+                (PowerUnit.Watt, PowerUnit.KilobritishThermalUnitPerHour) => new Power(_value * new QuantityValue(180000000, 52752792631), PowerUnit.KilobritishThermalUnitPerHour),
+                (PowerUnit.Watt, PowerUnit.KilojoulePerHour) => new Power(_value * new QuantityValue(18, 5), PowerUnit.KilojoulePerHour),
+                (PowerUnit.Watt, PowerUnit.Kilowatt) => new Power(_value / 1000, PowerUnit.Kilowatt),
+                (PowerUnit.Watt, PowerUnit.MechanicalHorsepower) => new Power(_value * new QuantityValue(200000000000, 149139974303117), PowerUnit.MechanicalHorsepower),
+                (PowerUnit.Watt, PowerUnit.MegabritishThermalUnitPerHour) => new Power(_value * new QuantityValue(180000, 52752792631), PowerUnit.MegabritishThermalUnitPerHour),
+                (PowerUnit.Watt, PowerUnit.MegajoulePerHour) => new Power(_value * new QuantityValue(9, 2500), PowerUnit.MegajoulePerHour),
+                (PowerUnit.Watt, PowerUnit.Megawatt) => new Power(_value / 1000000, PowerUnit.Megawatt),
+                (PowerUnit.Watt, PowerUnit.MetricHorsepower) => new Power(_value * new QuantityValue(800, 588399), PowerUnit.MetricHorsepower),
+                (PowerUnit.Watt, PowerUnit.Microwatt) => new Power(_value * 1000000, PowerUnit.Microwatt),
+                (PowerUnit.Watt, PowerUnit.MillijoulePerHour) => new Power(_value * 3600000, PowerUnit.MillijoulePerHour),
+                (PowerUnit.Watt, PowerUnit.Milliwatt) => new Power(_value * 1000, PowerUnit.Milliwatt),
+                (PowerUnit.Watt, PowerUnit.Nanowatt) => new Power(_value * 1000000000, PowerUnit.Nanowatt),
+                (PowerUnit.Watt, PowerUnit.Petawatt) => new Power(_value / 1000000000000000, PowerUnit.Petawatt),
+                (PowerUnit.Watt, PowerUnit.Picowatt) => new Power(_value * 1000000000000, PowerUnit.Picowatt),
+                (PowerUnit.Watt, PowerUnit.Terawatt) => new Power(_value / 1000000000000, PowerUnit.Terawatt),
+                (PowerUnit.Watt, PowerUnit.TonOfRefrigeration) => new Power(_value * new QuantityValue(1000, 3516853), PowerUnit.TonOfRefrigeration),
 
                 _ => null
             };

@@ -38,8 +38,6 @@ namespace UnitsNet.Tests
 
         protected override double RevolutionsInOneDegree => 2.777777777777777e-3;
 
-        protected override double TiltInOneDegree => 0.01745240643728351281941897851632;
-
         protected override double NatoMilsInOneDegree => 17.777777777777777777777777777778;
 
         [Fact]

@@ -105,15 +105,14 @@ namespace UnitsNet.Tests
         [Fact]
         public void Ctor_SIUnitSystem_ThrowsArgumentExceptionIfNotSupported()
         {
-            Func<object> TestCode = () => new TemperatureGradient(value: 1, unitSystem: UnitSystem.SI);
             if (SupportsSIUnitSystem)
             {
-                var quantity = (TemperatureGradient) TestCode();
+                var quantity = new TemperatureGradient(value: 1, unitSystem: UnitSystem.SI);
                 Assert.Equal(1, quantity.Value);
             }
             else
             {
-                Assert.Throws<ArgumentException>(TestCode);
+                Assert.Throws<ArgumentException>(() => new TemperatureGradient(value: 1, unitSystem: UnitSystem.SI));
             }
         }
 
@@ -145,19 +144,19 @@ namespace UnitsNet.Tests
         public void From_ValueAndUnit_ReturnsQuantityWithSameValueAndUnit()
         {
             var quantity00 = TemperatureGradient.From(1, TemperatureGradientUnit.DegreeCelsiusPerKilometer);
-            AssertEx.EqualTolerance(1, quantity00.DegreesCelsiusPerKilometer, DegreesCelsiusPerKilometerTolerance);
+            Assert.Equal(1, quantity00.DegreesCelsiusPerKilometer);
             Assert.Equal(TemperatureGradientUnit.DegreeCelsiusPerKilometer, quantity00.Unit);
 
             var quantity01 = TemperatureGradient.From(1, TemperatureGradientUnit.DegreeCelsiusPerMeter);
-            AssertEx.EqualTolerance(1, quantity01.DegreesCelsiusPerMeter, DegreesCelsiusPerMeterTolerance);
+            Assert.Equal(1, quantity01.DegreesCelsiusPerMeter);
             Assert.Equal(TemperatureGradientUnit.DegreeCelsiusPerMeter, quantity01.Unit);
 
             var quantity02 = TemperatureGradient.From(1, TemperatureGradientUnit.DegreeFahrenheitPerFoot);
-            AssertEx.EqualTolerance(1, quantity02.DegreesFahrenheitPerFoot, DegreesFahrenheitPerFootTolerance);
+            Assert.Equal(1, quantity02.DegreesFahrenheitPerFoot);
             Assert.Equal(TemperatureGradientUnit.DegreeFahrenheitPerFoot, quantity02.Unit);
 
             var quantity03 = TemperatureGradient.From(1, TemperatureGradientUnit.KelvinPerMeter);
-            AssertEx.EqualTolerance(1, quantity03.KelvinsPerMeter, KelvinsPerMeterTolerance);
+            Assert.Equal(1, quantity03.KelvinsPerMeter);
             Assert.Equal(TemperatureGradientUnit.KelvinPerMeter, quantity03.Unit);
 
         }
@@ -194,16 +193,13 @@ namespace UnitsNet.Tests
         public void As_SIUnitSystem_ThrowsArgumentExceptionIfNotSupported()
         {
             var quantity = new TemperatureGradient(value: 1, unit: TemperatureGradient.BaseUnit);
-            Func<object> AsWithSIUnitSystem = () => quantity.As(UnitSystem.SI);
-
             if (SupportsSIUnitSystem)
             {
-                var value = Convert.ToDouble(AsWithSIUnitSystem());
-                Assert.Equal(1, value);
+                Assert.Equal(1, quantity.As(UnitSystem.SI));
             }
             else
             {
-                Assert.Throws<ArgumentException>(AsWithSIUnitSystem);
+                Assert.Throws<ArgumentException>(() => quantity.As(UnitSystem.SI));
             }
         }
 
@@ -213,28 +209,28 @@ namespace UnitsNet.Tests
             try
             {
                 var parsed = TemperatureGradient.Parse("1 ∆°C/km", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.DegreesCelsiusPerKilometer, DegreesCelsiusPerKilometerTolerance);
+                Assert.Equal(1, parsed.DegreesCelsiusPerKilometer);
                 Assert.Equal(TemperatureGradientUnit.DegreeCelsiusPerKilometer, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = TemperatureGradient.Parse("1 ∆°C/m", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.DegreesCelsiusPerMeter, DegreesCelsiusPerMeterTolerance);
+                Assert.Equal(1, parsed.DegreesCelsiusPerMeter);
                 Assert.Equal(TemperatureGradientUnit.DegreeCelsiusPerMeter, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = TemperatureGradient.Parse("1 ∆°F/ft", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.DegreesFahrenheitPerFoot, DegreesFahrenheitPerFootTolerance);
+                Assert.Equal(1, parsed.DegreesFahrenheitPerFoot);
                 Assert.Equal(TemperatureGradientUnit.DegreeFahrenheitPerFoot, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = TemperatureGradient.Parse("1 ∆°K/m", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.KelvinsPerMeter, KelvinsPerMeterTolerance);
+                Assert.Equal(1, parsed.KelvinsPerMeter);
                 Assert.Equal(TemperatureGradientUnit.KelvinPerMeter, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
@@ -245,25 +241,25 @@ namespace UnitsNet.Tests
         {
             {
                 Assert.True(TemperatureGradient.TryParse("1 ∆°C/km", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.DegreesCelsiusPerKilometer, DegreesCelsiusPerKilometerTolerance);
+                Assert.Equal(1, parsed.DegreesCelsiusPerKilometer);
                 Assert.Equal(TemperatureGradientUnit.DegreeCelsiusPerKilometer, parsed.Unit);
             }
 
             {
                 Assert.True(TemperatureGradient.TryParse("1 ∆°C/m", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.DegreesCelsiusPerMeter, DegreesCelsiusPerMeterTolerance);
+                Assert.Equal(1, parsed.DegreesCelsiusPerMeter);
                 Assert.Equal(TemperatureGradientUnit.DegreeCelsiusPerMeter, parsed.Unit);
             }
 
             {
                 Assert.True(TemperatureGradient.TryParse("1 ∆°F/ft", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.DegreesFahrenheitPerFoot, DegreesFahrenheitPerFootTolerance);
+                Assert.Equal(1, parsed.DegreesFahrenheitPerFoot);
                 Assert.Equal(TemperatureGradientUnit.DegreeFahrenheitPerFoot, parsed.Unit);
             }
 
             {
                 Assert.True(TemperatureGradient.TryParse("1 ∆°K/m", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.KelvinsPerMeter, KelvinsPerMeterTolerance);
+                Assert.Equal(1, parsed.KelvinsPerMeter);
                 Assert.Equal(TemperatureGradientUnit.KelvinPerMeter, parsed.Unit);
             }
 
@@ -369,23 +365,23 @@ namespace UnitsNet.Tests
         public void ConversionRoundTrip()
         {
             TemperatureGradient kelvinpermeter = TemperatureGradient.FromKelvinsPerMeter(1);
-            AssertEx.EqualTolerance(1, TemperatureGradient.FromDegreesCelsiusPerKilometer(kelvinpermeter.DegreesCelsiusPerKilometer).KelvinsPerMeter, DegreesCelsiusPerKilometerTolerance);
-            AssertEx.EqualTolerance(1, TemperatureGradient.FromDegreesCelsiusPerMeter(kelvinpermeter.DegreesCelsiusPerMeter).KelvinsPerMeter, DegreesCelsiusPerMeterTolerance);
-            AssertEx.EqualTolerance(1, TemperatureGradient.FromDegreesFahrenheitPerFoot(kelvinpermeter.DegreesFahrenheitPerFoot).KelvinsPerMeter, DegreesFahrenheitPerFootTolerance);
-            AssertEx.EqualTolerance(1, TemperatureGradient.FromKelvinsPerMeter(kelvinpermeter.KelvinsPerMeter).KelvinsPerMeter, KelvinsPerMeterTolerance);
+            Assert.Equal(1, TemperatureGradient.FromDegreesCelsiusPerKilometer(kelvinpermeter.DegreesCelsiusPerKilometer).KelvinsPerMeter);
+            Assert.Equal(1, TemperatureGradient.FromDegreesCelsiusPerMeter(kelvinpermeter.DegreesCelsiusPerMeter).KelvinsPerMeter);
+            Assert.Equal(1, TemperatureGradient.FromDegreesFahrenheitPerFoot(kelvinpermeter.DegreesFahrenheitPerFoot).KelvinsPerMeter);
+            Assert.Equal(1, TemperatureGradient.FromKelvinsPerMeter(kelvinpermeter.KelvinsPerMeter).KelvinsPerMeter);
         }
 
         [Fact]
         public void ArithmeticOperators()
         {
             TemperatureGradient v = TemperatureGradient.FromKelvinsPerMeter(1);
-            AssertEx.EqualTolerance(-1, -v.KelvinsPerMeter, KelvinsPerMeterTolerance);
-            AssertEx.EqualTolerance(2, (TemperatureGradient.FromKelvinsPerMeter(3)-v).KelvinsPerMeter, KelvinsPerMeterTolerance);
-            AssertEx.EqualTolerance(2, (v + v).KelvinsPerMeter, KelvinsPerMeterTolerance);
-            AssertEx.EqualTolerance(10, (v*10).KelvinsPerMeter, KelvinsPerMeterTolerance);
-            AssertEx.EqualTolerance(10, (10*v).KelvinsPerMeter, KelvinsPerMeterTolerance);
-            AssertEx.EqualTolerance(2, (TemperatureGradient.FromKelvinsPerMeter(10)/5).KelvinsPerMeter, KelvinsPerMeterTolerance);
-            AssertEx.EqualTolerance(2, TemperatureGradient.FromKelvinsPerMeter(10)/TemperatureGradient.FromKelvinsPerMeter(5), KelvinsPerMeterTolerance);
+            Assert.Equal(-1, -v.KelvinsPerMeter);
+            Assert.Equal(2, (TemperatureGradient.FromKelvinsPerMeter(3) - v).KelvinsPerMeter);
+            Assert.Equal(2, (v + v).KelvinsPerMeter);
+            Assert.Equal(10, (v * 10).KelvinsPerMeter);
+            Assert.Equal(10, (10 * v).KelvinsPerMeter);
+            Assert.Equal(2, (TemperatureGradient.FromKelvinsPerMeter(10) / 5).KelvinsPerMeter);
+            Assert.Equal(2, TemperatureGradient.FromKelvinsPerMeter(10) / TemperatureGradient.FromKelvinsPerMeter(5));
         }
 
         [Fact]
@@ -431,8 +427,6 @@ namespace UnitsNet.Tests
         [Theory]
         [InlineData(1, TemperatureGradientUnit.KelvinPerMeter, 1, TemperatureGradientUnit.KelvinPerMeter, true)]  // Same value and unit.
         [InlineData(1, TemperatureGradientUnit.KelvinPerMeter, 2, TemperatureGradientUnit.KelvinPerMeter, false)] // Different value.
-        [InlineData(2, TemperatureGradientUnit.KelvinPerMeter, 1, TemperatureGradientUnit.DegreeCelsiusPerKilometer, false)] // Different value and unit.
-        [InlineData(1, TemperatureGradientUnit.KelvinPerMeter, 1, TemperatureGradientUnit.DegreeCelsiusPerKilometer, false)] // Different unit.
         public void Equals_ReturnsTrue_IfValueAndUnitAreEqual(double valueA, TemperatureGradientUnit unitA, double valueB, TemperatureGradientUnit unitB, bool expectEqual)
         {
             var a = new TemperatureGradient(valueA, unitA);
@@ -470,20 +464,22 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
-        public void Equals_RelativeTolerance_IsImplemented()
+        public void Equals_WithTolerance_IsImplemented()
         {
             var v = TemperatureGradient.FromKelvinsPerMeter(1);
-            Assert.True(v.Equals(TemperatureGradient.FromKelvinsPerMeter(1), KelvinsPerMeterTolerance, ComparisonType.Relative));
-            Assert.False(v.Equals(TemperatureGradient.Zero, KelvinsPerMeterTolerance, ComparisonType.Relative));
-            Assert.True(TemperatureGradient.FromKelvinsPerMeter(100).Equals(TemperatureGradient.FromKelvinsPerMeter(120), 0.3, ComparisonType.Relative));
-            Assert.False(TemperatureGradient.FromKelvinsPerMeter(100).Equals(TemperatureGradient.FromKelvinsPerMeter(120), 0.1, ComparisonType.Relative));
+            Assert.True(v.Equals(TemperatureGradient.FromKelvinsPerMeter(1), TemperatureGradient.FromKelvinsPerMeter(0)));
+            Assert.True(v.Equals(TemperatureGradient.FromKelvinsPerMeter(1), TemperatureGradient.FromKelvinsPerMeter(0.001m)));
+            Assert.True(v.Equals(TemperatureGradient.FromKelvinsPerMeter(0.9999), TemperatureGradient.FromKelvinsPerMeter(0.001m)));
+            Assert.False(v.Equals(TemperatureGradient.FromKelvinsPerMeter(0.99), TemperatureGradient.FromKelvinsPerMeter(0.001m)));
+            Assert.False(v.Equals(TemperatureGradient.Zero, TemperatureGradient.FromKelvinsPerMeter(0.001m)));
         }
 
         [Fact]
-        public void Equals_NegativeRelativeTolerance_ThrowsArgumentOutOfRangeException()
+        public void Equals_WithNegativeTolerance_ThrowsArgumentOutOfRangeException()
         {
             var v = TemperatureGradient.FromKelvinsPerMeter(1);
-            Assert.Throws<ArgumentOutOfRangeException>(() => v.Equals(TemperatureGradient.FromKelvinsPerMeter(1), -1, ComparisonType.Relative));
+            var negativeTolerance = TemperatureGradient.FromKelvinsPerMeter(-1);
+            Assert.Throws<ArgumentOutOfRangeException>(() => v.Equals(TemperatureGradient.FromKelvinsPerMeter(1), negativeTolerance));
         }
 
         [Fact]
@@ -506,7 +502,7 @@ namespace UnitsNet.Tests
             var units = Enum.GetValues(typeof(TemperatureGradientUnit)).Cast<TemperatureGradientUnit>();
             foreach (var unit in units)
             {
-                var defaultAbbreviation = UnitAbbreviationsCache.Default.GetDefaultAbbreviation(unit);
+                var defaultAbbreviation = UnitsNetSetup.Default.UnitAbbreviations.GetDefaultAbbreviation(unit);
             }
         }
 
@@ -739,7 +735,12 @@ namespace UnitsNet.Tests
         public void GetHashCode_Equals()
         {
             var quantity = TemperatureGradient.FromKelvinsPerMeter(1.0);
-            Assert.Equal(new {TemperatureGradient.Info.Name, quantity.Value, quantity.Unit}.GetHashCode(), quantity.GetHashCode());
+            #if NET7_0_OR_GREATER
+            var expected = HashCode.Combine(TemperatureGradient.Info.Name, quantity.KelvinsPerMeter);
+            #else
+            var expected = new {TemperatureGradient.Info.Name, valueInBaseUnit = quantity.KelvinsPerMeter}.GetHashCode();
+            #endif
+            Assert.Equal(expected, quantity.GetHashCode());
         }
 
         [Theory]

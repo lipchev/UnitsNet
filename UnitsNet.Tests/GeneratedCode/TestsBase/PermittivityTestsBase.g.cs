@@ -93,15 +93,14 @@ namespace UnitsNet.Tests
         [Fact]
         public void Ctor_SIUnitSystem_ThrowsArgumentExceptionIfNotSupported()
         {
-            Func<object> TestCode = () => new Permittivity(value: 1, unitSystem: UnitSystem.SI);
             if (SupportsSIUnitSystem)
             {
-                var quantity = (Permittivity) TestCode();
+                var quantity = new Permittivity(value: 1, unitSystem: UnitSystem.SI);
                 Assert.Equal(1, quantity.Value);
             }
             else
             {
-                Assert.Throws<ArgumentException>(TestCode);
+                Assert.Throws<ArgumentException>(() => new Permittivity(value: 1, unitSystem: UnitSystem.SI));
             }
         }
 
@@ -130,7 +129,7 @@ namespace UnitsNet.Tests
         public void From_ValueAndUnit_ReturnsQuantityWithSameValueAndUnit()
         {
             var quantity00 = Permittivity.From(1, PermittivityUnit.FaradPerMeter);
-            AssertEx.EqualTolerance(1, quantity00.FaradsPerMeter, FaradsPerMeterTolerance);
+            Assert.Equal(1, quantity00.FaradsPerMeter);
             Assert.Equal(PermittivityUnit.FaradPerMeter, quantity00.Unit);
 
         }
@@ -164,16 +163,13 @@ namespace UnitsNet.Tests
         public void As_SIUnitSystem_ThrowsArgumentExceptionIfNotSupported()
         {
             var quantity = new Permittivity(value: 1, unit: Permittivity.BaseUnit);
-            Func<object> AsWithSIUnitSystem = () => quantity.As(UnitSystem.SI);
-
             if (SupportsSIUnitSystem)
             {
-                var value = Convert.ToDouble(AsWithSIUnitSystem());
-                Assert.Equal(1, value);
+                Assert.Equal(1, quantity.As(UnitSystem.SI));
             }
             else
             {
-                Assert.Throws<ArgumentException>(AsWithSIUnitSystem);
+                Assert.Throws<ArgumentException>(() => quantity.As(UnitSystem.SI));
             }
         }
 
@@ -183,7 +179,7 @@ namespace UnitsNet.Tests
             try
             {
                 var parsed = Permittivity.Parse("1 F/m", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.FaradsPerMeter, FaradsPerMeterTolerance);
+                Assert.Equal(1, parsed.FaradsPerMeter);
                 Assert.Equal(PermittivityUnit.FaradPerMeter, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
@@ -194,7 +190,7 @@ namespace UnitsNet.Tests
         {
             {
                 Assert.True(Permittivity.TryParse("1 F/m", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.FaradsPerMeter, FaradsPerMeterTolerance);
+                Assert.Equal(1, parsed.FaradsPerMeter);
                 Assert.Equal(PermittivityUnit.FaradPerMeter, parsed.Unit);
             }
 
@@ -267,20 +263,20 @@ namespace UnitsNet.Tests
         public void ConversionRoundTrip()
         {
             Permittivity faradpermeter = Permittivity.FromFaradsPerMeter(1);
-            AssertEx.EqualTolerance(1, Permittivity.FromFaradsPerMeter(faradpermeter.FaradsPerMeter).FaradsPerMeter, FaradsPerMeterTolerance);
+            Assert.Equal(1, Permittivity.FromFaradsPerMeter(faradpermeter.FaradsPerMeter).FaradsPerMeter);
         }
 
         [Fact]
         public void ArithmeticOperators()
         {
             Permittivity v = Permittivity.FromFaradsPerMeter(1);
-            AssertEx.EqualTolerance(-1, -v.FaradsPerMeter, FaradsPerMeterTolerance);
-            AssertEx.EqualTolerance(2, (Permittivity.FromFaradsPerMeter(3)-v).FaradsPerMeter, FaradsPerMeterTolerance);
-            AssertEx.EqualTolerance(2, (v + v).FaradsPerMeter, FaradsPerMeterTolerance);
-            AssertEx.EqualTolerance(10, (v*10).FaradsPerMeter, FaradsPerMeterTolerance);
-            AssertEx.EqualTolerance(10, (10*v).FaradsPerMeter, FaradsPerMeterTolerance);
-            AssertEx.EqualTolerance(2, (Permittivity.FromFaradsPerMeter(10)/5).FaradsPerMeter, FaradsPerMeterTolerance);
-            AssertEx.EqualTolerance(2, Permittivity.FromFaradsPerMeter(10)/Permittivity.FromFaradsPerMeter(5), FaradsPerMeterTolerance);
+            Assert.Equal(-1, -v.FaradsPerMeter);
+            Assert.Equal(2, (Permittivity.FromFaradsPerMeter(3) - v).FaradsPerMeter);
+            Assert.Equal(2, (v + v).FaradsPerMeter);
+            Assert.Equal(10, (v * 10).FaradsPerMeter);
+            Assert.Equal(10, (10 * v).FaradsPerMeter);
+            Assert.Equal(2, (Permittivity.FromFaradsPerMeter(10) / 5).FaradsPerMeter);
+            Assert.Equal(2, Permittivity.FromFaradsPerMeter(10) / Permittivity.FromFaradsPerMeter(5));
         }
 
         [Fact]
@@ -326,7 +322,6 @@ namespace UnitsNet.Tests
         [Theory]
         [InlineData(1, PermittivityUnit.FaradPerMeter, 1, PermittivityUnit.FaradPerMeter, true)]  // Same value and unit.
         [InlineData(1, PermittivityUnit.FaradPerMeter, 2, PermittivityUnit.FaradPerMeter, false)] // Different value.
-        [InlineData(2, PermittivityUnit.FaradPerMeter, 1, PermittivityUnit.FaradPerMeter, false)] // Different value and unit.
         public void Equals_ReturnsTrue_IfValueAndUnitAreEqual(double valueA, PermittivityUnit unitA, double valueB, PermittivityUnit unitB, bool expectEqual)
         {
             var a = new Permittivity(valueA, unitA);
@@ -364,20 +359,22 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
-        public void Equals_RelativeTolerance_IsImplemented()
+        public void Equals_WithTolerance_IsImplemented()
         {
             var v = Permittivity.FromFaradsPerMeter(1);
-            Assert.True(v.Equals(Permittivity.FromFaradsPerMeter(1), FaradsPerMeterTolerance, ComparisonType.Relative));
-            Assert.False(v.Equals(Permittivity.Zero, FaradsPerMeterTolerance, ComparisonType.Relative));
-            Assert.True(Permittivity.FromFaradsPerMeter(100).Equals(Permittivity.FromFaradsPerMeter(120), 0.3, ComparisonType.Relative));
-            Assert.False(Permittivity.FromFaradsPerMeter(100).Equals(Permittivity.FromFaradsPerMeter(120), 0.1, ComparisonType.Relative));
+            Assert.True(v.Equals(Permittivity.FromFaradsPerMeter(1), Permittivity.FromFaradsPerMeter(0)));
+            Assert.True(v.Equals(Permittivity.FromFaradsPerMeter(1), Permittivity.FromFaradsPerMeter(0.001m)));
+            Assert.True(v.Equals(Permittivity.FromFaradsPerMeter(0.9999), Permittivity.FromFaradsPerMeter(0.001m)));
+            Assert.False(v.Equals(Permittivity.FromFaradsPerMeter(0.99), Permittivity.FromFaradsPerMeter(0.001m)));
+            Assert.False(v.Equals(Permittivity.Zero, Permittivity.FromFaradsPerMeter(0.001m)));
         }
 
         [Fact]
-        public void Equals_NegativeRelativeTolerance_ThrowsArgumentOutOfRangeException()
+        public void Equals_WithNegativeTolerance_ThrowsArgumentOutOfRangeException()
         {
             var v = Permittivity.FromFaradsPerMeter(1);
-            Assert.Throws<ArgumentOutOfRangeException>(() => v.Equals(Permittivity.FromFaradsPerMeter(1), -1, ComparisonType.Relative));
+            var negativeTolerance = Permittivity.FromFaradsPerMeter(-1);
+            Assert.Throws<ArgumentOutOfRangeException>(() => v.Equals(Permittivity.FromFaradsPerMeter(1), negativeTolerance));
         }
 
         [Fact]
@@ -400,7 +397,7 @@ namespace UnitsNet.Tests
             var units = Enum.GetValues(typeof(PermittivityUnit)).Cast<PermittivityUnit>();
             foreach (var unit in units)
             {
-                var defaultAbbreviation = UnitAbbreviationsCache.Default.GetDefaultAbbreviation(unit);
+                var defaultAbbreviation = UnitsNetSetup.Default.UnitAbbreviations.GetDefaultAbbreviation(unit);
             }
         }
 
@@ -627,7 +624,12 @@ namespace UnitsNet.Tests
         public void GetHashCode_Equals()
         {
             var quantity = Permittivity.FromFaradsPerMeter(1.0);
-            Assert.Equal(new {Permittivity.Info.Name, quantity.Value, quantity.Unit}.GetHashCode(), quantity.GetHashCode());
+            #if NET7_0_OR_GREATER
+            var expected = HashCode.Combine(Permittivity.Info.Name, quantity.FaradsPerMeter);
+            #else
+            var expected = new {Permittivity.Info.Name, valueInBaseUnit = quantity.FaradsPerMeter}.GetHashCode();
+            #endif
+            Assert.Equal(expected, quantity.GetHashCode());
         }
 
         [Theory]

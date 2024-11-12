@@ -3,6 +3,7 @@ using System.Globalization;
 using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
+using UnitsNet.Serialization;
 using UnitsNet.Units;
 using Xunit;
 
@@ -19,9 +20,16 @@ namespace UnitsNet.Tests.Serialization.Json
     /// </summary>
     public class DefaultDataContractJsonSerializerTests : SerializationTestsBase<string>
     {
+        // this is how the DataContractJsonSerializer formats an IXmlSerializable...
+        private const string OnePointTwoJson =
+            """
+            "<QuantityValue xmlns=\"http:\/\/schemas.datacontract.org\/2004\/07\/UnitsNet\"><N>12<\/N><D>10<\/D><\/QuantityValue>"
+            """;
+        
         protected override string SerializeObject(object obj)
         {
-            var serializer = new DataContractJsonSerializer(obj.GetType());
+            var serializer = new DataContractJsonSerializer(obj.GetType(), new DataContractJsonSerializerSettings(){SerializeReadOnlyTypes = true});
+            serializer.SetSerializationSurrogateProvider(QuantityValueSurrogateSerializationProvider.Instance); // this doesn't work as expected because of https://github.com/dotnet/runtime/issues/100553
             using var stream = new MemoryStream();
             serializer.WriteObject(stream, obj);
             stream.Position = 0;
@@ -29,12 +37,13 @@ namespace UnitsNet.Tests.Serialization.Json
             return streamReader.ReadToEnd();
         }
 
-        protected override T DeserializeObject<T>(string xml)
+        protected override T DeserializeObject<T>(string json)
         {
             var serializer = new DataContractJsonSerializer(typeof(T));
+            serializer.SetSerializationSurrogateProvider(QuantityValueSurrogateSerializationProvider.Instance); // this doesn't work as expected because of https://github.com/dotnet/runtime/issues/100553
             using var stream = new MemoryStream();
             using var writer = new StreamWriter(stream);
-            writer.Write(xml);
+            writer.Write(json);
             writer.Flush();
             stream.Position = 0;
             return (T)(serializer.ReadObject(stream) ?? throw new InvalidOperationException("Read 'null' from stream."));
@@ -42,12 +51,12 @@ namespace UnitsNet.Tests.Serialization.Json
 
         #region Serialization tests
 
-        [Fact]
+        [Fact(Skip = "https://github.com/dotnet/runtime/issues/100553")]
         public void DoubleQuantity_SerializedWithDoubleValueAndunitInt()
         {
             var quantity = new Mass(1.20, MassUnit.Milligram);
             var unitInt = (int)quantity.Unit;
-            var expectedJson = $"{{\"Value\":1.2,\"Unit\":{unitInt}}}";
+            var expectedJson = $$"""{"Value":"QuantityValue":{"N":"1","D":2"},"Unit":{{unitInt}}}""";
 
             var json = SerializeObject(quantity);
 
@@ -58,12 +67,12 @@ namespace UnitsNet.Tests.Serialization.Json
 
         #region Deserialization tests
 
-        [Fact]
-        public void DoubleQuantity_DeserializedFromDoubleValueAndunitInt()
+        [Fact(Skip = "https://github.com/dotnet/runtime/issues/100553")]
+        public void DoubleQuantity_DeserializedFromXmlValueAndIntegerUnit()
         {
             var expectedUnit = MassUnit.Milligram;
             var unitInt = (int)expectedUnit;
-            var json = $"{{\"Value\":1.2,\"Unit\":{unitInt}}}";
+            var json = $$"""{"Value":"QuantityValue":{"N":"1","D":2"},"Unit":{{unitInt}}}""";
 
             var quantity = DeserializeObject<Mass>(json);
 
@@ -72,20 +81,7 @@ namespace UnitsNet.Tests.Serialization.Json
         }
 
         [Fact]
-        public void DoubleQuantity_DeserializedFromQuotedDoubleValueAndunitInt()
-        {
-            var expectedUnit = MassUnit.Milligram;
-            var unitInt = (int)expectedUnit;
-            var json = $"{{\"Value\":\"1.2\",\"Unit\":{unitInt}}}";
-
-            var quantity = DeserializeObject<Mass>(json);
-
-            Assert.Equal(1.2, quantity.Value);
-            Assert.Equal(expectedUnit, quantity.Unit);
-        }
-
-        [Fact]
-        public void DoubleZeroQuantity_DeserializedFromunitIntAndNoValue()
+        public void DoubleZeroQuantity_DeserializedFromIntegerUnitAndNoValue()
         {
             var expectedUnit = MassUnit.Milligram;
             var unitInt = (int)expectedUnit;
@@ -97,23 +93,23 @@ namespace UnitsNet.Tests.Serialization.Json
             Assert.Equal(expectedUnit, quantity.Unit);
         }
 
-        [Fact]
+        [Fact(Skip = "https://github.com/dotnet/runtime/issues/100553")]
         public void InterfaceObject_IncludesTypeInformation()
         {
             var unit = InformationUnit.Exabyte;
             var unitInt = (int)unit;
             var testObject = new TestInterfaceObject { Quantity = new Information(1.2, unit) };
-            var expectedJson = $"{{\"Quantity\":{{\"__type\":\"Information:#UnitsNet\",\"Value\":1.2,\"Unit\":{unitInt}}}}}";
+            var expectedJson = $$$"""{"Quantity":{"__type":"Information:#UnitsNet","Value":"QuantityValue":{"N":"1","D":2"},"Unit":{{{unitInt}}}}}""";
 
             var json = SerializeObject(testObject);
 
             Assert.Equal(expectedJson, json);
         }
 
-        [Fact]
-        public void DoubleBaseUnitQuantity_DeserializedFromValueAndNoUnit()
+        [Fact(Skip = "https://github.com/dotnet/runtime/issues/100553")]
+        public void DoubleBaseUnitQuantity_DeserializedFromXmlValueAndNoUnit()
         {
-            var json = "{\"Value\":1.2}";
+            var json = """{"Value":"QuantityValue":{"N":"1","D":2"}""";
 
             var quantity = DeserializeObject<Mass>(json);
 
@@ -145,7 +141,7 @@ namespace UnitsNet.Tests.Serialization.Json
         {
             var expectedUnit = InformationUnit.Exabyte;
             var unitInt = (int)expectedUnit;
-            var json = $"{{\"Unit\":{unitInt}}}";
+            var json = $$"""{"Unit":{{unitInt}}}""";
 
             var quantity = DeserializeObject<Information>(json);
 

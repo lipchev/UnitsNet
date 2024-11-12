@@ -22,12 +22,9 @@ using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
-#if NET7_0_OR_GREATER
-using System.Numerics;
-#endif
 using System.Runtime.Serialization;
-using UnitsNet.InternalHelpers;
 using UnitsNet.Units;
+using System.Numerics;
 
 #nullable enable
 
@@ -66,13 +63,13 @@ namespace UnitsNet
         /// <summary>
         ///     The numeric value this quantity was constructed with.
         /// </summary>
-        [DataMember(Name = "Value", Order = 1)]
-        private readonly double _value;
+        [DataMember(Name = "Value", Order = 1, EmitDefaultValue = false)]
+        private readonly QuantityValue _value;
 
         /// <summary>
         ///     The unit this quantity was constructed with.
         /// </summary>
-        [DataMember(Name = "Unit", Order = 2)]
+        [DataMember(Name = "Unit", Order = 2, EmitDefaultValue = false)]
         private readonly ForceUnit? _unit;
 
         static Force()
@@ -111,7 +108,7 @@ namespace UnitsNet
         /// </summary>
         /// <param name="value">The numeric value to construct this quantity with.</param>
         /// <param name="unit">The unit representation to construct this quantity with.</param>
-        public Force(double value, ForceUnit unit)
+        public Force(QuantityValue value, ForceUnit unit)
         {
             _value = value;
             _unit = unit;
@@ -125,7 +122,7 @@ namespace UnitsNet
         /// <param name="unitSystem">The unit system to create the quantity with.</param>
         /// <exception cref="ArgumentNullException">The given <see cref="UnitSystem"/> is null.</exception>
         /// <exception cref="ArgumentException">No unit was found for the given <see cref="UnitSystem"/>.</exception>
-        public Force(double value, UnitSystem unitSystem)
+        public Force(QuantityValue value, UnitSystem unitSystem)
         {
             if (unitSystem is null) throw new ArgumentNullException(nameof(unitSystem));
 
@@ -176,10 +173,10 @@ namespace UnitsNet
         /// <summary>
         ///     The numeric value this quantity was constructed with.
         /// </summary>
-        public double Value => _value;
+        public QuantityValue Value => _value;
 
         /// <inheritdoc />
-        double IQuantity.Value => _value;
+        QuantityValue IQuantity.Value => _value;
 
         Enum IQuantity.Unit => Unit;
 
@@ -204,77 +201,77 @@ namespace UnitsNet
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="ForceUnit.Decanewton"/>
         /// </summary>
-        public double Decanewtons => As(ForceUnit.Decanewton);
+        public QuantityValue Decanewtons => As(ForceUnit.Decanewton);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="ForceUnit.Dyn"/>
         /// </summary>
-        public double Dyne => As(ForceUnit.Dyn);
+        public QuantityValue Dyne => As(ForceUnit.Dyn);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="ForceUnit.KilogramForce"/>
         /// </summary>
-        public double KilogramsForce => As(ForceUnit.KilogramForce);
+        public QuantityValue KilogramsForce => As(ForceUnit.KilogramForce);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="ForceUnit.Kilonewton"/>
         /// </summary>
-        public double Kilonewtons => As(ForceUnit.Kilonewton);
+        public QuantityValue Kilonewtons => As(ForceUnit.Kilonewton);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="ForceUnit.KiloPond"/>
         /// </summary>
-        public double KiloPonds => As(ForceUnit.KiloPond);
+        public QuantityValue KiloPonds => As(ForceUnit.KiloPond);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="ForceUnit.KilopoundForce"/>
         /// </summary>
-        public double KilopoundsForce => As(ForceUnit.KilopoundForce);
+        public QuantityValue KilopoundsForce => As(ForceUnit.KilopoundForce);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="ForceUnit.Meganewton"/>
         /// </summary>
-        public double Meganewtons => As(ForceUnit.Meganewton);
+        public QuantityValue Meganewtons => As(ForceUnit.Meganewton);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="ForceUnit.Micronewton"/>
         /// </summary>
-        public double Micronewtons => As(ForceUnit.Micronewton);
+        public QuantityValue Micronewtons => As(ForceUnit.Micronewton);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="ForceUnit.Millinewton"/>
         /// </summary>
-        public double Millinewtons => As(ForceUnit.Millinewton);
+        public QuantityValue Millinewtons => As(ForceUnit.Millinewton);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="ForceUnit.Newton"/>
         /// </summary>
-        public double Newtons => As(ForceUnit.Newton);
+        public QuantityValue Newtons => As(ForceUnit.Newton);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="ForceUnit.OunceForce"/>
         /// </summary>
-        public double OunceForce => As(ForceUnit.OunceForce);
+        public QuantityValue OunceForce => As(ForceUnit.OunceForce);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="ForceUnit.Poundal"/>
         /// </summary>
-        public double Poundals => As(ForceUnit.Poundal);
+        public QuantityValue Poundals => As(ForceUnit.Poundal);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="ForceUnit.PoundForce"/>
         /// </summary>
-        public double PoundsForce => As(ForceUnit.PoundForce);
+        public QuantityValue PoundsForce => As(ForceUnit.PoundForce);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="ForceUnit.ShortTonForce"/>
         /// </summary>
-        public double ShortTonsForce => As(ForceUnit.ShortTonForce);
+        public QuantityValue ShortTonsForce => As(ForceUnit.ShortTonForce);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="ForceUnit.TonneForce"/>
         /// </summary>
-        public double TonnesForce => As(ForceUnit.TonneForce);
+        public QuantityValue TonnesForce => As(ForceUnit.TonneForce);
 
         #endregion
 
@@ -340,7 +337,7 @@ namespace UnitsNet
         /// <param name="provider">Format to use for localization. Defaults to <see cref="CultureInfo.CurrentCulture" /> if null.</param>
         public static string GetAbbreviation(ForceUnit unit, IFormatProvider? provider)
         {
-            return UnitAbbreviationsCache.Default.GetDefaultAbbreviation(unit, provider);
+            return UnitsNetSetup.Default.UnitAbbreviations.GetDefaultAbbreviation(unit, provider);
         }
 
         #endregion
@@ -350,7 +347,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="Force"/> from <see cref="ForceUnit.Decanewton"/>.
         /// </summary>
-        public static Force FromDecanewtons(double value)
+        public static Force FromDecanewtons(QuantityValue value)
         {
             return new Force(value, ForceUnit.Decanewton);
         }
@@ -358,7 +355,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="Force"/> from <see cref="ForceUnit.Dyn"/>.
         /// </summary>
-        public static Force FromDyne(double value)
+        public static Force FromDyne(QuantityValue value)
         {
             return new Force(value, ForceUnit.Dyn);
         }
@@ -366,7 +363,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="Force"/> from <see cref="ForceUnit.KilogramForce"/>.
         /// </summary>
-        public static Force FromKilogramsForce(double value)
+        public static Force FromKilogramsForce(QuantityValue value)
         {
             return new Force(value, ForceUnit.KilogramForce);
         }
@@ -374,7 +371,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="Force"/> from <see cref="ForceUnit.Kilonewton"/>.
         /// </summary>
-        public static Force FromKilonewtons(double value)
+        public static Force FromKilonewtons(QuantityValue value)
         {
             return new Force(value, ForceUnit.Kilonewton);
         }
@@ -382,7 +379,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="Force"/> from <see cref="ForceUnit.KiloPond"/>.
         /// </summary>
-        public static Force FromKiloPonds(double value)
+        public static Force FromKiloPonds(QuantityValue value)
         {
             return new Force(value, ForceUnit.KiloPond);
         }
@@ -390,7 +387,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="Force"/> from <see cref="ForceUnit.KilopoundForce"/>.
         /// </summary>
-        public static Force FromKilopoundsForce(double value)
+        public static Force FromKilopoundsForce(QuantityValue value)
         {
             return new Force(value, ForceUnit.KilopoundForce);
         }
@@ -398,7 +395,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="Force"/> from <see cref="ForceUnit.Meganewton"/>.
         /// </summary>
-        public static Force FromMeganewtons(double value)
+        public static Force FromMeganewtons(QuantityValue value)
         {
             return new Force(value, ForceUnit.Meganewton);
         }
@@ -406,7 +403,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="Force"/> from <see cref="ForceUnit.Micronewton"/>.
         /// </summary>
-        public static Force FromMicronewtons(double value)
+        public static Force FromMicronewtons(QuantityValue value)
         {
             return new Force(value, ForceUnit.Micronewton);
         }
@@ -414,7 +411,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="Force"/> from <see cref="ForceUnit.Millinewton"/>.
         /// </summary>
-        public static Force FromMillinewtons(double value)
+        public static Force FromMillinewtons(QuantityValue value)
         {
             return new Force(value, ForceUnit.Millinewton);
         }
@@ -422,7 +419,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="Force"/> from <see cref="ForceUnit.Newton"/>.
         /// </summary>
-        public static Force FromNewtons(double value)
+        public static Force FromNewtons(QuantityValue value)
         {
             return new Force(value, ForceUnit.Newton);
         }
@@ -430,7 +427,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="Force"/> from <see cref="ForceUnit.OunceForce"/>.
         /// </summary>
-        public static Force FromOunceForce(double value)
+        public static Force FromOunceForce(QuantityValue value)
         {
             return new Force(value, ForceUnit.OunceForce);
         }
@@ -438,7 +435,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="Force"/> from <see cref="ForceUnit.Poundal"/>.
         /// </summary>
-        public static Force FromPoundals(double value)
+        public static Force FromPoundals(QuantityValue value)
         {
             return new Force(value, ForceUnit.Poundal);
         }
@@ -446,7 +443,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="Force"/> from <see cref="ForceUnit.PoundForce"/>.
         /// </summary>
-        public static Force FromPoundsForce(double value)
+        public static Force FromPoundsForce(QuantityValue value)
         {
             return new Force(value, ForceUnit.PoundForce);
         }
@@ -454,7 +451,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="Force"/> from <see cref="ForceUnit.ShortTonForce"/>.
         /// </summary>
-        public static Force FromShortTonsForce(double value)
+        public static Force FromShortTonsForce(QuantityValue value)
         {
             return new Force(value, ForceUnit.ShortTonForce);
         }
@@ -462,7 +459,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="Force"/> from <see cref="ForceUnit.TonneForce"/>.
         /// </summary>
-        public static Force FromTonnesForce(double value)
+        public static Force FromTonnesForce(QuantityValue value)
         {
             return new Force(value, ForceUnit.TonneForce);
         }
@@ -473,7 +470,7 @@ namespace UnitsNet
         /// <param name="value">Value to convert from.</param>
         /// <param name="fromUnit">Unit to convert from.</param>
         /// <returns>Force unit value.</returns>
-        public static Force From(double value, ForceUnit fromUnit)
+        public static Force From(QuantityValue value, ForceUnit fromUnit)
         {
             return new Force(value, fromUnit);
         }
@@ -534,7 +531,7 @@ namespace UnitsNet
         /// <param name="provider">Format to use when parsing number and unit. Defaults to <see cref="CultureInfo.CurrentCulture" /> if null.</param>
         public static Force Parse(string str, IFormatProvider? provider)
         {
-            return QuantityParser.Default.Parse<Force, ForceUnit>(
+            return UnitsNetSetup.Default.QuantityParser.Parse<Force, ForceUnit>(
                 str,
                 provider,
                 From);
@@ -565,7 +562,7 @@ namespace UnitsNet
         /// <param name="provider">Format to use when parsing number and unit. Defaults to <see cref="CultureInfo.CurrentCulture" /> if null.</param>
         public static bool TryParse(string? str, IFormatProvider? provider, out Force result)
         {
-            return QuantityParser.Default.TryParse<Force, ForceUnit>(
+            return UnitsNetSetup.Default.QuantityParser.TryParse<Force, ForceUnit>(
                 str,
                 provider,
                 From,
@@ -598,7 +595,7 @@ namespace UnitsNet
         /// <exception cref="UnitsNetException">Error parsing string.</exception>
         public static ForceUnit ParseUnit(string str, IFormatProvider? provider)
         {
-            return UnitParser.Default.Parse<ForceUnit>(str, provider);
+            return UnitsNetSetup.Default.UnitParser.Parse<ForceUnit>(str, provider);
         }
 
         /// <inheritdoc cref="TryParseUnit(string,IFormatProvider,out UnitsNet.Units.ForceUnit)"/>
@@ -619,7 +616,7 @@ namespace UnitsNet
         /// <param name="provider">Format to use when parsing number and unit. Defaults to <see cref="CultureInfo.CurrentCulture" /> if null.</param>
         public static bool TryParseUnit(string str, IFormatProvider? provider, out ForceUnit unit)
         {
-            return UnitParser.Default.TryParse<ForceUnit>(str, provider, out unit);
+            return UnitsNetSetup.Default.UnitParser.TryParse<ForceUnit>(str, provider, out unit);
         }
 
         #endregion
@@ -645,25 +642,25 @@ namespace UnitsNet
         }
 
         /// <summary>Get <see cref="Force"/> from multiplying value and <see cref="Force"/>.</summary>
-        public static Force operator *(double left, Force right)
+        public static Force operator *(QuantityValue left, Force right)
         {
             return new Force(left * right.Value, right.Unit);
         }
 
         /// <summary>Get <see cref="Force"/> from multiplying value and <see cref="Force"/>.</summary>
-        public static Force operator *(Force left, double right)
+        public static Force operator *(Force left, QuantityValue right)
         {
             return new Force(left.Value * right, left.Unit);
         }
 
         /// <summary>Get <see cref="Force"/> from dividing <see cref="Force"/> by value.</summary>
-        public static Force operator /(Force left, double right)
+        public static Force operator /(Force left, QuantityValue right)
         {
             return new Force(left.Value / right, left.Unit);
         }
 
         /// <summary>Get ratio value from dividing <see cref="Force"/> by <see cref="Force"/>.</summary>
-        public static double operator /(Force left, Force right)
+        public static QuantityValue operator /(Force left, Force right)
         {
             return left.Newtons / right.Newtons;
         }
@@ -772,27 +769,20 @@ namespace UnitsNet
             return left.Value > right.ToUnit(left.Unit).Value;
         }
 
-        // We use obsolete attribute to communicate the preferred equality members to use.
-        // CS0809: Obsolete member 'memberA' overrides non-obsolete member 'memberB'.
-        #pragma warning disable CS0809
-
-        /// <summary>Indicates strict equality of two <see cref="Force"/> quantities, where both <see cref="Value" /> and <see cref="Unit" /> are exactly equal.</summary>
-        [Obsolete("For null checks, use `x is null` syntax to not invoke overloads. For equality checks, use Equals(Force other, Force tolerance) instead, to check equality across units and to specify the max tolerance for rounding errors due to floating-point arithmetic when converting between units.")]
+        /// <summary>Indicates strict equality of two <see cref="Force"/> quantities.</summary>
         public static bool operator ==(Force left, Force right)
         {
             return left.Equals(right);
         }
 
-        /// <summary>Indicates strict inequality of two <see cref="Force"/> quantities, where both <see cref="Value" /> and <see cref="Unit" /> are exactly equal.</summary>
-        [Obsolete("For null checks, use `x is null` syntax to not invoke overloads. For equality checks, use Equals(Force other, Force tolerance) instead, to check equality across units and to specify the max tolerance for rounding errors due to floating-point arithmetic when converting between units.")]
+        /// <summary>Indicates strict inequality of two <see cref="Force"/> quantities.</summary>
         public static bool operator !=(Force left, Force right)
         {
             return !(left == right);
         }
 
         /// <inheritdoc />
-        /// <summary>Indicates strict equality of two <see cref="Force"/> quantities, where both <see cref="Value" /> and <see cref="Unit" /> are exactly equal.</summary>
-        [Obsolete("Use Equals(Force other, Force tolerance) instead, to check equality across units and to specify the max tolerance for rounding errors due to floating-point arithmetic when converting between units.")]
+        /// <summary>Indicates strict equality of two <see cref="Force"/> quantities.</summary>
         public override bool Equals(object? obj)
         {
             if (obj is null || !(obj is Force otherQuantity))
@@ -802,14 +792,11 @@ namespace UnitsNet
         }
 
         /// <inheritdoc />
-        /// <summary>Indicates strict equality of two <see cref="Force"/> quantities, where both <see cref="Value" /> and <see cref="Unit" /> are exactly equal.</summary>
-        [Obsolete("Use Equals(Force other, Force tolerance) instead, to check equality across units and to specify the max tolerance for rounding errors due to floating-point arithmetic when converting between units.")]
+        /// <summary>Indicates strict equality of two <see cref="Force"/> quantities.</summary>
         public bool Equals(Force other)
         {
-            return new { Value, Unit }.Equals(new { other.Value, other.Unit });
+            return _value.Equals(other.As(this.Unit));
         }
-
-        #pragma warning restore CS0809
 
         /// <summary>Compares the current <see cref="Force"/> with another object of the same type and returns an integer that indicates whether the current instance precedes, follows, or occurs in the same position in the sort order as the other when converted to the same unit.</summary>
         /// <param name="obj">An object to compare with this instance.</param>
@@ -847,59 +834,6 @@ namespace UnitsNet
             return _value.CompareTo(other.ToUnit(this.Unit).Value);
         }
 
-        /// <summary>
-        ///     <para>
-        ///     Compare equality to another Force within the given absolute or relative tolerance.
-        ///     </para>
-        ///     <para>
-        ///     Relative tolerance is defined as the maximum allowable absolute difference between this quantity's value and
-        ///     <paramref name="other"/> as a percentage of this quantity's value. <paramref name="other"/> will be converted into
-        ///     this quantity's unit for comparison. A relative tolerance of 0.01 means the absolute difference must be within +/- 1% of
-        ///     this quantity's value to be considered equal.
-        ///     <example>
-        ///     In this example, the two quantities will be equal if the value of b is within +/- 1% of a (0.02m or 2cm).
-        ///     <code>
-        ///     var a = Length.FromMeters(2.0);
-        ///     var b = Length.FromInches(50.0);
-        ///     a.Equals(b, 0.01, ComparisonType.Relative);
-        ///     </code>
-        ///     </example>
-        ///     </para>
-        ///     <para>
-        ///     Absolute tolerance is defined as the maximum allowable absolute difference between this quantity's value and
-        ///     <paramref name="other"/> as a fixed number in this quantity's unit. <paramref name="other"/> will be converted into
-        ///     this quantity's unit for comparison.
-        ///     <example>
-        ///     In this example, the two quantities will be equal if the value of b is within 0.01 of a (0.01m or 1cm).
-        ///     <code>
-        ///     var a = Length.FromMeters(2.0);
-        ///     var b = Length.FromInches(50.0);
-        ///     a.Equals(b, 0.01, ComparisonType.Absolute);
-        ///     </code>
-        ///     </example>
-        ///     </para>
-        ///     <para>
-        ///     Note that it is advised against specifying zero difference, due to the nature
-        ///     of floating-point operations and using double internally.
-        ///     </para>
-        /// </summary>
-        /// <param name="other">The other quantity to compare to.</param>
-        /// <param name="tolerance">The absolute or relative tolerance value. Must be greater than or equal to 0.</param>
-        /// <param name="comparisonType">The comparison type: either relative or absolute.</param>
-        /// <returns>True if the absolute difference between the two values is not greater than the specified relative or absolute tolerance.</returns>
-        [Obsolete("Use Equals(Force other, Force tolerance) instead, to check equality across units and to specify the max tolerance for rounding errors due to floating-point arithmetic when converting between units.")]
-        public bool Equals(Force other, double tolerance, ComparisonType comparisonType)
-        {
-            if (tolerance < 0)
-                throw new ArgumentOutOfRangeException(nameof(tolerance), "Tolerance must be greater than or equal to 0.");
-
-            return UnitsNet.Comparison.Equals(
-                referenceValue: this.Value,
-                otherValue: other.As(this.Unit),
-                tolerance: tolerance,
-                comparisonType: comparisonType);
-        }
-
         /// <inheritdoc />
         public bool Equals(IQuantity? other, IQuantity tolerance)
         {
@@ -913,11 +847,10 @@ namespace UnitsNet
         /// <inheritdoc />
         public bool Equals(Force other, Force tolerance)
         {
-            return UnitsNet.Comparison.Equals(
-                referenceValue: this.Value,
-                otherValue: other.As(this.Unit),
-                tolerance: tolerance.As(this.Unit),
-                comparisonType: ComparisonType.Absolute);
+            return UnitsNet.Comparison.EqualsAbsolute(
+                this.Value,
+                other.As(this.Unit),
+                tolerance: tolerance.As(this.Unit));
         }
 
         /// <summary>
@@ -926,7 +859,12 @@ namespace UnitsNet
         /// <returns>A hash code for the current Force.</returns>
         public override int GetHashCode()
         {
-            return new { Info.Name, Value, Unit }.GetHashCode();
+            var valueInBaseUnit = As(BaseUnit);
+            #if NET7_0_OR_GREATER
+            return HashCode.Combine(Info.Name, valueInBaseUnit);
+            #else
+            return new { Info.Name, valueInBaseUnit }.GetHashCode();
+            #endif
         }
 
         #endregion
@@ -937,7 +875,7 @@ namespace UnitsNet
         ///     Convert to the unit representation <paramref name="unit" />.
         /// </summary>
         /// <returns>Value converted to the specified unit.</returns>
-        public double As(ForceUnit unit)
+        public QuantityValue As(ForceUnit unit)
         {
             if (Unit == unit)
                 return Value;
@@ -946,7 +884,7 @@ namespace UnitsNet
         }
 
         /// <inheritdoc cref="IQuantity.As(UnitSystem)"/>
-        public double As(UnitSystem unitSystem)
+        public QuantityValue As(UnitSystem unitSystem)
         {
             if (unitSystem is null)
                 throw new ArgumentNullException(nameof(unitSystem));
@@ -961,7 +899,7 @@ namespace UnitsNet
         }
 
         /// <inheritdoc />
-        double IQuantity.As(Enum unit)
+        QuantityValue IQuantity.As(Enum unit)
         {
             if (!(unit is ForceUnit typedUnit))
                 throw new ArgumentException($"The given unit is of type {unit.GetType()}. Only {typeof(ForceUnit)} is supported.", nameof(unit));
@@ -1027,36 +965,36 @@ namespace UnitsNet
             Force? convertedOrNull = (Unit, unit) switch
             {
                 // ForceUnit -> BaseUnit
-                (ForceUnit.Decanewton, ForceUnit.Newton) => new Force((_value) * 1e1d, ForceUnit.Newton),
-                (ForceUnit.Dyn, ForceUnit.Newton) => new Force(_value / 1e5, ForceUnit.Newton),
-                (ForceUnit.KilogramForce, ForceUnit.Newton) => new Force(_value * 9.80665, ForceUnit.Newton),
-                (ForceUnit.Kilonewton, ForceUnit.Newton) => new Force((_value) * 1e3d, ForceUnit.Newton),
-                (ForceUnit.KiloPond, ForceUnit.Newton) => new Force(_value * 9.80665, ForceUnit.Newton),
-                (ForceUnit.KilopoundForce, ForceUnit.Newton) => new Force((_value * 4.4482216152605) * 1e3d, ForceUnit.Newton),
-                (ForceUnit.Meganewton, ForceUnit.Newton) => new Force((_value) * 1e6d, ForceUnit.Newton),
-                (ForceUnit.Micronewton, ForceUnit.Newton) => new Force((_value) * 1e-6d, ForceUnit.Newton),
-                (ForceUnit.Millinewton, ForceUnit.Newton) => new Force((_value) * 1e-3d, ForceUnit.Newton),
-                (ForceUnit.OunceForce, ForceUnit.Newton) => new Force(_value * (4.4482216152605 / 16), ForceUnit.Newton),
-                (ForceUnit.Poundal, ForceUnit.Newton) => new Force(_value * 0.138254954376, ForceUnit.Newton),
-                (ForceUnit.PoundForce, ForceUnit.Newton) => new Force(_value * 4.4482216152605, ForceUnit.Newton),
-                (ForceUnit.ShortTonForce, ForceUnit.Newton) => new Force(_value * (4.4482216152605 * 2000), ForceUnit.Newton),
-                (ForceUnit.TonneForce, ForceUnit.Newton) => new Force(_value * (9.80665 * 1000), ForceUnit.Newton),
+                (ForceUnit.Decanewton, ForceUnit.Newton) => new Force(_value * 10, ForceUnit.Newton),
+                (ForceUnit.Dyn, ForceUnit.Newton) => new Force(_value / 100000, ForceUnit.Newton),
+                (ForceUnit.KilogramForce, ForceUnit.Newton) => new Force(_value * new QuantityValue(196133, 20000), ForceUnit.Newton),
+                (ForceUnit.Kilonewton, ForceUnit.Newton) => new Force(_value * 1000, ForceUnit.Newton),
+                (ForceUnit.KiloPond, ForceUnit.Newton) => new Force(_value * new QuantityValue(196133, 20000), ForceUnit.Newton),
+                (ForceUnit.KilopoundForce, ForceUnit.Newton) => new Force(_value * new QuantityValue(8896443230521, 2000000000), ForceUnit.Newton),
+                (ForceUnit.Meganewton, ForceUnit.Newton) => new Force(_value * 1000000, ForceUnit.Newton),
+                (ForceUnit.Micronewton, ForceUnit.Newton) => new Force(_value / 1000000, ForceUnit.Newton),
+                (ForceUnit.Millinewton, ForceUnit.Newton) => new Force(_value / 1000, ForceUnit.Newton),
+                (ForceUnit.OunceForce, ForceUnit.Newton) => new Force(_value * new QuantityValue(8896443230521, 32000000000000), ForceUnit.Newton),
+                (ForceUnit.Poundal, ForceUnit.Newton) => new Force(_value * new QuantityValue(17281869297, 125000000000), ForceUnit.Newton),
+                (ForceUnit.PoundForce, ForceUnit.Newton) => new Force(_value * new QuantityValue(8896443230521, 2000000000000), ForceUnit.Newton),
+                (ForceUnit.ShortTonForce, ForceUnit.Newton) => new Force(_value * new QuantityValue(8896443230521, 1000000000), ForceUnit.Newton),
+                (ForceUnit.TonneForce, ForceUnit.Newton) => new Force(_value * new QuantityValue(196133, 20), ForceUnit.Newton),
 
                 // BaseUnit -> ForceUnit
-                (ForceUnit.Newton, ForceUnit.Decanewton) => new Force((_value) / 1e1d, ForceUnit.Decanewton),
-                (ForceUnit.Newton, ForceUnit.Dyn) => new Force(_value * 1e5, ForceUnit.Dyn),
-                (ForceUnit.Newton, ForceUnit.KilogramForce) => new Force(_value / 9.80665, ForceUnit.KilogramForce),
-                (ForceUnit.Newton, ForceUnit.Kilonewton) => new Force((_value) / 1e3d, ForceUnit.Kilonewton),
-                (ForceUnit.Newton, ForceUnit.KiloPond) => new Force(_value / 9.80665, ForceUnit.KiloPond),
-                (ForceUnit.Newton, ForceUnit.KilopoundForce) => new Force((_value / 4.4482216152605) / 1e3d, ForceUnit.KilopoundForce),
-                (ForceUnit.Newton, ForceUnit.Meganewton) => new Force((_value) / 1e6d, ForceUnit.Meganewton),
-                (ForceUnit.Newton, ForceUnit.Micronewton) => new Force((_value) / 1e-6d, ForceUnit.Micronewton),
-                (ForceUnit.Newton, ForceUnit.Millinewton) => new Force((_value) / 1e-3d, ForceUnit.Millinewton),
-                (ForceUnit.Newton, ForceUnit.OunceForce) => new Force(_value / (4.4482216152605 / 16), ForceUnit.OunceForce),
-                (ForceUnit.Newton, ForceUnit.Poundal) => new Force(_value / 0.138254954376, ForceUnit.Poundal),
-                (ForceUnit.Newton, ForceUnit.PoundForce) => new Force(_value / 4.4482216152605, ForceUnit.PoundForce),
-                (ForceUnit.Newton, ForceUnit.ShortTonForce) => new Force(_value / (4.4482216152605 * 2000), ForceUnit.ShortTonForce),
-                (ForceUnit.Newton, ForceUnit.TonneForce) => new Force(_value / (9.80665 * 1000), ForceUnit.TonneForce),
+                (ForceUnit.Newton, ForceUnit.Decanewton) => new Force(_value / 10, ForceUnit.Decanewton),
+                (ForceUnit.Newton, ForceUnit.Dyn) => new Force(_value * 100000, ForceUnit.Dyn),
+                (ForceUnit.Newton, ForceUnit.KilogramForce) => new Force(_value * new QuantityValue(20000, 196133), ForceUnit.KilogramForce),
+                (ForceUnit.Newton, ForceUnit.Kilonewton) => new Force(_value / 1000, ForceUnit.Kilonewton),
+                (ForceUnit.Newton, ForceUnit.KiloPond) => new Force(_value * new QuantityValue(20000, 196133), ForceUnit.KiloPond),
+                (ForceUnit.Newton, ForceUnit.KilopoundForce) => new Force(_value * new QuantityValue(2000000000, 8896443230521), ForceUnit.KilopoundForce),
+                (ForceUnit.Newton, ForceUnit.Meganewton) => new Force(_value / 1000000, ForceUnit.Meganewton),
+                (ForceUnit.Newton, ForceUnit.Micronewton) => new Force(_value * 1000000, ForceUnit.Micronewton),
+                (ForceUnit.Newton, ForceUnit.Millinewton) => new Force(_value * 1000, ForceUnit.Millinewton),
+                (ForceUnit.Newton, ForceUnit.OunceForce) => new Force(_value * new QuantityValue(32000000000000, 8896443230521), ForceUnit.OunceForce),
+                (ForceUnit.Newton, ForceUnit.Poundal) => new Force(_value * new QuantityValue(125000000000, 17281869297), ForceUnit.Poundal),
+                (ForceUnit.Newton, ForceUnit.PoundForce) => new Force(_value * new QuantityValue(2000000000000, 8896443230521), ForceUnit.PoundForce),
+                (ForceUnit.Newton, ForceUnit.ShortTonForce) => new Force(_value * new QuantityValue(1000000000, 8896443230521), ForceUnit.ShortTonForce),
+                (ForceUnit.Newton, ForceUnit.TonneForce) => new Force(_value * new QuantityValue(20, 196133), ForceUnit.TonneForce),
 
                 _ => null
             };

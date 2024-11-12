@@ -117,15 +117,14 @@ namespace UnitsNet.Tests
         [Fact]
         public void Ctor_SIUnitSystem_ThrowsArgumentExceptionIfNotSupported()
         {
-            Func<object> TestCode = () => new ElectricCurrentGradient(value: 1, unitSystem: UnitSystem.SI);
             if (SupportsSIUnitSystem)
             {
-                var quantity = (ElectricCurrentGradient) TestCode();
+                var quantity = new ElectricCurrentGradient(value: 1, unitSystem: UnitSystem.SI);
                 Assert.Equal(1, quantity.Value);
             }
             else
             {
-                Assert.Throws<ArgumentException>(TestCode);
+                Assert.Throws<ArgumentException>(() => new ElectricCurrentGradient(value: 1, unitSystem: UnitSystem.SI));
             }
         }
 
@@ -160,31 +159,31 @@ namespace UnitsNet.Tests
         public void From_ValueAndUnit_ReturnsQuantityWithSameValueAndUnit()
         {
             var quantity00 = ElectricCurrentGradient.From(1, ElectricCurrentGradientUnit.AmperePerMicrosecond);
-            AssertEx.EqualTolerance(1, quantity00.AmperesPerMicrosecond, AmperesPerMicrosecondTolerance);
+            Assert.Equal(1, quantity00.AmperesPerMicrosecond);
             Assert.Equal(ElectricCurrentGradientUnit.AmperePerMicrosecond, quantity00.Unit);
 
             var quantity01 = ElectricCurrentGradient.From(1, ElectricCurrentGradientUnit.AmperePerMillisecond);
-            AssertEx.EqualTolerance(1, quantity01.AmperesPerMillisecond, AmperesPerMillisecondTolerance);
+            Assert.Equal(1, quantity01.AmperesPerMillisecond);
             Assert.Equal(ElectricCurrentGradientUnit.AmperePerMillisecond, quantity01.Unit);
 
             var quantity02 = ElectricCurrentGradient.From(1, ElectricCurrentGradientUnit.AmperePerMinute);
-            AssertEx.EqualTolerance(1, quantity02.AmperesPerMinute, AmperesPerMinuteTolerance);
+            Assert.Equal(1, quantity02.AmperesPerMinute);
             Assert.Equal(ElectricCurrentGradientUnit.AmperePerMinute, quantity02.Unit);
 
             var quantity03 = ElectricCurrentGradient.From(1, ElectricCurrentGradientUnit.AmperePerNanosecond);
-            AssertEx.EqualTolerance(1, quantity03.AmperesPerNanosecond, AmperesPerNanosecondTolerance);
+            Assert.Equal(1, quantity03.AmperesPerNanosecond);
             Assert.Equal(ElectricCurrentGradientUnit.AmperePerNanosecond, quantity03.Unit);
 
             var quantity04 = ElectricCurrentGradient.From(1, ElectricCurrentGradientUnit.AmperePerSecond);
-            AssertEx.EqualTolerance(1, quantity04.AmperesPerSecond, AmperesPerSecondTolerance);
+            Assert.Equal(1, quantity04.AmperesPerSecond);
             Assert.Equal(ElectricCurrentGradientUnit.AmperePerSecond, quantity04.Unit);
 
             var quantity05 = ElectricCurrentGradient.From(1, ElectricCurrentGradientUnit.MilliamperePerMinute);
-            AssertEx.EqualTolerance(1, quantity05.MilliamperesPerMinute, MilliamperesPerMinuteTolerance);
+            Assert.Equal(1, quantity05.MilliamperesPerMinute);
             Assert.Equal(ElectricCurrentGradientUnit.MilliamperePerMinute, quantity05.Unit);
 
             var quantity06 = ElectricCurrentGradient.From(1, ElectricCurrentGradientUnit.MilliamperePerSecond);
-            AssertEx.EqualTolerance(1, quantity06.MilliamperesPerSecond, MilliamperesPerSecondTolerance);
+            Assert.Equal(1, quantity06.MilliamperesPerSecond);
             Assert.Equal(ElectricCurrentGradientUnit.MilliamperePerSecond, quantity06.Unit);
 
         }
@@ -224,16 +223,13 @@ namespace UnitsNet.Tests
         public void As_SIUnitSystem_ThrowsArgumentExceptionIfNotSupported()
         {
             var quantity = new ElectricCurrentGradient(value: 1, unit: ElectricCurrentGradient.BaseUnit);
-            Func<object> AsWithSIUnitSystem = () => quantity.As(UnitSystem.SI);
-
             if (SupportsSIUnitSystem)
             {
-                var value = Convert.ToDouble(AsWithSIUnitSystem());
-                Assert.Equal(1, value);
+                Assert.Equal(1, quantity.As(UnitSystem.SI));
             }
             else
             {
-                Assert.Throws<ArgumentException>(AsWithSIUnitSystem);
+                Assert.Throws<ArgumentException>(() => quantity.As(UnitSystem.SI));
             }
         }
 
@@ -243,49 +239,49 @@ namespace UnitsNet.Tests
             try
             {
                 var parsed = ElectricCurrentGradient.Parse("1 A/μs", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.AmperesPerMicrosecond, AmperesPerMicrosecondTolerance);
+                Assert.Equal(1, parsed.AmperesPerMicrosecond);
                 Assert.Equal(ElectricCurrentGradientUnit.AmperePerMicrosecond, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = ElectricCurrentGradient.Parse("1 A/ms", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.AmperesPerMillisecond, AmperesPerMillisecondTolerance);
+                Assert.Equal(1, parsed.AmperesPerMillisecond);
                 Assert.Equal(ElectricCurrentGradientUnit.AmperePerMillisecond, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = ElectricCurrentGradient.Parse("1 A/min", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.AmperesPerMinute, AmperesPerMinuteTolerance);
+                Assert.Equal(1, parsed.AmperesPerMinute);
                 Assert.Equal(ElectricCurrentGradientUnit.AmperePerMinute, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = ElectricCurrentGradient.Parse("1 A/ns", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.AmperesPerNanosecond, AmperesPerNanosecondTolerance);
+                Assert.Equal(1, parsed.AmperesPerNanosecond);
                 Assert.Equal(ElectricCurrentGradientUnit.AmperePerNanosecond, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = ElectricCurrentGradient.Parse("1 A/s", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.AmperesPerSecond, AmperesPerSecondTolerance);
+                Assert.Equal(1, parsed.AmperesPerSecond);
                 Assert.Equal(ElectricCurrentGradientUnit.AmperePerSecond, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = ElectricCurrentGradient.Parse("1 mA/min", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.MilliamperesPerMinute, MilliamperesPerMinuteTolerance);
+                Assert.Equal(1, parsed.MilliamperesPerMinute);
                 Assert.Equal(ElectricCurrentGradientUnit.MilliamperePerMinute, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = ElectricCurrentGradient.Parse("1 mA/s", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.MilliamperesPerSecond, MilliamperesPerSecondTolerance);
+                Assert.Equal(1, parsed.MilliamperesPerSecond);
                 Assert.Equal(ElectricCurrentGradientUnit.MilliamperePerSecond, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
@@ -296,43 +292,43 @@ namespace UnitsNet.Tests
         {
             {
                 Assert.True(ElectricCurrentGradient.TryParse("1 A/μs", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.AmperesPerMicrosecond, AmperesPerMicrosecondTolerance);
+                Assert.Equal(1, parsed.AmperesPerMicrosecond);
                 Assert.Equal(ElectricCurrentGradientUnit.AmperePerMicrosecond, parsed.Unit);
             }
 
             {
                 Assert.True(ElectricCurrentGradient.TryParse("1 A/ms", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.AmperesPerMillisecond, AmperesPerMillisecondTolerance);
+                Assert.Equal(1, parsed.AmperesPerMillisecond);
                 Assert.Equal(ElectricCurrentGradientUnit.AmperePerMillisecond, parsed.Unit);
             }
 
             {
                 Assert.True(ElectricCurrentGradient.TryParse("1 A/min", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.AmperesPerMinute, AmperesPerMinuteTolerance);
+                Assert.Equal(1, parsed.AmperesPerMinute);
                 Assert.Equal(ElectricCurrentGradientUnit.AmperePerMinute, parsed.Unit);
             }
 
             {
                 Assert.True(ElectricCurrentGradient.TryParse("1 A/ns", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.AmperesPerNanosecond, AmperesPerNanosecondTolerance);
+                Assert.Equal(1, parsed.AmperesPerNanosecond);
                 Assert.Equal(ElectricCurrentGradientUnit.AmperePerNanosecond, parsed.Unit);
             }
 
             {
                 Assert.True(ElectricCurrentGradient.TryParse("1 A/s", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.AmperesPerSecond, AmperesPerSecondTolerance);
+                Assert.Equal(1, parsed.AmperesPerSecond);
                 Assert.Equal(ElectricCurrentGradientUnit.AmperePerSecond, parsed.Unit);
             }
 
             {
                 Assert.True(ElectricCurrentGradient.TryParse("1 mA/min", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.MilliamperesPerMinute, MilliamperesPerMinuteTolerance);
+                Assert.Equal(1, parsed.MilliamperesPerMinute);
                 Assert.Equal(ElectricCurrentGradientUnit.MilliamperePerMinute, parsed.Unit);
             }
 
             {
                 Assert.True(ElectricCurrentGradient.TryParse("1 mA/s", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.MilliamperesPerSecond, MilliamperesPerSecondTolerance);
+                Assert.Equal(1, parsed.MilliamperesPerSecond);
                 Assert.Equal(ElectricCurrentGradientUnit.MilliamperePerSecond, parsed.Unit);
             }
 
@@ -471,26 +467,26 @@ namespace UnitsNet.Tests
         public void ConversionRoundTrip()
         {
             ElectricCurrentGradient amperepersecond = ElectricCurrentGradient.FromAmperesPerSecond(1);
-            AssertEx.EqualTolerance(1, ElectricCurrentGradient.FromAmperesPerMicrosecond(amperepersecond.AmperesPerMicrosecond).AmperesPerSecond, AmperesPerMicrosecondTolerance);
-            AssertEx.EqualTolerance(1, ElectricCurrentGradient.FromAmperesPerMillisecond(amperepersecond.AmperesPerMillisecond).AmperesPerSecond, AmperesPerMillisecondTolerance);
-            AssertEx.EqualTolerance(1, ElectricCurrentGradient.FromAmperesPerMinute(amperepersecond.AmperesPerMinute).AmperesPerSecond, AmperesPerMinuteTolerance);
-            AssertEx.EqualTolerance(1, ElectricCurrentGradient.FromAmperesPerNanosecond(amperepersecond.AmperesPerNanosecond).AmperesPerSecond, AmperesPerNanosecondTolerance);
-            AssertEx.EqualTolerance(1, ElectricCurrentGradient.FromAmperesPerSecond(amperepersecond.AmperesPerSecond).AmperesPerSecond, AmperesPerSecondTolerance);
-            AssertEx.EqualTolerance(1, ElectricCurrentGradient.FromMilliamperesPerMinute(amperepersecond.MilliamperesPerMinute).AmperesPerSecond, MilliamperesPerMinuteTolerance);
-            AssertEx.EqualTolerance(1, ElectricCurrentGradient.FromMilliamperesPerSecond(amperepersecond.MilliamperesPerSecond).AmperesPerSecond, MilliamperesPerSecondTolerance);
+            Assert.Equal(1, ElectricCurrentGradient.FromAmperesPerMicrosecond(amperepersecond.AmperesPerMicrosecond).AmperesPerSecond);
+            Assert.Equal(1, ElectricCurrentGradient.FromAmperesPerMillisecond(amperepersecond.AmperesPerMillisecond).AmperesPerSecond);
+            Assert.Equal(1, ElectricCurrentGradient.FromAmperesPerMinute(amperepersecond.AmperesPerMinute).AmperesPerSecond);
+            Assert.Equal(1, ElectricCurrentGradient.FromAmperesPerNanosecond(amperepersecond.AmperesPerNanosecond).AmperesPerSecond);
+            Assert.Equal(1, ElectricCurrentGradient.FromAmperesPerSecond(amperepersecond.AmperesPerSecond).AmperesPerSecond);
+            Assert.Equal(1, ElectricCurrentGradient.FromMilliamperesPerMinute(amperepersecond.MilliamperesPerMinute).AmperesPerSecond);
+            Assert.Equal(1, ElectricCurrentGradient.FromMilliamperesPerSecond(amperepersecond.MilliamperesPerSecond).AmperesPerSecond);
         }
 
         [Fact]
         public void ArithmeticOperators()
         {
             ElectricCurrentGradient v = ElectricCurrentGradient.FromAmperesPerSecond(1);
-            AssertEx.EqualTolerance(-1, -v.AmperesPerSecond, AmperesPerSecondTolerance);
-            AssertEx.EqualTolerance(2, (ElectricCurrentGradient.FromAmperesPerSecond(3)-v).AmperesPerSecond, AmperesPerSecondTolerance);
-            AssertEx.EqualTolerance(2, (v + v).AmperesPerSecond, AmperesPerSecondTolerance);
-            AssertEx.EqualTolerance(10, (v*10).AmperesPerSecond, AmperesPerSecondTolerance);
-            AssertEx.EqualTolerance(10, (10*v).AmperesPerSecond, AmperesPerSecondTolerance);
-            AssertEx.EqualTolerance(2, (ElectricCurrentGradient.FromAmperesPerSecond(10)/5).AmperesPerSecond, AmperesPerSecondTolerance);
-            AssertEx.EqualTolerance(2, ElectricCurrentGradient.FromAmperesPerSecond(10)/ElectricCurrentGradient.FromAmperesPerSecond(5), AmperesPerSecondTolerance);
+            Assert.Equal(-1, -v.AmperesPerSecond);
+            Assert.Equal(2, (ElectricCurrentGradient.FromAmperesPerSecond(3) - v).AmperesPerSecond);
+            Assert.Equal(2, (v + v).AmperesPerSecond);
+            Assert.Equal(10, (v * 10).AmperesPerSecond);
+            Assert.Equal(10, (10 * v).AmperesPerSecond);
+            Assert.Equal(2, (ElectricCurrentGradient.FromAmperesPerSecond(10) / 5).AmperesPerSecond);
+            Assert.Equal(2, ElectricCurrentGradient.FromAmperesPerSecond(10) / ElectricCurrentGradient.FromAmperesPerSecond(5));
         }
 
         [Fact]
@@ -536,8 +532,6 @@ namespace UnitsNet.Tests
         [Theory]
         [InlineData(1, ElectricCurrentGradientUnit.AmperePerSecond, 1, ElectricCurrentGradientUnit.AmperePerSecond, true)]  // Same value and unit.
         [InlineData(1, ElectricCurrentGradientUnit.AmperePerSecond, 2, ElectricCurrentGradientUnit.AmperePerSecond, false)] // Different value.
-        [InlineData(2, ElectricCurrentGradientUnit.AmperePerSecond, 1, ElectricCurrentGradientUnit.AmperePerMicrosecond, false)] // Different value and unit.
-        [InlineData(1, ElectricCurrentGradientUnit.AmperePerSecond, 1, ElectricCurrentGradientUnit.AmperePerMicrosecond, false)] // Different unit.
         public void Equals_ReturnsTrue_IfValueAndUnitAreEqual(double valueA, ElectricCurrentGradientUnit unitA, double valueB, ElectricCurrentGradientUnit unitB, bool expectEqual)
         {
             var a = new ElectricCurrentGradient(valueA, unitA);
@@ -575,20 +569,22 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
-        public void Equals_RelativeTolerance_IsImplemented()
+        public void Equals_WithTolerance_IsImplemented()
         {
             var v = ElectricCurrentGradient.FromAmperesPerSecond(1);
-            Assert.True(v.Equals(ElectricCurrentGradient.FromAmperesPerSecond(1), AmperesPerSecondTolerance, ComparisonType.Relative));
-            Assert.False(v.Equals(ElectricCurrentGradient.Zero, AmperesPerSecondTolerance, ComparisonType.Relative));
-            Assert.True(ElectricCurrentGradient.FromAmperesPerSecond(100).Equals(ElectricCurrentGradient.FromAmperesPerSecond(120), 0.3, ComparisonType.Relative));
-            Assert.False(ElectricCurrentGradient.FromAmperesPerSecond(100).Equals(ElectricCurrentGradient.FromAmperesPerSecond(120), 0.1, ComparisonType.Relative));
+            Assert.True(v.Equals(ElectricCurrentGradient.FromAmperesPerSecond(1), ElectricCurrentGradient.FromAmperesPerSecond(0)));
+            Assert.True(v.Equals(ElectricCurrentGradient.FromAmperesPerSecond(1), ElectricCurrentGradient.FromAmperesPerSecond(0.001m)));
+            Assert.True(v.Equals(ElectricCurrentGradient.FromAmperesPerSecond(0.9999), ElectricCurrentGradient.FromAmperesPerSecond(0.001m)));
+            Assert.False(v.Equals(ElectricCurrentGradient.FromAmperesPerSecond(0.99), ElectricCurrentGradient.FromAmperesPerSecond(0.001m)));
+            Assert.False(v.Equals(ElectricCurrentGradient.Zero, ElectricCurrentGradient.FromAmperesPerSecond(0.001m)));
         }
 
         [Fact]
-        public void Equals_NegativeRelativeTolerance_ThrowsArgumentOutOfRangeException()
+        public void Equals_WithNegativeTolerance_ThrowsArgumentOutOfRangeException()
         {
             var v = ElectricCurrentGradient.FromAmperesPerSecond(1);
-            Assert.Throws<ArgumentOutOfRangeException>(() => v.Equals(ElectricCurrentGradient.FromAmperesPerSecond(1), -1, ComparisonType.Relative));
+            var negativeTolerance = ElectricCurrentGradient.FromAmperesPerSecond(-1);
+            Assert.Throws<ArgumentOutOfRangeException>(() => v.Equals(ElectricCurrentGradient.FromAmperesPerSecond(1), negativeTolerance));
         }
 
         [Fact]
@@ -611,7 +607,7 @@ namespace UnitsNet.Tests
             var units = Enum.GetValues(typeof(ElectricCurrentGradientUnit)).Cast<ElectricCurrentGradientUnit>();
             foreach (var unit in units)
             {
-                var defaultAbbreviation = UnitAbbreviationsCache.Default.GetDefaultAbbreviation(unit);
+                var defaultAbbreviation = UnitsNetSetup.Default.UnitAbbreviations.GetDefaultAbbreviation(unit);
             }
         }
 
@@ -850,7 +846,12 @@ namespace UnitsNet.Tests
         public void GetHashCode_Equals()
         {
             var quantity = ElectricCurrentGradient.FromAmperesPerSecond(1.0);
-            Assert.Equal(new {ElectricCurrentGradient.Info.Name, quantity.Value, quantity.Unit}.GetHashCode(), quantity.GetHashCode());
+            #if NET7_0_OR_GREATER
+            var expected = HashCode.Combine(ElectricCurrentGradient.Info.Name, quantity.AmperesPerSecond);
+            #else
+            var expected = new {ElectricCurrentGradient.Info.Name, valueInBaseUnit = quantity.AmperesPerSecond}.GetHashCode();
+            #endif
+            Assert.Equal(expected, quantity.GetHashCode());
         }
 
         [Theory]

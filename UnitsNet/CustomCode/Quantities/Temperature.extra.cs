@@ -58,9 +58,9 @@ namespace UnitsNet
         /// <param name="factor">Factor to multiply by.</param>
         /// <param name="unit">Unit to perform multiplication in.</param>
         /// <returns>The resulting <see cref="Temperature" />.</returns>
-        public Temperature Multiply(double factor, TemperatureUnit unit)
+        public Temperature Multiply(QuantityValue factor, TemperatureUnit unit)
         {
-            double resultInUnit = As(unit) * factor;
+            QuantityValue resultInUnit = As(unit) * factor;
             return From(resultInUnit, unit);
         }
 
@@ -75,9 +75,9 @@ namespace UnitsNet
         /// <param name="divisor">Factor to multiply by.</param>
         /// <param name="unit">Unit to perform multiplication in.</param>
         /// <returns>The resulting <see cref="Temperature" />.</returns>
-        public Temperature Divide(double divisor, TemperatureUnit unit)
+        public Temperature Divide(QuantityValue divisor, TemperatureUnit unit)
         {
-            double resultInUnit = As(unit) / divisor;
+            QuantityValue resultInUnit = As(unit) / divisor;
             return From(resultInUnit, unit);
         }
     }

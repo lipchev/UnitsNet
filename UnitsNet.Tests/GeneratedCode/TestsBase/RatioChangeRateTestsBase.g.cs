@@ -97,15 +97,14 @@ namespace UnitsNet.Tests
         [Fact]
         public void Ctor_SIUnitSystem_ThrowsArgumentExceptionIfNotSupported()
         {
-            Func<object> TestCode = () => new RatioChangeRate(value: 1, unitSystem: UnitSystem.SI);
             if (SupportsSIUnitSystem)
             {
-                var quantity = (RatioChangeRate) TestCode();
+                var quantity = new RatioChangeRate(value: 1, unitSystem: UnitSystem.SI);
                 Assert.Equal(1, quantity.Value);
             }
             else
             {
-                Assert.Throws<ArgumentException>(TestCode);
+                Assert.Throws<ArgumentException>(() => new RatioChangeRate(value: 1, unitSystem: UnitSystem.SI));
             }
         }
 
@@ -135,11 +134,11 @@ namespace UnitsNet.Tests
         public void From_ValueAndUnit_ReturnsQuantityWithSameValueAndUnit()
         {
             var quantity00 = RatioChangeRate.From(1, RatioChangeRateUnit.DecimalFractionPerSecond);
-            AssertEx.EqualTolerance(1, quantity00.DecimalFractionsPerSecond, DecimalFractionsPerSecondTolerance);
+            Assert.Equal(1, quantity00.DecimalFractionsPerSecond);
             Assert.Equal(RatioChangeRateUnit.DecimalFractionPerSecond, quantity00.Unit);
 
             var quantity01 = RatioChangeRate.From(1, RatioChangeRateUnit.PercentPerSecond);
-            AssertEx.EqualTolerance(1, quantity01.PercentsPerSecond, PercentsPerSecondTolerance);
+            Assert.Equal(1, quantity01.PercentsPerSecond);
             Assert.Equal(RatioChangeRateUnit.PercentPerSecond, quantity01.Unit);
 
         }
@@ -174,16 +173,13 @@ namespace UnitsNet.Tests
         public void As_SIUnitSystem_ThrowsArgumentExceptionIfNotSupported()
         {
             var quantity = new RatioChangeRate(value: 1, unit: RatioChangeRate.BaseUnit);
-            Func<object> AsWithSIUnitSystem = () => quantity.As(UnitSystem.SI);
-
             if (SupportsSIUnitSystem)
             {
-                var value = Convert.ToDouble(AsWithSIUnitSystem());
-                Assert.Equal(1, value);
+                Assert.Equal(1, quantity.As(UnitSystem.SI));
             }
             else
             {
-                Assert.Throws<ArgumentException>(AsWithSIUnitSystem);
+                Assert.Throws<ArgumentException>(() => quantity.As(UnitSystem.SI));
             }
         }
 
@@ -193,14 +189,14 @@ namespace UnitsNet.Tests
             try
             {
                 var parsed = RatioChangeRate.Parse("1 /s", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.DecimalFractionsPerSecond, DecimalFractionsPerSecondTolerance);
+                Assert.Equal(1, parsed.DecimalFractionsPerSecond);
                 Assert.Equal(RatioChangeRateUnit.DecimalFractionPerSecond, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = RatioChangeRate.Parse("1 %/s", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.PercentsPerSecond, PercentsPerSecondTolerance);
+                Assert.Equal(1, parsed.PercentsPerSecond);
                 Assert.Equal(RatioChangeRateUnit.PercentPerSecond, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
@@ -211,13 +207,13 @@ namespace UnitsNet.Tests
         {
             {
                 Assert.True(RatioChangeRate.TryParse("1 /s", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.DecimalFractionsPerSecond, DecimalFractionsPerSecondTolerance);
+                Assert.Equal(1, parsed.DecimalFractionsPerSecond);
                 Assert.Equal(RatioChangeRateUnit.DecimalFractionPerSecond, parsed.Unit);
             }
 
             {
                 Assert.True(RatioChangeRate.TryParse("1 %/s", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.PercentsPerSecond, PercentsPerSecondTolerance);
+                Assert.Equal(1, parsed.PercentsPerSecond);
                 Assert.Equal(RatioChangeRateUnit.PercentPerSecond, parsed.Unit);
             }
 
@@ -301,21 +297,21 @@ namespace UnitsNet.Tests
         public void ConversionRoundTrip()
         {
             RatioChangeRate decimalfractionpersecond = RatioChangeRate.FromDecimalFractionsPerSecond(1);
-            AssertEx.EqualTolerance(1, RatioChangeRate.FromDecimalFractionsPerSecond(decimalfractionpersecond.DecimalFractionsPerSecond).DecimalFractionsPerSecond, DecimalFractionsPerSecondTolerance);
-            AssertEx.EqualTolerance(1, RatioChangeRate.FromPercentsPerSecond(decimalfractionpersecond.PercentsPerSecond).DecimalFractionsPerSecond, PercentsPerSecondTolerance);
+            Assert.Equal(1, RatioChangeRate.FromDecimalFractionsPerSecond(decimalfractionpersecond.DecimalFractionsPerSecond).DecimalFractionsPerSecond);
+            Assert.Equal(1, RatioChangeRate.FromPercentsPerSecond(decimalfractionpersecond.PercentsPerSecond).DecimalFractionsPerSecond);
         }
 
         [Fact]
         public void ArithmeticOperators()
         {
             RatioChangeRate v = RatioChangeRate.FromDecimalFractionsPerSecond(1);
-            AssertEx.EqualTolerance(-1, -v.DecimalFractionsPerSecond, DecimalFractionsPerSecondTolerance);
-            AssertEx.EqualTolerance(2, (RatioChangeRate.FromDecimalFractionsPerSecond(3)-v).DecimalFractionsPerSecond, DecimalFractionsPerSecondTolerance);
-            AssertEx.EqualTolerance(2, (v + v).DecimalFractionsPerSecond, DecimalFractionsPerSecondTolerance);
-            AssertEx.EqualTolerance(10, (v*10).DecimalFractionsPerSecond, DecimalFractionsPerSecondTolerance);
-            AssertEx.EqualTolerance(10, (10*v).DecimalFractionsPerSecond, DecimalFractionsPerSecondTolerance);
-            AssertEx.EqualTolerance(2, (RatioChangeRate.FromDecimalFractionsPerSecond(10)/5).DecimalFractionsPerSecond, DecimalFractionsPerSecondTolerance);
-            AssertEx.EqualTolerance(2, RatioChangeRate.FromDecimalFractionsPerSecond(10)/RatioChangeRate.FromDecimalFractionsPerSecond(5), DecimalFractionsPerSecondTolerance);
+            Assert.Equal(-1, -v.DecimalFractionsPerSecond);
+            Assert.Equal(2, (RatioChangeRate.FromDecimalFractionsPerSecond(3) - v).DecimalFractionsPerSecond);
+            Assert.Equal(2, (v + v).DecimalFractionsPerSecond);
+            Assert.Equal(10, (v * 10).DecimalFractionsPerSecond);
+            Assert.Equal(10, (10 * v).DecimalFractionsPerSecond);
+            Assert.Equal(2, (RatioChangeRate.FromDecimalFractionsPerSecond(10) / 5).DecimalFractionsPerSecond);
+            Assert.Equal(2, RatioChangeRate.FromDecimalFractionsPerSecond(10) / RatioChangeRate.FromDecimalFractionsPerSecond(5));
         }
 
         [Fact]
@@ -361,8 +357,6 @@ namespace UnitsNet.Tests
         [Theory]
         [InlineData(1, RatioChangeRateUnit.DecimalFractionPerSecond, 1, RatioChangeRateUnit.DecimalFractionPerSecond, true)]  // Same value and unit.
         [InlineData(1, RatioChangeRateUnit.DecimalFractionPerSecond, 2, RatioChangeRateUnit.DecimalFractionPerSecond, false)] // Different value.
-        [InlineData(2, RatioChangeRateUnit.DecimalFractionPerSecond, 1, RatioChangeRateUnit.PercentPerSecond, false)] // Different value and unit.
-        [InlineData(1, RatioChangeRateUnit.DecimalFractionPerSecond, 1, RatioChangeRateUnit.PercentPerSecond, false)] // Different unit.
         public void Equals_ReturnsTrue_IfValueAndUnitAreEqual(double valueA, RatioChangeRateUnit unitA, double valueB, RatioChangeRateUnit unitB, bool expectEqual)
         {
             var a = new RatioChangeRate(valueA, unitA);
@@ -400,20 +394,22 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
-        public void Equals_RelativeTolerance_IsImplemented()
+        public void Equals_WithTolerance_IsImplemented()
         {
             var v = RatioChangeRate.FromDecimalFractionsPerSecond(1);
-            Assert.True(v.Equals(RatioChangeRate.FromDecimalFractionsPerSecond(1), DecimalFractionsPerSecondTolerance, ComparisonType.Relative));
-            Assert.False(v.Equals(RatioChangeRate.Zero, DecimalFractionsPerSecondTolerance, ComparisonType.Relative));
-            Assert.True(RatioChangeRate.FromDecimalFractionsPerSecond(100).Equals(RatioChangeRate.FromDecimalFractionsPerSecond(120), 0.3, ComparisonType.Relative));
-            Assert.False(RatioChangeRate.FromDecimalFractionsPerSecond(100).Equals(RatioChangeRate.FromDecimalFractionsPerSecond(120), 0.1, ComparisonType.Relative));
+            Assert.True(v.Equals(RatioChangeRate.FromDecimalFractionsPerSecond(1), RatioChangeRate.FromDecimalFractionsPerSecond(0)));
+            Assert.True(v.Equals(RatioChangeRate.FromDecimalFractionsPerSecond(1), RatioChangeRate.FromDecimalFractionsPerSecond(0.001m)));
+            Assert.True(v.Equals(RatioChangeRate.FromDecimalFractionsPerSecond(0.9999), RatioChangeRate.FromDecimalFractionsPerSecond(0.001m)));
+            Assert.False(v.Equals(RatioChangeRate.FromDecimalFractionsPerSecond(0.99), RatioChangeRate.FromDecimalFractionsPerSecond(0.001m)));
+            Assert.False(v.Equals(RatioChangeRate.Zero, RatioChangeRate.FromDecimalFractionsPerSecond(0.001m)));
         }
 
         [Fact]
-        public void Equals_NegativeRelativeTolerance_ThrowsArgumentOutOfRangeException()
+        public void Equals_WithNegativeTolerance_ThrowsArgumentOutOfRangeException()
         {
             var v = RatioChangeRate.FromDecimalFractionsPerSecond(1);
-            Assert.Throws<ArgumentOutOfRangeException>(() => v.Equals(RatioChangeRate.FromDecimalFractionsPerSecond(1), -1, ComparisonType.Relative));
+            var negativeTolerance = RatioChangeRate.FromDecimalFractionsPerSecond(-1);
+            Assert.Throws<ArgumentOutOfRangeException>(() => v.Equals(RatioChangeRate.FromDecimalFractionsPerSecond(1), negativeTolerance));
         }
 
         [Fact]
@@ -436,7 +432,7 @@ namespace UnitsNet.Tests
             var units = Enum.GetValues(typeof(RatioChangeRateUnit)).Cast<RatioChangeRateUnit>();
             foreach (var unit in units)
             {
-                var defaultAbbreviation = UnitAbbreviationsCache.Default.GetDefaultAbbreviation(unit);
+                var defaultAbbreviation = UnitsNetSetup.Default.UnitAbbreviations.GetDefaultAbbreviation(unit);
             }
         }
 
@@ -665,7 +661,12 @@ namespace UnitsNet.Tests
         public void GetHashCode_Equals()
         {
             var quantity = RatioChangeRate.FromDecimalFractionsPerSecond(1.0);
-            Assert.Equal(new {RatioChangeRate.Info.Name, quantity.Value, quantity.Unit}.GetHashCode(), quantity.GetHashCode());
+            #if NET7_0_OR_GREATER
+            var expected = HashCode.Combine(RatioChangeRate.Info.Name, quantity.DecimalFractionsPerSecond);
+            #else
+            var expected = new {RatioChangeRate.Info.Name, valueInBaseUnit = quantity.DecimalFractionsPerSecond}.GetHashCode();
+            #endif
+            Assert.Equal(expected, quantity.GetHashCode());
         }
 
         [Theory]

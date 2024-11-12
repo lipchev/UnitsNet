@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using UnitsNet.Units;
 using Xunit;
 
@@ -56,7 +57,7 @@ namespace UnitsNet.Tests
         [Fact]
         public void AverageOfLengthsCalculatesCorrectly()
         {
-            var units = new[] {Length.FromMeters(1), Length.FromCentimeters(50)};
+            var units = new[] { Length.FromMeters(1), Length.FromCentimeters(50) };
 
             Length average = units.Average(LengthUnit.Centimeter);
 
@@ -69,11 +70,10 @@ namespace UnitsNet.Tests
         {
             var units = new[]
             {
-                new KeyValuePair<string, Length>("1", Length.FromMeters(1)),
-                new KeyValuePair<string, Length>("2", Length.FromCentimeters(50))
+                new KeyValuePair<string, Length>("1", Length.FromMeters(1)), new KeyValuePair<string, Length>("2", Length.FromCentimeters(50))
             };
 
-            Assert.Throws<ArgumentNullException>(() => units.Average((Func<KeyValuePair<string, Length>, Length>) null!, LengthUnit.Centimeter));
+            Assert.Throws<ArgumentNullException>(() => units.Average((Func<KeyValuePair<string, Length>, Length>)null!, LengthUnit.Centimeter));
         }
 
         [Fact]
@@ -81,8 +81,7 @@ namespace UnitsNet.Tests
         {
             var units = new[]
             {
-                new KeyValuePair<string, Length>("1", Length.FromMeters(1)),
-                new KeyValuePair<string, Length>("2", Length.FromCentimeters(50))
+                new KeyValuePair<string, Length>("1", Length.FromMeters(1)), new KeyValuePair<string, Length>("2", Length.FromCentimeters(50))
             };
 
             Length average = units.Average(x => x.Value, LengthUnit.Centimeter);
@@ -114,7 +113,7 @@ namespace UnitsNet.Tests
         [Fact]
         public void MaxOfLengthsCalculatesCorrectly()
         {
-            var units = new[] {Length.FromMeters(1), Length.FromCentimeters(50)};
+            var units = new[] { Length.FromMeters(1), Length.FromCentimeters(50) };
 
             Length max = units.Max(LengthUnit.Centimeter);
 
@@ -127,11 +126,10 @@ namespace UnitsNet.Tests
         {
             var units = new[]
             {
-                new KeyValuePair<string, Length>("1", Length.FromMeters(1)),
-                new KeyValuePair<string, Length>("2", Length.FromCentimeters(50))
+                new KeyValuePair<string, Length>("1", Length.FromMeters(1)), new KeyValuePair<string, Length>("2", Length.FromCentimeters(50))
             };
 
-            Assert.Throws<ArgumentNullException>(() => units.Max((Func<KeyValuePair<string, Length>, Length>) null!, LengthUnit.Centimeter));
+            Assert.Throws<ArgumentNullException>(() => units.Max((Func<KeyValuePair<string, Length>, Length>)null!, LengthUnit.Centimeter));
         }
 
         [Fact]
@@ -139,8 +137,7 @@ namespace UnitsNet.Tests
         {
             var units = new[]
             {
-                new KeyValuePair<string, Length>("1", Length.FromMeters(1)),
-                new KeyValuePair<string, Length>("2", Length.FromCentimeters(50))
+                new KeyValuePair<string, Length>("1", Length.FromMeters(1)), new KeyValuePair<string, Length>("2", Length.FromCentimeters(50))
             };
 
             Length max = units.Max(x => x.Value, LengthUnit.Centimeter);
@@ -172,7 +169,7 @@ namespace UnitsNet.Tests
         [Fact]
         public void MinOfLengthsCalculatesCorrectly()
         {
-            var units = new[] {Length.FromMeters(1), Length.FromCentimeters(50)};
+            var units = new[] { Length.FromMeters(1), Length.FromCentimeters(50) };
 
             Length min = units.Min(LengthUnit.Centimeter);
 
@@ -185,11 +182,10 @@ namespace UnitsNet.Tests
         {
             var units = new[]
             {
-                new KeyValuePair<string, Length>("1", Length.FromMeters(1)),
-                new KeyValuePair<string, Length>("2", Length.FromCentimeters(50))
+                new KeyValuePair<string, Length>("1", Length.FromMeters(1)), new KeyValuePair<string, Length>("2", Length.FromCentimeters(50))
             };
 
-            Assert.Throws<ArgumentNullException>(() => units.Min((Func<KeyValuePair<string, Length>, Length>) null!, LengthUnit.Centimeter));
+            Assert.Throws<ArgumentNullException>(() => units.Min((Func<KeyValuePair<string, Length>, Length>)null!, LengthUnit.Centimeter));
         }
 
         [Fact]
@@ -197,8 +193,7 @@ namespace UnitsNet.Tests
         {
             var units = new[]
             {
-                new KeyValuePair<string, Length>("1", Length.FromMeters(1)),
-                new KeyValuePair<string, Length>("2", Length.FromCentimeters(50))
+                new KeyValuePair<string, Length>("1", Length.FromMeters(1)), new KeyValuePair<string, Length>("2", Length.FromCentimeters(50))
             };
 
             Length min = units.Min(x => x.Value, LengthUnit.Centimeter);
@@ -220,7 +215,7 @@ namespace UnitsNet.Tests
         [Fact]
         public void SumOfLengthsCalculatesCorrectly()
         {
-            var units = new[] {Length.FromMeters(1), Length.FromCentimeters(50)};
+            var units = new[] { Length.FromMeters(1), Length.FromCentimeters(50) };
 
             Length sum = units.Sum(LengthUnit.Centimeter);
 
@@ -233,11 +228,10 @@ namespace UnitsNet.Tests
         {
             var units = new[]
             {
-                new KeyValuePair<string, Length>("1", Length.FromMeters(1)),
-                new KeyValuePair<string, Length>("2", Length.FromCentimeters(50))
+                new KeyValuePair<string, Length>("1", Length.FromMeters(1)), new KeyValuePair<string, Length>("2", Length.FromCentimeters(50))
             };
 
-            Assert.Throws<ArgumentNullException>(() => units.Sum((Func<KeyValuePair<string, Length>, Length>) null!, LengthUnit.Centimeter));
+            Assert.Throws<ArgumentNullException>(() => units.Sum((Func<KeyValuePair<string, Length>, Length>)null!, LengthUnit.Centimeter));
         }
 
         [Fact]
@@ -245,8 +239,7 @@ namespace UnitsNet.Tests
         {
             var units = new[]
             {
-                new KeyValuePair<string, Length>("1", Length.FromMeters(1)),
-                new KeyValuePair<string, Length>("2", Length.FromCentimeters(50))
+                new KeyValuePair<string, Length>("1", Length.FromMeters(1)), new KeyValuePair<string, Length>("2", Length.FromCentimeters(50))
             };
 
             Length sum = units.Sum(x => x.Value, LengthUnit.Centimeter);
@@ -289,5 +282,21 @@ namespace UnitsNet.Tests
 
             Assert.Throws<ArgumentException>(() => UnitMath.Clamp(value, min, max));
         }
+
+        [Fact]
+        public void SquareRootOfQuantityValueCalculatesCorrectly()
+        {
+            // Arrange
+            var fraction = Fractions.Fraction.FromString(
+                "7017075566499415481183895525487656110361817123500083731653571771256593466607002465509486669805631606869622837818618382797847715440102824717432866745242640865976075222884078899654447525335854152217507362365722656250000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000/22199986238797791147406259737557652523540869928960600626046611277198843489042928693958126769955174387224059480985453176875329090776309059513483264000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+                false);
+            var quantityValue = new QuantityValue(fraction.Numerator, fraction.Denominator);
+            // Act
+            var actual = QuantityValue.Sqrt(quantityValue);
+            // Assert
+            var wtf = Mass.FromGrams(2.1m);
+            AssertEx.EqualTolerance(actual, 0.56m, 0.1);
+        }
+
     }
 }

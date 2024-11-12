@@ -145,15 +145,14 @@ namespace UnitsNet.Tests
         [Fact]
         public void Ctor_SIUnitSystem_ThrowsArgumentExceptionIfNotSupported()
         {
-            Func<object> TestCode = () => new Irradiance(value: 1, unitSystem: UnitSystem.SI);
             if (SupportsSIUnitSystem)
             {
-                var quantity = (Irradiance) TestCode();
+                var quantity = new Irradiance(value: 1, unitSystem: UnitSystem.SI);
                 Assert.Equal(1, quantity.Value);
             }
             else
             {
-                Assert.Throws<ArgumentException>(TestCode);
+                Assert.Throws<ArgumentException>(() => new Irradiance(value: 1, unitSystem: UnitSystem.SI));
             }
         }
 
@@ -195,59 +194,59 @@ namespace UnitsNet.Tests
         public void From_ValueAndUnit_ReturnsQuantityWithSameValueAndUnit()
         {
             var quantity00 = Irradiance.From(1, IrradianceUnit.KilowattPerSquareCentimeter);
-            AssertEx.EqualTolerance(1, quantity00.KilowattsPerSquareCentimeter, KilowattsPerSquareCentimeterTolerance);
+            Assert.Equal(1, quantity00.KilowattsPerSquareCentimeter);
             Assert.Equal(IrradianceUnit.KilowattPerSquareCentimeter, quantity00.Unit);
 
             var quantity01 = Irradiance.From(1, IrradianceUnit.KilowattPerSquareMeter);
-            AssertEx.EqualTolerance(1, quantity01.KilowattsPerSquareMeter, KilowattsPerSquareMeterTolerance);
+            Assert.Equal(1, quantity01.KilowattsPerSquareMeter);
             Assert.Equal(IrradianceUnit.KilowattPerSquareMeter, quantity01.Unit);
 
             var quantity02 = Irradiance.From(1, IrradianceUnit.MegawattPerSquareCentimeter);
-            AssertEx.EqualTolerance(1, quantity02.MegawattsPerSquareCentimeter, MegawattsPerSquareCentimeterTolerance);
+            Assert.Equal(1, quantity02.MegawattsPerSquareCentimeter);
             Assert.Equal(IrradianceUnit.MegawattPerSquareCentimeter, quantity02.Unit);
 
             var quantity03 = Irradiance.From(1, IrradianceUnit.MegawattPerSquareMeter);
-            AssertEx.EqualTolerance(1, quantity03.MegawattsPerSquareMeter, MegawattsPerSquareMeterTolerance);
+            Assert.Equal(1, quantity03.MegawattsPerSquareMeter);
             Assert.Equal(IrradianceUnit.MegawattPerSquareMeter, quantity03.Unit);
 
             var quantity04 = Irradiance.From(1, IrradianceUnit.MicrowattPerSquareCentimeter);
-            AssertEx.EqualTolerance(1, quantity04.MicrowattsPerSquareCentimeter, MicrowattsPerSquareCentimeterTolerance);
+            Assert.Equal(1, quantity04.MicrowattsPerSquareCentimeter);
             Assert.Equal(IrradianceUnit.MicrowattPerSquareCentimeter, quantity04.Unit);
 
             var quantity05 = Irradiance.From(1, IrradianceUnit.MicrowattPerSquareMeter);
-            AssertEx.EqualTolerance(1, quantity05.MicrowattsPerSquareMeter, MicrowattsPerSquareMeterTolerance);
+            Assert.Equal(1, quantity05.MicrowattsPerSquareMeter);
             Assert.Equal(IrradianceUnit.MicrowattPerSquareMeter, quantity05.Unit);
 
             var quantity06 = Irradiance.From(1, IrradianceUnit.MilliwattPerSquareCentimeter);
-            AssertEx.EqualTolerance(1, quantity06.MilliwattsPerSquareCentimeter, MilliwattsPerSquareCentimeterTolerance);
+            Assert.Equal(1, quantity06.MilliwattsPerSquareCentimeter);
             Assert.Equal(IrradianceUnit.MilliwattPerSquareCentimeter, quantity06.Unit);
 
             var quantity07 = Irradiance.From(1, IrradianceUnit.MilliwattPerSquareMeter);
-            AssertEx.EqualTolerance(1, quantity07.MilliwattsPerSquareMeter, MilliwattsPerSquareMeterTolerance);
+            Assert.Equal(1, quantity07.MilliwattsPerSquareMeter);
             Assert.Equal(IrradianceUnit.MilliwattPerSquareMeter, quantity07.Unit);
 
             var quantity08 = Irradiance.From(1, IrradianceUnit.NanowattPerSquareCentimeter);
-            AssertEx.EqualTolerance(1, quantity08.NanowattsPerSquareCentimeter, NanowattsPerSquareCentimeterTolerance);
+            Assert.Equal(1, quantity08.NanowattsPerSquareCentimeter);
             Assert.Equal(IrradianceUnit.NanowattPerSquareCentimeter, quantity08.Unit);
 
             var quantity09 = Irradiance.From(1, IrradianceUnit.NanowattPerSquareMeter);
-            AssertEx.EqualTolerance(1, quantity09.NanowattsPerSquareMeter, NanowattsPerSquareMeterTolerance);
+            Assert.Equal(1, quantity09.NanowattsPerSquareMeter);
             Assert.Equal(IrradianceUnit.NanowattPerSquareMeter, quantity09.Unit);
 
             var quantity10 = Irradiance.From(1, IrradianceUnit.PicowattPerSquareCentimeter);
-            AssertEx.EqualTolerance(1, quantity10.PicowattsPerSquareCentimeter, PicowattsPerSquareCentimeterTolerance);
+            Assert.Equal(1, quantity10.PicowattsPerSquareCentimeter);
             Assert.Equal(IrradianceUnit.PicowattPerSquareCentimeter, quantity10.Unit);
 
             var quantity11 = Irradiance.From(1, IrradianceUnit.PicowattPerSquareMeter);
-            AssertEx.EqualTolerance(1, quantity11.PicowattsPerSquareMeter, PicowattsPerSquareMeterTolerance);
+            Assert.Equal(1, quantity11.PicowattsPerSquareMeter);
             Assert.Equal(IrradianceUnit.PicowattPerSquareMeter, quantity11.Unit);
 
             var quantity12 = Irradiance.From(1, IrradianceUnit.WattPerSquareCentimeter);
-            AssertEx.EqualTolerance(1, quantity12.WattsPerSquareCentimeter, WattsPerSquareCentimeterTolerance);
+            Assert.Equal(1, quantity12.WattsPerSquareCentimeter);
             Assert.Equal(IrradianceUnit.WattPerSquareCentimeter, quantity12.Unit);
 
             var quantity13 = Irradiance.From(1, IrradianceUnit.WattPerSquareMeter);
-            AssertEx.EqualTolerance(1, quantity13.WattsPerSquareMeter, WattsPerSquareMeterTolerance);
+            Assert.Equal(1, quantity13.WattsPerSquareMeter);
             Assert.Equal(IrradianceUnit.WattPerSquareMeter, quantity13.Unit);
 
         }
@@ -294,16 +293,13 @@ namespace UnitsNet.Tests
         public void As_SIUnitSystem_ThrowsArgumentExceptionIfNotSupported()
         {
             var quantity = new Irradiance(value: 1, unit: Irradiance.BaseUnit);
-            Func<object> AsWithSIUnitSystem = () => quantity.As(UnitSystem.SI);
-
             if (SupportsSIUnitSystem)
             {
-                var value = Convert.ToDouble(AsWithSIUnitSystem());
-                Assert.Equal(1, value);
+                Assert.Equal(1, quantity.As(UnitSystem.SI));
             }
             else
             {
-                Assert.Throws<ArgumentException>(AsWithSIUnitSystem);
+                Assert.Throws<ArgumentException>(() => quantity.As(UnitSystem.SI));
             }
         }
 
@@ -313,98 +309,98 @@ namespace UnitsNet.Tests
             try
             {
                 var parsed = Irradiance.Parse("1 kW/cm²", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.KilowattsPerSquareCentimeter, KilowattsPerSquareCentimeterTolerance);
+                Assert.Equal(1, parsed.KilowattsPerSquareCentimeter);
                 Assert.Equal(IrradianceUnit.KilowattPerSquareCentimeter, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = Irradiance.Parse("1 kW/m²", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.KilowattsPerSquareMeter, KilowattsPerSquareMeterTolerance);
+                Assert.Equal(1, parsed.KilowattsPerSquareMeter);
                 Assert.Equal(IrradianceUnit.KilowattPerSquareMeter, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = Irradiance.Parse("1 MW/cm²", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.MegawattsPerSquareCentimeter, MegawattsPerSquareCentimeterTolerance);
+                Assert.Equal(1, parsed.MegawattsPerSquareCentimeter);
                 Assert.Equal(IrradianceUnit.MegawattPerSquareCentimeter, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = Irradiance.Parse("1 MW/m²", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.MegawattsPerSquareMeter, MegawattsPerSquareMeterTolerance);
+                Assert.Equal(1, parsed.MegawattsPerSquareMeter);
                 Assert.Equal(IrradianceUnit.MegawattPerSquareMeter, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = Irradiance.Parse("1 µW/cm²", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.MicrowattsPerSquareCentimeter, MicrowattsPerSquareCentimeterTolerance);
+                Assert.Equal(1, parsed.MicrowattsPerSquareCentimeter);
                 Assert.Equal(IrradianceUnit.MicrowattPerSquareCentimeter, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = Irradiance.Parse("1 µW/m²", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.MicrowattsPerSquareMeter, MicrowattsPerSquareMeterTolerance);
+                Assert.Equal(1, parsed.MicrowattsPerSquareMeter);
                 Assert.Equal(IrradianceUnit.MicrowattPerSquareMeter, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = Irradiance.Parse("1 mW/cm²", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.MilliwattsPerSquareCentimeter, MilliwattsPerSquareCentimeterTolerance);
+                Assert.Equal(1, parsed.MilliwattsPerSquareCentimeter);
                 Assert.Equal(IrradianceUnit.MilliwattPerSquareCentimeter, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = Irradiance.Parse("1 mW/m²", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.MilliwattsPerSquareMeter, MilliwattsPerSquareMeterTolerance);
+                Assert.Equal(1, parsed.MilliwattsPerSquareMeter);
                 Assert.Equal(IrradianceUnit.MilliwattPerSquareMeter, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = Irradiance.Parse("1 nW/cm²", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.NanowattsPerSquareCentimeter, NanowattsPerSquareCentimeterTolerance);
+                Assert.Equal(1, parsed.NanowattsPerSquareCentimeter);
                 Assert.Equal(IrradianceUnit.NanowattPerSquareCentimeter, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = Irradiance.Parse("1 nW/m²", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.NanowattsPerSquareMeter, NanowattsPerSquareMeterTolerance);
+                Assert.Equal(1, parsed.NanowattsPerSquareMeter);
                 Assert.Equal(IrradianceUnit.NanowattPerSquareMeter, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = Irradiance.Parse("1 pW/cm²", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.PicowattsPerSquareCentimeter, PicowattsPerSquareCentimeterTolerance);
+                Assert.Equal(1, parsed.PicowattsPerSquareCentimeter);
                 Assert.Equal(IrradianceUnit.PicowattPerSquareCentimeter, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = Irradiance.Parse("1 pW/m²", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.PicowattsPerSquareMeter, PicowattsPerSquareMeterTolerance);
+                Assert.Equal(1, parsed.PicowattsPerSquareMeter);
                 Assert.Equal(IrradianceUnit.PicowattPerSquareMeter, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = Irradiance.Parse("1 W/cm²", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.WattsPerSquareCentimeter, WattsPerSquareCentimeterTolerance);
+                Assert.Equal(1, parsed.WattsPerSquareCentimeter);
                 Assert.Equal(IrradianceUnit.WattPerSquareCentimeter, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = Irradiance.Parse("1 W/m²", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.WattsPerSquareMeter, WattsPerSquareMeterTolerance);
+                Assert.Equal(1, parsed.WattsPerSquareMeter);
                 Assert.Equal(IrradianceUnit.WattPerSquareMeter, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
@@ -415,61 +411,61 @@ namespace UnitsNet.Tests
         {
             {
                 Assert.True(Irradiance.TryParse("1 kW/cm²", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.KilowattsPerSquareCentimeter, KilowattsPerSquareCentimeterTolerance);
+                Assert.Equal(1, parsed.KilowattsPerSquareCentimeter);
                 Assert.Equal(IrradianceUnit.KilowattPerSquareCentimeter, parsed.Unit);
             }
 
             {
                 Assert.True(Irradiance.TryParse("1 kW/m²", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.KilowattsPerSquareMeter, KilowattsPerSquareMeterTolerance);
+                Assert.Equal(1, parsed.KilowattsPerSquareMeter);
                 Assert.Equal(IrradianceUnit.KilowattPerSquareMeter, parsed.Unit);
             }
 
             {
                 Assert.True(Irradiance.TryParse("1 µW/cm²", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.MicrowattsPerSquareCentimeter, MicrowattsPerSquareCentimeterTolerance);
+                Assert.Equal(1, parsed.MicrowattsPerSquareCentimeter);
                 Assert.Equal(IrradianceUnit.MicrowattPerSquareCentimeter, parsed.Unit);
             }
 
             {
                 Assert.True(Irradiance.TryParse("1 µW/m²", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.MicrowattsPerSquareMeter, MicrowattsPerSquareMeterTolerance);
+                Assert.Equal(1, parsed.MicrowattsPerSquareMeter);
                 Assert.Equal(IrradianceUnit.MicrowattPerSquareMeter, parsed.Unit);
             }
 
             {
                 Assert.True(Irradiance.TryParse("1 nW/cm²", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.NanowattsPerSquareCentimeter, NanowattsPerSquareCentimeterTolerance);
+                Assert.Equal(1, parsed.NanowattsPerSquareCentimeter);
                 Assert.Equal(IrradianceUnit.NanowattPerSquareCentimeter, parsed.Unit);
             }
 
             {
                 Assert.True(Irradiance.TryParse("1 nW/m²", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.NanowattsPerSquareMeter, NanowattsPerSquareMeterTolerance);
+                Assert.Equal(1, parsed.NanowattsPerSquareMeter);
                 Assert.Equal(IrradianceUnit.NanowattPerSquareMeter, parsed.Unit);
             }
 
             {
                 Assert.True(Irradiance.TryParse("1 pW/cm²", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.PicowattsPerSquareCentimeter, PicowattsPerSquareCentimeterTolerance);
+                Assert.Equal(1, parsed.PicowattsPerSquareCentimeter);
                 Assert.Equal(IrradianceUnit.PicowattPerSquareCentimeter, parsed.Unit);
             }
 
             {
                 Assert.True(Irradiance.TryParse("1 pW/m²", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.PicowattsPerSquareMeter, PicowattsPerSquareMeterTolerance);
+                Assert.Equal(1, parsed.PicowattsPerSquareMeter);
                 Assert.Equal(IrradianceUnit.PicowattPerSquareMeter, parsed.Unit);
             }
 
             {
                 Assert.True(Irradiance.TryParse("1 W/cm²", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.WattsPerSquareCentimeter, WattsPerSquareCentimeterTolerance);
+                Assert.Equal(1, parsed.WattsPerSquareCentimeter);
                 Assert.Equal(IrradianceUnit.WattPerSquareCentimeter, parsed.Unit);
             }
 
             {
                 Assert.True(Irradiance.TryParse("1 W/m²", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.WattsPerSquareMeter, WattsPerSquareMeterTolerance);
+                Assert.Equal(1, parsed.WattsPerSquareMeter);
                 Assert.Equal(IrradianceUnit.WattPerSquareMeter, parsed.Unit);
             }
 
@@ -665,33 +661,33 @@ namespace UnitsNet.Tests
         public void ConversionRoundTrip()
         {
             Irradiance wattpersquaremeter = Irradiance.FromWattsPerSquareMeter(1);
-            AssertEx.EqualTolerance(1, Irradiance.FromKilowattsPerSquareCentimeter(wattpersquaremeter.KilowattsPerSquareCentimeter).WattsPerSquareMeter, KilowattsPerSquareCentimeterTolerance);
-            AssertEx.EqualTolerance(1, Irradiance.FromKilowattsPerSquareMeter(wattpersquaremeter.KilowattsPerSquareMeter).WattsPerSquareMeter, KilowattsPerSquareMeterTolerance);
-            AssertEx.EqualTolerance(1, Irradiance.FromMegawattsPerSquareCentimeter(wattpersquaremeter.MegawattsPerSquareCentimeter).WattsPerSquareMeter, MegawattsPerSquareCentimeterTolerance);
-            AssertEx.EqualTolerance(1, Irradiance.FromMegawattsPerSquareMeter(wattpersquaremeter.MegawattsPerSquareMeter).WattsPerSquareMeter, MegawattsPerSquareMeterTolerance);
-            AssertEx.EqualTolerance(1, Irradiance.FromMicrowattsPerSquareCentimeter(wattpersquaremeter.MicrowattsPerSquareCentimeter).WattsPerSquareMeter, MicrowattsPerSquareCentimeterTolerance);
-            AssertEx.EqualTolerance(1, Irradiance.FromMicrowattsPerSquareMeter(wattpersquaremeter.MicrowattsPerSquareMeter).WattsPerSquareMeter, MicrowattsPerSquareMeterTolerance);
-            AssertEx.EqualTolerance(1, Irradiance.FromMilliwattsPerSquareCentimeter(wattpersquaremeter.MilliwattsPerSquareCentimeter).WattsPerSquareMeter, MilliwattsPerSquareCentimeterTolerance);
-            AssertEx.EqualTolerance(1, Irradiance.FromMilliwattsPerSquareMeter(wattpersquaremeter.MilliwattsPerSquareMeter).WattsPerSquareMeter, MilliwattsPerSquareMeterTolerance);
-            AssertEx.EqualTolerance(1, Irradiance.FromNanowattsPerSquareCentimeter(wattpersquaremeter.NanowattsPerSquareCentimeter).WattsPerSquareMeter, NanowattsPerSquareCentimeterTolerance);
-            AssertEx.EqualTolerance(1, Irradiance.FromNanowattsPerSquareMeter(wattpersquaremeter.NanowattsPerSquareMeter).WattsPerSquareMeter, NanowattsPerSquareMeterTolerance);
-            AssertEx.EqualTolerance(1, Irradiance.FromPicowattsPerSquareCentimeter(wattpersquaremeter.PicowattsPerSquareCentimeter).WattsPerSquareMeter, PicowattsPerSquareCentimeterTolerance);
-            AssertEx.EqualTolerance(1, Irradiance.FromPicowattsPerSquareMeter(wattpersquaremeter.PicowattsPerSquareMeter).WattsPerSquareMeter, PicowattsPerSquareMeterTolerance);
-            AssertEx.EqualTolerance(1, Irradiance.FromWattsPerSquareCentimeter(wattpersquaremeter.WattsPerSquareCentimeter).WattsPerSquareMeter, WattsPerSquareCentimeterTolerance);
-            AssertEx.EqualTolerance(1, Irradiance.FromWattsPerSquareMeter(wattpersquaremeter.WattsPerSquareMeter).WattsPerSquareMeter, WattsPerSquareMeterTolerance);
+            Assert.Equal(1, Irradiance.FromKilowattsPerSquareCentimeter(wattpersquaremeter.KilowattsPerSquareCentimeter).WattsPerSquareMeter);
+            Assert.Equal(1, Irradiance.FromKilowattsPerSquareMeter(wattpersquaremeter.KilowattsPerSquareMeter).WattsPerSquareMeter);
+            Assert.Equal(1, Irradiance.FromMegawattsPerSquareCentimeter(wattpersquaremeter.MegawattsPerSquareCentimeter).WattsPerSquareMeter);
+            Assert.Equal(1, Irradiance.FromMegawattsPerSquareMeter(wattpersquaremeter.MegawattsPerSquareMeter).WattsPerSquareMeter);
+            Assert.Equal(1, Irradiance.FromMicrowattsPerSquareCentimeter(wattpersquaremeter.MicrowattsPerSquareCentimeter).WattsPerSquareMeter);
+            Assert.Equal(1, Irradiance.FromMicrowattsPerSquareMeter(wattpersquaremeter.MicrowattsPerSquareMeter).WattsPerSquareMeter);
+            Assert.Equal(1, Irradiance.FromMilliwattsPerSquareCentimeter(wattpersquaremeter.MilliwattsPerSquareCentimeter).WattsPerSquareMeter);
+            Assert.Equal(1, Irradiance.FromMilliwattsPerSquareMeter(wattpersquaremeter.MilliwattsPerSquareMeter).WattsPerSquareMeter);
+            Assert.Equal(1, Irradiance.FromNanowattsPerSquareCentimeter(wattpersquaremeter.NanowattsPerSquareCentimeter).WattsPerSquareMeter);
+            Assert.Equal(1, Irradiance.FromNanowattsPerSquareMeter(wattpersquaremeter.NanowattsPerSquareMeter).WattsPerSquareMeter);
+            Assert.Equal(1, Irradiance.FromPicowattsPerSquareCentimeter(wattpersquaremeter.PicowattsPerSquareCentimeter).WattsPerSquareMeter);
+            Assert.Equal(1, Irradiance.FromPicowattsPerSquareMeter(wattpersquaremeter.PicowattsPerSquareMeter).WattsPerSquareMeter);
+            Assert.Equal(1, Irradiance.FromWattsPerSquareCentimeter(wattpersquaremeter.WattsPerSquareCentimeter).WattsPerSquareMeter);
+            Assert.Equal(1, Irradiance.FromWattsPerSquareMeter(wattpersquaremeter.WattsPerSquareMeter).WattsPerSquareMeter);
         }
 
         [Fact]
         public void ArithmeticOperators()
         {
             Irradiance v = Irradiance.FromWattsPerSquareMeter(1);
-            AssertEx.EqualTolerance(-1, -v.WattsPerSquareMeter, WattsPerSquareMeterTolerance);
-            AssertEx.EqualTolerance(2, (Irradiance.FromWattsPerSquareMeter(3)-v).WattsPerSquareMeter, WattsPerSquareMeterTolerance);
-            AssertEx.EqualTolerance(2, (v + v).WattsPerSquareMeter, WattsPerSquareMeterTolerance);
-            AssertEx.EqualTolerance(10, (v*10).WattsPerSquareMeter, WattsPerSquareMeterTolerance);
-            AssertEx.EqualTolerance(10, (10*v).WattsPerSquareMeter, WattsPerSquareMeterTolerance);
-            AssertEx.EqualTolerance(2, (Irradiance.FromWattsPerSquareMeter(10)/5).WattsPerSquareMeter, WattsPerSquareMeterTolerance);
-            AssertEx.EqualTolerance(2, Irradiance.FromWattsPerSquareMeter(10)/Irradiance.FromWattsPerSquareMeter(5), WattsPerSquareMeterTolerance);
+            Assert.Equal(-1, -v.WattsPerSquareMeter);
+            Assert.Equal(2, (Irradiance.FromWattsPerSquareMeter(3) - v).WattsPerSquareMeter);
+            Assert.Equal(2, (v + v).WattsPerSquareMeter);
+            Assert.Equal(10, (v * 10).WattsPerSquareMeter);
+            Assert.Equal(10, (10 * v).WattsPerSquareMeter);
+            Assert.Equal(2, (Irradiance.FromWattsPerSquareMeter(10) / 5).WattsPerSquareMeter);
+            Assert.Equal(2, Irradiance.FromWattsPerSquareMeter(10) / Irradiance.FromWattsPerSquareMeter(5));
         }
 
         [Fact]
@@ -737,8 +733,6 @@ namespace UnitsNet.Tests
         [Theory]
         [InlineData(1, IrradianceUnit.WattPerSquareMeter, 1, IrradianceUnit.WattPerSquareMeter, true)]  // Same value and unit.
         [InlineData(1, IrradianceUnit.WattPerSquareMeter, 2, IrradianceUnit.WattPerSquareMeter, false)] // Different value.
-        [InlineData(2, IrradianceUnit.WattPerSquareMeter, 1, IrradianceUnit.KilowattPerSquareCentimeter, false)] // Different value and unit.
-        [InlineData(1, IrradianceUnit.WattPerSquareMeter, 1, IrradianceUnit.KilowattPerSquareCentimeter, false)] // Different unit.
         public void Equals_ReturnsTrue_IfValueAndUnitAreEqual(double valueA, IrradianceUnit unitA, double valueB, IrradianceUnit unitB, bool expectEqual)
         {
             var a = new Irradiance(valueA, unitA);
@@ -776,20 +770,22 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
-        public void Equals_RelativeTolerance_IsImplemented()
+        public void Equals_WithTolerance_IsImplemented()
         {
             var v = Irradiance.FromWattsPerSquareMeter(1);
-            Assert.True(v.Equals(Irradiance.FromWattsPerSquareMeter(1), WattsPerSquareMeterTolerance, ComparisonType.Relative));
-            Assert.False(v.Equals(Irradiance.Zero, WattsPerSquareMeterTolerance, ComparisonType.Relative));
-            Assert.True(Irradiance.FromWattsPerSquareMeter(100).Equals(Irradiance.FromWattsPerSquareMeter(120), 0.3, ComparisonType.Relative));
-            Assert.False(Irradiance.FromWattsPerSquareMeter(100).Equals(Irradiance.FromWattsPerSquareMeter(120), 0.1, ComparisonType.Relative));
+            Assert.True(v.Equals(Irradiance.FromWattsPerSquareMeter(1), Irradiance.FromWattsPerSquareMeter(0)));
+            Assert.True(v.Equals(Irradiance.FromWattsPerSquareMeter(1), Irradiance.FromWattsPerSquareMeter(0.001m)));
+            Assert.True(v.Equals(Irradiance.FromWattsPerSquareMeter(0.9999), Irradiance.FromWattsPerSquareMeter(0.001m)));
+            Assert.False(v.Equals(Irradiance.FromWattsPerSquareMeter(0.99), Irradiance.FromWattsPerSquareMeter(0.001m)));
+            Assert.False(v.Equals(Irradiance.Zero, Irradiance.FromWattsPerSquareMeter(0.001m)));
         }
 
         [Fact]
-        public void Equals_NegativeRelativeTolerance_ThrowsArgumentOutOfRangeException()
+        public void Equals_WithNegativeTolerance_ThrowsArgumentOutOfRangeException()
         {
             var v = Irradiance.FromWattsPerSquareMeter(1);
-            Assert.Throws<ArgumentOutOfRangeException>(() => v.Equals(Irradiance.FromWattsPerSquareMeter(1), -1, ComparisonType.Relative));
+            var negativeTolerance = Irradiance.FromWattsPerSquareMeter(-1);
+            Assert.Throws<ArgumentOutOfRangeException>(() => v.Equals(Irradiance.FromWattsPerSquareMeter(1), negativeTolerance));
         }
 
         [Fact]
@@ -812,7 +808,7 @@ namespace UnitsNet.Tests
             var units = Enum.GetValues(typeof(IrradianceUnit)).Cast<IrradianceUnit>();
             foreach (var unit in units)
             {
-                var defaultAbbreviation = UnitAbbreviationsCache.Default.GetDefaultAbbreviation(unit);
+                var defaultAbbreviation = UnitsNetSetup.Default.UnitAbbreviations.GetDefaultAbbreviation(unit);
             }
         }
 
@@ -1065,7 +1061,12 @@ namespace UnitsNet.Tests
         public void GetHashCode_Equals()
         {
             var quantity = Irradiance.FromWattsPerSquareMeter(1.0);
-            Assert.Equal(new {Irradiance.Info.Name, quantity.Value, quantity.Unit}.GetHashCode(), quantity.GetHashCode());
+            #if NET7_0_OR_GREATER
+            var expected = HashCode.Combine(Irradiance.Info.Name, quantity.WattsPerSquareMeter);
+            #else
+            var expected = new {Irradiance.Info.Name, valueInBaseUnit = quantity.WattsPerSquareMeter}.GetHashCode();
+            #endif
+            Assert.Equal(expected, quantity.GetHashCode());
         }
 
         [Theory]

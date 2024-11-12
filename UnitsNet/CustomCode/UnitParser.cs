@@ -12,7 +12,7 @@ namespace UnitsNet
 {
     /// <summary>
     ///     Parses units given a unit abbreviations cache.
-    ///     The static instance <see cref="Default"/> is used internally to parse quantities and units using the
+    ///     A static instance is created in the <see cref="UnitsNetSetup.Default"/>, which is used internally to parse quantities and units using the
     ///     default abbreviations cache for all units and abbreviations defined in the library.
     /// </summary>
     public sealed class UnitParser
@@ -33,7 +33,7 @@ namespace UnitsNet
         // TODO Change this to not fallback to built-in units abbreviations when given null, in v6: https://github.com/angularsen/UnitsNet/issues/1200
         public UnitParser(UnitAbbreviationsCache? unitAbbreviationsCache)
         {
-            _unitAbbreviationsCache = unitAbbreviationsCache ?? UnitAbbreviationsCache.Default;
+            _unitAbbreviationsCache = unitAbbreviationsCache ?? UnitsNetSetup.Default.UnitAbbreviations;
         }
 
         /// <summary>

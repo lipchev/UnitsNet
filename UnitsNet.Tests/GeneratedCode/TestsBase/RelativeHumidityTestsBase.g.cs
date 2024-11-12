@@ -93,15 +93,14 @@ namespace UnitsNet.Tests
         [Fact]
         public void Ctor_SIUnitSystem_ThrowsArgumentExceptionIfNotSupported()
         {
-            Func<object> TestCode = () => new RelativeHumidity(value: 1, unitSystem: UnitSystem.SI);
             if (SupportsSIUnitSystem)
             {
-                var quantity = (RelativeHumidity) TestCode();
+                var quantity = new RelativeHumidity(value: 1, unitSystem: UnitSystem.SI);
                 Assert.Equal(1, quantity.Value);
             }
             else
             {
-                Assert.Throws<ArgumentException>(TestCode);
+                Assert.Throws<ArgumentException>(() => new RelativeHumidity(value: 1, unitSystem: UnitSystem.SI));
             }
         }
 
@@ -130,7 +129,7 @@ namespace UnitsNet.Tests
         public void From_ValueAndUnit_ReturnsQuantityWithSameValueAndUnit()
         {
             var quantity00 = RelativeHumidity.From(1, RelativeHumidityUnit.Percent);
-            AssertEx.EqualTolerance(1, quantity00.Percent, PercentTolerance);
+            Assert.Equal(1, quantity00.Percent);
             Assert.Equal(RelativeHumidityUnit.Percent, quantity00.Unit);
 
         }
@@ -164,16 +163,13 @@ namespace UnitsNet.Tests
         public void As_SIUnitSystem_ThrowsArgumentExceptionIfNotSupported()
         {
             var quantity = new RelativeHumidity(value: 1, unit: RelativeHumidity.BaseUnit);
-            Func<object> AsWithSIUnitSystem = () => quantity.As(UnitSystem.SI);
-
             if (SupportsSIUnitSystem)
             {
-                var value = Convert.ToDouble(AsWithSIUnitSystem());
-                Assert.Equal(1, value);
+                Assert.Equal(1, quantity.As(UnitSystem.SI));
             }
             else
             {
-                Assert.Throws<ArgumentException>(AsWithSIUnitSystem);
+                Assert.Throws<ArgumentException>(() => quantity.As(UnitSystem.SI));
             }
         }
 
@@ -183,7 +179,7 @@ namespace UnitsNet.Tests
             try
             {
                 var parsed = RelativeHumidity.Parse("1 %RH", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.Percent, PercentTolerance);
+                Assert.Equal(1, parsed.Percent);
                 Assert.Equal(RelativeHumidityUnit.Percent, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
@@ -194,7 +190,7 @@ namespace UnitsNet.Tests
         {
             {
                 Assert.True(RelativeHumidity.TryParse("1 %RH", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.Percent, PercentTolerance);
+                Assert.Equal(1, parsed.Percent);
                 Assert.Equal(RelativeHumidityUnit.Percent, parsed.Unit);
             }
 
@@ -267,20 +263,20 @@ namespace UnitsNet.Tests
         public void ConversionRoundTrip()
         {
             RelativeHumidity percent = RelativeHumidity.FromPercent(1);
-            AssertEx.EqualTolerance(1, RelativeHumidity.FromPercent(percent.Percent).Percent, PercentTolerance);
+            Assert.Equal(1, RelativeHumidity.FromPercent(percent.Percent).Percent);
         }
 
         [Fact]
         public void ArithmeticOperators()
         {
             RelativeHumidity v = RelativeHumidity.FromPercent(1);
-            AssertEx.EqualTolerance(-1, -v.Percent, PercentTolerance);
-            AssertEx.EqualTolerance(2, (RelativeHumidity.FromPercent(3)-v).Percent, PercentTolerance);
-            AssertEx.EqualTolerance(2, (v + v).Percent, PercentTolerance);
-            AssertEx.EqualTolerance(10, (v*10).Percent, PercentTolerance);
-            AssertEx.EqualTolerance(10, (10*v).Percent, PercentTolerance);
-            AssertEx.EqualTolerance(2, (RelativeHumidity.FromPercent(10)/5).Percent, PercentTolerance);
-            AssertEx.EqualTolerance(2, RelativeHumidity.FromPercent(10)/RelativeHumidity.FromPercent(5), PercentTolerance);
+            Assert.Equal(-1, -v.Percent);
+            Assert.Equal(2, (RelativeHumidity.FromPercent(3) - v).Percent);
+            Assert.Equal(2, (v + v).Percent);
+            Assert.Equal(10, (v * 10).Percent);
+            Assert.Equal(10, (10 * v).Percent);
+            Assert.Equal(2, (RelativeHumidity.FromPercent(10) / 5).Percent);
+            Assert.Equal(2, RelativeHumidity.FromPercent(10) / RelativeHumidity.FromPercent(5));
         }
 
         [Fact]
@@ -326,7 +322,6 @@ namespace UnitsNet.Tests
         [Theory]
         [InlineData(1, RelativeHumidityUnit.Percent, 1, RelativeHumidityUnit.Percent, true)]  // Same value and unit.
         [InlineData(1, RelativeHumidityUnit.Percent, 2, RelativeHumidityUnit.Percent, false)] // Different value.
-        [InlineData(2, RelativeHumidityUnit.Percent, 1, RelativeHumidityUnit.Percent, false)] // Different value and unit.
         public void Equals_ReturnsTrue_IfValueAndUnitAreEqual(double valueA, RelativeHumidityUnit unitA, double valueB, RelativeHumidityUnit unitB, bool expectEqual)
         {
             var a = new RelativeHumidity(valueA, unitA);
@@ -364,20 +359,22 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
-        public void Equals_RelativeTolerance_IsImplemented()
+        public void Equals_WithTolerance_IsImplemented()
         {
             var v = RelativeHumidity.FromPercent(1);
-            Assert.True(v.Equals(RelativeHumidity.FromPercent(1), PercentTolerance, ComparisonType.Relative));
-            Assert.False(v.Equals(RelativeHumidity.Zero, PercentTolerance, ComparisonType.Relative));
-            Assert.True(RelativeHumidity.FromPercent(100).Equals(RelativeHumidity.FromPercent(120), 0.3, ComparisonType.Relative));
-            Assert.False(RelativeHumidity.FromPercent(100).Equals(RelativeHumidity.FromPercent(120), 0.1, ComparisonType.Relative));
+            Assert.True(v.Equals(RelativeHumidity.FromPercent(1), RelativeHumidity.FromPercent(0)));
+            Assert.True(v.Equals(RelativeHumidity.FromPercent(1), RelativeHumidity.FromPercent(0.001m)));
+            Assert.True(v.Equals(RelativeHumidity.FromPercent(0.9999), RelativeHumidity.FromPercent(0.001m)));
+            Assert.False(v.Equals(RelativeHumidity.FromPercent(0.99), RelativeHumidity.FromPercent(0.001m)));
+            Assert.False(v.Equals(RelativeHumidity.Zero, RelativeHumidity.FromPercent(0.001m)));
         }
 
         [Fact]
-        public void Equals_NegativeRelativeTolerance_ThrowsArgumentOutOfRangeException()
+        public void Equals_WithNegativeTolerance_ThrowsArgumentOutOfRangeException()
         {
             var v = RelativeHumidity.FromPercent(1);
-            Assert.Throws<ArgumentOutOfRangeException>(() => v.Equals(RelativeHumidity.FromPercent(1), -1, ComparisonType.Relative));
+            var negativeTolerance = RelativeHumidity.FromPercent(-1);
+            Assert.Throws<ArgumentOutOfRangeException>(() => v.Equals(RelativeHumidity.FromPercent(1), negativeTolerance));
         }
 
         [Fact]
@@ -400,7 +397,7 @@ namespace UnitsNet.Tests
             var units = Enum.GetValues(typeof(RelativeHumidityUnit)).Cast<RelativeHumidityUnit>();
             foreach (var unit in units)
             {
-                var defaultAbbreviation = UnitAbbreviationsCache.Default.GetDefaultAbbreviation(unit);
+                var defaultAbbreviation = UnitsNetSetup.Default.UnitAbbreviations.GetDefaultAbbreviation(unit);
             }
         }
 
@@ -627,7 +624,12 @@ namespace UnitsNet.Tests
         public void GetHashCode_Equals()
         {
             var quantity = RelativeHumidity.FromPercent(1.0);
-            Assert.Equal(new {RelativeHumidity.Info.Name, quantity.Value, quantity.Unit}.GetHashCode(), quantity.GetHashCode());
+            #if NET7_0_OR_GREATER
+            var expected = HashCode.Combine(RelativeHumidity.Info.Name, quantity.Percent);
+            #else
+            var expected = new {RelativeHumidity.Info.Name, valueInBaseUnit = quantity.Percent}.GetHashCode();
+            #endif
+            Assert.Equal(expected, quantity.GetHashCode());
         }
 
         [Theory]

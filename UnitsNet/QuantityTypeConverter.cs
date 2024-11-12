@@ -173,11 +173,11 @@ namespace UnitsNet
             {
                 IQuantity? quantity = null;
 
-                if (double.TryParse(stringValue, NumberStyles.Any, culture, out double dvalue))
+                if (QuantityValue.TryParse(stringValue, NumberStyles.Any, culture, out QuantityValue fraction))
                 {
                     var defaultUnit = GetAttribute<DefaultUnitAttribute>(context) ?? new DefaultUnitAttribute(default(TQuantity).Unit);
                     if(defaultUnit.UnitType != null)
-                        quantity = Quantity.From(dvalue, defaultUnit.UnitType);
+                        quantity = Quantity.From(fraction, defaultUnit.UnitType);
                 }
                 else
                 {

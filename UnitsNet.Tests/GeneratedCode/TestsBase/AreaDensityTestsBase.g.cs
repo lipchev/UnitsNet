@@ -101,15 +101,14 @@ namespace UnitsNet.Tests
         [Fact]
         public void Ctor_SIUnitSystem_ThrowsArgumentExceptionIfNotSupported()
         {
-            Func<object> TestCode = () => new AreaDensity(value: 1, unitSystem: UnitSystem.SI);
             if (SupportsSIUnitSystem)
             {
-                var quantity = (AreaDensity) TestCode();
+                var quantity = new AreaDensity(value: 1, unitSystem: UnitSystem.SI);
                 Assert.Equal(1, quantity.Value);
             }
             else
             {
-                Assert.Throws<ArgumentException>(TestCode);
+                Assert.Throws<ArgumentException>(() => new AreaDensity(value: 1, unitSystem: UnitSystem.SI));
             }
         }
 
@@ -140,15 +139,15 @@ namespace UnitsNet.Tests
         public void From_ValueAndUnit_ReturnsQuantityWithSameValueAndUnit()
         {
             var quantity00 = AreaDensity.From(1, AreaDensityUnit.GramPerSquareMeter);
-            AssertEx.EqualTolerance(1, quantity00.GramsPerSquareMeter, GramsPerSquareMeterTolerance);
+            Assert.Equal(1, quantity00.GramsPerSquareMeter);
             Assert.Equal(AreaDensityUnit.GramPerSquareMeter, quantity00.Unit);
 
             var quantity01 = AreaDensity.From(1, AreaDensityUnit.KilogramPerSquareMeter);
-            AssertEx.EqualTolerance(1, quantity01.KilogramsPerSquareMeter, KilogramsPerSquareMeterTolerance);
+            Assert.Equal(1, quantity01.KilogramsPerSquareMeter);
             Assert.Equal(AreaDensityUnit.KilogramPerSquareMeter, quantity01.Unit);
 
             var quantity02 = AreaDensity.From(1, AreaDensityUnit.MilligramPerSquareMeter);
-            AssertEx.EqualTolerance(1, quantity02.MilligramsPerSquareMeter, MilligramsPerSquareMeterTolerance);
+            Assert.Equal(1, quantity02.MilligramsPerSquareMeter);
             Assert.Equal(AreaDensityUnit.MilligramPerSquareMeter, quantity02.Unit);
 
         }
@@ -184,16 +183,13 @@ namespace UnitsNet.Tests
         public void As_SIUnitSystem_ThrowsArgumentExceptionIfNotSupported()
         {
             var quantity = new AreaDensity(value: 1, unit: AreaDensity.BaseUnit);
-            Func<object> AsWithSIUnitSystem = () => quantity.As(UnitSystem.SI);
-
             if (SupportsSIUnitSystem)
             {
-                var value = Convert.ToDouble(AsWithSIUnitSystem());
-                Assert.Equal(1, value);
+                Assert.Equal(1, quantity.As(UnitSystem.SI));
             }
             else
             {
-                Assert.Throws<ArgumentException>(AsWithSIUnitSystem);
+                Assert.Throws<ArgumentException>(() => quantity.As(UnitSystem.SI));
             }
         }
 
@@ -203,28 +199,28 @@ namespace UnitsNet.Tests
             try
             {
                 var parsed = AreaDensity.Parse("1 g/m²", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.GramsPerSquareMeter, GramsPerSquareMeterTolerance);
+                Assert.Equal(1, parsed.GramsPerSquareMeter);
                 Assert.Equal(AreaDensityUnit.GramPerSquareMeter, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = AreaDensity.Parse("1 gsm", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.GramsPerSquareMeter, GramsPerSquareMeterTolerance);
+                Assert.Equal(1, parsed.GramsPerSquareMeter);
                 Assert.Equal(AreaDensityUnit.GramPerSquareMeter, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = AreaDensity.Parse("1 kg/m²", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.KilogramsPerSquareMeter, KilogramsPerSquareMeterTolerance);
+                Assert.Equal(1, parsed.KilogramsPerSquareMeter);
                 Assert.Equal(AreaDensityUnit.KilogramPerSquareMeter, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = AreaDensity.Parse("1 mg/m²", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.MilligramsPerSquareMeter, MilligramsPerSquareMeterTolerance);
+                Assert.Equal(1, parsed.MilligramsPerSquareMeter);
                 Assert.Equal(AreaDensityUnit.MilligramPerSquareMeter, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
@@ -235,25 +231,25 @@ namespace UnitsNet.Tests
         {
             {
                 Assert.True(AreaDensity.TryParse("1 g/m²", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.GramsPerSquareMeter, GramsPerSquareMeterTolerance);
+                Assert.Equal(1, parsed.GramsPerSquareMeter);
                 Assert.Equal(AreaDensityUnit.GramPerSquareMeter, parsed.Unit);
             }
 
             {
                 Assert.True(AreaDensity.TryParse("1 gsm", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.GramsPerSquareMeter, GramsPerSquareMeterTolerance);
+                Assert.Equal(1, parsed.GramsPerSquareMeter);
                 Assert.Equal(AreaDensityUnit.GramPerSquareMeter, parsed.Unit);
             }
 
             {
                 Assert.True(AreaDensity.TryParse("1 kg/m²", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.KilogramsPerSquareMeter, KilogramsPerSquareMeterTolerance);
+                Assert.Equal(1, parsed.KilogramsPerSquareMeter);
                 Assert.Equal(AreaDensityUnit.KilogramPerSquareMeter, parsed.Unit);
             }
 
             {
                 Assert.True(AreaDensity.TryParse("1 mg/m²", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.MilligramsPerSquareMeter, MilligramsPerSquareMeterTolerance);
+                Assert.Equal(1, parsed.MilligramsPerSquareMeter);
                 Assert.Equal(AreaDensityUnit.MilligramPerSquareMeter, parsed.Unit);
             }
 
@@ -359,22 +355,22 @@ namespace UnitsNet.Tests
         public void ConversionRoundTrip()
         {
             AreaDensity kilogrampersquaremeter = AreaDensity.FromKilogramsPerSquareMeter(1);
-            AssertEx.EqualTolerance(1, AreaDensity.FromGramsPerSquareMeter(kilogrampersquaremeter.GramsPerSquareMeter).KilogramsPerSquareMeter, GramsPerSquareMeterTolerance);
-            AssertEx.EqualTolerance(1, AreaDensity.FromKilogramsPerSquareMeter(kilogrampersquaremeter.KilogramsPerSquareMeter).KilogramsPerSquareMeter, KilogramsPerSquareMeterTolerance);
-            AssertEx.EqualTolerance(1, AreaDensity.FromMilligramsPerSquareMeter(kilogrampersquaremeter.MilligramsPerSquareMeter).KilogramsPerSquareMeter, MilligramsPerSquareMeterTolerance);
+            Assert.Equal(1, AreaDensity.FromGramsPerSquareMeter(kilogrampersquaremeter.GramsPerSquareMeter).KilogramsPerSquareMeter);
+            Assert.Equal(1, AreaDensity.FromKilogramsPerSquareMeter(kilogrampersquaremeter.KilogramsPerSquareMeter).KilogramsPerSquareMeter);
+            Assert.Equal(1, AreaDensity.FromMilligramsPerSquareMeter(kilogrampersquaremeter.MilligramsPerSquareMeter).KilogramsPerSquareMeter);
         }
 
         [Fact]
         public void ArithmeticOperators()
         {
             AreaDensity v = AreaDensity.FromKilogramsPerSquareMeter(1);
-            AssertEx.EqualTolerance(-1, -v.KilogramsPerSquareMeter, KilogramsPerSquareMeterTolerance);
-            AssertEx.EqualTolerance(2, (AreaDensity.FromKilogramsPerSquareMeter(3)-v).KilogramsPerSquareMeter, KilogramsPerSquareMeterTolerance);
-            AssertEx.EqualTolerance(2, (v + v).KilogramsPerSquareMeter, KilogramsPerSquareMeterTolerance);
-            AssertEx.EqualTolerance(10, (v*10).KilogramsPerSquareMeter, KilogramsPerSquareMeterTolerance);
-            AssertEx.EqualTolerance(10, (10*v).KilogramsPerSquareMeter, KilogramsPerSquareMeterTolerance);
-            AssertEx.EqualTolerance(2, (AreaDensity.FromKilogramsPerSquareMeter(10)/5).KilogramsPerSquareMeter, KilogramsPerSquareMeterTolerance);
-            AssertEx.EqualTolerance(2, AreaDensity.FromKilogramsPerSquareMeter(10)/AreaDensity.FromKilogramsPerSquareMeter(5), KilogramsPerSquareMeterTolerance);
+            Assert.Equal(-1, -v.KilogramsPerSquareMeter);
+            Assert.Equal(2, (AreaDensity.FromKilogramsPerSquareMeter(3) - v).KilogramsPerSquareMeter);
+            Assert.Equal(2, (v + v).KilogramsPerSquareMeter);
+            Assert.Equal(10, (v * 10).KilogramsPerSquareMeter);
+            Assert.Equal(10, (10 * v).KilogramsPerSquareMeter);
+            Assert.Equal(2, (AreaDensity.FromKilogramsPerSquareMeter(10) / 5).KilogramsPerSquareMeter);
+            Assert.Equal(2, AreaDensity.FromKilogramsPerSquareMeter(10) / AreaDensity.FromKilogramsPerSquareMeter(5));
         }
 
         [Fact]
@@ -420,8 +416,6 @@ namespace UnitsNet.Tests
         [Theory]
         [InlineData(1, AreaDensityUnit.KilogramPerSquareMeter, 1, AreaDensityUnit.KilogramPerSquareMeter, true)]  // Same value and unit.
         [InlineData(1, AreaDensityUnit.KilogramPerSquareMeter, 2, AreaDensityUnit.KilogramPerSquareMeter, false)] // Different value.
-        [InlineData(2, AreaDensityUnit.KilogramPerSquareMeter, 1, AreaDensityUnit.GramPerSquareMeter, false)] // Different value and unit.
-        [InlineData(1, AreaDensityUnit.KilogramPerSquareMeter, 1, AreaDensityUnit.GramPerSquareMeter, false)] // Different unit.
         public void Equals_ReturnsTrue_IfValueAndUnitAreEqual(double valueA, AreaDensityUnit unitA, double valueB, AreaDensityUnit unitB, bool expectEqual)
         {
             var a = new AreaDensity(valueA, unitA);
@@ -459,20 +453,22 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
-        public void Equals_RelativeTolerance_IsImplemented()
+        public void Equals_WithTolerance_IsImplemented()
         {
             var v = AreaDensity.FromKilogramsPerSquareMeter(1);
-            Assert.True(v.Equals(AreaDensity.FromKilogramsPerSquareMeter(1), KilogramsPerSquareMeterTolerance, ComparisonType.Relative));
-            Assert.False(v.Equals(AreaDensity.Zero, KilogramsPerSquareMeterTolerance, ComparisonType.Relative));
-            Assert.True(AreaDensity.FromKilogramsPerSquareMeter(100).Equals(AreaDensity.FromKilogramsPerSquareMeter(120), 0.3, ComparisonType.Relative));
-            Assert.False(AreaDensity.FromKilogramsPerSquareMeter(100).Equals(AreaDensity.FromKilogramsPerSquareMeter(120), 0.1, ComparisonType.Relative));
+            Assert.True(v.Equals(AreaDensity.FromKilogramsPerSquareMeter(1), AreaDensity.FromKilogramsPerSquareMeter(0)));
+            Assert.True(v.Equals(AreaDensity.FromKilogramsPerSquareMeter(1), AreaDensity.FromKilogramsPerSquareMeter(0.001m)));
+            Assert.True(v.Equals(AreaDensity.FromKilogramsPerSquareMeter(0.9999), AreaDensity.FromKilogramsPerSquareMeter(0.001m)));
+            Assert.False(v.Equals(AreaDensity.FromKilogramsPerSquareMeter(0.99), AreaDensity.FromKilogramsPerSquareMeter(0.001m)));
+            Assert.False(v.Equals(AreaDensity.Zero, AreaDensity.FromKilogramsPerSquareMeter(0.001m)));
         }
 
         [Fact]
-        public void Equals_NegativeRelativeTolerance_ThrowsArgumentOutOfRangeException()
+        public void Equals_WithNegativeTolerance_ThrowsArgumentOutOfRangeException()
         {
             var v = AreaDensity.FromKilogramsPerSquareMeter(1);
-            Assert.Throws<ArgumentOutOfRangeException>(() => v.Equals(AreaDensity.FromKilogramsPerSquareMeter(1), -1, ComparisonType.Relative));
+            var negativeTolerance = AreaDensity.FromKilogramsPerSquareMeter(-1);
+            Assert.Throws<ArgumentOutOfRangeException>(() => v.Equals(AreaDensity.FromKilogramsPerSquareMeter(1), negativeTolerance));
         }
 
         [Fact]
@@ -495,7 +491,7 @@ namespace UnitsNet.Tests
             var units = Enum.GetValues(typeof(AreaDensityUnit)).Cast<AreaDensityUnit>();
             foreach (var unit in units)
             {
-                var defaultAbbreviation = UnitAbbreviationsCache.Default.GetDefaultAbbreviation(unit);
+                var defaultAbbreviation = UnitsNetSetup.Default.UnitAbbreviations.GetDefaultAbbreviation(unit);
             }
         }
 
@@ -726,7 +722,12 @@ namespace UnitsNet.Tests
         public void GetHashCode_Equals()
         {
             var quantity = AreaDensity.FromKilogramsPerSquareMeter(1.0);
-            Assert.Equal(new {AreaDensity.Info.Name, quantity.Value, quantity.Unit}.GetHashCode(), quantity.GetHashCode());
+            #if NET7_0_OR_GREATER
+            var expected = HashCode.Combine(AreaDensity.Info.Name, quantity.KilogramsPerSquareMeter);
+            #else
+            var expected = new {AreaDensity.Info.Name, valueInBaseUnit = quantity.KilogramsPerSquareMeter}.GetHashCode();
+            #endif
+            Assert.Equal(expected, quantity.GetHashCode());
         }
 
         [Theory]

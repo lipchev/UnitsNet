@@ -93,15 +93,14 @@ namespace UnitsNet.Tests
         [Fact]
         public void Ctor_SIUnitSystem_ThrowsArgumentExceptionIfNotSupported()
         {
-            Func<object> TestCode = () => new Magnetization(value: 1, unitSystem: UnitSystem.SI);
             if (SupportsSIUnitSystem)
             {
-                var quantity = (Magnetization) TestCode();
+                var quantity = new Magnetization(value: 1, unitSystem: UnitSystem.SI);
                 Assert.Equal(1, quantity.Value);
             }
             else
             {
-                Assert.Throws<ArgumentException>(TestCode);
+                Assert.Throws<ArgumentException>(() => new Magnetization(value: 1, unitSystem: UnitSystem.SI));
             }
         }
 
@@ -130,7 +129,7 @@ namespace UnitsNet.Tests
         public void From_ValueAndUnit_ReturnsQuantityWithSameValueAndUnit()
         {
             var quantity00 = Magnetization.From(1, MagnetizationUnit.AmperePerMeter);
-            AssertEx.EqualTolerance(1, quantity00.AmperesPerMeter, AmperesPerMeterTolerance);
+            Assert.Equal(1, quantity00.AmperesPerMeter);
             Assert.Equal(MagnetizationUnit.AmperePerMeter, quantity00.Unit);
 
         }
@@ -164,16 +163,13 @@ namespace UnitsNet.Tests
         public void As_SIUnitSystem_ThrowsArgumentExceptionIfNotSupported()
         {
             var quantity = new Magnetization(value: 1, unit: Magnetization.BaseUnit);
-            Func<object> AsWithSIUnitSystem = () => quantity.As(UnitSystem.SI);
-
             if (SupportsSIUnitSystem)
             {
-                var value = Convert.ToDouble(AsWithSIUnitSystem());
-                Assert.Equal(1, value);
+                Assert.Equal(1, quantity.As(UnitSystem.SI));
             }
             else
             {
-                Assert.Throws<ArgumentException>(AsWithSIUnitSystem);
+                Assert.Throws<ArgumentException>(() => quantity.As(UnitSystem.SI));
             }
         }
 
@@ -183,7 +179,7 @@ namespace UnitsNet.Tests
             try
             {
                 var parsed = Magnetization.Parse("1 A/m", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.AmperesPerMeter, AmperesPerMeterTolerance);
+                Assert.Equal(1, parsed.AmperesPerMeter);
                 Assert.Equal(MagnetizationUnit.AmperePerMeter, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
@@ -194,7 +190,7 @@ namespace UnitsNet.Tests
         {
             {
                 Assert.True(Magnetization.TryParse("1 A/m", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.AmperesPerMeter, AmperesPerMeterTolerance);
+                Assert.Equal(1, parsed.AmperesPerMeter);
                 Assert.Equal(MagnetizationUnit.AmperePerMeter, parsed.Unit);
             }
 
@@ -267,20 +263,20 @@ namespace UnitsNet.Tests
         public void ConversionRoundTrip()
         {
             Magnetization amperepermeter = Magnetization.FromAmperesPerMeter(1);
-            AssertEx.EqualTolerance(1, Magnetization.FromAmperesPerMeter(amperepermeter.AmperesPerMeter).AmperesPerMeter, AmperesPerMeterTolerance);
+            Assert.Equal(1, Magnetization.FromAmperesPerMeter(amperepermeter.AmperesPerMeter).AmperesPerMeter);
         }
 
         [Fact]
         public void ArithmeticOperators()
         {
             Magnetization v = Magnetization.FromAmperesPerMeter(1);
-            AssertEx.EqualTolerance(-1, -v.AmperesPerMeter, AmperesPerMeterTolerance);
-            AssertEx.EqualTolerance(2, (Magnetization.FromAmperesPerMeter(3)-v).AmperesPerMeter, AmperesPerMeterTolerance);
-            AssertEx.EqualTolerance(2, (v + v).AmperesPerMeter, AmperesPerMeterTolerance);
-            AssertEx.EqualTolerance(10, (v*10).AmperesPerMeter, AmperesPerMeterTolerance);
-            AssertEx.EqualTolerance(10, (10*v).AmperesPerMeter, AmperesPerMeterTolerance);
-            AssertEx.EqualTolerance(2, (Magnetization.FromAmperesPerMeter(10)/5).AmperesPerMeter, AmperesPerMeterTolerance);
-            AssertEx.EqualTolerance(2, Magnetization.FromAmperesPerMeter(10)/Magnetization.FromAmperesPerMeter(5), AmperesPerMeterTolerance);
+            Assert.Equal(-1, -v.AmperesPerMeter);
+            Assert.Equal(2, (Magnetization.FromAmperesPerMeter(3) - v).AmperesPerMeter);
+            Assert.Equal(2, (v + v).AmperesPerMeter);
+            Assert.Equal(10, (v * 10).AmperesPerMeter);
+            Assert.Equal(10, (10 * v).AmperesPerMeter);
+            Assert.Equal(2, (Magnetization.FromAmperesPerMeter(10) / 5).AmperesPerMeter);
+            Assert.Equal(2, Magnetization.FromAmperesPerMeter(10) / Magnetization.FromAmperesPerMeter(5));
         }
 
         [Fact]
@@ -326,7 +322,6 @@ namespace UnitsNet.Tests
         [Theory]
         [InlineData(1, MagnetizationUnit.AmperePerMeter, 1, MagnetizationUnit.AmperePerMeter, true)]  // Same value and unit.
         [InlineData(1, MagnetizationUnit.AmperePerMeter, 2, MagnetizationUnit.AmperePerMeter, false)] // Different value.
-        [InlineData(2, MagnetizationUnit.AmperePerMeter, 1, MagnetizationUnit.AmperePerMeter, false)] // Different value and unit.
         public void Equals_ReturnsTrue_IfValueAndUnitAreEqual(double valueA, MagnetizationUnit unitA, double valueB, MagnetizationUnit unitB, bool expectEqual)
         {
             var a = new Magnetization(valueA, unitA);
@@ -364,20 +359,22 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
-        public void Equals_RelativeTolerance_IsImplemented()
+        public void Equals_WithTolerance_IsImplemented()
         {
             var v = Magnetization.FromAmperesPerMeter(1);
-            Assert.True(v.Equals(Magnetization.FromAmperesPerMeter(1), AmperesPerMeterTolerance, ComparisonType.Relative));
-            Assert.False(v.Equals(Magnetization.Zero, AmperesPerMeterTolerance, ComparisonType.Relative));
-            Assert.True(Magnetization.FromAmperesPerMeter(100).Equals(Magnetization.FromAmperesPerMeter(120), 0.3, ComparisonType.Relative));
-            Assert.False(Magnetization.FromAmperesPerMeter(100).Equals(Magnetization.FromAmperesPerMeter(120), 0.1, ComparisonType.Relative));
+            Assert.True(v.Equals(Magnetization.FromAmperesPerMeter(1), Magnetization.FromAmperesPerMeter(0)));
+            Assert.True(v.Equals(Magnetization.FromAmperesPerMeter(1), Magnetization.FromAmperesPerMeter(0.001m)));
+            Assert.True(v.Equals(Magnetization.FromAmperesPerMeter(0.9999), Magnetization.FromAmperesPerMeter(0.001m)));
+            Assert.False(v.Equals(Magnetization.FromAmperesPerMeter(0.99), Magnetization.FromAmperesPerMeter(0.001m)));
+            Assert.False(v.Equals(Magnetization.Zero, Magnetization.FromAmperesPerMeter(0.001m)));
         }
 
         [Fact]
-        public void Equals_NegativeRelativeTolerance_ThrowsArgumentOutOfRangeException()
+        public void Equals_WithNegativeTolerance_ThrowsArgumentOutOfRangeException()
         {
             var v = Magnetization.FromAmperesPerMeter(1);
-            Assert.Throws<ArgumentOutOfRangeException>(() => v.Equals(Magnetization.FromAmperesPerMeter(1), -1, ComparisonType.Relative));
+            var negativeTolerance = Magnetization.FromAmperesPerMeter(-1);
+            Assert.Throws<ArgumentOutOfRangeException>(() => v.Equals(Magnetization.FromAmperesPerMeter(1), negativeTolerance));
         }
 
         [Fact]
@@ -400,7 +397,7 @@ namespace UnitsNet.Tests
             var units = Enum.GetValues(typeof(MagnetizationUnit)).Cast<MagnetizationUnit>();
             foreach (var unit in units)
             {
-                var defaultAbbreviation = UnitAbbreviationsCache.Default.GetDefaultAbbreviation(unit);
+                var defaultAbbreviation = UnitsNetSetup.Default.UnitAbbreviations.GetDefaultAbbreviation(unit);
             }
         }
 
@@ -627,7 +624,12 @@ namespace UnitsNet.Tests
         public void GetHashCode_Equals()
         {
             var quantity = Magnetization.FromAmperesPerMeter(1.0);
-            Assert.Equal(new {Magnetization.Info.Name, quantity.Value, quantity.Unit}.GetHashCode(), quantity.GetHashCode());
+            #if NET7_0_OR_GREATER
+            var expected = HashCode.Combine(Magnetization.Info.Name, quantity.AmperesPerMeter);
+            #else
+            var expected = new {Magnetization.Info.Name, valueInBaseUnit = quantity.AmperesPerMeter}.GetHashCode();
+            #endif
+            Assert.Equal(expected, quantity.GetHashCode());
         }
 
         [Theory]

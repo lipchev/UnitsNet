@@ -111,12 +111,12 @@ namespace UnitsNet
                 : throw new UnitNotFoundException($"Unit value {unit} of type {unit.GetType()} is not a known unit enum type. Expected types like UnitsNet.Units.LengthUnit. Did you pass in a custom enum type defined outside the UnitsNet library?");
         }
 
-        /// <inheritdoc cref="Quantity.TryFrom(double,System.Enum,out UnitsNet.IQuantity)"/>
+        /// <inheritdoc cref="Quantity.TryFrom(QuantityValue,System.Enum,out UnitsNet.IQuantity)"/>
         public bool TryFrom(double value, Enum unit, [NotNullWhen(true)] out IQuantity? quantity)
         {
             // Implicit cast to QuantityValue would prevent TryFrom from being called,
             // so we need to explicitly check this here for double arguments.
-            if (double.IsNaN(value) || double.IsInfinity(value))
+            if (double.IsNaN(value) || double.IsInfinity(value))  // TODO is this check intentional?
             {
                 quantity = default(IQuantity);
                 return false;

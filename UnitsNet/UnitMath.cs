@@ -9,6 +9,11 @@ namespace UnitsNet
     /// </summary>
     public static class UnitMath
     {
+        /// <summary>
+        ///     Represents the PI constant as a rational fraction.
+        /// </summary>
+        public static readonly QuantityValue PI = QuantityValue.FromDoubleRounded(Math.PI, 16);
+        
         /// <summary>Returns the absolute value of a <typeparamref name="TQuantity" />.</summary>
         /// <param name="value">
         ///     A quantity with a value that is greater than or equal to <see cref="F:System.Double.MinValue" />,
@@ -34,7 +39,7 @@ namespace UnitsNet
             where TUnitType : Enum
             where TQuantity : IQuantity<TUnitType>
         {
-            return (TQuantity) Quantity.From(source.Sum(x => x.As(unitType)), unitType);
+            return (TQuantity) Quantity.From(source.Aggregate(QuantityValue.Zero, (current, quantity) => current + quantity.As(unitType)), unitType);
         }
 
         /// <summary>
@@ -182,7 +187,20 @@ namespace UnitsNet
             where TUnitType : Enum
             where TQuantity : IQuantity<TUnitType>
         {
-            return (TQuantity) Quantity.From(source.Average(x => x.As(unitType)), unitType);
+            var nbQuantities = 0;
+            QuantityValue sum = QuantityValue.Zero;
+            foreach (TQuantity quantity in source)
+            {
+                sum += quantity.As(unitType);
+                nbQuantities++;
+            }
+
+            if (nbQuantities == 0)
+            {
+                throw new InvalidOperationException("Sequence contains no elements");
+            }
+
+            return (TQuantity) Quantity.From(sum / nbQuantities, unitType);
         }
 
         /// <summary>

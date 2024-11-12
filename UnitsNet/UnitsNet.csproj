@@ -1,8 +1,8 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <!-- NuGet properties -->
   <PropertyGroup>
     <PackageId>UnitsNet</PackageId>
-    <Version>6.0.0-pre012</Version>
+    <Version>6.0.0-pre014</Version>
     <Authors>Andreas Gullberg Larsen</Authors>
     <Title>Units.NET</Title>
     <Description>Get all the common units of measurement and the conversions between them. It is light-weight and thoroughly tested.</Description>
@@ -51,6 +51,10 @@
 
   <ItemGroup>
     <EmbeddedResource Include="GeneratedCode\Resources\*.restext" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Fractions" />
   </ItemGroup>
 
 </Project>

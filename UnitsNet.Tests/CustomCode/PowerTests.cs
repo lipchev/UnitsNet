@@ -26,7 +26,7 @@ namespace UnitsNet.Tests
 
         protected override double DeciwattsInOneWatt => 1e1;
 
-        protected override decimal TonsOfRefrigerationInOneWatt => 2.8434512332474516279184828026648e-4m;
+        protected override double TonsOfRefrigerationInOneWatt => 2.8434512332474516279184828026648e-4;
 
         protected override double WattsInOneWatt => 1;
 
@@ -60,7 +60,7 @@ namespace UnitsNet.Tests
 
         protected override double HydraulicHorsepowerInOneWatt => 0.00134102207184949258114167291719;
 
-        protected override double MechanicalHorsepowerInOneWatt => 0.00134103984229371454625916935992;
+        protected override double MechanicalHorsepowerInOneWatt => 0.001341022089714951;
 
         protected override double MetricHorsepowerInOneWatt => 0.00135962161730390432342679032425;
 

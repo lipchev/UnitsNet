@@ -101,15 +101,14 @@ namespace UnitsNet.Tests
         [Fact]
         public void Ctor_SIUnitSystem_ThrowsArgumentExceptionIfNotSupported()
         {
-            Func<object> TestCode = () => new ReactiveEnergy(value: 1, unitSystem: UnitSystem.SI);
             if (SupportsSIUnitSystem)
             {
-                var quantity = (ReactiveEnergy) TestCode();
+                var quantity = new ReactiveEnergy(value: 1, unitSystem: UnitSystem.SI);
                 Assert.Equal(1, quantity.Value);
             }
             else
             {
-                Assert.Throws<ArgumentException>(TestCode);
+                Assert.Throws<ArgumentException>(() => new ReactiveEnergy(value: 1, unitSystem: UnitSystem.SI));
             }
         }
 
@@ -140,15 +139,15 @@ namespace UnitsNet.Tests
         public void From_ValueAndUnit_ReturnsQuantityWithSameValueAndUnit()
         {
             var quantity00 = ReactiveEnergy.From(1, ReactiveEnergyUnit.KilovoltampereReactiveHour);
-            AssertEx.EqualTolerance(1, quantity00.KilovoltampereReactiveHours, KilovoltampereReactiveHoursTolerance);
+            Assert.Equal(1, quantity00.KilovoltampereReactiveHours);
             Assert.Equal(ReactiveEnergyUnit.KilovoltampereReactiveHour, quantity00.Unit);
 
             var quantity01 = ReactiveEnergy.From(1, ReactiveEnergyUnit.MegavoltampereReactiveHour);
-            AssertEx.EqualTolerance(1, quantity01.MegavoltampereReactiveHours, MegavoltampereReactiveHoursTolerance);
+            Assert.Equal(1, quantity01.MegavoltampereReactiveHours);
             Assert.Equal(ReactiveEnergyUnit.MegavoltampereReactiveHour, quantity01.Unit);
 
             var quantity02 = ReactiveEnergy.From(1, ReactiveEnergyUnit.VoltampereReactiveHour);
-            AssertEx.EqualTolerance(1, quantity02.VoltampereReactiveHours, VoltampereReactiveHoursTolerance);
+            Assert.Equal(1, quantity02.VoltampereReactiveHours);
             Assert.Equal(ReactiveEnergyUnit.VoltampereReactiveHour, quantity02.Unit);
 
         }
@@ -184,16 +183,13 @@ namespace UnitsNet.Tests
         public void As_SIUnitSystem_ThrowsArgumentExceptionIfNotSupported()
         {
             var quantity = new ReactiveEnergy(value: 1, unit: ReactiveEnergy.BaseUnit);
-            Func<object> AsWithSIUnitSystem = () => quantity.As(UnitSystem.SI);
-
             if (SupportsSIUnitSystem)
             {
-                var value = Convert.ToDouble(AsWithSIUnitSystem());
-                Assert.Equal(1, value);
+                Assert.Equal(1, quantity.As(UnitSystem.SI));
             }
             else
             {
-                Assert.Throws<ArgumentException>(AsWithSIUnitSystem);
+                Assert.Throws<ArgumentException>(() => quantity.As(UnitSystem.SI));
             }
         }
 
@@ -203,21 +199,21 @@ namespace UnitsNet.Tests
             try
             {
                 var parsed = ReactiveEnergy.Parse("1 kvarh", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.KilovoltampereReactiveHours, KilovoltampereReactiveHoursTolerance);
+                Assert.Equal(1, parsed.KilovoltampereReactiveHours);
                 Assert.Equal(ReactiveEnergyUnit.KilovoltampereReactiveHour, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = ReactiveEnergy.Parse("1 Mvarh", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.MegavoltampereReactiveHours, MegavoltampereReactiveHoursTolerance);
+                Assert.Equal(1, parsed.MegavoltampereReactiveHours);
                 Assert.Equal(ReactiveEnergyUnit.MegavoltampereReactiveHour, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = ReactiveEnergy.Parse("1 varh", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.VoltampereReactiveHours, VoltampereReactiveHoursTolerance);
+                Assert.Equal(1, parsed.VoltampereReactiveHours);
                 Assert.Equal(ReactiveEnergyUnit.VoltampereReactiveHour, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
@@ -228,19 +224,19 @@ namespace UnitsNet.Tests
         {
             {
                 Assert.True(ReactiveEnergy.TryParse("1 kvarh", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.KilovoltampereReactiveHours, KilovoltampereReactiveHoursTolerance);
+                Assert.Equal(1, parsed.KilovoltampereReactiveHours);
                 Assert.Equal(ReactiveEnergyUnit.KilovoltampereReactiveHour, parsed.Unit);
             }
 
             {
                 Assert.True(ReactiveEnergy.TryParse("1 Mvarh", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.MegavoltampereReactiveHours, MegavoltampereReactiveHoursTolerance);
+                Assert.Equal(1, parsed.MegavoltampereReactiveHours);
                 Assert.Equal(ReactiveEnergyUnit.MegavoltampereReactiveHour, parsed.Unit);
             }
 
             {
                 Assert.True(ReactiveEnergy.TryParse("1 varh", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.VoltampereReactiveHours, VoltampereReactiveHoursTolerance);
+                Assert.Equal(1, parsed.VoltampereReactiveHours);
                 Assert.Equal(ReactiveEnergyUnit.VoltampereReactiveHour, parsed.Unit);
             }
 
@@ -335,22 +331,22 @@ namespace UnitsNet.Tests
         public void ConversionRoundTrip()
         {
             ReactiveEnergy voltamperereactivehour = ReactiveEnergy.FromVoltampereReactiveHours(1);
-            AssertEx.EqualTolerance(1, ReactiveEnergy.FromKilovoltampereReactiveHours(voltamperereactivehour.KilovoltampereReactiveHours).VoltampereReactiveHours, KilovoltampereReactiveHoursTolerance);
-            AssertEx.EqualTolerance(1, ReactiveEnergy.FromMegavoltampereReactiveHours(voltamperereactivehour.MegavoltampereReactiveHours).VoltampereReactiveHours, MegavoltampereReactiveHoursTolerance);
-            AssertEx.EqualTolerance(1, ReactiveEnergy.FromVoltampereReactiveHours(voltamperereactivehour.VoltampereReactiveHours).VoltampereReactiveHours, VoltampereReactiveHoursTolerance);
+            Assert.Equal(1, ReactiveEnergy.FromKilovoltampereReactiveHours(voltamperereactivehour.KilovoltampereReactiveHours).VoltampereReactiveHours);
+            Assert.Equal(1, ReactiveEnergy.FromMegavoltampereReactiveHours(voltamperereactivehour.MegavoltampereReactiveHours).VoltampereReactiveHours);
+            Assert.Equal(1, ReactiveEnergy.FromVoltampereReactiveHours(voltamperereactivehour.VoltampereReactiveHours).VoltampereReactiveHours);
         }
 
         [Fact]
         public void ArithmeticOperators()
         {
             ReactiveEnergy v = ReactiveEnergy.FromVoltampereReactiveHours(1);
-            AssertEx.EqualTolerance(-1, -v.VoltampereReactiveHours, VoltampereReactiveHoursTolerance);
-            AssertEx.EqualTolerance(2, (ReactiveEnergy.FromVoltampereReactiveHours(3)-v).VoltampereReactiveHours, VoltampereReactiveHoursTolerance);
-            AssertEx.EqualTolerance(2, (v + v).VoltampereReactiveHours, VoltampereReactiveHoursTolerance);
-            AssertEx.EqualTolerance(10, (v*10).VoltampereReactiveHours, VoltampereReactiveHoursTolerance);
-            AssertEx.EqualTolerance(10, (10*v).VoltampereReactiveHours, VoltampereReactiveHoursTolerance);
-            AssertEx.EqualTolerance(2, (ReactiveEnergy.FromVoltampereReactiveHours(10)/5).VoltampereReactiveHours, VoltampereReactiveHoursTolerance);
-            AssertEx.EqualTolerance(2, ReactiveEnergy.FromVoltampereReactiveHours(10)/ReactiveEnergy.FromVoltampereReactiveHours(5), VoltampereReactiveHoursTolerance);
+            Assert.Equal(-1, -v.VoltampereReactiveHours);
+            Assert.Equal(2, (ReactiveEnergy.FromVoltampereReactiveHours(3) - v).VoltampereReactiveHours);
+            Assert.Equal(2, (v + v).VoltampereReactiveHours);
+            Assert.Equal(10, (v * 10).VoltampereReactiveHours);
+            Assert.Equal(10, (10 * v).VoltampereReactiveHours);
+            Assert.Equal(2, (ReactiveEnergy.FromVoltampereReactiveHours(10) / 5).VoltampereReactiveHours);
+            Assert.Equal(2, ReactiveEnergy.FromVoltampereReactiveHours(10) / ReactiveEnergy.FromVoltampereReactiveHours(5));
         }
 
         [Fact]
@@ -396,8 +392,6 @@ namespace UnitsNet.Tests
         [Theory]
         [InlineData(1, ReactiveEnergyUnit.VoltampereReactiveHour, 1, ReactiveEnergyUnit.VoltampereReactiveHour, true)]  // Same value and unit.
         [InlineData(1, ReactiveEnergyUnit.VoltampereReactiveHour, 2, ReactiveEnergyUnit.VoltampereReactiveHour, false)] // Different value.
-        [InlineData(2, ReactiveEnergyUnit.VoltampereReactiveHour, 1, ReactiveEnergyUnit.KilovoltampereReactiveHour, false)] // Different value and unit.
-        [InlineData(1, ReactiveEnergyUnit.VoltampereReactiveHour, 1, ReactiveEnergyUnit.KilovoltampereReactiveHour, false)] // Different unit.
         public void Equals_ReturnsTrue_IfValueAndUnitAreEqual(double valueA, ReactiveEnergyUnit unitA, double valueB, ReactiveEnergyUnit unitB, bool expectEqual)
         {
             var a = new ReactiveEnergy(valueA, unitA);
@@ -435,20 +429,22 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
-        public void Equals_RelativeTolerance_IsImplemented()
+        public void Equals_WithTolerance_IsImplemented()
         {
             var v = ReactiveEnergy.FromVoltampereReactiveHours(1);
-            Assert.True(v.Equals(ReactiveEnergy.FromVoltampereReactiveHours(1), VoltampereReactiveHoursTolerance, ComparisonType.Relative));
-            Assert.False(v.Equals(ReactiveEnergy.Zero, VoltampereReactiveHoursTolerance, ComparisonType.Relative));
-            Assert.True(ReactiveEnergy.FromVoltampereReactiveHours(100).Equals(ReactiveEnergy.FromVoltampereReactiveHours(120), 0.3, ComparisonType.Relative));
-            Assert.False(ReactiveEnergy.FromVoltampereReactiveHours(100).Equals(ReactiveEnergy.FromVoltampereReactiveHours(120), 0.1, ComparisonType.Relative));
+            Assert.True(v.Equals(ReactiveEnergy.FromVoltampereReactiveHours(1), ReactiveEnergy.FromVoltampereReactiveHours(0)));
+            Assert.True(v.Equals(ReactiveEnergy.FromVoltampereReactiveHours(1), ReactiveEnergy.FromVoltampereReactiveHours(0.001m)));
+            Assert.True(v.Equals(ReactiveEnergy.FromVoltampereReactiveHours(0.9999), ReactiveEnergy.FromVoltampereReactiveHours(0.001m)));
+            Assert.False(v.Equals(ReactiveEnergy.FromVoltampereReactiveHours(0.99), ReactiveEnergy.FromVoltampereReactiveHours(0.001m)));
+            Assert.False(v.Equals(ReactiveEnergy.Zero, ReactiveEnergy.FromVoltampereReactiveHours(0.001m)));
         }
 
         [Fact]
-        public void Equals_NegativeRelativeTolerance_ThrowsArgumentOutOfRangeException()
+        public void Equals_WithNegativeTolerance_ThrowsArgumentOutOfRangeException()
         {
             var v = ReactiveEnergy.FromVoltampereReactiveHours(1);
-            Assert.Throws<ArgumentOutOfRangeException>(() => v.Equals(ReactiveEnergy.FromVoltampereReactiveHours(1), -1, ComparisonType.Relative));
+            var negativeTolerance = ReactiveEnergy.FromVoltampereReactiveHours(-1);
+            Assert.Throws<ArgumentOutOfRangeException>(() => v.Equals(ReactiveEnergy.FromVoltampereReactiveHours(1), negativeTolerance));
         }
 
         [Fact]
@@ -471,7 +467,7 @@ namespace UnitsNet.Tests
             var units = Enum.GetValues(typeof(ReactiveEnergyUnit)).Cast<ReactiveEnergyUnit>();
             foreach (var unit in units)
             {
-                var defaultAbbreviation = UnitAbbreviationsCache.Default.GetDefaultAbbreviation(unit);
+                var defaultAbbreviation = UnitsNetSetup.Default.UnitAbbreviations.GetDefaultAbbreviation(unit);
             }
         }
 
@@ -702,7 +698,12 @@ namespace UnitsNet.Tests
         public void GetHashCode_Equals()
         {
             var quantity = ReactiveEnergy.FromVoltampereReactiveHours(1.0);
-            Assert.Equal(new {ReactiveEnergy.Info.Name, quantity.Value, quantity.Unit}.GetHashCode(), quantity.GetHashCode());
+            #if NET7_0_OR_GREATER
+            var expected = HashCode.Combine(ReactiveEnergy.Info.Name, quantity.VoltampereReactiveHours);
+            #else
+            var expected = new {ReactiveEnergy.Info.Name, valueInBaseUnit = quantity.VoltampereReactiveHours}.GetHashCode();
+            #endif
+            Assert.Equal(expected, quantity.GetHashCode());
         }
 
         [Theory]

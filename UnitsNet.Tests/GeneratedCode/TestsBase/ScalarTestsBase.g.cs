@@ -93,15 +93,14 @@ namespace UnitsNet.Tests
         [Fact]
         public void Ctor_SIUnitSystem_ThrowsArgumentExceptionIfNotSupported()
         {
-            Func<object> TestCode = () => new Scalar(value: 1, unitSystem: UnitSystem.SI);
             if (SupportsSIUnitSystem)
             {
-                var quantity = (Scalar) TestCode();
+                var quantity = new Scalar(value: 1, unitSystem: UnitSystem.SI);
                 Assert.Equal(1, quantity.Value);
             }
             else
             {
-                Assert.Throws<ArgumentException>(TestCode);
+                Assert.Throws<ArgumentException>(() => new Scalar(value: 1, unitSystem: UnitSystem.SI));
             }
         }
 
@@ -130,7 +129,7 @@ namespace UnitsNet.Tests
         public void From_ValueAndUnit_ReturnsQuantityWithSameValueAndUnit()
         {
             var quantity00 = Scalar.From(1, ScalarUnit.Amount);
-            AssertEx.EqualTolerance(1, quantity00.Amount, AmountTolerance);
+            Assert.Equal(1, quantity00.Amount);
             Assert.Equal(ScalarUnit.Amount, quantity00.Unit);
 
         }
@@ -164,16 +163,13 @@ namespace UnitsNet.Tests
         public void As_SIUnitSystem_ThrowsArgumentExceptionIfNotSupported()
         {
             var quantity = new Scalar(value: 1, unit: Scalar.BaseUnit);
-            Func<object> AsWithSIUnitSystem = () => quantity.As(UnitSystem.SI);
-
             if (SupportsSIUnitSystem)
             {
-                var value = Convert.ToDouble(AsWithSIUnitSystem());
-                Assert.Equal(1, value);
+                Assert.Equal(1, quantity.As(UnitSystem.SI));
             }
             else
             {
-                Assert.Throws<ArgumentException>(AsWithSIUnitSystem);
+                Assert.Throws<ArgumentException>(() => quantity.As(UnitSystem.SI));
             }
         }
 
@@ -183,7 +179,7 @@ namespace UnitsNet.Tests
             try
             {
                 var parsed = Scalar.Parse("1 ", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.Amount, AmountTolerance);
+                Assert.Equal(1, parsed.Amount);
                 Assert.Equal(ScalarUnit.Amount, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
@@ -194,7 +190,7 @@ namespace UnitsNet.Tests
         {
             {
                 Assert.True(Scalar.TryParse("1 ", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.Amount, AmountTolerance);
+                Assert.Equal(1, parsed.Amount);
                 Assert.Equal(ScalarUnit.Amount, parsed.Unit);
             }
 
@@ -267,20 +263,20 @@ namespace UnitsNet.Tests
         public void ConversionRoundTrip()
         {
             Scalar amount = Scalar.FromAmount(1);
-            AssertEx.EqualTolerance(1, Scalar.FromAmount(amount.Amount).Amount, AmountTolerance);
+            Assert.Equal(1, Scalar.FromAmount(amount.Amount).Amount);
         }
 
         [Fact]
         public void ArithmeticOperators()
         {
             Scalar v = Scalar.FromAmount(1);
-            AssertEx.EqualTolerance(-1, -v.Amount, AmountTolerance);
-            AssertEx.EqualTolerance(2, (Scalar.FromAmount(3)-v).Amount, AmountTolerance);
-            AssertEx.EqualTolerance(2, (v + v).Amount, AmountTolerance);
-            AssertEx.EqualTolerance(10, (v*10).Amount, AmountTolerance);
-            AssertEx.EqualTolerance(10, (10*v).Amount, AmountTolerance);
-            AssertEx.EqualTolerance(2, (Scalar.FromAmount(10)/5).Amount, AmountTolerance);
-            AssertEx.EqualTolerance(2, Scalar.FromAmount(10)/Scalar.FromAmount(5), AmountTolerance);
+            Assert.Equal(-1, -v.Amount);
+            Assert.Equal(2, (Scalar.FromAmount(3) - v).Amount);
+            Assert.Equal(2, (v + v).Amount);
+            Assert.Equal(10, (v * 10).Amount);
+            Assert.Equal(10, (10 * v).Amount);
+            Assert.Equal(2, (Scalar.FromAmount(10) / 5).Amount);
+            Assert.Equal(2, Scalar.FromAmount(10) / Scalar.FromAmount(5));
         }
 
         [Fact]
@@ -326,7 +322,6 @@ namespace UnitsNet.Tests
         [Theory]
         [InlineData(1, ScalarUnit.Amount, 1, ScalarUnit.Amount, true)]  // Same value and unit.
         [InlineData(1, ScalarUnit.Amount, 2, ScalarUnit.Amount, false)] // Different value.
-        [InlineData(2, ScalarUnit.Amount, 1, ScalarUnit.Amount, false)] // Different value and unit.
         public void Equals_ReturnsTrue_IfValueAndUnitAreEqual(double valueA, ScalarUnit unitA, double valueB, ScalarUnit unitB, bool expectEqual)
         {
             var a = new Scalar(valueA, unitA);
@@ -364,20 +359,22 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
-        public void Equals_RelativeTolerance_IsImplemented()
+        public void Equals_WithTolerance_IsImplemented()
         {
             var v = Scalar.FromAmount(1);
-            Assert.True(v.Equals(Scalar.FromAmount(1), AmountTolerance, ComparisonType.Relative));
-            Assert.False(v.Equals(Scalar.Zero, AmountTolerance, ComparisonType.Relative));
-            Assert.True(Scalar.FromAmount(100).Equals(Scalar.FromAmount(120), 0.3, ComparisonType.Relative));
-            Assert.False(Scalar.FromAmount(100).Equals(Scalar.FromAmount(120), 0.1, ComparisonType.Relative));
+            Assert.True(v.Equals(Scalar.FromAmount(1), Scalar.FromAmount(0)));
+            Assert.True(v.Equals(Scalar.FromAmount(1), Scalar.FromAmount(0.001m)));
+            Assert.True(v.Equals(Scalar.FromAmount(0.9999), Scalar.FromAmount(0.001m)));
+            Assert.False(v.Equals(Scalar.FromAmount(0.99), Scalar.FromAmount(0.001m)));
+            Assert.False(v.Equals(Scalar.Zero, Scalar.FromAmount(0.001m)));
         }
 
         [Fact]
-        public void Equals_NegativeRelativeTolerance_ThrowsArgumentOutOfRangeException()
+        public void Equals_WithNegativeTolerance_ThrowsArgumentOutOfRangeException()
         {
             var v = Scalar.FromAmount(1);
-            Assert.Throws<ArgumentOutOfRangeException>(() => v.Equals(Scalar.FromAmount(1), -1, ComparisonType.Relative));
+            var negativeTolerance = Scalar.FromAmount(-1);
+            Assert.Throws<ArgumentOutOfRangeException>(() => v.Equals(Scalar.FromAmount(1), negativeTolerance));
         }
 
         [Fact]
@@ -400,7 +397,7 @@ namespace UnitsNet.Tests
             var units = Enum.GetValues(typeof(ScalarUnit)).Cast<ScalarUnit>();
             foreach (var unit in units)
             {
-                var defaultAbbreviation = UnitAbbreviationsCache.Default.GetDefaultAbbreviation(unit);
+                var defaultAbbreviation = UnitsNetSetup.Default.UnitAbbreviations.GetDefaultAbbreviation(unit);
             }
         }
 
@@ -627,7 +624,12 @@ namespace UnitsNet.Tests
         public void GetHashCode_Equals()
         {
             var quantity = Scalar.FromAmount(1.0);
-            Assert.Equal(new {Scalar.Info.Name, quantity.Value, quantity.Unit}.GetHashCode(), quantity.GetHashCode());
+            #if NET7_0_OR_GREATER
+            var expected = HashCode.Combine(Scalar.Info.Name, quantity.Amount);
+            #else
+            var expected = new {Scalar.Info.Name, valueInBaseUnit = quantity.Amount}.GetHashCode();
+            #endif
+            Assert.Equal(expected, quantity.GetHashCode());
         }
 
         [Theory]

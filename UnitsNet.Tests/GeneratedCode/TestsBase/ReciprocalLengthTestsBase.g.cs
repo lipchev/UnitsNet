@@ -129,15 +129,14 @@ namespace UnitsNet.Tests
         [Fact]
         public void Ctor_SIUnitSystem_ThrowsArgumentExceptionIfNotSupported()
         {
-            Func<object> TestCode = () => new ReciprocalLength(value: 1, unitSystem: UnitSystem.SI);
             if (SupportsSIUnitSystem)
             {
-                var quantity = (ReciprocalLength) TestCode();
+                var quantity = new ReciprocalLength(value: 1, unitSystem: UnitSystem.SI);
                 Assert.Equal(1, quantity.Value);
             }
             else
             {
-                Assert.Throws<ArgumentException>(TestCode);
+                Assert.Throws<ArgumentException>(() => new ReciprocalLength(value: 1, unitSystem: UnitSystem.SI));
             }
         }
 
@@ -175,43 +174,43 @@ namespace UnitsNet.Tests
         public void From_ValueAndUnit_ReturnsQuantityWithSameValueAndUnit()
         {
             var quantity00 = ReciprocalLength.From(1, ReciprocalLengthUnit.InverseCentimeter);
-            AssertEx.EqualTolerance(1, quantity00.InverseCentimeters, InverseCentimetersTolerance);
+            Assert.Equal(1, quantity00.InverseCentimeters);
             Assert.Equal(ReciprocalLengthUnit.InverseCentimeter, quantity00.Unit);
 
             var quantity01 = ReciprocalLength.From(1, ReciprocalLengthUnit.InverseFoot);
-            AssertEx.EqualTolerance(1, quantity01.InverseFeet, InverseFeetTolerance);
+            Assert.Equal(1, quantity01.InverseFeet);
             Assert.Equal(ReciprocalLengthUnit.InverseFoot, quantity01.Unit);
 
             var quantity02 = ReciprocalLength.From(1, ReciprocalLengthUnit.InverseInch);
-            AssertEx.EqualTolerance(1, quantity02.InverseInches, InverseInchesTolerance);
+            Assert.Equal(1, quantity02.InverseInches);
             Assert.Equal(ReciprocalLengthUnit.InverseInch, quantity02.Unit);
 
             var quantity03 = ReciprocalLength.From(1, ReciprocalLengthUnit.InverseMeter);
-            AssertEx.EqualTolerance(1, quantity03.InverseMeters, InverseMetersTolerance);
+            Assert.Equal(1, quantity03.InverseMeters);
             Assert.Equal(ReciprocalLengthUnit.InverseMeter, quantity03.Unit);
 
             var quantity04 = ReciprocalLength.From(1, ReciprocalLengthUnit.InverseMicroinch);
-            AssertEx.EqualTolerance(1, quantity04.InverseMicroinches, InverseMicroinchesTolerance);
+            Assert.Equal(1, quantity04.InverseMicroinches);
             Assert.Equal(ReciprocalLengthUnit.InverseMicroinch, quantity04.Unit);
 
             var quantity05 = ReciprocalLength.From(1, ReciprocalLengthUnit.InverseMil);
-            AssertEx.EqualTolerance(1, quantity05.InverseMils, InverseMilsTolerance);
+            Assert.Equal(1, quantity05.InverseMils);
             Assert.Equal(ReciprocalLengthUnit.InverseMil, quantity05.Unit);
 
             var quantity06 = ReciprocalLength.From(1, ReciprocalLengthUnit.InverseMile);
-            AssertEx.EqualTolerance(1, quantity06.InverseMiles, InverseMilesTolerance);
+            Assert.Equal(1, quantity06.InverseMiles);
             Assert.Equal(ReciprocalLengthUnit.InverseMile, quantity06.Unit);
 
             var quantity07 = ReciprocalLength.From(1, ReciprocalLengthUnit.InverseMillimeter);
-            AssertEx.EqualTolerance(1, quantity07.InverseMillimeters, InverseMillimetersTolerance);
+            Assert.Equal(1, quantity07.InverseMillimeters);
             Assert.Equal(ReciprocalLengthUnit.InverseMillimeter, quantity07.Unit);
 
             var quantity08 = ReciprocalLength.From(1, ReciprocalLengthUnit.InverseUsSurveyFoot);
-            AssertEx.EqualTolerance(1, quantity08.InverseUsSurveyFeet, InverseUsSurveyFeetTolerance);
+            Assert.Equal(1, quantity08.InverseUsSurveyFeet);
             Assert.Equal(ReciprocalLengthUnit.InverseUsSurveyFoot, quantity08.Unit);
 
             var quantity09 = ReciprocalLength.From(1, ReciprocalLengthUnit.InverseYard);
-            AssertEx.EqualTolerance(1, quantity09.InverseYards, InverseYardsTolerance);
+            Assert.Equal(1, quantity09.InverseYards);
             Assert.Equal(ReciprocalLengthUnit.InverseYard, quantity09.Unit);
 
         }
@@ -254,16 +253,13 @@ namespace UnitsNet.Tests
         public void As_SIUnitSystem_ThrowsArgumentExceptionIfNotSupported()
         {
             var quantity = new ReciprocalLength(value: 1, unit: ReciprocalLength.BaseUnit);
-            Func<object> AsWithSIUnitSystem = () => quantity.As(UnitSystem.SI);
-
             if (SupportsSIUnitSystem)
             {
-                var value = Convert.ToDouble(AsWithSIUnitSystem());
-                Assert.Equal(1, value);
+                Assert.Equal(1, quantity.As(UnitSystem.SI));
             }
             else
             {
-                Assert.Throws<ArgumentException>(AsWithSIUnitSystem);
+                Assert.Throws<ArgumentException>(() => quantity.As(UnitSystem.SI));
             }
         }
 
@@ -273,140 +269,140 @@ namespace UnitsNet.Tests
             try
             {
                 var parsed = ReciprocalLength.Parse("1 cm⁻¹", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.InverseCentimeters, InverseCentimetersTolerance);
+                Assert.Equal(1, parsed.InverseCentimeters);
                 Assert.Equal(ReciprocalLengthUnit.InverseCentimeter, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = ReciprocalLength.Parse("1 1/cm", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.InverseCentimeters, InverseCentimetersTolerance);
+                Assert.Equal(1, parsed.InverseCentimeters);
                 Assert.Equal(ReciprocalLengthUnit.InverseCentimeter, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = ReciprocalLength.Parse("1 ft⁻¹", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.InverseFeet, InverseFeetTolerance);
+                Assert.Equal(1, parsed.InverseFeet);
                 Assert.Equal(ReciprocalLengthUnit.InverseFoot, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = ReciprocalLength.Parse("1 1/ft", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.InverseFeet, InverseFeetTolerance);
+                Assert.Equal(1, parsed.InverseFeet);
                 Assert.Equal(ReciprocalLengthUnit.InverseFoot, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = ReciprocalLength.Parse("1 in⁻¹", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.InverseInches, InverseInchesTolerance);
+                Assert.Equal(1, parsed.InverseInches);
                 Assert.Equal(ReciprocalLengthUnit.InverseInch, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = ReciprocalLength.Parse("1 1/in", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.InverseInches, InverseInchesTolerance);
+                Assert.Equal(1, parsed.InverseInches);
                 Assert.Equal(ReciprocalLengthUnit.InverseInch, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = ReciprocalLength.Parse("1 m⁻¹", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.InverseMeters, InverseMetersTolerance);
+                Assert.Equal(1, parsed.InverseMeters);
                 Assert.Equal(ReciprocalLengthUnit.InverseMeter, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = ReciprocalLength.Parse("1 1/m", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.InverseMeters, InverseMetersTolerance);
+                Assert.Equal(1, parsed.InverseMeters);
                 Assert.Equal(ReciprocalLengthUnit.InverseMeter, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = ReciprocalLength.Parse("1 µin⁻¹", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.InverseMicroinches, InverseMicroinchesTolerance);
+                Assert.Equal(1, parsed.InverseMicroinches);
                 Assert.Equal(ReciprocalLengthUnit.InverseMicroinch, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = ReciprocalLength.Parse("1 1/µin", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.InverseMicroinches, InverseMicroinchesTolerance);
+                Assert.Equal(1, parsed.InverseMicroinches);
                 Assert.Equal(ReciprocalLengthUnit.InverseMicroinch, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = ReciprocalLength.Parse("1 mil⁻¹", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.InverseMils, InverseMilsTolerance);
+                Assert.Equal(1, parsed.InverseMils);
                 Assert.Equal(ReciprocalLengthUnit.InverseMil, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = ReciprocalLength.Parse("1 1/mil", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.InverseMils, InverseMilsTolerance);
+                Assert.Equal(1, parsed.InverseMils);
                 Assert.Equal(ReciprocalLengthUnit.InverseMil, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = ReciprocalLength.Parse("1 mi⁻¹", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.InverseMiles, InverseMilesTolerance);
+                Assert.Equal(1, parsed.InverseMiles);
                 Assert.Equal(ReciprocalLengthUnit.InverseMile, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = ReciprocalLength.Parse("1 1/mi", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.InverseMiles, InverseMilesTolerance);
+                Assert.Equal(1, parsed.InverseMiles);
                 Assert.Equal(ReciprocalLengthUnit.InverseMile, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = ReciprocalLength.Parse("1 mm⁻¹", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.InverseMillimeters, InverseMillimetersTolerance);
+                Assert.Equal(1, parsed.InverseMillimeters);
                 Assert.Equal(ReciprocalLengthUnit.InverseMillimeter, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = ReciprocalLength.Parse("1 1/mm", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.InverseMillimeters, InverseMillimetersTolerance);
+                Assert.Equal(1, parsed.InverseMillimeters);
                 Assert.Equal(ReciprocalLengthUnit.InverseMillimeter, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = ReciprocalLength.Parse("1 ftUS⁻¹", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.InverseUsSurveyFeet, InverseUsSurveyFeetTolerance);
+                Assert.Equal(1, parsed.InverseUsSurveyFeet);
                 Assert.Equal(ReciprocalLengthUnit.InverseUsSurveyFoot, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = ReciprocalLength.Parse("1 1/ftUS", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.InverseUsSurveyFeet, InverseUsSurveyFeetTolerance);
+                Assert.Equal(1, parsed.InverseUsSurveyFeet);
                 Assert.Equal(ReciprocalLengthUnit.InverseUsSurveyFoot, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = ReciprocalLength.Parse("1 yd⁻¹", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.InverseYards, InverseYardsTolerance);
+                Assert.Equal(1, parsed.InverseYards);
                 Assert.Equal(ReciprocalLengthUnit.InverseYard, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = ReciprocalLength.Parse("1 1/yd", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.InverseYards, InverseYardsTolerance);
+                Assert.Equal(1, parsed.InverseYards);
                 Assert.Equal(ReciprocalLengthUnit.InverseYard, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
@@ -417,121 +413,121 @@ namespace UnitsNet.Tests
         {
             {
                 Assert.True(ReciprocalLength.TryParse("1 cm⁻¹", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.InverseCentimeters, InverseCentimetersTolerance);
+                Assert.Equal(1, parsed.InverseCentimeters);
                 Assert.Equal(ReciprocalLengthUnit.InverseCentimeter, parsed.Unit);
             }
 
             {
                 Assert.True(ReciprocalLength.TryParse("1 1/cm", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.InverseCentimeters, InverseCentimetersTolerance);
+                Assert.Equal(1, parsed.InverseCentimeters);
                 Assert.Equal(ReciprocalLengthUnit.InverseCentimeter, parsed.Unit);
             }
 
             {
                 Assert.True(ReciprocalLength.TryParse("1 ft⁻¹", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.InverseFeet, InverseFeetTolerance);
+                Assert.Equal(1, parsed.InverseFeet);
                 Assert.Equal(ReciprocalLengthUnit.InverseFoot, parsed.Unit);
             }
 
             {
                 Assert.True(ReciprocalLength.TryParse("1 1/ft", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.InverseFeet, InverseFeetTolerance);
+                Assert.Equal(1, parsed.InverseFeet);
                 Assert.Equal(ReciprocalLengthUnit.InverseFoot, parsed.Unit);
             }
 
             {
                 Assert.True(ReciprocalLength.TryParse("1 in⁻¹", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.InverseInches, InverseInchesTolerance);
+                Assert.Equal(1, parsed.InverseInches);
                 Assert.Equal(ReciprocalLengthUnit.InverseInch, parsed.Unit);
             }
 
             {
                 Assert.True(ReciprocalLength.TryParse("1 1/in", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.InverseInches, InverseInchesTolerance);
+                Assert.Equal(1, parsed.InverseInches);
                 Assert.Equal(ReciprocalLengthUnit.InverseInch, parsed.Unit);
             }
 
             {
                 Assert.True(ReciprocalLength.TryParse("1 m⁻¹", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.InverseMeters, InverseMetersTolerance);
+                Assert.Equal(1, parsed.InverseMeters);
                 Assert.Equal(ReciprocalLengthUnit.InverseMeter, parsed.Unit);
             }
 
             {
                 Assert.True(ReciprocalLength.TryParse("1 1/m", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.InverseMeters, InverseMetersTolerance);
+                Assert.Equal(1, parsed.InverseMeters);
                 Assert.Equal(ReciprocalLengthUnit.InverseMeter, parsed.Unit);
             }
 
             {
                 Assert.True(ReciprocalLength.TryParse("1 µin⁻¹", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.InverseMicroinches, InverseMicroinchesTolerance);
+                Assert.Equal(1, parsed.InverseMicroinches);
                 Assert.Equal(ReciprocalLengthUnit.InverseMicroinch, parsed.Unit);
             }
 
             {
                 Assert.True(ReciprocalLength.TryParse("1 1/µin", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.InverseMicroinches, InverseMicroinchesTolerance);
+                Assert.Equal(1, parsed.InverseMicroinches);
                 Assert.Equal(ReciprocalLengthUnit.InverseMicroinch, parsed.Unit);
             }
 
             {
                 Assert.True(ReciprocalLength.TryParse("1 mil⁻¹", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.InverseMils, InverseMilsTolerance);
+                Assert.Equal(1, parsed.InverseMils);
                 Assert.Equal(ReciprocalLengthUnit.InverseMil, parsed.Unit);
             }
 
             {
                 Assert.True(ReciprocalLength.TryParse("1 1/mil", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.InverseMils, InverseMilsTolerance);
+                Assert.Equal(1, parsed.InverseMils);
                 Assert.Equal(ReciprocalLengthUnit.InverseMil, parsed.Unit);
             }
 
             {
                 Assert.True(ReciprocalLength.TryParse("1 mi⁻¹", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.InverseMiles, InverseMilesTolerance);
+                Assert.Equal(1, parsed.InverseMiles);
                 Assert.Equal(ReciprocalLengthUnit.InverseMile, parsed.Unit);
             }
 
             {
                 Assert.True(ReciprocalLength.TryParse("1 1/mi", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.InverseMiles, InverseMilesTolerance);
+                Assert.Equal(1, parsed.InverseMiles);
                 Assert.Equal(ReciprocalLengthUnit.InverseMile, parsed.Unit);
             }
 
             {
                 Assert.True(ReciprocalLength.TryParse("1 mm⁻¹", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.InverseMillimeters, InverseMillimetersTolerance);
+                Assert.Equal(1, parsed.InverseMillimeters);
                 Assert.Equal(ReciprocalLengthUnit.InverseMillimeter, parsed.Unit);
             }
 
             {
                 Assert.True(ReciprocalLength.TryParse("1 1/mm", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.InverseMillimeters, InverseMillimetersTolerance);
+                Assert.Equal(1, parsed.InverseMillimeters);
                 Assert.Equal(ReciprocalLengthUnit.InverseMillimeter, parsed.Unit);
             }
 
             {
                 Assert.True(ReciprocalLength.TryParse("1 ftUS⁻¹", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.InverseUsSurveyFeet, InverseUsSurveyFeetTolerance);
+                Assert.Equal(1, parsed.InverseUsSurveyFeet);
                 Assert.Equal(ReciprocalLengthUnit.InverseUsSurveyFoot, parsed.Unit);
             }
 
             {
                 Assert.True(ReciprocalLength.TryParse("1 1/ftUS", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.InverseUsSurveyFeet, InverseUsSurveyFeetTolerance);
+                Assert.Equal(1, parsed.InverseUsSurveyFeet);
                 Assert.Equal(ReciprocalLengthUnit.InverseUsSurveyFoot, parsed.Unit);
             }
 
             {
                 Assert.True(ReciprocalLength.TryParse("1 yd⁻¹", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.InverseYards, InverseYardsTolerance);
+                Assert.Equal(1, parsed.InverseYards);
                 Assert.Equal(ReciprocalLengthUnit.InverseYard, parsed.Unit);
             }
 
             {
                 Assert.True(ReciprocalLength.TryParse("1 1/yd", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.InverseYards, InverseYardsTolerance);
+                Assert.Equal(1, parsed.InverseYards);
                 Assert.Equal(ReciprocalLengthUnit.InverseYard, parsed.Unit);
             }
 
@@ -813,29 +809,29 @@ namespace UnitsNet.Tests
         public void ConversionRoundTrip()
         {
             ReciprocalLength inversemeter = ReciprocalLength.FromInverseMeters(1);
-            AssertEx.EqualTolerance(1, ReciprocalLength.FromInverseCentimeters(inversemeter.InverseCentimeters).InverseMeters, InverseCentimetersTolerance);
-            AssertEx.EqualTolerance(1, ReciprocalLength.FromInverseFeet(inversemeter.InverseFeet).InverseMeters, InverseFeetTolerance);
-            AssertEx.EqualTolerance(1, ReciprocalLength.FromInverseInches(inversemeter.InverseInches).InverseMeters, InverseInchesTolerance);
-            AssertEx.EqualTolerance(1, ReciprocalLength.FromInverseMeters(inversemeter.InverseMeters).InverseMeters, InverseMetersTolerance);
-            AssertEx.EqualTolerance(1, ReciprocalLength.FromInverseMicroinches(inversemeter.InverseMicroinches).InverseMeters, InverseMicroinchesTolerance);
-            AssertEx.EqualTolerance(1, ReciprocalLength.FromInverseMils(inversemeter.InverseMils).InverseMeters, InverseMilsTolerance);
-            AssertEx.EqualTolerance(1, ReciprocalLength.FromInverseMiles(inversemeter.InverseMiles).InverseMeters, InverseMilesTolerance);
-            AssertEx.EqualTolerance(1, ReciprocalLength.FromInverseMillimeters(inversemeter.InverseMillimeters).InverseMeters, InverseMillimetersTolerance);
-            AssertEx.EqualTolerance(1, ReciprocalLength.FromInverseUsSurveyFeet(inversemeter.InverseUsSurveyFeet).InverseMeters, InverseUsSurveyFeetTolerance);
-            AssertEx.EqualTolerance(1, ReciprocalLength.FromInverseYards(inversemeter.InverseYards).InverseMeters, InverseYardsTolerance);
+            Assert.Equal(1, ReciprocalLength.FromInverseCentimeters(inversemeter.InverseCentimeters).InverseMeters);
+            Assert.Equal(1, ReciprocalLength.FromInverseFeet(inversemeter.InverseFeet).InverseMeters);
+            Assert.Equal(1, ReciprocalLength.FromInverseInches(inversemeter.InverseInches).InverseMeters);
+            Assert.Equal(1, ReciprocalLength.FromInverseMeters(inversemeter.InverseMeters).InverseMeters);
+            Assert.Equal(1, ReciprocalLength.FromInverseMicroinches(inversemeter.InverseMicroinches).InverseMeters);
+            Assert.Equal(1, ReciprocalLength.FromInverseMils(inversemeter.InverseMils).InverseMeters);
+            Assert.Equal(1, ReciprocalLength.FromInverseMiles(inversemeter.InverseMiles).InverseMeters);
+            Assert.Equal(1, ReciprocalLength.FromInverseMillimeters(inversemeter.InverseMillimeters).InverseMeters);
+            Assert.Equal(1, ReciprocalLength.FromInverseUsSurveyFeet(inversemeter.InverseUsSurveyFeet).InverseMeters);
+            Assert.Equal(1, ReciprocalLength.FromInverseYards(inversemeter.InverseYards).InverseMeters);
         }
 
         [Fact]
         public void ArithmeticOperators()
         {
             ReciprocalLength v = ReciprocalLength.FromInverseMeters(1);
-            AssertEx.EqualTolerance(-1, -v.InverseMeters, InverseMetersTolerance);
-            AssertEx.EqualTolerance(2, (ReciprocalLength.FromInverseMeters(3)-v).InverseMeters, InverseMetersTolerance);
-            AssertEx.EqualTolerance(2, (v + v).InverseMeters, InverseMetersTolerance);
-            AssertEx.EqualTolerance(10, (v*10).InverseMeters, InverseMetersTolerance);
-            AssertEx.EqualTolerance(10, (10*v).InverseMeters, InverseMetersTolerance);
-            AssertEx.EqualTolerance(2, (ReciprocalLength.FromInverseMeters(10)/5).InverseMeters, InverseMetersTolerance);
-            AssertEx.EqualTolerance(2, ReciprocalLength.FromInverseMeters(10)/ReciprocalLength.FromInverseMeters(5), InverseMetersTolerance);
+            Assert.Equal(-1, -v.InverseMeters);
+            Assert.Equal(2, (ReciprocalLength.FromInverseMeters(3) - v).InverseMeters);
+            Assert.Equal(2, (v + v).InverseMeters);
+            Assert.Equal(10, (v * 10).InverseMeters);
+            Assert.Equal(10, (10 * v).InverseMeters);
+            Assert.Equal(2, (ReciprocalLength.FromInverseMeters(10) / 5).InverseMeters);
+            Assert.Equal(2, ReciprocalLength.FromInverseMeters(10) / ReciprocalLength.FromInverseMeters(5));
         }
 
         [Fact]
@@ -881,8 +877,6 @@ namespace UnitsNet.Tests
         [Theory]
         [InlineData(1, ReciprocalLengthUnit.InverseMeter, 1, ReciprocalLengthUnit.InverseMeter, true)]  // Same value and unit.
         [InlineData(1, ReciprocalLengthUnit.InverseMeter, 2, ReciprocalLengthUnit.InverseMeter, false)] // Different value.
-        [InlineData(2, ReciprocalLengthUnit.InverseMeter, 1, ReciprocalLengthUnit.InverseCentimeter, false)] // Different value and unit.
-        [InlineData(1, ReciprocalLengthUnit.InverseMeter, 1, ReciprocalLengthUnit.InverseCentimeter, false)] // Different unit.
         public void Equals_ReturnsTrue_IfValueAndUnitAreEqual(double valueA, ReciprocalLengthUnit unitA, double valueB, ReciprocalLengthUnit unitB, bool expectEqual)
         {
             var a = new ReciprocalLength(valueA, unitA);
@@ -920,20 +914,22 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
-        public void Equals_RelativeTolerance_IsImplemented()
+        public void Equals_WithTolerance_IsImplemented()
         {
             var v = ReciprocalLength.FromInverseMeters(1);
-            Assert.True(v.Equals(ReciprocalLength.FromInverseMeters(1), InverseMetersTolerance, ComparisonType.Relative));
-            Assert.False(v.Equals(ReciprocalLength.Zero, InverseMetersTolerance, ComparisonType.Relative));
-            Assert.True(ReciprocalLength.FromInverseMeters(100).Equals(ReciprocalLength.FromInverseMeters(120), 0.3, ComparisonType.Relative));
-            Assert.False(ReciprocalLength.FromInverseMeters(100).Equals(ReciprocalLength.FromInverseMeters(120), 0.1, ComparisonType.Relative));
+            Assert.True(v.Equals(ReciprocalLength.FromInverseMeters(1), ReciprocalLength.FromInverseMeters(0)));
+            Assert.True(v.Equals(ReciprocalLength.FromInverseMeters(1), ReciprocalLength.FromInverseMeters(0.001m)));
+            Assert.True(v.Equals(ReciprocalLength.FromInverseMeters(0.9999), ReciprocalLength.FromInverseMeters(0.001m)));
+            Assert.False(v.Equals(ReciprocalLength.FromInverseMeters(0.99), ReciprocalLength.FromInverseMeters(0.001m)));
+            Assert.False(v.Equals(ReciprocalLength.Zero, ReciprocalLength.FromInverseMeters(0.001m)));
         }
 
         [Fact]
-        public void Equals_NegativeRelativeTolerance_ThrowsArgumentOutOfRangeException()
+        public void Equals_WithNegativeTolerance_ThrowsArgumentOutOfRangeException()
         {
             var v = ReciprocalLength.FromInverseMeters(1);
-            Assert.Throws<ArgumentOutOfRangeException>(() => v.Equals(ReciprocalLength.FromInverseMeters(1), -1, ComparisonType.Relative));
+            var negativeTolerance = ReciprocalLength.FromInverseMeters(-1);
+            Assert.Throws<ArgumentOutOfRangeException>(() => v.Equals(ReciprocalLength.FromInverseMeters(1), negativeTolerance));
         }
 
         [Fact]
@@ -956,7 +952,7 @@ namespace UnitsNet.Tests
             var units = Enum.GetValues(typeof(ReciprocalLengthUnit)).Cast<ReciprocalLengthUnit>();
             foreach (var unit in units)
             {
-                var defaultAbbreviation = UnitAbbreviationsCache.Default.GetDefaultAbbreviation(unit);
+                var defaultAbbreviation = UnitsNetSetup.Default.UnitAbbreviations.GetDefaultAbbreviation(unit);
             }
         }
 
@@ -1201,7 +1197,12 @@ namespace UnitsNet.Tests
         public void GetHashCode_Equals()
         {
             var quantity = ReciprocalLength.FromInverseMeters(1.0);
-            Assert.Equal(new {ReciprocalLength.Info.Name, quantity.Value, quantity.Unit}.GetHashCode(), quantity.GetHashCode());
+            #if NET7_0_OR_GREATER
+            var expected = HashCode.Combine(ReciprocalLength.Info.Name, quantity.InverseMeters);
+            #else
+            var expected = new {ReciprocalLength.Info.Name, valueInBaseUnit = quantity.InverseMeters}.GetHashCode();
+            #endif
+            Assert.Equal(expected, quantity.GetHashCode());
         }
 
         [Theory]

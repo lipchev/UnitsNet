@@ -190,8 +190,8 @@ namespace UnitsNet.Tests
             negativeLength = Length.FromInches(-25.0);
             feetInches = negativeLength.FeetInches;
 
-            Assert.Equal(-2.0, feetInches.Feet);
-            Assert.Equal(-1.0, feetInches.Inches);
+            Assert.Equal(-2, feetInches.Feet);
+            Assert.Equal(-1, feetInches.Inches);
         }
 
         [Fact]
@@ -235,7 +235,7 @@ namespace UnitsNet.Tests
         [Theory]
         [InlineData(-1.0, -1.0)]
         [InlineData(-2.0, -0.5)]
-        [InlineData(0.0, 0.0)]
+        [InlineData(0.0, double.PositiveInfinity)]
         [InlineData(1.0, 1.0)]
         [InlineData(2.0, 0.5)]
         public static void InverseReturnsReciprocalLength(double value, double expected)

@@ -133,15 +133,14 @@ namespace UnitsNet.Tests
         [Fact]
         public void Ctor_SIUnitSystem_ThrowsArgumentExceptionIfNotSupported()
         {
-            Func<object> TestCode = () => new Jerk(value: 1, unitSystem: UnitSystem.SI);
             if (SupportsSIUnitSystem)
             {
-                var quantity = (Jerk) TestCode();
+                var quantity = new Jerk(value: 1, unitSystem: UnitSystem.SI);
                 Assert.Equal(1, quantity.Value);
             }
             else
             {
-                Assert.Throws<ArgumentException>(TestCode);
+                Assert.Throws<ArgumentException>(() => new Jerk(value: 1, unitSystem: UnitSystem.SI));
             }
         }
 
@@ -180,47 +179,47 @@ namespace UnitsNet.Tests
         public void From_ValueAndUnit_ReturnsQuantityWithSameValueAndUnit()
         {
             var quantity00 = Jerk.From(1, JerkUnit.CentimeterPerSecondCubed);
-            AssertEx.EqualTolerance(1, quantity00.CentimetersPerSecondCubed, CentimetersPerSecondCubedTolerance);
+            Assert.Equal(1, quantity00.CentimetersPerSecondCubed);
             Assert.Equal(JerkUnit.CentimeterPerSecondCubed, quantity00.Unit);
 
             var quantity01 = Jerk.From(1, JerkUnit.DecimeterPerSecondCubed);
-            AssertEx.EqualTolerance(1, quantity01.DecimetersPerSecondCubed, DecimetersPerSecondCubedTolerance);
+            Assert.Equal(1, quantity01.DecimetersPerSecondCubed);
             Assert.Equal(JerkUnit.DecimeterPerSecondCubed, quantity01.Unit);
 
             var quantity02 = Jerk.From(1, JerkUnit.FootPerSecondCubed);
-            AssertEx.EqualTolerance(1, quantity02.FeetPerSecondCubed, FeetPerSecondCubedTolerance);
+            Assert.Equal(1, quantity02.FeetPerSecondCubed);
             Assert.Equal(JerkUnit.FootPerSecondCubed, quantity02.Unit);
 
             var quantity03 = Jerk.From(1, JerkUnit.InchPerSecondCubed);
-            AssertEx.EqualTolerance(1, quantity03.InchesPerSecondCubed, InchesPerSecondCubedTolerance);
+            Assert.Equal(1, quantity03.InchesPerSecondCubed);
             Assert.Equal(JerkUnit.InchPerSecondCubed, quantity03.Unit);
 
             var quantity04 = Jerk.From(1, JerkUnit.KilometerPerSecondCubed);
-            AssertEx.EqualTolerance(1, quantity04.KilometersPerSecondCubed, KilometersPerSecondCubedTolerance);
+            Assert.Equal(1, quantity04.KilometersPerSecondCubed);
             Assert.Equal(JerkUnit.KilometerPerSecondCubed, quantity04.Unit);
 
             var quantity05 = Jerk.From(1, JerkUnit.MeterPerSecondCubed);
-            AssertEx.EqualTolerance(1, quantity05.MetersPerSecondCubed, MetersPerSecondCubedTolerance);
+            Assert.Equal(1, quantity05.MetersPerSecondCubed);
             Assert.Equal(JerkUnit.MeterPerSecondCubed, quantity05.Unit);
 
             var quantity06 = Jerk.From(1, JerkUnit.MicrometerPerSecondCubed);
-            AssertEx.EqualTolerance(1, quantity06.MicrometersPerSecondCubed, MicrometersPerSecondCubedTolerance);
+            Assert.Equal(1, quantity06.MicrometersPerSecondCubed);
             Assert.Equal(JerkUnit.MicrometerPerSecondCubed, quantity06.Unit);
 
             var quantity07 = Jerk.From(1, JerkUnit.MillimeterPerSecondCubed);
-            AssertEx.EqualTolerance(1, quantity07.MillimetersPerSecondCubed, MillimetersPerSecondCubedTolerance);
+            Assert.Equal(1, quantity07.MillimetersPerSecondCubed);
             Assert.Equal(JerkUnit.MillimeterPerSecondCubed, quantity07.Unit);
 
             var quantity08 = Jerk.From(1, JerkUnit.MillistandardGravitiesPerSecond);
-            AssertEx.EqualTolerance(1, quantity08.MillistandardGravitiesPerSecond, MillistandardGravitiesPerSecondTolerance);
+            Assert.Equal(1, quantity08.MillistandardGravitiesPerSecond);
             Assert.Equal(JerkUnit.MillistandardGravitiesPerSecond, quantity08.Unit);
 
             var quantity09 = Jerk.From(1, JerkUnit.NanometerPerSecondCubed);
-            AssertEx.EqualTolerance(1, quantity09.NanometersPerSecondCubed, NanometersPerSecondCubedTolerance);
+            Assert.Equal(1, quantity09.NanometersPerSecondCubed);
             Assert.Equal(JerkUnit.NanometerPerSecondCubed, quantity09.Unit);
 
             var quantity10 = Jerk.From(1, JerkUnit.StandardGravitiesPerSecond);
-            AssertEx.EqualTolerance(1, quantity10.StandardGravitiesPerSecond, StandardGravitiesPerSecondTolerance);
+            Assert.Equal(1, quantity10.StandardGravitiesPerSecond);
             Assert.Equal(JerkUnit.StandardGravitiesPerSecond, quantity10.Unit);
 
         }
@@ -264,16 +263,13 @@ namespace UnitsNet.Tests
         public void As_SIUnitSystem_ThrowsArgumentExceptionIfNotSupported()
         {
             var quantity = new Jerk(value: 1, unit: Jerk.BaseUnit);
-            Func<object> AsWithSIUnitSystem = () => quantity.As(UnitSystem.SI);
-
             if (SupportsSIUnitSystem)
             {
-                var value = Convert.ToDouble(AsWithSIUnitSystem());
-                Assert.Equal(1, value);
+                Assert.Equal(1, quantity.As(UnitSystem.SI));
             }
             else
             {
-                Assert.Throws<ArgumentException>(AsWithSIUnitSystem);
+                Assert.Throws<ArgumentException>(() => quantity.As(UnitSystem.SI));
             }
         }
 
@@ -283,154 +279,154 @@ namespace UnitsNet.Tests
             try
             {
                 var parsed = Jerk.Parse("1 cm/s³", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.CentimetersPerSecondCubed, CentimetersPerSecondCubedTolerance);
+                Assert.Equal(1, parsed.CentimetersPerSecondCubed);
                 Assert.Equal(JerkUnit.CentimeterPerSecondCubed, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = Jerk.Parse("1 см/с³", CultureInfo.GetCultureInfo("ru-RU"));
-                AssertEx.EqualTolerance(1, parsed.CentimetersPerSecondCubed, CentimetersPerSecondCubedTolerance);
+                Assert.Equal(1, parsed.CentimetersPerSecondCubed);
                 Assert.Equal(JerkUnit.CentimeterPerSecondCubed, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = Jerk.Parse("1 dm/s³", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.DecimetersPerSecondCubed, DecimetersPerSecondCubedTolerance);
+                Assert.Equal(1, parsed.DecimetersPerSecondCubed);
                 Assert.Equal(JerkUnit.DecimeterPerSecondCubed, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = Jerk.Parse("1 дм/с³", CultureInfo.GetCultureInfo("ru-RU"));
-                AssertEx.EqualTolerance(1, parsed.DecimetersPerSecondCubed, DecimetersPerSecondCubedTolerance);
+                Assert.Equal(1, parsed.DecimetersPerSecondCubed);
                 Assert.Equal(JerkUnit.DecimeterPerSecondCubed, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = Jerk.Parse("1 ft/s³", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.FeetPerSecondCubed, FeetPerSecondCubedTolerance);
+                Assert.Equal(1, parsed.FeetPerSecondCubed);
                 Assert.Equal(JerkUnit.FootPerSecondCubed, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = Jerk.Parse("1 фут/с³", CultureInfo.GetCultureInfo("ru-RU"));
-                AssertEx.EqualTolerance(1, parsed.FeetPerSecondCubed, FeetPerSecondCubedTolerance);
+                Assert.Equal(1, parsed.FeetPerSecondCubed);
                 Assert.Equal(JerkUnit.FootPerSecondCubed, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = Jerk.Parse("1 in/s³", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.InchesPerSecondCubed, InchesPerSecondCubedTolerance);
+                Assert.Equal(1, parsed.InchesPerSecondCubed);
                 Assert.Equal(JerkUnit.InchPerSecondCubed, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = Jerk.Parse("1 дюйм/с³", CultureInfo.GetCultureInfo("ru-RU"));
-                AssertEx.EqualTolerance(1, parsed.InchesPerSecondCubed, InchesPerSecondCubedTolerance);
+                Assert.Equal(1, parsed.InchesPerSecondCubed);
                 Assert.Equal(JerkUnit.InchPerSecondCubed, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = Jerk.Parse("1 km/s³", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.KilometersPerSecondCubed, KilometersPerSecondCubedTolerance);
+                Assert.Equal(1, parsed.KilometersPerSecondCubed);
                 Assert.Equal(JerkUnit.KilometerPerSecondCubed, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = Jerk.Parse("1 км/с³", CultureInfo.GetCultureInfo("ru-RU"));
-                AssertEx.EqualTolerance(1, parsed.KilometersPerSecondCubed, KilometersPerSecondCubedTolerance);
+                Assert.Equal(1, parsed.KilometersPerSecondCubed);
                 Assert.Equal(JerkUnit.KilometerPerSecondCubed, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = Jerk.Parse("1 m/s³", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.MetersPerSecondCubed, MetersPerSecondCubedTolerance);
+                Assert.Equal(1, parsed.MetersPerSecondCubed);
                 Assert.Equal(JerkUnit.MeterPerSecondCubed, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = Jerk.Parse("1 м/с³", CultureInfo.GetCultureInfo("ru-RU"));
-                AssertEx.EqualTolerance(1, parsed.MetersPerSecondCubed, MetersPerSecondCubedTolerance);
+                Assert.Equal(1, parsed.MetersPerSecondCubed);
                 Assert.Equal(JerkUnit.MeterPerSecondCubed, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = Jerk.Parse("1 µm/s³", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.MicrometersPerSecondCubed, MicrometersPerSecondCubedTolerance);
+                Assert.Equal(1, parsed.MicrometersPerSecondCubed);
                 Assert.Equal(JerkUnit.MicrometerPerSecondCubed, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = Jerk.Parse("1 мкм/с³", CultureInfo.GetCultureInfo("ru-RU"));
-                AssertEx.EqualTolerance(1, parsed.MicrometersPerSecondCubed, MicrometersPerSecondCubedTolerance);
+                Assert.Equal(1, parsed.MicrometersPerSecondCubed);
                 Assert.Equal(JerkUnit.MicrometerPerSecondCubed, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = Jerk.Parse("1 mm/s³", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.MillimetersPerSecondCubed, MillimetersPerSecondCubedTolerance);
+                Assert.Equal(1, parsed.MillimetersPerSecondCubed);
                 Assert.Equal(JerkUnit.MillimeterPerSecondCubed, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = Jerk.Parse("1 мм/с³", CultureInfo.GetCultureInfo("ru-RU"));
-                AssertEx.EqualTolerance(1, parsed.MillimetersPerSecondCubed, MillimetersPerSecondCubedTolerance);
+                Assert.Equal(1, parsed.MillimetersPerSecondCubed);
                 Assert.Equal(JerkUnit.MillimeterPerSecondCubed, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = Jerk.Parse("1 mg/s", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.MillistandardGravitiesPerSecond, MillistandardGravitiesPerSecondTolerance);
+                Assert.Equal(1, parsed.MillistandardGravitiesPerSecond);
                 Assert.Equal(JerkUnit.MillistandardGravitiesPerSecond, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = Jerk.Parse("1 мg/s", CultureInfo.GetCultureInfo("ru-RU"));
-                AssertEx.EqualTolerance(1, parsed.MillistandardGravitiesPerSecond, MillistandardGravitiesPerSecondTolerance);
+                Assert.Equal(1, parsed.MillistandardGravitiesPerSecond);
                 Assert.Equal(JerkUnit.MillistandardGravitiesPerSecond, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = Jerk.Parse("1 nm/s³", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.NanometersPerSecondCubed, NanometersPerSecondCubedTolerance);
+                Assert.Equal(1, parsed.NanometersPerSecondCubed);
                 Assert.Equal(JerkUnit.NanometerPerSecondCubed, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = Jerk.Parse("1 нм/с³", CultureInfo.GetCultureInfo("ru-RU"));
-                AssertEx.EqualTolerance(1, parsed.NanometersPerSecondCubed, NanometersPerSecondCubedTolerance);
+                Assert.Equal(1, parsed.NanometersPerSecondCubed);
                 Assert.Equal(JerkUnit.NanometerPerSecondCubed, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = Jerk.Parse("1 g/s", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.StandardGravitiesPerSecond, StandardGravitiesPerSecondTolerance);
+                Assert.Equal(1, parsed.StandardGravitiesPerSecond);
                 Assert.Equal(JerkUnit.StandardGravitiesPerSecond, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = Jerk.Parse("1 g/s", CultureInfo.GetCultureInfo("ru-RU"));
-                AssertEx.EqualTolerance(1, parsed.StandardGravitiesPerSecond, StandardGravitiesPerSecondTolerance);
+                Assert.Equal(1, parsed.StandardGravitiesPerSecond);
                 Assert.Equal(JerkUnit.StandardGravitiesPerSecond, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
@@ -441,133 +437,133 @@ namespace UnitsNet.Tests
         {
             {
                 Assert.True(Jerk.TryParse("1 cm/s³", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.CentimetersPerSecondCubed, CentimetersPerSecondCubedTolerance);
+                Assert.Equal(1, parsed.CentimetersPerSecondCubed);
                 Assert.Equal(JerkUnit.CentimeterPerSecondCubed, parsed.Unit);
             }
 
             {
                 Assert.True(Jerk.TryParse("1 см/с³", CultureInfo.GetCultureInfo("ru-RU"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.CentimetersPerSecondCubed, CentimetersPerSecondCubedTolerance);
+                Assert.Equal(1, parsed.CentimetersPerSecondCubed);
                 Assert.Equal(JerkUnit.CentimeterPerSecondCubed, parsed.Unit);
             }
 
             {
                 Assert.True(Jerk.TryParse("1 dm/s³", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.DecimetersPerSecondCubed, DecimetersPerSecondCubedTolerance);
+                Assert.Equal(1, parsed.DecimetersPerSecondCubed);
                 Assert.Equal(JerkUnit.DecimeterPerSecondCubed, parsed.Unit);
             }
 
             {
                 Assert.True(Jerk.TryParse("1 дм/с³", CultureInfo.GetCultureInfo("ru-RU"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.DecimetersPerSecondCubed, DecimetersPerSecondCubedTolerance);
+                Assert.Equal(1, parsed.DecimetersPerSecondCubed);
                 Assert.Equal(JerkUnit.DecimeterPerSecondCubed, parsed.Unit);
             }
 
             {
                 Assert.True(Jerk.TryParse("1 ft/s³", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.FeetPerSecondCubed, FeetPerSecondCubedTolerance);
+                Assert.Equal(1, parsed.FeetPerSecondCubed);
                 Assert.Equal(JerkUnit.FootPerSecondCubed, parsed.Unit);
             }
 
             {
                 Assert.True(Jerk.TryParse("1 фут/с³", CultureInfo.GetCultureInfo("ru-RU"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.FeetPerSecondCubed, FeetPerSecondCubedTolerance);
+                Assert.Equal(1, parsed.FeetPerSecondCubed);
                 Assert.Equal(JerkUnit.FootPerSecondCubed, parsed.Unit);
             }
 
             {
                 Assert.True(Jerk.TryParse("1 in/s³", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.InchesPerSecondCubed, InchesPerSecondCubedTolerance);
+                Assert.Equal(1, parsed.InchesPerSecondCubed);
                 Assert.Equal(JerkUnit.InchPerSecondCubed, parsed.Unit);
             }
 
             {
                 Assert.True(Jerk.TryParse("1 дюйм/с³", CultureInfo.GetCultureInfo("ru-RU"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.InchesPerSecondCubed, InchesPerSecondCubedTolerance);
+                Assert.Equal(1, parsed.InchesPerSecondCubed);
                 Assert.Equal(JerkUnit.InchPerSecondCubed, parsed.Unit);
             }
 
             {
                 Assert.True(Jerk.TryParse("1 km/s³", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.KilometersPerSecondCubed, KilometersPerSecondCubedTolerance);
+                Assert.Equal(1, parsed.KilometersPerSecondCubed);
                 Assert.Equal(JerkUnit.KilometerPerSecondCubed, parsed.Unit);
             }
 
             {
                 Assert.True(Jerk.TryParse("1 км/с³", CultureInfo.GetCultureInfo("ru-RU"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.KilometersPerSecondCubed, KilometersPerSecondCubedTolerance);
+                Assert.Equal(1, parsed.KilometersPerSecondCubed);
                 Assert.Equal(JerkUnit.KilometerPerSecondCubed, parsed.Unit);
             }
 
             {
                 Assert.True(Jerk.TryParse("1 m/s³", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.MetersPerSecondCubed, MetersPerSecondCubedTolerance);
+                Assert.Equal(1, parsed.MetersPerSecondCubed);
                 Assert.Equal(JerkUnit.MeterPerSecondCubed, parsed.Unit);
             }
 
             {
                 Assert.True(Jerk.TryParse("1 м/с³", CultureInfo.GetCultureInfo("ru-RU"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.MetersPerSecondCubed, MetersPerSecondCubedTolerance);
+                Assert.Equal(1, parsed.MetersPerSecondCubed);
                 Assert.Equal(JerkUnit.MeterPerSecondCubed, parsed.Unit);
             }
 
             {
                 Assert.True(Jerk.TryParse("1 µm/s³", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.MicrometersPerSecondCubed, MicrometersPerSecondCubedTolerance);
+                Assert.Equal(1, parsed.MicrometersPerSecondCubed);
                 Assert.Equal(JerkUnit.MicrometerPerSecondCubed, parsed.Unit);
             }
 
             {
                 Assert.True(Jerk.TryParse("1 мкм/с³", CultureInfo.GetCultureInfo("ru-RU"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.MicrometersPerSecondCubed, MicrometersPerSecondCubedTolerance);
+                Assert.Equal(1, parsed.MicrometersPerSecondCubed);
                 Assert.Equal(JerkUnit.MicrometerPerSecondCubed, parsed.Unit);
             }
 
             {
                 Assert.True(Jerk.TryParse("1 mm/s³", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.MillimetersPerSecondCubed, MillimetersPerSecondCubedTolerance);
+                Assert.Equal(1, parsed.MillimetersPerSecondCubed);
                 Assert.Equal(JerkUnit.MillimeterPerSecondCubed, parsed.Unit);
             }
 
             {
                 Assert.True(Jerk.TryParse("1 мм/с³", CultureInfo.GetCultureInfo("ru-RU"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.MillimetersPerSecondCubed, MillimetersPerSecondCubedTolerance);
+                Assert.Equal(1, parsed.MillimetersPerSecondCubed);
                 Assert.Equal(JerkUnit.MillimeterPerSecondCubed, parsed.Unit);
             }
 
             {
                 Assert.True(Jerk.TryParse("1 mg/s", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.MillistandardGravitiesPerSecond, MillistandardGravitiesPerSecondTolerance);
+                Assert.Equal(1, parsed.MillistandardGravitiesPerSecond);
                 Assert.Equal(JerkUnit.MillistandardGravitiesPerSecond, parsed.Unit);
             }
 
             {
                 Assert.True(Jerk.TryParse("1 мg/s", CultureInfo.GetCultureInfo("ru-RU"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.MillistandardGravitiesPerSecond, MillistandardGravitiesPerSecondTolerance);
+                Assert.Equal(1, parsed.MillistandardGravitiesPerSecond);
                 Assert.Equal(JerkUnit.MillistandardGravitiesPerSecond, parsed.Unit);
             }
 
             {
                 Assert.True(Jerk.TryParse("1 nm/s³", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.NanometersPerSecondCubed, NanometersPerSecondCubedTolerance);
+                Assert.Equal(1, parsed.NanometersPerSecondCubed);
                 Assert.Equal(JerkUnit.NanometerPerSecondCubed, parsed.Unit);
             }
 
             {
                 Assert.True(Jerk.TryParse("1 нм/с³", CultureInfo.GetCultureInfo("ru-RU"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.NanometersPerSecondCubed, NanometersPerSecondCubedTolerance);
+                Assert.Equal(1, parsed.NanometersPerSecondCubed);
                 Assert.Equal(JerkUnit.NanometerPerSecondCubed, parsed.Unit);
             }
 
             {
                 Assert.True(Jerk.TryParse("1 g/s", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.StandardGravitiesPerSecond, StandardGravitiesPerSecondTolerance);
+                Assert.Equal(1, parsed.StandardGravitiesPerSecond);
                 Assert.Equal(JerkUnit.StandardGravitiesPerSecond, parsed.Unit);
             }
 
             {
                 Assert.True(Jerk.TryParse("1 g/s", CultureInfo.GetCultureInfo("ru-RU"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.StandardGravitiesPerSecond, StandardGravitiesPerSecondTolerance);
+                Assert.Equal(1, parsed.StandardGravitiesPerSecond);
                 Assert.Equal(JerkUnit.StandardGravitiesPerSecond, parsed.Unit);
             }
 
@@ -871,30 +867,30 @@ namespace UnitsNet.Tests
         public void ConversionRoundTrip()
         {
             Jerk meterpersecondcubed = Jerk.FromMetersPerSecondCubed(1);
-            AssertEx.EqualTolerance(1, Jerk.FromCentimetersPerSecondCubed(meterpersecondcubed.CentimetersPerSecondCubed).MetersPerSecondCubed, CentimetersPerSecondCubedTolerance);
-            AssertEx.EqualTolerance(1, Jerk.FromDecimetersPerSecondCubed(meterpersecondcubed.DecimetersPerSecondCubed).MetersPerSecondCubed, DecimetersPerSecondCubedTolerance);
-            AssertEx.EqualTolerance(1, Jerk.FromFeetPerSecondCubed(meterpersecondcubed.FeetPerSecondCubed).MetersPerSecondCubed, FeetPerSecondCubedTolerance);
-            AssertEx.EqualTolerance(1, Jerk.FromInchesPerSecondCubed(meterpersecondcubed.InchesPerSecondCubed).MetersPerSecondCubed, InchesPerSecondCubedTolerance);
-            AssertEx.EqualTolerance(1, Jerk.FromKilometersPerSecondCubed(meterpersecondcubed.KilometersPerSecondCubed).MetersPerSecondCubed, KilometersPerSecondCubedTolerance);
-            AssertEx.EqualTolerance(1, Jerk.FromMetersPerSecondCubed(meterpersecondcubed.MetersPerSecondCubed).MetersPerSecondCubed, MetersPerSecondCubedTolerance);
-            AssertEx.EqualTolerance(1, Jerk.FromMicrometersPerSecondCubed(meterpersecondcubed.MicrometersPerSecondCubed).MetersPerSecondCubed, MicrometersPerSecondCubedTolerance);
-            AssertEx.EqualTolerance(1, Jerk.FromMillimetersPerSecondCubed(meterpersecondcubed.MillimetersPerSecondCubed).MetersPerSecondCubed, MillimetersPerSecondCubedTolerance);
-            AssertEx.EqualTolerance(1, Jerk.FromMillistandardGravitiesPerSecond(meterpersecondcubed.MillistandardGravitiesPerSecond).MetersPerSecondCubed, MillistandardGravitiesPerSecondTolerance);
-            AssertEx.EqualTolerance(1, Jerk.FromNanometersPerSecondCubed(meterpersecondcubed.NanometersPerSecondCubed).MetersPerSecondCubed, NanometersPerSecondCubedTolerance);
-            AssertEx.EqualTolerance(1, Jerk.FromStandardGravitiesPerSecond(meterpersecondcubed.StandardGravitiesPerSecond).MetersPerSecondCubed, StandardGravitiesPerSecondTolerance);
+            Assert.Equal(1, Jerk.FromCentimetersPerSecondCubed(meterpersecondcubed.CentimetersPerSecondCubed).MetersPerSecondCubed);
+            Assert.Equal(1, Jerk.FromDecimetersPerSecondCubed(meterpersecondcubed.DecimetersPerSecondCubed).MetersPerSecondCubed);
+            Assert.Equal(1, Jerk.FromFeetPerSecondCubed(meterpersecondcubed.FeetPerSecondCubed).MetersPerSecondCubed);
+            Assert.Equal(1, Jerk.FromInchesPerSecondCubed(meterpersecondcubed.InchesPerSecondCubed).MetersPerSecondCubed);
+            Assert.Equal(1, Jerk.FromKilometersPerSecondCubed(meterpersecondcubed.KilometersPerSecondCubed).MetersPerSecondCubed);
+            Assert.Equal(1, Jerk.FromMetersPerSecondCubed(meterpersecondcubed.MetersPerSecondCubed).MetersPerSecondCubed);
+            Assert.Equal(1, Jerk.FromMicrometersPerSecondCubed(meterpersecondcubed.MicrometersPerSecondCubed).MetersPerSecondCubed);
+            Assert.Equal(1, Jerk.FromMillimetersPerSecondCubed(meterpersecondcubed.MillimetersPerSecondCubed).MetersPerSecondCubed);
+            Assert.Equal(1, Jerk.FromMillistandardGravitiesPerSecond(meterpersecondcubed.MillistandardGravitiesPerSecond).MetersPerSecondCubed);
+            Assert.Equal(1, Jerk.FromNanometersPerSecondCubed(meterpersecondcubed.NanometersPerSecondCubed).MetersPerSecondCubed);
+            Assert.Equal(1, Jerk.FromStandardGravitiesPerSecond(meterpersecondcubed.StandardGravitiesPerSecond).MetersPerSecondCubed);
         }
 
         [Fact]
         public void ArithmeticOperators()
         {
             Jerk v = Jerk.FromMetersPerSecondCubed(1);
-            AssertEx.EqualTolerance(-1, -v.MetersPerSecondCubed, MetersPerSecondCubedTolerance);
-            AssertEx.EqualTolerance(2, (Jerk.FromMetersPerSecondCubed(3)-v).MetersPerSecondCubed, MetersPerSecondCubedTolerance);
-            AssertEx.EqualTolerance(2, (v + v).MetersPerSecondCubed, MetersPerSecondCubedTolerance);
-            AssertEx.EqualTolerance(10, (v*10).MetersPerSecondCubed, MetersPerSecondCubedTolerance);
-            AssertEx.EqualTolerance(10, (10*v).MetersPerSecondCubed, MetersPerSecondCubedTolerance);
-            AssertEx.EqualTolerance(2, (Jerk.FromMetersPerSecondCubed(10)/5).MetersPerSecondCubed, MetersPerSecondCubedTolerance);
-            AssertEx.EqualTolerance(2, Jerk.FromMetersPerSecondCubed(10)/Jerk.FromMetersPerSecondCubed(5), MetersPerSecondCubedTolerance);
+            Assert.Equal(-1, -v.MetersPerSecondCubed);
+            Assert.Equal(2, (Jerk.FromMetersPerSecondCubed(3) - v).MetersPerSecondCubed);
+            Assert.Equal(2, (v + v).MetersPerSecondCubed);
+            Assert.Equal(10, (v * 10).MetersPerSecondCubed);
+            Assert.Equal(10, (10 * v).MetersPerSecondCubed);
+            Assert.Equal(2, (Jerk.FromMetersPerSecondCubed(10) / 5).MetersPerSecondCubed);
+            Assert.Equal(2, Jerk.FromMetersPerSecondCubed(10) / Jerk.FromMetersPerSecondCubed(5));
         }
 
         [Fact]
@@ -940,8 +936,6 @@ namespace UnitsNet.Tests
         [Theory]
         [InlineData(1, JerkUnit.MeterPerSecondCubed, 1, JerkUnit.MeterPerSecondCubed, true)]  // Same value and unit.
         [InlineData(1, JerkUnit.MeterPerSecondCubed, 2, JerkUnit.MeterPerSecondCubed, false)] // Different value.
-        [InlineData(2, JerkUnit.MeterPerSecondCubed, 1, JerkUnit.CentimeterPerSecondCubed, false)] // Different value and unit.
-        [InlineData(1, JerkUnit.MeterPerSecondCubed, 1, JerkUnit.CentimeterPerSecondCubed, false)] // Different unit.
         public void Equals_ReturnsTrue_IfValueAndUnitAreEqual(double valueA, JerkUnit unitA, double valueB, JerkUnit unitB, bool expectEqual)
         {
             var a = new Jerk(valueA, unitA);
@@ -979,20 +973,22 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
-        public void Equals_RelativeTolerance_IsImplemented()
+        public void Equals_WithTolerance_IsImplemented()
         {
             var v = Jerk.FromMetersPerSecondCubed(1);
-            Assert.True(v.Equals(Jerk.FromMetersPerSecondCubed(1), MetersPerSecondCubedTolerance, ComparisonType.Relative));
-            Assert.False(v.Equals(Jerk.Zero, MetersPerSecondCubedTolerance, ComparisonType.Relative));
-            Assert.True(Jerk.FromMetersPerSecondCubed(100).Equals(Jerk.FromMetersPerSecondCubed(120), 0.3, ComparisonType.Relative));
-            Assert.False(Jerk.FromMetersPerSecondCubed(100).Equals(Jerk.FromMetersPerSecondCubed(120), 0.1, ComparisonType.Relative));
+            Assert.True(v.Equals(Jerk.FromMetersPerSecondCubed(1), Jerk.FromMetersPerSecondCubed(0)));
+            Assert.True(v.Equals(Jerk.FromMetersPerSecondCubed(1), Jerk.FromMetersPerSecondCubed(0.001m)));
+            Assert.True(v.Equals(Jerk.FromMetersPerSecondCubed(0.9999), Jerk.FromMetersPerSecondCubed(0.001m)));
+            Assert.False(v.Equals(Jerk.FromMetersPerSecondCubed(0.99), Jerk.FromMetersPerSecondCubed(0.001m)));
+            Assert.False(v.Equals(Jerk.Zero, Jerk.FromMetersPerSecondCubed(0.001m)));
         }
 
         [Fact]
-        public void Equals_NegativeRelativeTolerance_ThrowsArgumentOutOfRangeException()
+        public void Equals_WithNegativeTolerance_ThrowsArgumentOutOfRangeException()
         {
             var v = Jerk.FromMetersPerSecondCubed(1);
-            Assert.Throws<ArgumentOutOfRangeException>(() => v.Equals(Jerk.FromMetersPerSecondCubed(1), -1, ComparisonType.Relative));
+            var negativeTolerance = Jerk.FromMetersPerSecondCubed(-1);
+            Assert.Throws<ArgumentOutOfRangeException>(() => v.Equals(Jerk.FromMetersPerSecondCubed(1), negativeTolerance));
         }
 
         [Fact]
@@ -1015,7 +1011,7 @@ namespace UnitsNet.Tests
             var units = Enum.GetValues(typeof(JerkUnit)).Cast<JerkUnit>();
             foreach (var unit in units)
             {
-                var defaultAbbreviation = UnitAbbreviationsCache.Default.GetDefaultAbbreviation(unit);
+                var defaultAbbreviation = UnitsNetSetup.Default.UnitAbbreviations.GetDefaultAbbreviation(unit);
             }
         }
 
@@ -1262,7 +1258,12 @@ namespace UnitsNet.Tests
         public void GetHashCode_Equals()
         {
             var quantity = Jerk.FromMetersPerSecondCubed(1.0);
-            Assert.Equal(new {Jerk.Info.Name, quantity.Value, quantity.Unit}.GetHashCode(), quantity.GetHashCode());
+            #if NET7_0_OR_GREATER
+            var expected = HashCode.Combine(Jerk.Info.Name, quantity.MetersPerSecondCubed);
+            #else
+            var expected = new {Jerk.Info.Name, valueInBaseUnit = quantity.MetersPerSecondCubed}.GetHashCode();
+            #endif
+            Assert.Equal(expected, quantity.GetHashCode());
         }
 
         [Theory]

@@ -22,12 +22,9 @@ using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
-#if NET7_0_OR_GREATER
-using System.Numerics;
-#endif
 using System.Runtime.Serialization;
-using UnitsNet.InternalHelpers;
 using UnitsNet.Units;
+using System.Numerics;
 
 #nullable enable
 
@@ -55,13 +52,13 @@ namespace UnitsNet
         /// <summary>
         ///     The numeric value this quantity was constructed with.
         /// </summary>
-        [DataMember(Name = "Value", Order = 1)]
-        private readonly double _value;
+        [DataMember(Name = "Value", Order = 1, EmitDefaultValue = false)]
+        private readonly QuantityValue _value;
 
         /// <summary>
         ///     The unit this quantity was constructed with.
         /// </summary>
-        [DataMember(Name = "Unit", Order = 2)]
+        [DataMember(Name = "Unit", Order = 2, EmitDefaultValue = false)]
         private readonly EnergyDensityUnit? _unit;
 
         static EnergyDensity()
@@ -97,7 +94,7 @@ namespace UnitsNet
         /// </summary>
         /// <param name="value">The numeric value to construct this quantity with.</param>
         /// <param name="unit">The unit representation to construct this quantity with.</param>
-        public EnergyDensity(double value, EnergyDensityUnit unit)
+        public EnergyDensity(QuantityValue value, EnergyDensityUnit unit)
         {
             _value = value;
             _unit = unit;
@@ -111,7 +108,7 @@ namespace UnitsNet
         /// <param name="unitSystem">The unit system to create the quantity with.</param>
         /// <exception cref="ArgumentNullException">The given <see cref="UnitSystem"/> is null.</exception>
         /// <exception cref="ArgumentException">No unit was found for the given <see cref="UnitSystem"/>.</exception>
-        public EnergyDensity(double value, UnitSystem unitSystem)
+        public EnergyDensity(QuantityValue value, UnitSystem unitSystem)
         {
             if (unitSystem is null) throw new ArgumentNullException(nameof(unitSystem));
 
@@ -162,10 +159,10 @@ namespace UnitsNet
         /// <summary>
         ///     The numeric value this quantity was constructed with.
         /// </summary>
-        public double Value => _value;
+        public QuantityValue Value => _value;
 
         /// <inheritdoc />
-        double IQuantity.Value => _value;
+        QuantityValue IQuantity.Value => _value;
 
         Enum IQuantity.Unit => Unit;
 
@@ -190,62 +187,62 @@ namespace UnitsNet
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="EnergyDensityUnit.GigajoulePerCubicMeter"/>
         /// </summary>
-        public double GigajoulesPerCubicMeter => As(EnergyDensityUnit.GigajoulePerCubicMeter);
+        public QuantityValue GigajoulesPerCubicMeter => As(EnergyDensityUnit.GigajoulePerCubicMeter);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="EnergyDensityUnit.GigawattHourPerCubicMeter"/>
         /// </summary>
-        public double GigawattHoursPerCubicMeter => As(EnergyDensityUnit.GigawattHourPerCubicMeter);
+        public QuantityValue GigawattHoursPerCubicMeter => As(EnergyDensityUnit.GigawattHourPerCubicMeter);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="EnergyDensityUnit.JoulePerCubicMeter"/>
         /// </summary>
-        public double JoulesPerCubicMeter => As(EnergyDensityUnit.JoulePerCubicMeter);
+        public QuantityValue JoulesPerCubicMeter => As(EnergyDensityUnit.JoulePerCubicMeter);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="EnergyDensityUnit.KilojoulePerCubicMeter"/>
         /// </summary>
-        public double KilojoulesPerCubicMeter => As(EnergyDensityUnit.KilojoulePerCubicMeter);
+        public QuantityValue KilojoulesPerCubicMeter => As(EnergyDensityUnit.KilojoulePerCubicMeter);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="EnergyDensityUnit.KilowattHourPerCubicMeter"/>
         /// </summary>
-        public double KilowattHoursPerCubicMeter => As(EnergyDensityUnit.KilowattHourPerCubicMeter);
+        public QuantityValue KilowattHoursPerCubicMeter => As(EnergyDensityUnit.KilowattHourPerCubicMeter);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="EnergyDensityUnit.MegajoulePerCubicMeter"/>
         /// </summary>
-        public double MegajoulesPerCubicMeter => As(EnergyDensityUnit.MegajoulePerCubicMeter);
+        public QuantityValue MegajoulesPerCubicMeter => As(EnergyDensityUnit.MegajoulePerCubicMeter);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="EnergyDensityUnit.MegawattHourPerCubicMeter"/>
         /// </summary>
-        public double MegawattHoursPerCubicMeter => As(EnergyDensityUnit.MegawattHourPerCubicMeter);
+        public QuantityValue MegawattHoursPerCubicMeter => As(EnergyDensityUnit.MegawattHourPerCubicMeter);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="EnergyDensityUnit.PetajoulePerCubicMeter"/>
         /// </summary>
-        public double PetajoulesPerCubicMeter => As(EnergyDensityUnit.PetajoulePerCubicMeter);
+        public QuantityValue PetajoulesPerCubicMeter => As(EnergyDensityUnit.PetajoulePerCubicMeter);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="EnergyDensityUnit.PetawattHourPerCubicMeter"/>
         /// </summary>
-        public double PetawattHoursPerCubicMeter => As(EnergyDensityUnit.PetawattHourPerCubicMeter);
+        public QuantityValue PetawattHoursPerCubicMeter => As(EnergyDensityUnit.PetawattHourPerCubicMeter);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="EnergyDensityUnit.TerajoulePerCubicMeter"/>
         /// </summary>
-        public double TerajoulesPerCubicMeter => As(EnergyDensityUnit.TerajoulePerCubicMeter);
+        public QuantityValue TerajoulesPerCubicMeter => As(EnergyDensityUnit.TerajoulePerCubicMeter);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="EnergyDensityUnit.TerawattHourPerCubicMeter"/>
         /// </summary>
-        public double TerawattHoursPerCubicMeter => As(EnergyDensityUnit.TerawattHourPerCubicMeter);
+        public QuantityValue TerawattHoursPerCubicMeter => As(EnergyDensityUnit.TerawattHourPerCubicMeter);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="EnergyDensityUnit.WattHourPerCubicMeter"/>
         /// </summary>
-        public double WattHoursPerCubicMeter => As(EnergyDensityUnit.WattHourPerCubicMeter);
+        public QuantityValue WattHoursPerCubicMeter => As(EnergyDensityUnit.WattHourPerCubicMeter);
 
         #endregion
 
@@ -305,7 +302,7 @@ namespace UnitsNet
         /// <param name="provider">Format to use for localization. Defaults to <see cref="CultureInfo.CurrentCulture" /> if null.</param>
         public static string GetAbbreviation(EnergyDensityUnit unit, IFormatProvider? provider)
         {
-            return UnitAbbreviationsCache.Default.GetDefaultAbbreviation(unit, provider);
+            return UnitsNetSetup.Default.UnitAbbreviations.GetDefaultAbbreviation(unit, provider);
         }
 
         #endregion
@@ -315,7 +312,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="EnergyDensity"/> from <see cref="EnergyDensityUnit.GigajoulePerCubicMeter"/>.
         /// </summary>
-        public static EnergyDensity FromGigajoulesPerCubicMeter(double value)
+        public static EnergyDensity FromGigajoulesPerCubicMeter(QuantityValue value)
         {
             return new EnergyDensity(value, EnergyDensityUnit.GigajoulePerCubicMeter);
         }
@@ -323,7 +320,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="EnergyDensity"/> from <see cref="EnergyDensityUnit.GigawattHourPerCubicMeter"/>.
         /// </summary>
-        public static EnergyDensity FromGigawattHoursPerCubicMeter(double value)
+        public static EnergyDensity FromGigawattHoursPerCubicMeter(QuantityValue value)
         {
             return new EnergyDensity(value, EnergyDensityUnit.GigawattHourPerCubicMeter);
         }
@@ -331,7 +328,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="EnergyDensity"/> from <see cref="EnergyDensityUnit.JoulePerCubicMeter"/>.
         /// </summary>
-        public static EnergyDensity FromJoulesPerCubicMeter(double value)
+        public static EnergyDensity FromJoulesPerCubicMeter(QuantityValue value)
         {
             return new EnergyDensity(value, EnergyDensityUnit.JoulePerCubicMeter);
         }
@@ -339,7 +336,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="EnergyDensity"/> from <see cref="EnergyDensityUnit.KilojoulePerCubicMeter"/>.
         /// </summary>
-        public static EnergyDensity FromKilojoulesPerCubicMeter(double value)
+        public static EnergyDensity FromKilojoulesPerCubicMeter(QuantityValue value)
         {
             return new EnergyDensity(value, EnergyDensityUnit.KilojoulePerCubicMeter);
         }
@@ -347,7 +344,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="EnergyDensity"/> from <see cref="EnergyDensityUnit.KilowattHourPerCubicMeter"/>.
         /// </summary>
-        public static EnergyDensity FromKilowattHoursPerCubicMeter(double value)
+        public static EnergyDensity FromKilowattHoursPerCubicMeter(QuantityValue value)
         {
             return new EnergyDensity(value, EnergyDensityUnit.KilowattHourPerCubicMeter);
         }
@@ -355,7 +352,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="EnergyDensity"/> from <see cref="EnergyDensityUnit.MegajoulePerCubicMeter"/>.
         /// </summary>
-        public static EnergyDensity FromMegajoulesPerCubicMeter(double value)
+        public static EnergyDensity FromMegajoulesPerCubicMeter(QuantityValue value)
         {
             return new EnergyDensity(value, EnergyDensityUnit.MegajoulePerCubicMeter);
         }
@@ -363,7 +360,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="EnergyDensity"/> from <see cref="EnergyDensityUnit.MegawattHourPerCubicMeter"/>.
         /// </summary>
-        public static EnergyDensity FromMegawattHoursPerCubicMeter(double value)
+        public static EnergyDensity FromMegawattHoursPerCubicMeter(QuantityValue value)
         {
             return new EnergyDensity(value, EnergyDensityUnit.MegawattHourPerCubicMeter);
         }
@@ -371,7 +368,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="EnergyDensity"/> from <see cref="EnergyDensityUnit.PetajoulePerCubicMeter"/>.
         /// </summary>
-        public static EnergyDensity FromPetajoulesPerCubicMeter(double value)
+        public static EnergyDensity FromPetajoulesPerCubicMeter(QuantityValue value)
         {
             return new EnergyDensity(value, EnergyDensityUnit.PetajoulePerCubicMeter);
         }
@@ -379,7 +376,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="EnergyDensity"/> from <see cref="EnergyDensityUnit.PetawattHourPerCubicMeter"/>.
         /// </summary>
-        public static EnergyDensity FromPetawattHoursPerCubicMeter(double value)
+        public static EnergyDensity FromPetawattHoursPerCubicMeter(QuantityValue value)
         {
             return new EnergyDensity(value, EnergyDensityUnit.PetawattHourPerCubicMeter);
         }
@@ -387,7 +384,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="EnergyDensity"/> from <see cref="EnergyDensityUnit.TerajoulePerCubicMeter"/>.
         /// </summary>
-        public static EnergyDensity FromTerajoulesPerCubicMeter(double value)
+        public static EnergyDensity FromTerajoulesPerCubicMeter(QuantityValue value)
         {
             return new EnergyDensity(value, EnergyDensityUnit.TerajoulePerCubicMeter);
         }
@@ -395,7 +392,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="EnergyDensity"/> from <see cref="EnergyDensityUnit.TerawattHourPerCubicMeter"/>.
         /// </summary>
-        public static EnergyDensity FromTerawattHoursPerCubicMeter(double value)
+        public static EnergyDensity FromTerawattHoursPerCubicMeter(QuantityValue value)
         {
             return new EnergyDensity(value, EnergyDensityUnit.TerawattHourPerCubicMeter);
         }
@@ -403,7 +400,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="EnergyDensity"/> from <see cref="EnergyDensityUnit.WattHourPerCubicMeter"/>.
         /// </summary>
-        public static EnergyDensity FromWattHoursPerCubicMeter(double value)
+        public static EnergyDensity FromWattHoursPerCubicMeter(QuantityValue value)
         {
             return new EnergyDensity(value, EnergyDensityUnit.WattHourPerCubicMeter);
         }
@@ -414,7 +411,7 @@ namespace UnitsNet
         /// <param name="value">Value to convert from.</param>
         /// <param name="fromUnit">Unit to convert from.</param>
         /// <returns>EnergyDensity unit value.</returns>
-        public static EnergyDensity From(double value, EnergyDensityUnit fromUnit)
+        public static EnergyDensity From(QuantityValue value, EnergyDensityUnit fromUnit)
         {
             return new EnergyDensity(value, fromUnit);
         }
@@ -475,7 +472,7 @@ namespace UnitsNet
         /// <param name="provider">Format to use when parsing number and unit. Defaults to <see cref="CultureInfo.CurrentCulture" /> if null.</param>
         public static EnergyDensity Parse(string str, IFormatProvider? provider)
         {
-            return QuantityParser.Default.Parse<EnergyDensity, EnergyDensityUnit>(
+            return UnitsNetSetup.Default.QuantityParser.Parse<EnergyDensity, EnergyDensityUnit>(
                 str,
                 provider,
                 From);
@@ -506,7 +503,7 @@ namespace UnitsNet
         /// <param name="provider">Format to use when parsing number and unit. Defaults to <see cref="CultureInfo.CurrentCulture" /> if null.</param>
         public static bool TryParse(string? str, IFormatProvider? provider, out EnergyDensity result)
         {
-            return QuantityParser.Default.TryParse<EnergyDensity, EnergyDensityUnit>(
+            return UnitsNetSetup.Default.QuantityParser.TryParse<EnergyDensity, EnergyDensityUnit>(
                 str,
                 provider,
                 From,
@@ -539,7 +536,7 @@ namespace UnitsNet
         /// <exception cref="UnitsNetException">Error parsing string.</exception>
         public static EnergyDensityUnit ParseUnit(string str, IFormatProvider? provider)
         {
-            return UnitParser.Default.Parse<EnergyDensityUnit>(str, provider);
+            return UnitsNetSetup.Default.UnitParser.Parse<EnergyDensityUnit>(str, provider);
         }
 
         /// <inheritdoc cref="TryParseUnit(string,IFormatProvider,out UnitsNet.Units.EnergyDensityUnit)"/>
@@ -560,7 +557,7 @@ namespace UnitsNet
         /// <param name="provider">Format to use when parsing number and unit. Defaults to <see cref="CultureInfo.CurrentCulture" /> if null.</param>
         public static bool TryParseUnit(string str, IFormatProvider? provider, out EnergyDensityUnit unit)
         {
-            return UnitParser.Default.TryParse<EnergyDensityUnit>(str, provider, out unit);
+            return UnitsNetSetup.Default.UnitParser.TryParse<EnergyDensityUnit>(str, provider, out unit);
         }
 
         #endregion
@@ -586,25 +583,25 @@ namespace UnitsNet
         }
 
         /// <summary>Get <see cref="EnergyDensity"/> from multiplying value and <see cref="EnergyDensity"/>.</summary>
-        public static EnergyDensity operator *(double left, EnergyDensity right)
+        public static EnergyDensity operator *(QuantityValue left, EnergyDensity right)
         {
             return new EnergyDensity(left * right.Value, right.Unit);
         }
 
         /// <summary>Get <see cref="EnergyDensity"/> from multiplying value and <see cref="EnergyDensity"/>.</summary>
-        public static EnergyDensity operator *(EnergyDensity left, double right)
+        public static EnergyDensity operator *(EnergyDensity left, QuantityValue right)
         {
             return new EnergyDensity(left.Value * right, left.Unit);
         }
 
         /// <summary>Get <see cref="EnergyDensity"/> from dividing <see cref="EnergyDensity"/> by value.</summary>
-        public static EnergyDensity operator /(EnergyDensity left, double right)
+        public static EnergyDensity operator /(EnergyDensity left, QuantityValue right)
         {
             return new EnergyDensity(left.Value / right, left.Unit);
         }
 
         /// <summary>Get ratio value from dividing <see cref="EnergyDensity"/> by <see cref="EnergyDensity"/>.</summary>
-        public static double operator /(EnergyDensity left, EnergyDensity right)
+        public static QuantityValue operator /(EnergyDensity left, EnergyDensity right)
         {
             return left.JoulesPerCubicMeter / right.JoulesPerCubicMeter;
         }
@@ -647,27 +644,20 @@ namespace UnitsNet
             return left.Value > right.ToUnit(left.Unit).Value;
         }
 
-        // We use obsolete attribute to communicate the preferred equality members to use.
-        // CS0809: Obsolete member 'memberA' overrides non-obsolete member 'memberB'.
-        #pragma warning disable CS0809
-
-        /// <summary>Indicates strict equality of two <see cref="EnergyDensity"/> quantities, where both <see cref="Value" /> and <see cref="Unit" /> are exactly equal.</summary>
-        [Obsolete("For null checks, use `x is null` syntax to not invoke overloads. For equality checks, use Equals(EnergyDensity other, EnergyDensity tolerance) instead, to check equality across units and to specify the max tolerance for rounding errors due to floating-point arithmetic when converting between units.")]
+        /// <summary>Indicates strict equality of two <see cref="EnergyDensity"/> quantities.</summary>
         public static bool operator ==(EnergyDensity left, EnergyDensity right)
         {
             return left.Equals(right);
         }
 
-        /// <summary>Indicates strict inequality of two <see cref="EnergyDensity"/> quantities, where both <see cref="Value" /> and <see cref="Unit" /> are exactly equal.</summary>
-        [Obsolete("For null checks, use `x is null` syntax to not invoke overloads. For equality checks, use Equals(EnergyDensity other, EnergyDensity tolerance) instead, to check equality across units and to specify the max tolerance for rounding errors due to floating-point arithmetic when converting between units.")]
+        /// <summary>Indicates strict inequality of two <see cref="EnergyDensity"/> quantities.</summary>
         public static bool operator !=(EnergyDensity left, EnergyDensity right)
         {
             return !(left == right);
         }
 
         /// <inheritdoc />
-        /// <summary>Indicates strict equality of two <see cref="EnergyDensity"/> quantities, where both <see cref="Value" /> and <see cref="Unit" /> are exactly equal.</summary>
-        [Obsolete("Use Equals(EnergyDensity other, EnergyDensity tolerance) instead, to check equality across units and to specify the max tolerance for rounding errors due to floating-point arithmetic when converting between units.")]
+        /// <summary>Indicates strict equality of two <see cref="EnergyDensity"/> quantities.</summary>
         public override bool Equals(object? obj)
         {
             if (obj is null || !(obj is EnergyDensity otherQuantity))
@@ -677,14 +667,11 @@ namespace UnitsNet
         }
 
         /// <inheritdoc />
-        /// <summary>Indicates strict equality of two <see cref="EnergyDensity"/> quantities, where both <see cref="Value" /> and <see cref="Unit" /> are exactly equal.</summary>
-        [Obsolete("Use Equals(EnergyDensity other, EnergyDensity tolerance) instead, to check equality across units and to specify the max tolerance for rounding errors due to floating-point arithmetic when converting between units.")]
+        /// <summary>Indicates strict equality of two <see cref="EnergyDensity"/> quantities.</summary>
         public bool Equals(EnergyDensity other)
         {
-            return new { Value, Unit }.Equals(new { other.Value, other.Unit });
+            return _value.Equals(other.As(this.Unit));
         }
-
-        #pragma warning restore CS0809
 
         /// <summary>Compares the current <see cref="EnergyDensity"/> with another object of the same type and returns an integer that indicates whether the current instance precedes, follows, or occurs in the same position in the sort order as the other when converted to the same unit.</summary>
         /// <param name="obj">An object to compare with this instance.</param>
@@ -722,59 +709,6 @@ namespace UnitsNet
             return _value.CompareTo(other.ToUnit(this.Unit).Value);
         }
 
-        /// <summary>
-        ///     <para>
-        ///     Compare equality to another EnergyDensity within the given absolute or relative tolerance.
-        ///     </para>
-        ///     <para>
-        ///     Relative tolerance is defined as the maximum allowable absolute difference between this quantity's value and
-        ///     <paramref name="other"/> as a percentage of this quantity's value. <paramref name="other"/> will be converted into
-        ///     this quantity's unit for comparison. A relative tolerance of 0.01 means the absolute difference must be within +/- 1% of
-        ///     this quantity's value to be considered equal.
-        ///     <example>
-        ///     In this example, the two quantities will be equal if the value of b is within +/- 1% of a (0.02m or 2cm).
-        ///     <code>
-        ///     var a = Length.FromMeters(2.0);
-        ///     var b = Length.FromInches(50.0);
-        ///     a.Equals(b, 0.01, ComparisonType.Relative);
-        ///     </code>
-        ///     </example>
-        ///     </para>
-        ///     <para>
-        ///     Absolute tolerance is defined as the maximum allowable absolute difference between this quantity's value and
-        ///     <paramref name="other"/> as a fixed number in this quantity's unit. <paramref name="other"/> will be converted into
-        ///     this quantity's unit for comparison.
-        ///     <example>
-        ///     In this example, the two quantities will be equal if the value of b is within 0.01 of a (0.01m or 1cm).
-        ///     <code>
-        ///     var a = Length.FromMeters(2.0);
-        ///     var b = Length.FromInches(50.0);
-        ///     a.Equals(b, 0.01, ComparisonType.Absolute);
-        ///     </code>
-        ///     </example>
-        ///     </para>
-        ///     <para>
-        ///     Note that it is advised against specifying zero difference, due to the nature
-        ///     of floating-point operations and using double internally.
-        ///     </para>
-        /// </summary>
-        /// <param name="other">The other quantity to compare to.</param>
-        /// <param name="tolerance">The absolute or relative tolerance value. Must be greater than or equal to 0.</param>
-        /// <param name="comparisonType">The comparison type: either relative or absolute.</param>
-        /// <returns>True if the absolute difference between the two values is not greater than the specified relative or absolute tolerance.</returns>
-        [Obsolete("Use Equals(EnergyDensity other, EnergyDensity tolerance) instead, to check equality across units and to specify the max tolerance for rounding errors due to floating-point arithmetic when converting between units.")]
-        public bool Equals(EnergyDensity other, double tolerance, ComparisonType comparisonType)
-        {
-            if (tolerance < 0)
-                throw new ArgumentOutOfRangeException(nameof(tolerance), "Tolerance must be greater than or equal to 0.");
-
-            return UnitsNet.Comparison.Equals(
-                referenceValue: this.Value,
-                otherValue: other.As(this.Unit),
-                tolerance: tolerance,
-                comparisonType: comparisonType);
-        }
-
         /// <inheritdoc />
         public bool Equals(IQuantity? other, IQuantity tolerance)
         {
@@ -788,11 +722,10 @@ namespace UnitsNet
         /// <inheritdoc />
         public bool Equals(EnergyDensity other, EnergyDensity tolerance)
         {
-            return UnitsNet.Comparison.Equals(
-                referenceValue: this.Value,
-                otherValue: other.As(this.Unit),
-                tolerance: tolerance.As(this.Unit),
-                comparisonType: ComparisonType.Absolute);
+            return UnitsNet.Comparison.EqualsAbsolute(
+                this.Value,
+                other.As(this.Unit),
+                tolerance: tolerance.As(this.Unit));
         }
 
         /// <summary>
@@ -801,7 +734,12 @@ namespace UnitsNet
         /// <returns>A hash code for the current EnergyDensity.</returns>
         public override int GetHashCode()
         {
-            return new { Info.Name, Value, Unit }.GetHashCode();
+            var valueInBaseUnit = As(BaseUnit);
+            #if NET7_0_OR_GREATER
+            return HashCode.Combine(Info.Name, valueInBaseUnit);
+            #else
+            return new { Info.Name, valueInBaseUnit }.GetHashCode();
+            #endif
         }
 
         #endregion
@@ -812,7 +750,7 @@ namespace UnitsNet
         ///     Convert to the unit representation <paramref name="unit" />.
         /// </summary>
         /// <returns>Value converted to the specified unit.</returns>
-        public double As(EnergyDensityUnit unit)
+        public QuantityValue As(EnergyDensityUnit unit)
         {
             if (Unit == unit)
                 return Value;
@@ -821,7 +759,7 @@ namespace UnitsNet
         }
 
         /// <inheritdoc cref="IQuantity.As(UnitSystem)"/>
-        public double As(UnitSystem unitSystem)
+        public QuantityValue As(UnitSystem unitSystem)
         {
             if (unitSystem is null)
                 throw new ArgumentNullException(nameof(unitSystem));
@@ -836,7 +774,7 @@ namespace UnitsNet
         }
 
         /// <inheritdoc />
-        double IQuantity.As(Enum unit)
+        QuantityValue IQuantity.As(Enum unit)
         {
             if (!(unit is EnergyDensityUnit typedUnit))
                 throw new ArgumentException($"The given unit is of type {unit.GetType()}. Only {typeof(EnergyDensityUnit)} is supported.", nameof(unit));
@@ -902,30 +840,30 @@ namespace UnitsNet
             EnergyDensity? convertedOrNull = (Unit, unit) switch
             {
                 // EnergyDensityUnit -> BaseUnit
-                (EnergyDensityUnit.GigajoulePerCubicMeter, EnergyDensityUnit.JoulePerCubicMeter) => new EnergyDensity((_value) * 1e9d, EnergyDensityUnit.JoulePerCubicMeter),
-                (EnergyDensityUnit.GigawattHourPerCubicMeter, EnergyDensityUnit.JoulePerCubicMeter) => new EnergyDensity((_value * 3.6e+3) * 1e9d, EnergyDensityUnit.JoulePerCubicMeter),
-                (EnergyDensityUnit.KilojoulePerCubicMeter, EnergyDensityUnit.JoulePerCubicMeter) => new EnergyDensity((_value) * 1e3d, EnergyDensityUnit.JoulePerCubicMeter),
-                (EnergyDensityUnit.KilowattHourPerCubicMeter, EnergyDensityUnit.JoulePerCubicMeter) => new EnergyDensity((_value * 3.6e+3) * 1e3d, EnergyDensityUnit.JoulePerCubicMeter),
-                (EnergyDensityUnit.MegajoulePerCubicMeter, EnergyDensityUnit.JoulePerCubicMeter) => new EnergyDensity((_value) * 1e6d, EnergyDensityUnit.JoulePerCubicMeter),
-                (EnergyDensityUnit.MegawattHourPerCubicMeter, EnergyDensityUnit.JoulePerCubicMeter) => new EnergyDensity((_value * 3.6e+3) * 1e6d, EnergyDensityUnit.JoulePerCubicMeter),
-                (EnergyDensityUnit.PetajoulePerCubicMeter, EnergyDensityUnit.JoulePerCubicMeter) => new EnergyDensity((_value) * 1e15d, EnergyDensityUnit.JoulePerCubicMeter),
-                (EnergyDensityUnit.PetawattHourPerCubicMeter, EnergyDensityUnit.JoulePerCubicMeter) => new EnergyDensity((_value * 3.6e+3) * 1e15d, EnergyDensityUnit.JoulePerCubicMeter),
-                (EnergyDensityUnit.TerajoulePerCubicMeter, EnergyDensityUnit.JoulePerCubicMeter) => new EnergyDensity((_value) * 1e12d, EnergyDensityUnit.JoulePerCubicMeter),
-                (EnergyDensityUnit.TerawattHourPerCubicMeter, EnergyDensityUnit.JoulePerCubicMeter) => new EnergyDensity((_value * 3.6e+3) * 1e12d, EnergyDensityUnit.JoulePerCubicMeter),
-                (EnergyDensityUnit.WattHourPerCubicMeter, EnergyDensityUnit.JoulePerCubicMeter) => new EnergyDensity(_value * 3.6e+3, EnergyDensityUnit.JoulePerCubicMeter),
+                (EnergyDensityUnit.GigajoulePerCubicMeter, EnergyDensityUnit.JoulePerCubicMeter) => new EnergyDensity(_value * 1000000000, EnergyDensityUnit.JoulePerCubicMeter),
+                (EnergyDensityUnit.GigawattHourPerCubicMeter, EnergyDensityUnit.JoulePerCubicMeter) => new EnergyDensity(_value * 3600000000000, EnergyDensityUnit.JoulePerCubicMeter),
+                (EnergyDensityUnit.KilojoulePerCubicMeter, EnergyDensityUnit.JoulePerCubicMeter) => new EnergyDensity(_value * 1000, EnergyDensityUnit.JoulePerCubicMeter),
+                (EnergyDensityUnit.KilowattHourPerCubicMeter, EnergyDensityUnit.JoulePerCubicMeter) => new EnergyDensity(_value * 3600000, EnergyDensityUnit.JoulePerCubicMeter),
+                (EnergyDensityUnit.MegajoulePerCubicMeter, EnergyDensityUnit.JoulePerCubicMeter) => new EnergyDensity(_value * 1000000, EnergyDensityUnit.JoulePerCubicMeter),
+                (EnergyDensityUnit.MegawattHourPerCubicMeter, EnergyDensityUnit.JoulePerCubicMeter) => new EnergyDensity(_value * 3600000000, EnergyDensityUnit.JoulePerCubicMeter),
+                (EnergyDensityUnit.PetajoulePerCubicMeter, EnergyDensityUnit.JoulePerCubicMeter) => new EnergyDensity(_value * 1000000000000000, EnergyDensityUnit.JoulePerCubicMeter),
+                (EnergyDensityUnit.PetawattHourPerCubicMeter, EnergyDensityUnit.JoulePerCubicMeter) => new EnergyDensity(_value * 3600000000000000000, EnergyDensityUnit.JoulePerCubicMeter),
+                (EnergyDensityUnit.TerajoulePerCubicMeter, EnergyDensityUnit.JoulePerCubicMeter) => new EnergyDensity(_value * 1000000000000, EnergyDensityUnit.JoulePerCubicMeter),
+                (EnergyDensityUnit.TerawattHourPerCubicMeter, EnergyDensityUnit.JoulePerCubicMeter) => new EnergyDensity(_value * 3600000000000000, EnergyDensityUnit.JoulePerCubicMeter),
+                (EnergyDensityUnit.WattHourPerCubicMeter, EnergyDensityUnit.JoulePerCubicMeter) => new EnergyDensity(_value * 3600, EnergyDensityUnit.JoulePerCubicMeter),
 
                 // BaseUnit -> EnergyDensityUnit
-                (EnergyDensityUnit.JoulePerCubicMeter, EnergyDensityUnit.GigajoulePerCubicMeter) => new EnergyDensity((_value) / 1e9d, EnergyDensityUnit.GigajoulePerCubicMeter),
-                (EnergyDensityUnit.JoulePerCubicMeter, EnergyDensityUnit.GigawattHourPerCubicMeter) => new EnergyDensity((_value / 3.6e+3) / 1e9d, EnergyDensityUnit.GigawattHourPerCubicMeter),
-                (EnergyDensityUnit.JoulePerCubicMeter, EnergyDensityUnit.KilojoulePerCubicMeter) => new EnergyDensity((_value) / 1e3d, EnergyDensityUnit.KilojoulePerCubicMeter),
-                (EnergyDensityUnit.JoulePerCubicMeter, EnergyDensityUnit.KilowattHourPerCubicMeter) => new EnergyDensity((_value / 3.6e+3) / 1e3d, EnergyDensityUnit.KilowattHourPerCubicMeter),
-                (EnergyDensityUnit.JoulePerCubicMeter, EnergyDensityUnit.MegajoulePerCubicMeter) => new EnergyDensity((_value) / 1e6d, EnergyDensityUnit.MegajoulePerCubicMeter),
-                (EnergyDensityUnit.JoulePerCubicMeter, EnergyDensityUnit.MegawattHourPerCubicMeter) => new EnergyDensity((_value / 3.6e+3) / 1e6d, EnergyDensityUnit.MegawattHourPerCubicMeter),
-                (EnergyDensityUnit.JoulePerCubicMeter, EnergyDensityUnit.PetajoulePerCubicMeter) => new EnergyDensity((_value) / 1e15d, EnergyDensityUnit.PetajoulePerCubicMeter),
-                (EnergyDensityUnit.JoulePerCubicMeter, EnergyDensityUnit.PetawattHourPerCubicMeter) => new EnergyDensity((_value / 3.6e+3) / 1e15d, EnergyDensityUnit.PetawattHourPerCubicMeter),
-                (EnergyDensityUnit.JoulePerCubicMeter, EnergyDensityUnit.TerajoulePerCubicMeter) => new EnergyDensity((_value) / 1e12d, EnergyDensityUnit.TerajoulePerCubicMeter),
-                (EnergyDensityUnit.JoulePerCubicMeter, EnergyDensityUnit.TerawattHourPerCubicMeter) => new EnergyDensity((_value / 3.6e+3) / 1e12d, EnergyDensityUnit.TerawattHourPerCubicMeter),
-                (EnergyDensityUnit.JoulePerCubicMeter, EnergyDensityUnit.WattHourPerCubicMeter) => new EnergyDensity(_value / 3.6e+3, EnergyDensityUnit.WattHourPerCubicMeter),
+                (EnergyDensityUnit.JoulePerCubicMeter, EnergyDensityUnit.GigajoulePerCubicMeter) => new EnergyDensity(_value / 1000000000, EnergyDensityUnit.GigajoulePerCubicMeter),
+                (EnergyDensityUnit.JoulePerCubicMeter, EnergyDensityUnit.GigawattHourPerCubicMeter) => new EnergyDensity(_value / 3600000000000, EnergyDensityUnit.GigawattHourPerCubicMeter),
+                (EnergyDensityUnit.JoulePerCubicMeter, EnergyDensityUnit.KilojoulePerCubicMeter) => new EnergyDensity(_value / 1000, EnergyDensityUnit.KilojoulePerCubicMeter),
+                (EnergyDensityUnit.JoulePerCubicMeter, EnergyDensityUnit.KilowattHourPerCubicMeter) => new EnergyDensity(_value / 3600000, EnergyDensityUnit.KilowattHourPerCubicMeter),
+                (EnergyDensityUnit.JoulePerCubicMeter, EnergyDensityUnit.MegajoulePerCubicMeter) => new EnergyDensity(_value / 1000000, EnergyDensityUnit.MegajoulePerCubicMeter),
+                (EnergyDensityUnit.JoulePerCubicMeter, EnergyDensityUnit.MegawattHourPerCubicMeter) => new EnergyDensity(_value / 3600000000, EnergyDensityUnit.MegawattHourPerCubicMeter),
+                (EnergyDensityUnit.JoulePerCubicMeter, EnergyDensityUnit.PetajoulePerCubicMeter) => new EnergyDensity(_value / 1000000000000000, EnergyDensityUnit.PetajoulePerCubicMeter),
+                (EnergyDensityUnit.JoulePerCubicMeter, EnergyDensityUnit.PetawattHourPerCubicMeter) => new EnergyDensity(_value / 3600000000000000000, EnergyDensityUnit.PetawattHourPerCubicMeter),
+                (EnergyDensityUnit.JoulePerCubicMeter, EnergyDensityUnit.TerajoulePerCubicMeter) => new EnergyDensity(_value / 1000000000000, EnergyDensityUnit.TerajoulePerCubicMeter),
+                (EnergyDensityUnit.JoulePerCubicMeter, EnergyDensityUnit.TerawattHourPerCubicMeter) => new EnergyDensity(_value / 3600000000000000, EnergyDensityUnit.TerawattHourPerCubicMeter),
+                (EnergyDensityUnit.JoulePerCubicMeter, EnergyDensityUnit.WattHourPerCubicMeter) => new EnergyDensity(_value / 3600, EnergyDensityUnit.WattHourPerCubicMeter),
 
                 _ => null
             };

@@ -101,15 +101,14 @@ namespace UnitsNet.Tests
         [Fact]
         public void Ctor_SIUnitSystem_ThrowsArgumentExceptionIfNotSupported()
         {
-            Func<object> TestCode = () => new MolarEnergy(value: 1, unitSystem: UnitSystem.SI);
             if (SupportsSIUnitSystem)
             {
-                var quantity = (MolarEnergy) TestCode();
+                var quantity = new MolarEnergy(value: 1, unitSystem: UnitSystem.SI);
                 Assert.Equal(1, quantity.Value);
             }
             else
             {
-                Assert.Throws<ArgumentException>(TestCode);
+                Assert.Throws<ArgumentException>(() => new MolarEnergy(value: 1, unitSystem: UnitSystem.SI));
             }
         }
 
@@ -140,15 +139,15 @@ namespace UnitsNet.Tests
         public void From_ValueAndUnit_ReturnsQuantityWithSameValueAndUnit()
         {
             var quantity00 = MolarEnergy.From(1, MolarEnergyUnit.JoulePerMole);
-            AssertEx.EqualTolerance(1, quantity00.JoulesPerMole, JoulesPerMoleTolerance);
+            Assert.Equal(1, quantity00.JoulesPerMole);
             Assert.Equal(MolarEnergyUnit.JoulePerMole, quantity00.Unit);
 
             var quantity01 = MolarEnergy.From(1, MolarEnergyUnit.KilojoulePerMole);
-            AssertEx.EqualTolerance(1, quantity01.KilojoulesPerMole, KilojoulesPerMoleTolerance);
+            Assert.Equal(1, quantity01.KilojoulesPerMole);
             Assert.Equal(MolarEnergyUnit.KilojoulePerMole, quantity01.Unit);
 
             var quantity02 = MolarEnergy.From(1, MolarEnergyUnit.MegajoulePerMole);
-            AssertEx.EqualTolerance(1, quantity02.MegajoulesPerMole, MegajoulesPerMoleTolerance);
+            Assert.Equal(1, quantity02.MegajoulesPerMole);
             Assert.Equal(MolarEnergyUnit.MegajoulePerMole, quantity02.Unit);
 
         }
@@ -184,16 +183,13 @@ namespace UnitsNet.Tests
         public void As_SIUnitSystem_ThrowsArgumentExceptionIfNotSupported()
         {
             var quantity = new MolarEnergy(value: 1, unit: MolarEnergy.BaseUnit);
-            Func<object> AsWithSIUnitSystem = () => quantity.As(UnitSystem.SI);
-
             if (SupportsSIUnitSystem)
             {
-                var value = Convert.ToDouble(AsWithSIUnitSystem());
-                Assert.Equal(1, value);
+                Assert.Equal(1, quantity.As(UnitSystem.SI));
             }
             else
             {
-                Assert.Throws<ArgumentException>(AsWithSIUnitSystem);
+                Assert.Throws<ArgumentException>(() => quantity.As(UnitSystem.SI));
             }
         }
 
@@ -203,21 +199,21 @@ namespace UnitsNet.Tests
             try
             {
                 var parsed = MolarEnergy.Parse("1 J/mol", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.JoulesPerMole, JoulesPerMoleTolerance);
+                Assert.Equal(1, parsed.JoulesPerMole);
                 Assert.Equal(MolarEnergyUnit.JoulePerMole, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = MolarEnergy.Parse("1 kJ/mol", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.KilojoulesPerMole, KilojoulesPerMoleTolerance);
+                Assert.Equal(1, parsed.KilojoulesPerMole);
                 Assert.Equal(MolarEnergyUnit.KilojoulePerMole, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = MolarEnergy.Parse("1 MJ/mol", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.MegajoulesPerMole, MegajoulesPerMoleTolerance);
+                Assert.Equal(1, parsed.MegajoulesPerMole);
                 Assert.Equal(MolarEnergyUnit.MegajoulePerMole, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
@@ -228,19 +224,19 @@ namespace UnitsNet.Tests
         {
             {
                 Assert.True(MolarEnergy.TryParse("1 J/mol", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.JoulesPerMole, JoulesPerMoleTolerance);
+                Assert.Equal(1, parsed.JoulesPerMole);
                 Assert.Equal(MolarEnergyUnit.JoulePerMole, parsed.Unit);
             }
 
             {
                 Assert.True(MolarEnergy.TryParse("1 kJ/mol", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.KilojoulesPerMole, KilojoulesPerMoleTolerance);
+                Assert.Equal(1, parsed.KilojoulesPerMole);
                 Assert.Equal(MolarEnergyUnit.KilojoulePerMole, parsed.Unit);
             }
 
             {
                 Assert.True(MolarEnergy.TryParse("1 MJ/mol", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.MegajoulesPerMole, MegajoulesPerMoleTolerance);
+                Assert.Equal(1, parsed.MegajoulesPerMole);
                 Assert.Equal(MolarEnergyUnit.MegajoulePerMole, parsed.Unit);
             }
 
@@ -335,22 +331,22 @@ namespace UnitsNet.Tests
         public void ConversionRoundTrip()
         {
             MolarEnergy joulepermole = MolarEnergy.FromJoulesPerMole(1);
-            AssertEx.EqualTolerance(1, MolarEnergy.FromJoulesPerMole(joulepermole.JoulesPerMole).JoulesPerMole, JoulesPerMoleTolerance);
-            AssertEx.EqualTolerance(1, MolarEnergy.FromKilojoulesPerMole(joulepermole.KilojoulesPerMole).JoulesPerMole, KilojoulesPerMoleTolerance);
-            AssertEx.EqualTolerance(1, MolarEnergy.FromMegajoulesPerMole(joulepermole.MegajoulesPerMole).JoulesPerMole, MegajoulesPerMoleTolerance);
+            Assert.Equal(1, MolarEnergy.FromJoulesPerMole(joulepermole.JoulesPerMole).JoulesPerMole);
+            Assert.Equal(1, MolarEnergy.FromKilojoulesPerMole(joulepermole.KilojoulesPerMole).JoulesPerMole);
+            Assert.Equal(1, MolarEnergy.FromMegajoulesPerMole(joulepermole.MegajoulesPerMole).JoulesPerMole);
         }
 
         [Fact]
         public void ArithmeticOperators()
         {
             MolarEnergy v = MolarEnergy.FromJoulesPerMole(1);
-            AssertEx.EqualTolerance(-1, -v.JoulesPerMole, JoulesPerMoleTolerance);
-            AssertEx.EqualTolerance(2, (MolarEnergy.FromJoulesPerMole(3)-v).JoulesPerMole, JoulesPerMoleTolerance);
-            AssertEx.EqualTolerance(2, (v + v).JoulesPerMole, JoulesPerMoleTolerance);
-            AssertEx.EqualTolerance(10, (v*10).JoulesPerMole, JoulesPerMoleTolerance);
-            AssertEx.EqualTolerance(10, (10*v).JoulesPerMole, JoulesPerMoleTolerance);
-            AssertEx.EqualTolerance(2, (MolarEnergy.FromJoulesPerMole(10)/5).JoulesPerMole, JoulesPerMoleTolerance);
-            AssertEx.EqualTolerance(2, MolarEnergy.FromJoulesPerMole(10)/MolarEnergy.FromJoulesPerMole(5), JoulesPerMoleTolerance);
+            Assert.Equal(-1, -v.JoulesPerMole);
+            Assert.Equal(2, (MolarEnergy.FromJoulesPerMole(3) - v).JoulesPerMole);
+            Assert.Equal(2, (v + v).JoulesPerMole);
+            Assert.Equal(10, (v * 10).JoulesPerMole);
+            Assert.Equal(10, (10 * v).JoulesPerMole);
+            Assert.Equal(2, (MolarEnergy.FromJoulesPerMole(10) / 5).JoulesPerMole);
+            Assert.Equal(2, MolarEnergy.FromJoulesPerMole(10) / MolarEnergy.FromJoulesPerMole(5));
         }
 
         [Fact]
@@ -396,8 +392,6 @@ namespace UnitsNet.Tests
         [Theory]
         [InlineData(1, MolarEnergyUnit.JoulePerMole, 1, MolarEnergyUnit.JoulePerMole, true)]  // Same value and unit.
         [InlineData(1, MolarEnergyUnit.JoulePerMole, 2, MolarEnergyUnit.JoulePerMole, false)] // Different value.
-        [InlineData(2, MolarEnergyUnit.JoulePerMole, 1, MolarEnergyUnit.KilojoulePerMole, false)] // Different value and unit.
-        [InlineData(1, MolarEnergyUnit.JoulePerMole, 1, MolarEnergyUnit.KilojoulePerMole, false)] // Different unit.
         public void Equals_ReturnsTrue_IfValueAndUnitAreEqual(double valueA, MolarEnergyUnit unitA, double valueB, MolarEnergyUnit unitB, bool expectEqual)
         {
             var a = new MolarEnergy(valueA, unitA);
@@ -435,20 +429,22 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
-        public void Equals_RelativeTolerance_IsImplemented()
+        public void Equals_WithTolerance_IsImplemented()
         {
             var v = MolarEnergy.FromJoulesPerMole(1);
-            Assert.True(v.Equals(MolarEnergy.FromJoulesPerMole(1), JoulesPerMoleTolerance, ComparisonType.Relative));
-            Assert.False(v.Equals(MolarEnergy.Zero, JoulesPerMoleTolerance, ComparisonType.Relative));
-            Assert.True(MolarEnergy.FromJoulesPerMole(100).Equals(MolarEnergy.FromJoulesPerMole(120), 0.3, ComparisonType.Relative));
-            Assert.False(MolarEnergy.FromJoulesPerMole(100).Equals(MolarEnergy.FromJoulesPerMole(120), 0.1, ComparisonType.Relative));
+            Assert.True(v.Equals(MolarEnergy.FromJoulesPerMole(1), MolarEnergy.FromJoulesPerMole(0)));
+            Assert.True(v.Equals(MolarEnergy.FromJoulesPerMole(1), MolarEnergy.FromJoulesPerMole(0.001m)));
+            Assert.True(v.Equals(MolarEnergy.FromJoulesPerMole(0.9999), MolarEnergy.FromJoulesPerMole(0.001m)));
+            Assert.False(v.Equals(MolarEnergy.FromJoulesPerMole(0.99), MolarEnergy.FromJoulesPerMole(0.001m)));
+            Assert.False(v.Equals(MolarEnergy.Zero, MolarEnergy.FromJoulesPerMole(0.001m)));
         }
 
         [Fact]
-        public void Equals_NegativeRelativeTolerance_ThrowsArgumentOutOfRangeException()
+        public void Equals_WithNegativeTolerance_ThrowsArgumentOutOfRangeException()
         {
             var v = MolarEnergy.FromJoulesPerMole(1);
-            Assert.Throws<ArgumentOutOfRangeException>(() => v.Equals(MolarEnergy.FromJoulesPerMole(1), -1, ComparisonType.Relative));
+            var negativeTolerance = MolarEnergy.FromJoulesPerMole(-1);
+            Assert.Throws<ArgumentOutOfRangeException>(() => v.Equals(MolarEnergy.FromJoulesPerMole(1), negativeTolerance));
         }
 
         [Fact]
@@ -471,7 +467,7 @@ namespace UnitsNet.Tests
             var units = Enum.GetValues(typeof(MolarEnergyUnit)).Cast<MolarEnergyUnit>();
             foreach (var unit in units)
             {
-                var defaultAbbreviation = UnitAbbreviationsCache.Default.GetDefaultAbbreviation(unit);
+                var defaultAbbreviation = UnitsNetSetup.Default.UnitAbbreviations.GetDefaultAbbreviation(unit);
             }
         }
 
@@ -702,7 +698,12 @@ namespace UnitsNet.Tests
         public void GetHashCode_Equals()
         {
             var quantity = MolarEnergy.FromJoulesPerMole(1.0);
-            Assert.Equal(new {MolarEnergy.Info.Name, quantity.Value, quantity.Unit}.GetHashCode(), quantity.GetHashCode());
+            #if NET7_0_OR_GREATER
+            var expected = HashCode.Combine(MolarEnergy.Info.Name, quantity.JoulesPerMole);
+            #else
+            var expected = new {MolarEnergy.Info.Name, valueInBaseUnit = quantity.JoulesPerMole}.GetHashCode();
+            #endif
+            Assert.Equal(expected, quantity.GetHashCode());
         }
 
         [Theory]

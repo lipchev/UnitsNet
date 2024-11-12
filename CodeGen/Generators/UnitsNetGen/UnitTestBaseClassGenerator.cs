@@ -187,15 +187,14 @@ namespace UnitsNet.Tests
         [Fact]
         public void Ctor_SIUnitSystem_ThrowsArgumentExceptionIfNotSupported()
         {{
-            Func<object> TestCode = () => new {_quantity.Name}(value: 1, unitSystem: UnitSystem.SI);
             if (SupportsSIUnitSystem)
             {{
-                var quantity = ({_quantity.Name}) TestCode();
+                var quantity = new {_quantity.Name}(value: 1, unitSystem: UnitSystem.SI);
                 Assert.Equal(1, quantity.Value);
             }}
             else
             {{
-                Assert.Throws<ArgumentException>(TestCode);
+                Assert.Throws<ArgumentException>(() => new {_quantity.Name}(value: 1, unitSystem: UnitSystem.SI));
             }}
         }}
 
@@ -232,7 +231,7 @@ namespace UnitsNet.Tests
                 var quantityVariable = $"quantity{i++:D2}";
                 Writer.WL($@"
             var {quantityVariable} = {_quantity.Name}.From(1, {GetUnitFullName(unit)});
-            AssertEx.EqualTolerance(1, {quantityVariable}.{unit.PluralName}, {unit.PluralName}Tolerance);
+            Assert.Equal(1, {quantityVariable}.{unit.PluralName});
             Assert.Equal({GetUnitFullName(unit)}, {quantityVariable}.Unit);
 ");
 
@@ -271,16 +270,13 @@ namespace UnitsNet.Tests
         public void As_SIUnitSystem_ThrowsArgumentExceptionIfNotSupported()
         {{
             var quantity = new {_quantity.Name}(value: 1, unit: {_quantity.Name}.BaseUnit);
-            Func<object> AsWithSIUnitSystem = () => quantity.As(UnitSystem.SI);
-
             if (SupportsSIUnitSystem)
             {{
-                var value = Convert.ToDouble(AsWithSIUnitSystem());
-                Assert.Equal(1, value);
+                Assert.Equal(1, quantity.As(UnitSystem.SI));
             }}
             else
             {{
-                Assert.Throws<ArgumentException>(AsWithSIUnitSystem);
+                Assert.Throws<ArgumentException>(() => quantity.As(UnitSystem.SI));
             }}
         }}
 
@@ -295,7 +291,7 @@ namespace UnitsNet.Tests
             try
             {{
                 var parsed = {_quantity.Name}.Parse(""1 {abbreviation}"", CultureInfo.GetCultureInfo(""{localization.Culture}""));
-                AssertEx.EqualTolerance(1, parsed.{unit.PluralName}, {unit.PluralName}Tolerance);
+                Assert.Equal(1, parsed.{unit.PluralName});
                 Assert.Equal({GetUnitFullName(unit)}, parsed.Unit);
             }} catch (AmbiguousUnitParseException) {{ /* Some units have the same abbreviations */ }}
 ");
@@ -316,7 +312,7 @@ namespace UnitsNet.Tests
                 Writer.WL($@"
             {{
                 Assert.True({_quantity.Name}.TryParse(""1 {abbreviation}"", CultureInfo.GetCultureInfo(""{localization.Culture}""), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.{unit.PluralName}, {unit.PluralName}Tolerance);
+                Assert.Equal(1, parsed.{unit.PluralName});
                 Assert.Equal({GetUnitFullName(unit)}, parsed.Unit);
             }}
 ");
@@ -409,7 +405,7 @@ namespace UnitsNet.Tests
         {{
             {_quantity.Name} {baseUnitVariableName} = {_quantity.Name}.From{_baseUnit.PluralName}(1);");
             foreach (var unit in _quantity.Units) Writer.WL($@"
-            AssertEx.EqualTolerance(1, {_quantity.Name}.From{unit.PluralName}({baseUnitVariableName}.{unit.PluralName}).{_baseUnit.PluralName}, {unit.PluralName}Tolerance);");
+            Assert.Equal(1, {_quantity.Name}.From{unit.PluralName}({baseUnitVariableName}.{unit.PluralName}).{_baseUnit.PluralName});");
             Writer.WL($@"
         }}
 ");
@@ -421,13 +417,13 @@ namespace UnitsNet.Tests
         public void LogarithmicArithmeticOperators()
         {{
             {_quantity.Name} v = {_quantity.Name}.From{_baseUnit.PluralName}(40);
-            AssertEx.EqualTolerance(-40, -v.{_baseUnit.PluralName}, {unit.PluralName}Tolerance);
+            Assert.Equal(-40, -v.{_baseUnit.PluralName});
             AssertLogarithmicAddition();
             AssertLogarithmicSubtraction();
-            AssertEx.EqualTolerance(50, (v*10).{_baseUnit.PluralName}, {unit.PluralName}Tolerance);
-            AssertEx.EqualTolerance(50, (10*v).{_baseUnit.PluralName}, {unit.PluralName}Tolerance);
-            AssertEx.EqualTolerance(35, (v/5).{_baseUnit.PluralName}, {unit.PluralName}Tolerance);
-            AssertEx.EqualTolerance(35, v/{_quantity.Name}.From{_baseUnit.PluralName}(5), {unit.PluralName}Tolerance);
+            Assert.Equal(50, (v * 10).{_baseUnit.PluralName});
+            Assert.Equal(50, (10 * v).{_baseUnit.PluralName});
+            Assert.Equal(35, (v / 5).{_baseUnit.PluralName});
+            Assert.Equal(35, v / {_quantity.Name}.From{_baseUnit.PluralName}(5));
         }}
 
         protected abstract void AssertLogarithmicAddition();
@@ -442,13 +438,13 @@ namespace UnitsNet.Tests
         public void ArithmeticOperators()
         {{
             {_quantity.Name} v = {_quantity.Name}.From{_baseUnit.PluralName}(1);
-            AssertEx.EqualTolerance(-1, -v.{_baseUnit.PluralName}, {_baseUnit.PluralName}Tolerance);
-            AssertEx.EqualTolerance(2, ({_quantity.Name}.From{_baseUnit.PluralName}(3)-v).{_baseUnit.PluralName}, {_baseUnit.PluralName}Tolerance);
-            AssertEx.EqualTolerance(2, (v + v).{_baseUnit.PluralName}, {_baseUnit.PluralName}Tolerance);
-            AssertEx.EqualTolerance(10, (v*10).{_baseUnit.PluralName}, {_baseUnit.PluralName}Tolerance);
-            AssertEx.EqualTolerance(10, (10*v).{_baseUnit.PluralName}, {_baseUnit.PluralName}Tolerance);
-            AssertEx.EqualTolerance(2, ({_quantity.Name}.From{_baseUnit.PluralName}(10)/5).{_baseUnit.PluralName}, {_baseUnit.PluralName}Tolerance);
-            AssertEx.EqualTolerance(2, {_quantity.Name}.From{_baseUnit.PluralName}(10)/{_quantity.Name}.From{_baseUnit.PluralName}(5), {_baseUnit.PluralName}Tolerance);
+            Assert.Equal(-1, -v.{_baseUnit.PluralName});
+            Assert.Equal(2, ({_quantity.Name}.From{_baseUnit.PluralName}(3) - v).{_baseUnit.PluralName});
+            Assert.Equal(2, (v + v).{_baseUnit.PluralName});
+            Assert.Equal(10, (v * 10).{_baseUnit.PluralName});
+            Assert.Equal(10, (10 * v).{_baseUnit.PluralName});
+            Assert.Equal(2, ({_quantity.Name}.From{_baseUnit.PluralName}(10) / 5).{_baseUnit.PluralName});
+            Assert.Equal(2, {_quantity.Name}.From{_baseUnit.PluralName}(10) / {_quantity.Name}.From{_baseUnit.PluralName}(5));
         }}
 ");
             }
@@ -501,13 +497,6 @@ namespace UnitsNet.Tests
         [Theory]
         [InlineData(1, {_baseUnitFullName}, 1, {_baseUnitFullName}, true)]  // Same value and unit.
         [InlineData(1, {_baseUnitFullName}, 2, {_baseUnitFullName}, false)] // Different value.
-        [InlineData(2, {_baseUnitFullName}, 1, {_otherOrBaseUnitFullName}, false)] // Different value and unit.");
-            if (_baseUnit != _otherOrBaseUnit)
-            {
-                Writer.WL($@"
-        [InlineData(1, {_baseUnitFullName}, 1, {_otherOrBaseUnitFullName}, false)] // Different unit.");
-            }
-            Writer.WL($@"
         public void Equals_ReturnsTrue_IfValueAndUnitAreEqual(double valueA, {_unitEnumName} unitA, double valueB, {_unitEnumName} unitB, bool expectEqual)
         {{
             var a = new {_quantity.Name}(valueA, unitA);
@@ -545,20 +534,22 @@ namespace UnitsNet.Tests
         }}
 
         [Fact]
-        public void Equals_RelativeTolerance_IsImplemented()
+        public void Equals_WithTolerance_IsImplemented()
         {{
             var v = {_quantity.Name}.From{_baseUnit.PluralName}(1);
-            Assert.True(v.Equals({_quantity.Name}.From{_baseUnit.PluralName}(1), {_baseUnit.PluralName}Tolerance, ComparisonType.Relative));
-            Assert.False(v.Equals({_quantity.Name}.Zero, {_baseUnit.PluralName}Tolerance, ComparisonType.Relative));
-            Assert.True({_quantity.Name}.From{_baseUnit.PluralName}(100).Equals({_quantity.Name}.From{_baseUnit.PluralName}(120), 0.3, ComparisonType.Relative));
-            Assert.False({_quantity.Name}.From{_baseUnit.PluralName}(100).Equals({_quantity.Name}.From{_baseUnit.PluralName}(120), 0.1, ComparisonType.Relative));
+            Assert.True(v.Equals({_quantity.Name}.From{_baseUnit.PluralName}(1), {_quantity.Name}.From{_baseUnit.PluralName}(0)));
+            Assert.True(v.Equals({_quantity.Name}.From{_baseUnit.PluralName}(1), {_quantity.Name}.From{_baseUnit.PluralName}(0.001m)));
+            Assert.True(v.Equals({_quantity.Name}.From{_baseUnit.PluralName}(0.9999), {_quantity.Name}.From{_baseUnit.PluralName}(0.001m)));
+            Assert.False(v.Equals({_quantity.Name}.From{_baseUnit.PluralName}(0.99), {_quantity.Name}.From{_baseUnit.PluralName}(0.001m)));
+            Assert.False(v.Equals({_quantity.Name}.Zero, {_quantity.Name}.From{_baseUnit.PluralName}(0.001m)));
         }}
 
         [Fact]
-        public void Equals_NegativeRelativeTolerance_ThrowsArgumentOutOfRangeException()
+        public void Equals_WithNegativeTolerance_ThrowsArgumentOutOfRangeException()
         {{
             var v = {_quantity.Name}.From{_baseUnit.PluralName}(1);
-            Assert.Throws<ArgumentOutOfRangeException>(() => v.Equals({_quantity.Name}.From{_baseUnit.PluralName}(1), -1, ComparisonType.Relative));
+            var negativeTolerance = {_quantity.Name}.From{_baseUnit.PluralName}(-1);
+            Assert.Throws<ArgumentOutOfRangeException>(() => v.Equals({_quantity.Name}.From{_baseUnit.PluralName}(1), negativeTolerance));
         }}
 
         [Fact]
@@ -581,7 +572,7 @@ namespace UnitsNet.Tests
             var units = Enum.GetValues(typeof({_unitEnumName})).Cast<{_unitEnumName}>();
             foreach (var unit in units)
             {{
-                var defaultAbbreviation = UnitAbbreviationsCache.Default.GetDefaultAbbreviation(unit);
+                var defaultAbbreviation = UnitsNetSetup.Default.UnitAbbreviations.GetDefaultAbbreviation(unit);
             }}
         }}
 
@@ -818,7 +809,12 @@ namespace UnitsNet.Tests
         public void GetHashCode_Equals()
         {{
             var quantity = {_quantity.Name}.From{_baseUnit.PluralName}(1.0);
-            Assert.Equal(new {{{_quantity.Name}.Info.Name, quantity.Value, quantity.Unit}}.GetHashCode(), quantity.GetHashCode());
+            #if NET7_0_OR_GREATER
+            var expected = HashCode.Combine({_quantity.Name}.Info.Name, quantity.{_baseUnit.PluralName});
+            #else
+            var expected = new {{{_quantity.Name}.Info.Name, valueInBaseUnit = quantity.{_baseUnit.PluralName}}}.GetHashCode();
+            #endif
+            Assert.Equal(expected, quantity.GetHashCode());
         }}
 ");
 

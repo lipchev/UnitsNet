@@ -101,15 +101,14 @@ namespace UnitsNet.Tests
         [Fact]
         public void Ctor_SIUnitSystem_ThrowsArgumentExceptionIfNotSupported()
         {
-            Func<object> TestCode = () => new ElectricCurrentDensity(value: 1, unitSystem: UnitSystem.SI);
             if (SupportsSIUnitSystem)
             {
-                var quantity = (ElectricCurrentDensity) TestCode();
+                var quantity = new ElectricCurrentDensity(value: 1, unitSystem: UnitSystem.SI);
                 Assert.Equal(1, quantity.Value);
             }
             else
             {
-                Assert.Throws<ArgumentException>(TestCode);
+                Assert.Throws<ArgumentException>(() => new ElectricCurrentDensity(value: 1, unitSystem: UnitSystem.SI));
             }
         }
 
@@ -140,15 +139,15 @@ namespace UnitsNet.Tests
         public void From_ValueAndUnit_ReturnsQuantityWithSameValueAndUnit()
         {
             var quantity00 = ElectricCurrentDensity.From(1, ElectricCurrentDensityUnit.AmperePerSquareFoot);
-            AssertEx.EqualTolerance(1, quantity00.AmperesPerSquareFoot, AmperesPerSquareFootTolerance);
+            Assert.Equal(1, quantity00.AmperesPerSquareFoot);
             Assert.Equal(ElectricCurrentDensityUnit.AmperePerSquareFoot, quantity00.Unit);
 
             var quantity01 = ElectricCurrentDensity.From(1, ElectricCurrentDensityUnit.AmperePerSquareInch);
-            AssertEx.EqualTolerance(1, quantity01.AmperesPerSquareInch, AmperesPerSquareInchTolerance);
+            Assert.Equal(1, quantity01.AmperesPerSquareInch);
             Assert.Equal(ElectricCurrentDensityUnit.AmperePerSquareInch, quantity01.Unit);
 
             var quantity02 = ElectricCurrentDensity.From(1, ElectricCurrentDensityUnit.AmperePerSquareMeter);
-            AssertEx.EqualTolerance(1, quantity02.AmperesPerSquareMeter, AmperesPerSquareMeterTolerance);
+            Assert.Equal(1, quantity02.AmperesPerSquareMeter);
             Assert.Equal(ElectricCurrentDensityUnit.AmperePerSquareMeter, quantity02.Unit);
 
         }
@@ -184,16 +183,13 @@ namespace UnitsNet.Tests
         public void As_SIUnitSystem_ThrowsArgumentExceptionIfNotSupported()
         {
             var quantity = new ElectricCurrentDensity(value: 1, unit: ElectricCurrentDensity.BaseUnit);
-            Func<object> AsWithSIUnitSystem = () => quantity.As(UnitSystem.SI);
-
             if (SupportsSIUnitSystem)
             {
-                var value = Convert.ToDouble(AsWithSIUnitSystem());
-                Assert.Equal(1, value);
+                Assert.Equal(1, quantity.As(UnitSystem.SI));
             }
             else
             {
-                Assert.Throws<ArgumentException>(AsWithSIUnitSystem);
+                Assert.Throws<ArgumentException>(() => quantity.As(UnitSystem.SI));
             }
         }
 
@@ -203,21 +199,21 @@ namespace UnitsNet.Tests
             try
             {
                 var parsed = ElectricCurrentDensity.Parse("1 A/ft²", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.AmperesPerSquareFoot, AmperesPerSquareFootTolerance);
+                Assert.Equal(1, parsed.AmperesPerSquareFoot);
                 Assert.Equal(ElectricCurrentDensityUnit.AmperePerSquareFoot, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = ElectricCurrentDensity.Parse("1 A/in²", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.AmperesPerSquareInch, AmperesPerSquareInchTolerance);
+                Assert.Equal(1, parsed.AmperesPerSquareInch);
                 Assert.Equal(ElectricCurrentDensityUnit.AmperePerSquareInch, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = ElectricCurrentDensity.Parse("1 A/m²", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.AmperesPerSquareMeter, AmperesPerSquareMeterTolerance);
+                Assert.Equal(1, parsed.AmperesPerSquareMeter);
                 Assert.Equal(ElectricCurrentDensityUnit.AmperePerSquareMeter, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
@@ -228,19 +224,19 @@ namespace UnitsNet.Tests
         {
             {
                 Assert.True(ElectricCurrentDensity.TryParse("1 A/ft²", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.AmperesPerSquareFoot, AmperesPerSquareFootTolerance);
+                Assert.Equal(1, parsed.AmperesPerSquareFoot);
                 Assert.Equal(ElectricCurrentDensityUnit.AmperePerSquareFoot, parsed.Unit);
             }
 
             {
                 Assert.True(ElectricCurrentDensity.TryParse("1 A/in²", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.AmperesPerSquareInch, AmperesPerSquareInchTolerance);
+                Assert.Equal(1, parsed.AmperesPerSquareInch);
                 Assert.Equal(ElectricCurrentDensityUnit.AmperePerSquareInch, parsed.Unit);
             }
 
             {
                 Assert.True(ElectricCurrentDensity.TryParse("1 A/m²", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.AmperesPerSquareMeter, AmperesPerSquareMeterTolerance);
+                Assert.Equal(1, parsed.AmperesPerSquareMeter);
                 Assert.Equal(ElectricCurrentDensityUnit.AmperePerSquareMeter, parsed.Unit);
             }
 
@@ -335,22 +331,22 @@ namespace UnitsNet.Tests
         public void ConversionRoundTrip()
         {
             ElectricCurrentDensity amperepersquaremeter = ElectricCurrentDensity.FromAmperesPerSquareMeter(1);
-            AssertEx.EqualTolerance(1, ElectricCurrentDensity.FromAmperesPerSquareFoot(amperepersquaremeter.AmperesPerSquareFoot).AmperesPerSquareMeter, AmperesPerSquareFootTolerance);
-            AssertEx.EqualTolerance(1, ElectricCurrentDensity.FromAmperesPerSquareInch(amperepersquaremeter.AmperesPerSquareInch).AmperesPerSquareMeter, AmperesPerSquareInchTolerance);
-            AssertEx.EqualTolerance(1, ElectricCurrentDensity.FromAmperesPerSquareMeter(amperepersquaremeter.AmperesPerSquareMeter).AmperesPerSquareMeter, AmperesPerSquareMeterTolerance);
+            Assert.Equal(1, ElectricCurrentDensity.FromAmperesPerSquareFoot(amperepersquaremeter.AmperesPerSquareFoot).AmperesPerSquareMeter);
+            Assert.Equal(1, ElectricCurrentDensity.FromAmperesPerSquareInch(amperepersquaremeter.AmperesPerSquareInch).AmperesPerSquareMeter);
+            Assert.Equal(1, ElectricCurrentDensity.FromAmperesPerSquareMeter(amperepersquaremeter.AmperesPerSquareMeter).AmperesPerSquareMeter);
         }
 
         [Fact]
         public void ArithmeticOperators()
         {
             ElectricCurrentDensity v = ElectricCurrentDensity.FromAmperesPerSquareMeter(1);
-            AssertEx.EqualTolerance(-1, -v.AmperesPerSquareMeter, AmperesPerSquareMeterTolerance);
-            AssertEx.EqualTolerance(2, (ElectricCurrentDensity.FromAmperesPerSquareMeter(3)-v).AmperesPerSquareMeter, AmperesPerSquareMeterTolerance);
-            AssertEx.EqualTolerance(2, (v + v).AmperesPerSquareMeter, AmperesPerSquareMeterTolerance);
-            AssertEx.EqualTolerance(10, (v*10).AmperesPerSquareMeter, AmperesPerSquareMeterTolerance);
-            AssertEx.EqualTolerance(10, (10*v).AmperesPerSquareMeter, AmperesPerSquareMeterTolerance);
-            AssertEx.EqualTolerance(2, (ElectricCurrentDensity.FromAmperesPerSquareMeter(10)/5).AmperesPerSquareMeter, AmperesPerSquareMeterTolerance);
-            AssertEx.EqualTolerance(2, ElectricCurrentDensity.FromAmperesPerSquareMeter(10)/ElectricCurrentDensity.FromAmperesPerSquareMeter(5), AmperesPerSquareMeterTolerance);
+            Assert.Equal(-1, -v.AmperesPerSquareMeter);
+            Assert.Equal(2, (ElectricCurrentDensity.FromAmperesPerSquareMeter(3) - v).AmperesPerSquareMeter);
+            Assert.Equal(2, (v + v).AmperesPerSquareMeter);
+            Assert.Equal(10, (v * 10).AmperesPerSquareMeter);
+            Assert.Equal(10, (10 * v).AmperesPerSquareMeter);
+            Assert.Equal(2, (ElectricCurrentDensity.FromAmperesPerSquareMeter(10) / 5).AmperesPerSquareMeter);
+            Assert.Equal(2, ElectricCurrentDensity.FromAmperesPerSquareMeter(10) / ElectricCurrentDensity.FromAmperesPerSquareMeter(5));
         }
 
         [Fact]
@@ -396,8 +392,6 @@ namespace UnitsNet.Tests
         [Theory]
         [InlineData(1, ElectricCurrentDensityUnit.AmperePerSquareMeter, 1, ElectricCurrentDensityUnit.AmperePerSquareMeter, true)]  // Same value and unit.
         [InlineData(1, ElectricCurrentDensityUnit.AmperePerSquareMeter, 2, ElectricCurrentDensityUnit.AmperePerSquareMeter, false)] // Different value.
-        [InlineData(2, ElectricCurrentDensityUnit.AmperePerSquareMeter, 1, ElectricCurrentDensityUnit.AmperePerSquareFoot, false)] // Different value and unit.
-        [InlineData(1, ElectricCurrentDensityUnit.AmperePerSquareMeter, 1, ElectricCurrentDensityUnit.AmperePerSquareFoot, false)] // Different unit.
         public void Equals_ReturnsTrue_IfValueAndUnitAreEqual(double valueA, ElectricCurrentDensityUnit unitA, double valueB, ElectricCurrentDensityUnit unitB, bool expectEqual)
         {
             var a = new ElectricCurrentDensity(valueA, unitA);
@@ -435,20 +429,22 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
-        public void Equals_RelativeTolerance_IsImplemented()
+        public void Equals_WithTolerance_IsImplemented()
         {
             var v = ElectricCurrentDensity.FromAmperesPerSquareMeter(1);
-            Assert.True(v.Equals(ElectricCurrentDensity.FromAmperesPerSquareMeter(1), AmperesPerSquareMeterTolerance, ComparisonType.Relative));
-            Assert.False(v.Equals(ElectricCurrentDensity.Zero, AmperesPerSquareMeterTolerance, ComparisonType.Relative));
-            Assert.True(ElectricCurrentDensity.FromAmperesPerSquareMeter(100).Equals(ElectricCurrentDensity.FromAmperesPerSquareMeter(120), 0.3, ComparisonType.Relative));
-            Assert.False(ElectricCurrentDensity.FromAmperesPerSquareMeter(100).Equals(ElectricCurrentDensity.FromAmperesPerSquareMeter(120), 0.1, ComparisonType.Relative));
+            Assert.True(v.Equals(ElectricCurrentDensity.FromAmperesPerSquareMeter(1), ElectricCurrentDensity.FromAmperesPerSquareMeter(0)));
+            Assert.True(v.Equals(ElectricCurrentDensity.FromAmperesPerSquareMeter(1), ElectricCurrentDensity.FromAmperesPerSquareMeter(0.001m)));
+            Assert.True(v.Equals(ElectricCurrentDensity.FromAmperesPerSquareMeter(0.9999), ElectricCurrentDensity.FromAmperesPerSquareMeter(0.001m)));
+            Assert.False(v.Equals(ElectricCurrentDensity.FromAmperesPerSquareMeter(0.99), ElectricCurrentDensity.FromAmperesPerSquareMeter(0.001m)));
+            Assert.False(v.Equals(ElectricCurrentDensity.Zero, ElectricCurrentDensity.FromAmperesPerSquareMeter(0.001m)));
         }
 
         [Fact]
-        public void Equals_NegativeRelativeTolerance_ThrowsArgumentOutOfRangeException()
+        public void Equals_WithNegativeTolerance_ThrowsArgumentOutOfRangeException()
         {
             var v = ElectricCurrentDensity.FromAmperesPerSquareMeter(1);
-            Assert.Throws<ArgumentOutOfRangeException>(() => v.Equals(ElectricCurrentDensity.FromAmperesPerSquareMeter(1), -1, ComparisonType.Relative));
+            var negativeTolerance = ElectricCurrentDensity.FromAmperesPerSquareMeter(-1);
+            Assert.Throws<ArgumentOutOfRangeException>(() => v.Equals(ElectricCurrentDensity.FromAmperesPerSquareMeter(1), negativeTolerance));
         }
 
         [Fact]
@@ -471,7 +467,7 @@ namespace UnitsNet.Tests
             var units = Enum.GetValues(typeof(ElectricCurrentDensityUnit)).Cast<ElectricCurrentDensityUnit>();
             foreach (var unit in units)
             {
-                var defaultAbbreviation = UnitAbbreviationsCache.Default.GetDefaultAbbreviation(unit);
+                var defaultAbbreviation = UnitsNetSetup.Default.UnitAbbreviations.GetDefaultAbbreviation(unit);
             }
         }
 
@@ -702,7 +698,12 @@ namespace UnitsNet.Tests
         public void GetHashCode_Equals()
         {
             var quantity = ElectricCurrentDensity.FromAmperesPerSquareMeter(1.0);
-            Assert.Equal(new {ElectricCurrentDensity.Info.Name, quantity.Value, quantity.Unit}.GetHashCode(), quantity.GetHashCode());
+            #if NET7_0_OR_GREATER
+            var expected = HashCode.Combine(ElectricCurrentDensity.Info.Name, quantity.AmperesPerSquareMeter);
+            #else
+            var expected = new {ElectricCurrentDensity.Info.Name, valueInBaseUnit = quantity.AmperesPerSquareMeter}.GetHashCode();
+            #endif
+            Assert.Equal(expected, quantity.GetHashCode());
         }
 
         [Theory]

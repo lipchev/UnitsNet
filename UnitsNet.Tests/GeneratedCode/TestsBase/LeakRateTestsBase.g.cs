@@ -101,15 +101,14 @@ namespace UnitsNet.Tests
         [Fact]
         public void Ctor_SIUnitSystem_ThrowsArgumentExceptionIfNotSupported()
         {
-            Func<object> TestCode = () => new LeakRate(value: 1, unitSystem: UnitSystem.SI);
             if (SupportsSIUnitSystem)
             {
-                var quantity = (LeakRate) TestCode();
+                var quantity = new LeakRate(value: 1, unitSystem: UnitSystem.SI);
                 Assert.Equal(1, quantity.Value);
             }
             else
             {
-                Assert.Throws<ArgumentException>(TestCode);
+                Assert.Throws<ArgumentException>(() => new LeakRate(value: 1, unitSystem: UnitSystem.SI));
             }
         }
 
@@ -140,15 +139,15 @@ namespace UnitsNet.Tests
         public void From_ValueAndUnit_ReturnsQuantityWithSameValueAndUnit()
         {
             var quantity00 = LeakRate.From(1, LeakRateUnit.MillibarLiterPerSecond);
-            AssertEx.EqualTolerance(1, quantity00.MillibarLitersPerSecond, MillibarLitersPerSecondTolerance);
+            Assert.Equal(1, quantity00.MillibarLitersPerSecond);
             Assert.Equal(LeakRateUnit.MillibarLiterPerSecond, quantity00.Unit);
 
             var quantity01 = LeakRate.From(1, LeakRateUnit.PascalCubicMeterPerSecond);
-            AssertEx.EqualTolerance(1, quantity01.PascalCubicMetersPerSecond, PascalCubicMetersPerSecondTolerance);
+            Assert.Equal(1, quantity01.PascalCubicMetersPerSecond);
             Assert.Equal(LeakRateUnit.PascalCubicMeterPerSecond, quantity01.Unit);
 
             var quantity02 = LeakRate.From(1, LeakRateUnit.TorrLiterPerSecond);
-            AssertEx.EqualTolerance(1, quantity02.TorrLitersPerSecond, TorrLitersPerSecondTolerance);
+            Assert.Equal(1, quantity02.TorrLitersPerSecond);
             Assert.Equal(LeakRateUnit.TorrLiterPerSecond, quantity02.Unit);
 
         }
@@ -184,16 +183,13 @@ namespace UnitsNet.Tests
         public void As_SIUnitSystem_ThrowsArgumentExceptionIfNotSupported()
         {
             var quantity = new LeakRate(value: 1, unit: LeakRate.BaseUnit);
-            Func<object> AsWithSIUnitSystem = () => quantity.As(UnitSystem.SI);
-
             if (SupportsSIUnitSystem)
             {
-                var value = Convert.ToDouble(AsWithSIUnitSystem());
-                Assert.Equal(1, value);
+                Assert.Equal(1, quantity.As(UnitSystem.SI));
             }
             else
             {
-                Assert.Throws<ArgumentException>(AsWithSIUnitSystem);
+                Assert.Throws<ArgumentException>(() => quantity.As(UnitSystem.SI));
             }
         }
 
@@ -203,21 +199,21 @@ namespace UnitsNet.Tests
             try
             {
                 var parsed = LeakRate.Parse("1 mbar·l/s", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.MillibarLitersPerSecond, MillibarLitersPerSecondTolerance);
+                Assert.Equal(1, parsed.MillibarLitersPerSecond);
                 Assert.Equal(LeakRateUnit.MillibarLiterPerSecond, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = LeakRate.Parse("1 Pa·m³/s", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.PascalCubicMetersPerSecond, PascalCubicMetersPerSecondTolerance);
+                Assert.Equal(1, parsed.PascalCubicMetersPerSecond);
                 Assert.Equal(LeakRateUnit.PascalCubicMeterPerSecond, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = LeakRate.Parse("1 Torr·l/s", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.TorrLitersPerSecond, TorrLitersPerSecondTolerance);
+                Assert.Equal(1, parsed.TorrLitersPerSecond);
                 Assert.Equal(LeakRateUnit.TorrLiterPerSecond, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
@@ -228,19 +224,19 @@ namespace UnitsNet.Tests
         {
             {
                 Assert.True(LeakRate.TryParse("1 mbar·l/s", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.MillibarLitersPerSecond, MillibarLitersPerSecondTolerance);
+                Assert.Equal(1, parsed.MillibarLitersPerSecond);
                 Assert.Equal(LeakRateUnit.MillibarLiterPerSecond, parsed.Unit);
             }
 
             {
                 Assert.True(LeakRate.TryParse("1 Pa·m³/s", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.PascalCubicMetersPerSecond, PascalCubicMetersPerSecondTolerance);
+                Assert.Equal(1, parsed.PascalCubicMetersPerSecond);
                 Assert.Equal(LeakRateUnit.PascalCubicMeterPerSecond, parsed.Unit);
             }
 
             {
                 Assert.True(LeakRate.TryParse("1 Torr·l/s", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.TorrLitersPerSecond, TorrLitersPerSecondTolerance);
+                Assert.Equal(1, parsed.TorrLitersPerSecond);
                 Assert.Equal(LeakRateUnit.TorrLiterPerSecond, parsed.Unit);
             }
 
@@ -335,22 +331,22 @@ namespace UnitsNet.Tests
         public void ConversionRoundTrip()
         {
             LeakRate pascalcubicmeterpersecond = LeakRate.FromPascalCubicMetersPerSecond(1);
-            AssertEx.EqualTolerance(1, LeakRate.FromMillibarLitersPerSecond(pascalcubicmeterpersecond.MillibarLitersPerSecond).PascalCubicMetersPerSecond, MillibarLitersPerSecondTolerance);
-            AssertEx.EqualTolerance(1, LeakRate.FromPascalCubicMetersPerSecond(pascalcubicmeterpersecond.PascalCubicMetersPerSecond).PascalCubicMetersPerSecond, PascalCubicMetersPerSecondTolerance);
-            AssertEx.EqualTolerance(1, LeakRate.FromTorrLitersPerSecond(pascalcubicmeterpersecond.TorrLitersPerSecond).PascalCubicMetersPerSecond, TorrLitersPerSecondTolerance);
+            Assert.Equal(1, LeakRate.FromMillibarLitersPerSecond(pascalcubicmeterpersecond.MillibarLitersPerSecond).PascalCubicMetersPerSecond);
+            Assert.Equal(1, LeakRate.FromPascalCubicMetersPerSecond(pascalcubicmeterpersecond.PascalCubicMetersPerSecond).PascalCubicMetersPerSecond);
+            Assert.Equal(1, LeakRate.FromTorrLitersPerSecond(pascalcubicmeterpersecond.TorrLitersPerSecond).PascalCubicMetersPerSecond);
         }
 
         [Fact]
         public void ArithmeticOperators()
         {
             LeakRate v = LeakRate.FromPascalCubicMetersPerSecond(1);
-            AssertEx.EqualTolerance(-1, -v.PascalCubicMetersPerSecond, PascalCubicMetersPerSecondTolerance);
-            AssertEx.EqualTolerance(2, (LeakRate.FromPascalCubicMetersPerSecond(3)-v).PascalCubicMetersPerSecond, PascalCubicMetersPerSecondTolerance);
-            AssertEx.EqualTolerance(2, (v + v).PascalCubicMetersPerSecond, PascalCubicMetersPerSecondTolerance);
-            AssertEx.EqualTolerance(10, (v*10).PascalCubicMetersPerSecond, PascalCubicMetersPerSecondTolerance);
-            AssertEx.EqualTolerance(10, (10*v).PascalCubicMetersPerSecond, PascalCubicMetersPerSecondTolerance);
-            AssertEx.EqualTolerance(2, (LeakRate.FromPascalCubicMetersPerSecond(10)/5).PascalCubicMetersPerSecond, PascalCubicMetersPerSecondTolerance);
-            AssertEx.EqualTolerance(2, LeakRate.FromPascalCubicMetersPerSecond(10)/LeakRate.FromPascalCubicMetersPerSecond(5), PascalCubicMetersPerSecondTolerance);
+            Assert.Equal(-1, -v.PascalCubicMetersPerSecond);
+            Assert.Equal(2, (LeakRate.FromPascalCubicMetersPerSecond(3) - v).PascalCubicMetersPerSecond);
+            Assert.Equal(2, (v + v).PascalCubicMetersPerSecond);
+            Assert.Equal(10, (v * 10).PascalCubicMetersPerSecond);
+            Assert.Equal(10, (10 * v).PascalCubicMetersPerSecond);
+            Assert.Equal(2, (LeakRate.FromPascalCubicMetersPerSecond(10) / 5).PascalCubicMetersPerSecond);
+            Assert.Equal(2, LeakRate.FromPascalCubicMetersPerSecond(10) / LeakRate.FromPascalCubicMetersPerSecond(5));
         }
 
         [Fact]
@@ -396,8 +392,6 @@ namespace UnitsNet.Tests
         [Theory]
         [InlineData(1, LeakRateUnit.PascalCubicMeterPerSecond, 1, LeakRateUnit.PascalCubicMeterPerSecond, true)]  // Same value and unit.
         [InlineData(1, LeakRateUnit.PascalCubicMeterPerSecond, 2, LeakRateUnit.PascalCubicMeterPerSecond, false)] // Different value.
-        [InlineData(2, LeakRateUnit.PascalCubicMeterPerSecond, 1, LeakRateUnit.MillibarLiterPerSecond, false)] // Different value and unit.
-        [InlineData(1, LeakRateUnit.PascalCubicMeterPerSecond, 1, LeakRateUnit.MillibarLiterPerSecond, false)] // Different unit.
         public void Equals_ReturnsTrue_IfValueAndUnitAreEqual(double valueA, LeakRateUnit unitA, double valueB, LeakRateUnit unitB, bool expectEqual)
         {
             var a = new LeakRate(valueA, unitA);
@@ -435,20 +429,22 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
-        public void Equals_RelativeTolerance_IsImplemented()
+        public void Equals_WithTolerance_IsImplemented()
         {
             var v = LeakRate.FromPascalCubicMetersPerSecond(1);
-            Assert.True(v.Equals(LeakRate.FromPascalCubicMetersPerSecond(1), PascalCubicMetersPerSecondTolerance, ComparisonType.Relative));
-            Assert.False(v.Equals(LeakRate.Zero, PascalCubicMetersPerSecondTolerance, ComparisonType.Relative));
-            Assert.True(LeakRate.FromPascalCubicMetersPerSecond(100).Equals(LeakRate.FromPascalCubicMetersPerSecond(120), 0.3, ComparisonType.Relative));
-            Assert.False(LeakRate.FromPascalCubicMetersPerSecond(100).Equals(LeakRate.FromPascalCubicMetersPerSecond(120), 0.1, ComparisonType.Relative));
+            Assert.True(v.Equals(LeakRate.FromPascalCubicMetersPerSecond(1), LeakRate.FromPascalCubicMetersPerSecond(0)));
+            Assert.True(v.Equals(LeakRate.FromPascalCubicMetersPerSecond(1), LeakRate.FromPascalCubicMetersPerSecond(0.001m)));
+            Assert.True(v.Equals(LeakRate.FromPascalCubicMetersPerSecond(0.9999), LeakRate.FromPascalCubicMetersPerSecond(0.001m)));
+            Assert.False(v.Equals(LeakRate.FromPascalCubicMetersPerSecond(0.99), LeakRate.FromPascalCubicMetersPerSecond(0.001m)));
+            Assert.False(v.Equals(LeakRate.Zero, LeakRate.FromPascalCubicMetersPerSecond(0.001m)));
         }
 
         [Fact]
-        public void Equals_NegativeRelativeTolerance_ThrowsArgumentOutOfRangeException()
+        public void Equals_WithNegativeTolerance_ThrowsArgumentOutOfRangeException()
         {
             var v = LeakRate.FromPascalCubicMetersPerSecond(1);
-            Assert.Throws<ArgumentOutOfRangeException>(() => v.Equals(LeakRate.FromPascalCubicMetersPerSecond(1), -1, ComparisonType.Relative));
+            var negativeTolerance = LeakRate.FromPascalCubicMetersPerSecond(-1);
+            Assert.Throws<ArgumentOutOfRangeException>(() => v.Equals(LeakRate.FromPascalCubicMetersPerSecond(1), negativeTolerance));
         }
 
         [Fact]
@@ -471,7 +467,7 @@ namespace UnitsNet.Tests
             var units = Enum.GetValues(typeof(LeakRateUnit)).Cast<LeakRateUnit>();
             foreach (var unit in units)
             {
-                var defaultAbbreviation = UnitAbbreviationsCache.Default.GetDefaultAbbreviation(unit);
+                var defaultAbbreviation = UnitsNetSetup.Default.UnitAbbreviations.GetDefaultAbbreviation(unit);
             }
         }
 
@@ -702,7 +698,12 @@ namespace UnitsNet.Tests
         public void GetHashCode_Equals()
         {
             var quantity = LeakRate.FromPascalCubicMetersPerSecond(1.0);
-            Assert.Equal(new {LeakRate.Info.Name, quantity.Value, quantity.Unit}.GetHashCode(), quantity.GetHashCode());
+            #if NET7_0_OR_GREATER
+            var expected = HashCode.Combine(LeakRate.Info.Name, quantity.PascalCubicMetersPerSecond);
+            #else
+            var expected = new {LeakRate.Info.Name, valueInBaseUnit = quantity.PascalCubicMetersPerSecond}.GetHashCode();
+            #endif
+            Assert.Equal(expected, quantity.GetHashCode());
         }
 
         [Theory]

@@ -101,15 +101,14 @@ namespace UnitsNet.Tests
         [Fact]
         public void Ctor_SIUnitSystem_ThrowsArgumentExceptionIfNotSupported()
         {
-            Func<object> TestCode = () => new MolarEntropy(value: 1, unitSystem: UnitSystem.SI);
             if (SupportsSIUnitSystem)
             {
-                var quantity = (MolarEntropy) TestCode();
+                var quantity = new MolarEntropy(value: 1, unitSystem: UnitSystem.SI);
                 Assert.Equal(1, quantity.Value);
             }
             else
             {
-                Assert.Throws<ArgumentException>(TestCode);
+                Assert.Throws<ArgumentException>(() => new MolarEntropy(value: 1, unitSystem: UnitSystem.SI));
             }
         }
 
@@ -140,15 +139,15 @@ namespace UnitsNet.Tests
         public void From_ValueAndUnit_ReturnsQuantityWithSameValueAndUnit()
         {
             var quantity00 = MolarEntropy.From(1, MolarEntropyUnit.JoulePerMoleKelvin);
-            AssertEx.EqualTolerance(1, quantity00.JoulesPerMoleKelvin, JoulesPerMoleKelvinTolerance);
+            Assert.Equal(1, quantity00.JoulesPerMoleKelvin);
             Assert.Equal(MolarEntropyUnit.JoulePerMoleKelvin, quantity00.Unit);
 
             var quantity01 = MolarEntropy.From(1, MolarEntropyUnit.KilojoulePerMoleKelvin);
-            AssertEx.EqualTolerance(1, quantity01.KilojoulesPerMoleKelvin, KilojoulesPerMoleKelvinTolerance);
+            Assert.Equal(1, quantity01.KilojoulesPerMoleKelvin);
             Assert.Equal(MolarEntropyUnit.KilojoulePerMoleKelvin, quantity01.Unit);
 
             var quantity02 = MolarEntropy.From(1, MolarEntropyUnit.MegajoulePerMoleKelvin);
-            AssertEx.EqualTolerance(1, quantity02.MegajoulesPerMoleKelvin, MegajoulesPerMoleKelvinTolerance);
+            Assert.Equal(1, quantity02.MegajoulesPerMoleKelvin);
             Assert.Equal(MolarEntropyUnit.MegajoulePerMoleKelvin, quantity02.Unit);
 
         }
@@ -184,16 +183,13 @@ namespace UnitsNet.Tests
         public void As_SIUnitSystem_ThrowsArgumentExceptionIfNotSupported()
         {
             var quantity = new MolarEntropy(value: 1, unit: MolarEntropy.BaseUnit);
-            Func<object> AsWithSIUnitSystem = () => quantity.As(UnitSystem.SI);
-
             if (SupportsSIUnitSystem)
             {
-                var value = Convert.ToDouble(AsWithSIUnitSystem());
-                Assert.Equal(1, value);
+                Assert.Equal(1, quantity.As(UnitSystem.SI));
             }
             else
             {
-                Assert.Throws<ArgumentException>(AsWithSIUnitSystem);
+                Assert.Throws<ArgumentException>(() => quantity.As(UnitSystem.SI));
             }
         }
 
@@ -203,21 +199,21 @@ namespace UnitsNet.Tests
             try
             {
                 var parsed = MolarEntropy.Parse("1 J/(mol*K)", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.JoulesPerMoleKelvin, JoulesPerMoleKelvinTolerance);
+                Assert.Equal(1, parsed.JoulesPerMoleKelvin);
                 Assert.Equal(MolarEntropyUnit.JoulePerMoleKelvin, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = MolarEntropy.Parse("1 kJ/(mol*K)", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.KilojoulesPerMoleKelvin, KilojoulesPerMoleKelvinTolerance);
+                Assert.Equal(1, parsed.KilojoulesPerMoleKelvin);
                 Assert.Equal(MolarEntropyUnit.KilojoulePerMoleKelvin, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = MolarEntropy.Parse("1 MJ/(mol*K)", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.MegajoulesPerMoleKelvin, MegajoulesPerMoleKelvinTolerance);
+                Assert.Equal(1, parsed.MegajoulesPerMoleKelvin);
                 Assert.Equal(MolarEntropyUnit.MegajoulePerMoleKelvin, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
@@ -228,19 +224,19 @@ namespace UnitsNet.Tests
         {
             {
                 Assert.True(MolarEntropy.TryParse("1 J/(mol*K)", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.JoulesPerMoleKelvin, JoulesPerMoleKelvinTolerance);
+                Assert.Equal(1, parsed.JoulesPerMoleKelvin);
                 Assert.Equal(MolarEntropyUnit.JoulePerMoleKelvin, parsed.Unit);
             }
 
             {
                 Assert.True(MolarEntropy.TryParse("1 kJ/(mol*K)", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.KilojoulesPerMoleKelvin, KilojoulesPerMoleKelvinTolerance);
+                Assert.Equal(1, parsed.KilojoulesPerMoleKelvin);
                 Assert.Equal(MolarEntropyUnit.KilojoulePerMoleKelvin, parsed.Unit);
             }
 
             {
                 Assert.True(MolarEntropy.TryParse("1 MJ/(mol*K)", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.MegajoulesPerMoleKelvin, MegajoulesPerMoleKelvinTolerance);
+                Assert.Equal(1, parsed.MegajoulesPerMoleKelvin);
                 Assert.Equal(MolarEntropyUnit.MegajoulePerMoleKelvin, parsed.Unit);
             }
 
@@ -335,22 +331,22 @@ namespace UnitsNet.Tests
         public void ConversionRoundTrip()
         {
             MolarEntropy joulepermolekelvin = MolarEntropy.FromJoulesPerMoleKelvin(1);
-            AssertEx.EqualTolerance(1, MolarEntropy.FromJoulesPerMoleKelvin(joulepermolekelvin.JoulesPerMoleKelvin).JoulesPerMoleKelvin, JoulesPerMoleKelvinTolerance);
-            AssertEx.EqualTolerance(1, MolarEntropy.FromKilojoulesPerMoleKelvin(joulepermolekelvin.KilojoulesPerMoleKelvin).JoulesPerMoleKelvin, KilojoulesPerMoleKelvinTolerance);
-            AssertEx.EqualTolerance(1, MolarEntropy.FromMegajoulesPerMoleKelvin(joulepermolekelvin.MegajoulesPerMoleKelvin).JoulesPerMoleKelvin, MegajoulesPerMoleKelvinTolerance);
+            Assert.Equal(1, MolarEntropy.FromJoulesPerMoleKelvin(joulepermolekelvin.JoulesPerMoleKelvin).JoulesPerMoleKelvin);
+            Assert.Equal(1, MolarEntropy.FromKilojoulesPerMoleKelvin(joulepermolekelvin.KilojoulesPerMoleKelvin).JoulesPerMoleKelvin);
+            Assert.Equal(1, MolarEntropy.FromMegajoulesPerMoleKelvin(joulepermolekelvin.MegajoulesPerMoleKelvin).JoulesPerMoleKelvin);
         }
 
         [Fact]
         public void ArithmeticOperators()
         {
             MolarEntropy v = MolarEntropy.FromJoulesPerMoleKelvin(1);
-            AssertEx.EqualTolerance(-1, -v.JoulesPerMoleKelvin, JoulesPerMoleKelvinTolerance);
-            AssertEx.EqualTolerance(2, (MolarEntropy.FromJoulesPerMoleKelvin(3)-v).JoulesPerMoleKelvin, JoulesPerMoleKelvinTolerance);
-            AssertEx.EqualTolerance(2, (v + v).JoulesPerMoleKelvin, JoulesPerMoleKelvinTolerance);
-            AssertEx.EqualTolerance(10, (v*10).JoulesPerMoleKelvin, JoulesPerMoleKelvinTolerance);
-            AssertEx.EqualTolerance(10, (10*v).JoulesPerMoleKelvin, JoulesPerMoleKelvinTolerance);
-            AssertEx.EqualTolerance(2, (MolarEntropy.FromJoulesPerMoleKelvin(10)/5).JoulesPerMoleKelvin, JoulesPerMoleKelvinTolerance);
-            AssertEx.EqualTolerance(2, MolarEntropy.FromJoulesPerMoleKelvin(10)/MolarEntropy.FromJoulesPerMoleKelvin(5), JoulesPerMoleKelvinTolerance);
+            Assert.Equal(-1, -v.JoulesPerMoleKelvin);
+            Assert.Equal(2, (MolarEntropy.FromJoulesPerMoleKelvin(3) - v).JoulesPerMoleKelvin);
+            Assert.Equal(2, (v + v).JoulesPerMoleKelvin);
+            Assert.Equal(10, (v * 10).JoulesPerMoleKelvin);
+            Assert.Equal(10, (10 * v).JoulesPerMoleKelvin);
+            Assert.Equal(2, (MolarEntropy.FromJoulesPerMoleKelvin(10) / 5).JoulesPerMoleKelvin);
+            Assert.Equal(2, MolarEntropy.FromJoulesPerMoleKelvin(10) / MolarEntropy.FromJoulesPerMoleKelvin(5));
         }
 
         [Fact]
@@ -396,8 +392,6 @@ namespace UnitsNet.Tests
         [Theory]
         [InlineData(1, MolarEntropyUnit.JoulePerMoleKelvin, 1, MolarEntropyUnit.JoulePerMoleKelvin, true)]  // Same value and unit.
         [InlineData(1, MolarEntropyUnit.JoulePerMoleKelvin, 2, MolarEntropyUnit.JoulePerMoleKelvin, false)] // Different value.
-        [InlineData(2, MolarEntropyUnit.JoulePerMoleKelvin, 1, MolarEntropyUnit.KilojoulePerMoleKelvin, false)] // Different value and unit.
-        [InlineData(1, MolarEntropyUnit.JoulePerMoleKelvin, 1, MolarEntropyUnit.KilojoulePerMoleKelvin, false)] // Different unit.
         public void Equals_ReturnsTrue_IfValueAndUnitAreEqual(double valueA, MolarEntropyUnit unitA, double valueB, MolarEntropyUnit unitB, bool expectEqual)
         {
             var a = new MolarEntropy(valueA, unitA);
@@ -435,20 +429,22 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
-        public void Equals_RelativeTolerance_IsImplemented()
+        public void Equals_WithTolerance_IsImplemented()
         {
             var v = MolarEntropy.FromJoulesPerMoleKelvin(1);
-            Assert.True(v.Equals(MolarEntropy.FromJoulesPerMoleKelvin(1), JoulesPerMoleKelvinTolerance, ComparisonType.Relative));
-            Assert.False(v.Equals(MolarEntropy.Zero, JoulesPerMoleKelvinTolerance, ComparisonType.Relative));
-            Assert.True(MolarEntropy.FromJoulesPerMoleKelvin(100).Equals(MolarEntropy.FromJoulesPerMoleKelvin(120), 0.3, ComparisonType.Relative));
-            Assert.False(MolarEntropy.FromJoulesPerMoleKelvin(100).Equals(MolarEntropy.FromJoulesPerMoleKelvin(120), 0.1, ComparisonType.Relative));
+            Assert.True(v.Equals(MolarEntropy.FromJoulesPerMoleKelvin(1), MolarEntropy.FromJoulesPerMoleKelvin(0)));
+            Assert.True(v.Equals(MolarEntropy.FromJoulesPerMoleKelvin(1), MolarEntropy.FromJoulesPerMoleKelvin(0.001m)));
+            Assert.True(v.Equals(MolarEntropy.FromJoulesPerMoleKelvin(0.9999), MolarEntropy.FromJoulesPerMoleKelvin(0.001m)));
+            Assert.False(v.Equals(MolarEntropy.FromJoulesPerMoleKelvin(0.99), MolarEntropy.FromJoulesPerMoleKelvin(0.001m)));
+            Assert.False(v.Equals(MolarEntropy.Zero, MolarEntropy.FromJoulesPerMoleKelvin(0.001m)));
         }
 
         [Fact]
-        public void Equals_NegativeRelativeTolerance_ThrowsArgumentOutOfRangeException()
+        public void Equals_WithNegativeTolerance_ThrowsArgumentOutOfRangeException()
         {
             var v = MolarEntropy.FromJoulesPerMoleKelvin(1);
-            Assert.Throws<ArgumentOutOfRangeException>(() => v.Equals(MolarEntropy.FromJoulesPerMoleKelvin(1), -1, ComparisonType.Relative));
+            var negativeTolerance = MolarEntropy.FromJoulesPerMoleKelvin(-1);
+            Assert.Throws<ArgumentOutOfRangeException>(() => v.Equals(MolarEntropy.FromJoulesPerMoleKelvin(1), negativeTolerance));
         }
 
         [Fact]
@@ -471,7 +467,7 @@ namespace UnitsNet.Tests
             var units = Enum.GetValues(typeof(MolarEntropyUnit)).Cast<MolarEntropyUnit>();
             foreach (var unit in units)
             {
-                var defaultAbbreviation = UnitAbbreviationsCache.Default.GetDefaultAbbreviation(unit);
+                var defaultAbbreviation = UnitsNetSetup.Default.UnitAbbreviations.GetDefaultAbbreviation(unit);
             }
         }
 
@@ -702,7 +698,12 @@ namespace UnitsNet.Tests
         public void GetHashCode_Equals()
         {
             var quantity = MolarEntropy.FromJoulesPerMoleKelvin(1.0);
-            Assert.Equal(new {MolarEntropy.Info.Name, quantity.Value, quantity.Unit}.GetHashCode(), quantity.GetHashCode());
+            #if NET7_0_OR_GREATER
+            var expected = HashCode.Combine(MolarEntropy.Info.Name, quantity.JoulesPerMoleKelvin);
+            #else
+            var expected = new {MolarEntropy.Info.Name, valueInBaseUnit = quantity.JoulesPerMoleKelvin}.GetHashCode();
+            #endif
+            Assert.Equal(expected, quantity.GetHashCode());
         }
 
         [Theory]

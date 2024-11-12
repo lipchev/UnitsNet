@@ -17,7 +17,7 @@ namespace UnitsNet
     /// </summary>
     /// <typeparam name="TQuantity">The type of quantity to create, such as <see cref="Length"/>.</typeparam>
     /// <typeparam name="TUnitType">The type of unit enum that belongs to this quantity, such as <see cref="LengthUnit"/> for <see cref="Length"/>.</typeparam>
-    public delegate TQuantity QuantityFromDelegate<out TQuantity, in TUnitType>(double value, TUnitType fromUnit)
+    public delegate TQuantity QuantityFromDelegate<out TQuantity, in TUnitType>(QuantityValue value, TUnitType fromUnit)
         where TQuantity : IQuantity
         where TUnitType : Enum;
 
@@ -35,7 +35,7 @@ namespace UnitsNet
         private readonly UnitParser _unitParser;
 
         /// <summary>
-        ///     The default instance of <see cref="QuantityParser"/>, which uses <see cref="UnitAbbreviationsCache.Default"/> unit abbreviations.
+        ///     The default instance of <see cref="QuantityParser"/>, which uses the default <see cref="UnitsNetSetup.UnitAbbreviations"/> unit abbreviations.
         /// </summary>
         [Obsolete("Use UnitsNetSetup.Default.QuantityParser instead.")]
         public static QuantityParser Default => UnitsNetSetup.Default.QuantityParser;
@@ -44,10 +44,10 @@ namespace UnitsNet
         ///     Creates an instance of <see cref="QuantityParser"/>, optionally specifying an <see cref="UnitAbbreviationsCache"/>
         ///     with unit abbreviations to use when parsing.
         /// </summary>
-        /// <param name="unitAbbreviationsCache">(Optional) The unit abbreviations cache, or specify <c>null</c> to use <see cref="UnitAbbreviationsCache.Default"/>.</param>
+        /// <param name="unitAbbreviationsCache">(Optional) The unit abbreviations cache, or specify <c>null</c> to use <see cref="UnitsNetSetup.UnitAbbreviations"/>.</param>
         public QuantityParser(UnitAbbreviationsCache? unitAbbreviationsCache = null)
         {
-            _unitAbbreviationsCache = unitAbbreviationsCache ?? UnitAbbreviationsCache.Default;
+            _unitAbbreviationsCache = unitAbbreviationsCache ?? UnitsNetSetup.Default.UnitAbbreviations;
             _unitParser = new UnitParser(_unitAbbreviationsCache);
         }
 
@@ -62,7 +62,6 @@ namespace UnitsNet
         /// <returns>The parsed quantity if successful.</returns>
         /// <exception cref="ArgumentNullException">The string was null.</exception>
         /// <exception cref="FormatException">Failed to parse quantity.</exception>
-        [SuppressMessage("ReSharper", "UseStringInterpolation")]
         public TQuantity Parse<TQuantity, TUnitType>(string str,
             IFormatProvider? formatProvider,
             QuantityFromDelegate<TQuantity, TUnitType> fromDelegate)
@@ -96,7 +95,6 @@ namespace UnitsNet
         /// <returns>True if successful.</returns>
         /// <exception cref="ArgumentNullException">The string was null.</exception>
         /// <exception cref="FormatException">Failed to parse quantity.</exception>
-        [SuppressMessage("ReSharper", "UseStringInterpolation")]
         public bool TryParse<TQuantity, TUnitType>(string? str,
             IFormatProvider? formatProvider,
             QuantityFromDelegate<TQuantity, TUnitType> fromDelegate,
@@ -121,7 +119,7 @@ namespace UnitsNet
         /// <remarks>
         ///     Similar to <see cref="TryParse{TQuantity,TUnitType}(string?,System.IFormatProvider?,UnitsNet.QuantityFromDelegate{TQuantity,TUnitType},out TQuantity)"/>,
         ///     but returns <see cref="IQuantity"/> instead. This is workaround for C# not allowing to pass on 'out' param from type Length to IQuantity,
-        ///     even though the are compatible.
+        ///     even though they are compatible.
         /// </remarks>
         /// <param name="str">The string to parse, such as "1.2 kg".</param>
         /// <param name="formatProvider">The culture for looking up localized unit abbreviations for a language, and for parsing the number formatted in this culture. Defaults to <see cref="CultureInfo.CurrentCulture"/>.</param>
@@ -132,7 +130,6 @@ namespace UnitsNet
         /// <returns>True if successful.</returns>
         /// <exception cref="ArgumentNullException">The string was null.</exception>
         /// <exception cref="FormatException">Failed to parse quantity.</exception>
-        [SuppressMessage("ReSharper", "UseStringInterpolation")]
         public bool TryParse<TQuantity, TUnitType>(string str,
             IFormatProvider? formatProvider,
             QuantityFromDelegate<TQuantity, TUnitType> fromDelegate,
@@ -183,7 +180,7 @@ namespace UnitsNet
             where TQuantity : IQuantity
             where TUnitType : Enum
         {
-            var value = double.Parse(valueString, ParseNumberStyles, formatProvider);
+            var value = QuantityValue.Parse(valueString, ParseNumberStyles, formatProvider);
             var parsedUnit = _unitParser.Parse<TUnitType>(unitString, formatProvider);
             return fromDelegate(value, parsedUnit);
         }
@@ -202,7 +199,7 @@ namespace UnitsNet
         {
             result = default;
 
-            if (!double.TryParse(valueString, ParseNumberStyles, formatProvider, out var value))
+            if (!QuantityValue.TryParse(valueString, ParseNumberStyles, formatProvider, out var value))
                     return false;
 
             if (!_unitParser.TryParse<TUnitType>(unitString, formatProvider, out var parsedUnit))

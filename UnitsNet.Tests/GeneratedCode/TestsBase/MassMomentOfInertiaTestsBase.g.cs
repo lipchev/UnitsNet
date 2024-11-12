@@ -201,15 +201,14 @@ namespace UnitsNet.Tests
         [Fact]
         public void Ctor_SIUnitSystem_ThrowsArgumentExceptionIfNotSupported()
         {
-            Func<object> TestCode = () => new MassMomentOfInertia(value: 1, unitSystem: UnitSystem.SI);
             if (SupportsSIUnitSystem)
             {
-                var quantity = (MassMomentOfInertia) TestCode();
+                var quantity = new MassMomentOfInertia(value: 1, unitSystem: UnitSystem.SI);
                 Assert.Equal(1, quantity.Value);
             }
             else
             {
-                Assert.Throws<ArgumentException>(TestCode);
+                Assert.Throws<ArgumentException>(() => new MassMomentOfInertia(value: 1, unitSystem: UnitSystem.SI));
             }
         }
 
@@ -265,115 +264,115 @@ namespace UnitsNet.Tests
         public void From_ValueAndUnit_ReturnsQuantityWithSameValueAndUnit()
         {
             var quantity00 = MassMomentOfInertia.From(1, MassMomentOfInertiaUnit.GramSquareCentimeter);
-            AssertEx.EqualTolerance(1, quantity00.GramSquareCentimeters, GramSquareCentimetersTolerance);
+            Assert.Equal(1, quantity00.GramSquareCentimeters);
             Assert.Equal(MassMomentOfInertiaUnit.GramSquareCentimeter, quantity00.Unit);
 
             var quantity01 = MassMomentOfInertia.From(1, MassMomentOfInertiaUnit.GramSquareDecimeter);
-            AssertEx.EqualTolerance(1, quantity01.GramSquareDecimeters, GramSquareDecimetersTolerance);
+            Assert.Equal(1, quantity01.GramSquareDecimeters);
             Assert.Equal(MassMomentOfInertiaUnit.GramSquareDecimeter, quantity01.Unit);
 
             var quantity02 = MassMomentOfInertia.From(1, MassMomentOfInertiaUnit.GramSquareMeter);
-            AssertEx.EqualTolerance(1, quantity02.GramSquareMeters, GramSquareMetersTolerance);
+            Assert.Equal(1, quantity02.GramSquareMeters);
             Assert.Equal(MassMomentOfInertiaUnit.GramSquareMeter, quantity02.Unit);
 
             var quantity03 = MassMomentOfInertia.From(1, MassMomentOfInertiaUnit.GramSquareMillimeter);
-            AssertEx.EqualTolerance(1, quantity03.GramSquareMillimeters, GramSquareMillimetersTolerance);
+            Assert.Equal(1, quantity03.GramSquareMillimeters);
             Assert.Equal(MassMomentOfInertiaUnit.GramSquareMillimeter, quantity03.Unit);
 
             var quantity04 = MassMomentOfInertia.From(1, MassMomentOfInertiaUnit.KilogramSquareCentimeter);
-            AssertEx.EqualTolerance(1, quantity04.KilogramSquareCentimeters, KilogramSquareCentimetersTolerance);
+            Assert.Equal(1, quantity04.KilogramSquareCentimeters);
             Assert.Equal(MassMomentOfInertiaUnit.KilogramSquareCentimeter, quantity04.Unit);
 
             var quantity05 = MassMomentOfInertia.From(1, MassMomentOfInertiaUnit.KilogramSquareDecimeter);
-            AssertEx.EqualTolerance(1, quantity05.KilogramSquareDecimeters, KilogramSquareDecimetersTolerance);
+            Assert.Equal(1, quantity05.KilogramSquareDecimeters);
             Assert.Equal(MassMomentOfInertiaUnit.KilogramSquareDecimeter, quantity05.Unit);
 
             var quantity06 = MassMomentOfInertia.From(1, MassMomentOfInertiaUnit.KilogramSquareMeter);
-            AssertEx.EqualTolerance(1, quantity06.KilogramSquareMeters, KilogramSquareMetersTolerance);
+            Assert.Equal(1, quantity06.KilogramSquareMeters);
             Assert.Equal(MassMomentOfInertiaUnit.KilogramSquareMeter, quantity06.Unit);
 
             var quantity07 = MassMomentOfInertia.From(1, MassMomentOfInertiaUnit.KilogramSquareMillimeter);
-            AssertEx.EqualTolerance(1, quantity07.KilogramSquareMillimeters, KilogramSquareMillimetersTolerance);
+            Assert.Equal(1, quantity07.KilogramSquareMillimeters);
             Assert.Equal(MassMomentOfInertiaUnit.KilogramSquareMillimeter, quantity07.Unit);
 
             var quantity08 = MassMomentOfInertia.From(1, MassMomentOfInertiaUnit.KilotonneSquareCentimeter);
-            AssertEx.EqualTolerance(1, quantity08.KilotonneSquareCentimeters, KilotonneSquareCentimetersTolerance);
+            Assert.Equal(1, quantity08.KilotonneSquareCentimeters);
             Assert.Equal(MassMomentOfInertiaUnit.KilotonneSquareCentimeter, quantity08.Unit);
 
             var quantity09 = MassMomentOfInertia.From(1, MassMomentOfInertiaUnit.KilotonneSquareDecimeter);
-            AssertEx.EqualTolerance(1, quantity09.KilotonneSquareDecimeters, KilotonneSquareDecimetersTolerance);
+            Assert.Equal(1, quantity09.KilotonneSquareDecimeters);
             Assert.Equal(MassMomentOfInertiaUnit.KilotonneSquareDecimeter, quantity09.Unit);
 
             var quantity10 = MassMomentOfInertia.From(1, MassMomentOfInertiaUnit.KilotonneSquareMeter);
-            AssertEx.EqualTolerance(1, quantity10.KilotonneSquareMeters, KilotonneSquareMetersTolerance);
+            Assert.Equal(1, quantity10.KilotonneSquareMeters);
             Assert.Equal(MassMomentOfInertiaUnit.KilotonneSquareMeter, quantity10.Unit);
 
             var quantity11 = MassMomentOfInertia.From(1, MassMomentOfInertiaUnit.KilotonneSquareMilimeter);
-            AssertEx.EqualTolerance(1, quantity11.KilotonneSquareMilimeters, KilotonneSquareMilimetersTolerance);
+            Assert.Equal(1, quantity11.KilotonneSquareMilimeters);
             Assert.Equal(MassMomentOfInertiaUnit.KilotonneSquareMilimeter, quantity11.Unit);
 
             var quantity12 = MassMomentOfInertia.From(1, MassMomentOfInertiaUnit.MegatonneSquareCentimeter);
-            AssertEx.EqualTolerance(1, quantity12.MegatonneSquareCentimeters, MegatonneSquareCentimetersTolerance);
+            Assert.Equal(1, quantity12.MegatonneSquareCentimeters);
             Assert.Equal(MassMomentOfInertiaUnit.MegatonneSquareCentimeter, quantity12.Unit);
 
             var quantity13 = MassMomentOfInertia.From(1, MassMomentOfInertiaUnit.MegatonneSquareDecimeter);
-            AssertEx.EqualTolerance(1, quantity13.MegatonneSquareDecimeters, MegatonneSquareDecimetersTolerance);
+            Assert.Equal(1, quantity13.MegatonneSquareDecimeters);
             Assert.Equal(MassMomentOfInertiaUnit.MegatonneSquareDecimeter, quantity13.Unit);
 
             var quantity14 = MassMomentOfInertia.From(1, MassMomentOfInertiaUnit.MegatonneSquareMeter);
-            AssertEx.EqualTolerance(1, quantity14.MegatonneSquareMeters, MegatonneSquareMetersTolerance);
+            Assert.Equal(1, quantity14.MegatonneSquareMeters);
             Assert.Equal(MassMomentOfInertiaUnit.MegatonneSquareMeter, quantity14.Unit);
 
             var quantity15 = MassMomentOfInertia.From(1, MassMomentOfInertiaUnit.MegatonneSquareMilimeter);
-            AssertEx.EqualTolerance(1, quantity15.MegatonneSquareMilimeters, MegatonneSquareMilimetersTolerance);
+            Assert.Equal(1, quantity15.MegatonneSquareMilimeters);
             Assert.Equal(MassMomentOfInertiaUnit.MegatonneSquareMilimeter, quantity15.Unit);
 
             var quantity16 = MassMomentOfInertia.From(1, MassMomentOfInertiaUnit.MilligramSquareCentimeter);
-            AssertEx.EqualTolerance(1, quantity16.MilligramSquareCentimeters, MilligramSquareCentimetersTolerance);
+            Assert.Equal(1, quantity16.MilligramSquareCentimeters);
             Assert.Equal(MassMomentOfInertiaUnit.MilligramSquareCentimeter, quantity16.Unit);
 
             var quantity17 = MassMomentOfInertia.From(1, MassMomentOfInertiaUnit.MilligramSquareDecimeter);
-            AssertEx.EqualTolerance(1, quantity17.MilligramSquareDecimeters, MilligramSquareDecimetersTolerance);
+            Assert.Equal(1, quantity17.MilligramSquareDecimeters);
             Assert.Equal(MassMomentOfInertiaUnit.MilligramSquareDecimeter, quantity17.Unit);
 
             var quantity18 = MassMomentOfInertia.From(1, MassMomentOfInertiaUnit.MilligramSquareMeter);
-            AssertEx.EqualTolerance(1, quantity18.MilligramSquareMeters, MilligramSquareMetersTolerance);
+            Assert.Equal(1, quantity18.MilligramSquareMeters);
             Assert.Equal(MassMomentOfInertiaUnit.MilligramSquareMeter, quantity18.Unit);
 
             var quantity19 = MassMomentOfInertia.From(1, MassMomentOfInertiaUnit.MilligramSquareMillimeter);
-            AssertEx.EqualTolerance(1, quantity19.MilligramSquareMillimeters, MilligramSquareMillimetersTolerance);
+            Assert.Equal(1, quantity19.MilligramSquareMillimeters);
             Assert.Equal(MassMomentOfInertiaUnit.MilligramSquareMillimeter, quantity19.Unit);
 
             var quantity20 = MassMomentOfInertia.From(1, MassMomentOfInertiaUnit.PoundSquareFoot);
-            AssertEx.EqualTolerance(1, quantity20.PoundSquareFeet, PoundSquareFeetTolerance);
+            Assert.Equal(1, quantity20.PoundSquareFeet);
             Assert.Equal(MassMomentOfInertiaUnit.PoundSquareFoot, quantity20.Unit);
 
             var quantity21 = MassMomentOfInertia.From(1, MassMomentOfInertiaUnit.PoundSquareInch);
-            AssertEx.EqualTolerance(1, quantity21.PoundSquareInches, PoundSquareInchesTolerance);
+            Assert.Equal(1, quantity21.PoundSquareInches);
             Assert.Equal(MassMomentOfInertiaUnit.PoundSquareInch, quantity21.Unit);
 
             var quantity22 = MassMomentOfInertia.From(1, MassMomentOfInertiaUnit.SlugSquareFoot);
-            AssertEx.EqualTolerance(1, quantity22.SlugSquareFeet, SlugSquareFeetTolerance);
+            Assert.Equal(1, quantity22.SlugSquareFeet);
             Assert.Equal(MassMomentOfInertiaUnit.SlugSquareFoot, quantity22.Unit);
 
             var quantity23 = MassMomentOfInertia.From(1, MassMomentOfInertiaUnit.SlugSquareInch);
-            AssertEx.EqualTolerance(1, quantity23.SlugSquareInches, SlugSquareInchesTolerance);
+            Assert.Equal(1, quantity23.SlugSquareInches);
             Assert.Equal(MassMomentOfInertiaUnit.SlugSquareInch, quantity23.Unit);
 
             var quantity24 = MassMomentOfInertia.From(1, MassMomentOfInertiaUnit.TonneSquareCentimeter);
-            AssertEx.EqualTolerance(1, quantity24.TonneSquareCentimeters, TonneSquareCentimetersTolerance);
+            Assert.Equal(1, quantity24.TonneSquareCentimeters);
             Assert.Equal(MassMomentOfInertiaUnit.TonneSquareCentimeter, quantity24.Unit);
 
             var quantity25 = MassMomentOfInertia.From(1, MassMomentOfInertiaUnit.TonneSquareDecimeter);
-            AssertEx.EqualTolerance(1, quantity25.TonneSquareDecimeters, TonneSquareDecimetersTolerance);
+            Assert.Equal(1, quantity25.TonneSquareDecimeters);
             Assert.Equal(MassMomentOfInertiaUnit.TonneSquareDecimeter, quantity25.Unit);
 
             var quantity26 = MassMomentOfInertia.From(1, MassMomentOfInertiaUnit.TonneSquareMeter);
-            AssertEx.EqualTolerance(1, quantity26.TonneSquareMeters, TonneSquareMetersTolerance);
+            Assert.Equal(1, quantity26.TonneSquareMeters);
             Assert.Equal(MassMomentOfInertiaUnit.TonneSquareMeter, quantity26.Unit);
 
             var quantity27 = MassMomentOfInertia.From(1, MassMomentOfInertiaUnit.TonneSquareMilimeter);
-            AssertEx.EqualTolerance(1, quantity27.TonneSquareMilimeters, TonneSquareMilimetersTolerance);
+            Assert.Equal(1, quantity27.TonneSquareMilimeters);
             Assert.Equal(MassMomentOfInertiaUnit.TonneSquareMilimeter, quantity27.Unit);
 
         }
@@ -434,16 +433,13 @@ namespace UnitsNet.Tests
         public void As_SIUnitSystem_ThrowsArgumentExceptionIfNotSupported()
         {
             var quantity = new MassMomentOfInertia(value: 1, unit: MassMomentOfInertia.BaseUnit);
-            Func<object> AsWithSIUnitSystem = () => quantity.As(UnitSystem.SI);
-
             if (SupportsSIUnitSystem)
             {
-                var value = Convert.ToDouble(AsWithSIUnitSystem());
-                Assert.Equal(1, value);
+                Assert.Equal(1, quantity.As(UnitSystem.SI));
             }
             else
             {
-                Assert.Throws<ArgumentException>(AsWithSIUnitSystem);
+                Assert.Throws<ArgumentException>(() => quantity.As(UnitSystem.SI));
             }
         }
 
@@ -453,196 +449,196 @@ namespace UnitsNet.Tests
             try
             {
                 var parsed = MassMomentOfInertia.Parse("1 g·cm²", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.GramSquareCentimeters, GramSquareCentimetersTolerance);
+                Assert.Equal(1, parsed.GramSquareCentimeters);
                 Assert.Equal(MassMomentOfInertiaUnit.GramSquareCentimeter, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = MassMomentOfInertia.Parse("1 g·dm²", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.GramSquareDecimeters, GramSquareDecimetersTolerance);
+                Assert.Equal(1, parsed.GramSquareDecimeters);
                 Assert.Equal(MassMomentOfInertiaUnit.GramSquareDecimeter, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = MassMomentOfInertia.Parse("1 g·m²", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.GramSquareMeters, GramSquareMetersTolerance);
+                Assert.Equal(1, parsed.GramSquareMeters);
                 Assert.Equal(MassMomentOfInertiaUnit.GramSquareMeter, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = MassMomentOfInertia.Parse("1 g·mm²", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.GramSquareMillimeters, GramSquareMillimetersTolerance);
+                Assert.Equal(1, parsed.GramSquareMillimeters);
                 Assert.Equal(MassMomentOfInertiaUnit.GramSquareMillimeter, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = MassMomentOfInertia.Parse("1 kg·cm²", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.KilogramSquareCentimeters, KilogramSquareCentimetersTolerance);
+                Assert.Equal(1, parsed.KilogramSquareCentimeters);
                 Assert.Equal(MassMomentOfInertiaUnit.KilogramSquareCentimeter, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = MassMomentOfInertia.Parse("1 kg·dm²", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.KilogramSquareDecimeters, KilogramSquareDecimetersTolerance);
+                Assert.Equal(1, parsed.KilogramSquareDecimeters);
                 Assert.Equal(MassMomentOfInertiaUnit.KilogramSquareDecimeter, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = MassMomentOfInertia.Parse("1 kg·m²", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.KilogramSquareMeters, KilogramSquareMetersTolerance);
+                Assert.Equal(1, parsed.KilogramSquareMeters);
                 Assert.Equal(MassMomentOfInertiaUnit.KilogramSquareMeter, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = MassMomentOfInertia.Parse("1 kg·mm²", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.KilogramSquareMillimeters, KilogramSquareMillimetersTolerance);
+                Assert.Equal(1, parsed.KilogramSquareMillimeters);
                 Assert.Equal(MassMomentOfInertiaUnit.KilogramSquareMillimeter, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = MassMomentOfInertia.Parse("1 kt·cm²", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.KilotonneSquareCentimeters, KilotonneSquareCentimetersTolerance);
+                Assert.Equal(1, parsed.KilotonneSquareCentimeters);
                 Assert.Equal(MassMomentOfInertiaUnit.KilotonneSquareCentimeter, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = MassMomentOfInertia.Parse("1 kt·dm²", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.KilotonneSquareDecimeters, KilotonneSquareDecimetersTolerance);
+                Assert.Equal(1, parsed.KilotonneSquareDecimeters);
                 Assert.Equal(MassMomentOfInertiaUnit.KilotonneSquareDecimeter, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = MassMomentOfInertia.Parse("1 kt·m²", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.KilotonneSquareMeters, KilotonneSquareMetersTolerance);
+                Assert.Equal(1, parsed.KilotonneSquareMeters);
                 Assert.Equal(MassMomentOfInertiaUnit.KilotonneSquareMeter, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = MassMomentOfInertia.Parse("1 kt·mm²", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.KilotonneSquareMilimeters, KilotonneSquareMilimetersTolerance);
+                Assert.Equal(1, parsed.KilotonneSquareMilimeters);
                 Assert.Equal(MassMomentOfInertiaUnit.KilotonneSquareMilimeter, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = MassMomentOfInertia.Parse("1 Mt·cm²", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.MegatonneSquareCentimeters, MegatonneSquareCentimetersTolerance);
+                Assert.Equal(1, parsed.MegatonneSquareCentimeters);
                 Assert.Equal(MassMomentOfInertiaUnit.MegatonneSquareCentimeter, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = MassMomentOfInertia.Parse("1 Mt·dm²", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.MegatonneSquareDecimeters, MegatonneSquareDecimetersTolerance);
+                Assert.Equal(1, parsed.MegatonneSquareDecimeters);
                 Assert.Equal(MassMomentOfInertiaUnit.MegatonneSquareDecimeter, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = MassMomentOfInertia.Parse("1 Mt·m²", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.MegatonneSquareMeters, MegatonneSquareMetersTolerance);
+                Assert.Equal(1, parsed.MegatonneSquareMeters);
                 Assert.Equal(MassMomentOfInertiaUnit.MegatonneSquareMeter, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = MassMomentOfInertia.Parse("1 Mt·mm²", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.MegatonneSquareMilimeters, MegatonneSquareMilimetersTolerance);
+                Assert.Equal(1, parsed.MegatonneSquareMilimeters);
                 Assert.Equal(MassMomentOfInertiaUnit.MegatonneSquareMilimeter, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = MassMomentOfInertia.Parse("1 mg·cm²", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.MilligramSquareCentimeters, MilligramSquareCentimetersTolerance);
+                Assert.Equal(1, parsed.MilligramSquareCentimeters);
                 Assert.Equal(MassMomentOfInertiaUnit.MilligramSquareCentimeter, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = MassMomentOfInertia.Parse("1 mg·dm²", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.MilligramSquareDecimeters, MilligramSquareDecimetersTolerance);
+                Assert.Equal(1, parsed.MilligramSquareDecimeters);
                 Assert.Equal(MassMomentOfInertiaUnit.MilligramSquareDecimeter, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = MassMomentOfInertia.Parse("1 mg·m²", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.MilligramSquareMeters, MilligramSquareMetersTolerance);
+                Assert.Equal(1, parsed.MilligramSquareMeters);
                 Assert.Equal(MassMomentOfInertiaUnit.MilligramSquareMeter, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = MassMomentOfInertia.Parse("1 mg·mm²", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.MilligramSquareMillimeters, MilligramSquareMillimetersTolerance);
+                Assert.Equal(1, parsed.MilligramSquareMillimeters);
                 Assert.Equal(MassMomentOfInertiaUnit.MilligramSquareMillimeter, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = MassMomentOfInertia.Parse("1 lb·ft²", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.PoundSquareFeet, PoundSquareFeetTolerance);
+                Assert.Equal(1, parsed.PoundSquareFeet);
                 Assert.Equal(MassMomentOfInertiaUnit.PoundSquareFoot, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = MassMomentOfInertia.Parse("1 lb·in²", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.PoundSquareInches, PoundSquareInchesTolerance);
+                Assert.Equal(1, parsed.PoundSquareInches);
                 Assert.Equal(MassMomentOfInertiaUnit.PoundSquareInch, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = MassMomentOfInertia.Parse("1 slug·ft²", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.SlugSquareFeet, SlugSquareFeetTolerance);
+                Assert.Equal(1, parsed.SlugSquareFeet);
                 Assert.Equal(MassMomentOfInertiaUnit.SlugSquareFoot, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = MassMomentOfInertia.Parse("1 slug·in²", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.SlugSquareInches, SlugSquareInchesTolerance);
+                Assert.Equal(1, parsed.SlugSquareInches);
                 Assert.Equal(MassMomentOfInertiaUnit.SlugSquareInch, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = MassMomentOfInertia.Parse("1 t·cm²", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.TonneSquareCentimeters, TonneSquareCentimetersTolerance);
+                Assert.Equal(1, parsed.TonneSquareCentimeters);
                 Assert.Equal(MassMomentOfInertiaUnit.TonneSquareCentimeter, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = MassMomentOfInertia.Parse("1 t·dm²", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.TonneSquareDecimeters, TonneSquareDecimetersTolerance);
+                Assert.Equal(1, parsed.TonneSquareDecimeters);
                 Assert.Equal(MassMomentOfInertiaUnit.TonneSquareDecimeter, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = MassMomentOfInertia.Parse("1 t·m²", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.TonneSquareMeters, TonneSquareMetersTolerance);
+                Assert.Equal(1, parsed.TonneSquareMeters);
                 Assert.Equal(MassMomentOfInertiaUnit.TonneSquareMeter, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = MassMomentOfInertia.Parse("1 t·mm²", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.TonneSquareMilimeters, TonneSquareMilimetersTolerance);
+                Assert.Equal(1, parsed.TonneSquareMilimeters);
                 Assert.Equal(MassMomentOfInertiaUnit.TonneSquareMilimeter, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
@@ -653,169 +649,169 @@ namespace UnitsNet.Tests
         {
             {
                 Assert.True(MassMomentOfInertia.TryParse("1 g·cm²", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.GramSquareCentimeters, GramSquareCentimetersTolerance);
+                Assert.Equal(1, parsed.GramSquareCentimeters);
                 Assert.Equal(MassMomentOfInertiaUnit.GramSquareCentimeter, parsed.Unit);
             }
 
             {
                 Assert.True(MassMomentOfInertia.TryParse("1 g·dm²", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.GramSquareDecimeters, GramSquareDecimetersTolerance);
+                Assert.Equal(1, parsed.GramSquareDecimeters);
                 Assert.Equal(MassMomentOfInertiaUnit.GramSquareDecimeter, parsed.Unit);
             }
 
             {
                 Assert.True(MassMomentOfInertia.TryParse("1 g·m²", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.GramSquareMeters, GramSquareMetersTolerance);
+                Assert.Equal(1, parsed.GramSquareMeters);
                 Assert.Equal(MassMomentOfInertiaUnit.GramSquareMeter, parsed.Unit);
             }
 
             {
                 Assert.True(MassMomentOfInertia.TryParse("1 g·mm²", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.GramSquareMillimeters, GramSquareMillimetersTolerance);
+                Assert.Equal(1, parsed.GramSquareMillimeters);
                 Assert.Equal(MassMomentOfInertiaUnit.GramSquareMillimeter, parsed.Unit);
             }
 
             {
                 Assert.True(MassMomentOfInertia.TryParse("1 kg·cm²", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.KilogramSquareCentimeters, KilogramSquareCentimetersTolerance);
+                Assert.Equal(1, parsed.KilogramSquareCentimeters);
                 Assert.Equal(MassMomentOfInertiaUnit.KilogramSquareCentimeter, parsed.Unit);
             }
 
             {
                 Assert.True(MassMomentOfInertia.TryParse("1 kg·dm²", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.KilogramSquareDecimeters, KilogramSquareDecimetersTolerance);
+                Assert.Equal(1, parsed.KilogramSquareDecimeters);
                 Assert.Equal(MassMomentOfInertiaUnit.KilogramSquareDecimeter, parsed.Unit);
             }
 
             {
                 Assert.True(MassMomentOfInertia.TryParse("1 kg·m²", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.KilogramSquareMeters, KilogramSquareMetersTolerance);
+                Assert.Equal(1, parsed.KilogramSquareMeters);
                 Assert.Equal(MassMomentOfInertiaUnit.KilogramSquareMeter, parsed.Unit);
             }
 
             {
                 Assert.True(MassMomentOfInertia.TryParse("1 kg·mm²", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.KilogramSquareMillimeters, KilogramSquareMillimetersTolerance);
+                Assert.Equal(1, parsed.KilogramSquareMillimeters);
                 Assert.Equal(MassMomentOfInertiaUnit.KilogramSquareMillimeter, parsed.Unit);
             }
 
             {
                 Assert.True(MassMomentOfInertia.TryParse("1 kt·cm²", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.KilotonneSquareCentimeters, KilotonneSquareCentimetersTolerance);
+                Assert.Equal(1, parsed.KilotonneSquareCentimeters);
                 Assert.Equal(MassMomentOfInertiaUnit.KilotonneSquareCentimeter, parsed.Unit);
             }
 
             {
                 Assert.True(MassMomentOfInertia.TryParse("1 kt·dm²", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.KilotonneSquareDecimeters, KilotonneSquareDecimetersTolerance);
+                Assert.Equal(1, parsed.KilotonneSquareDecimeters);
                 Assert.Equal(MassMomentOfInertiaUnit.KilotonneSquareDecimeter, parsed.Unit);
             }
 
             {
                 Assert.True(MassMomentOfInertia.TryParse("1 kt·m²", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.KilotonneSquareMeters, KilotonneSquareMetersTolerance);
+                Assert.Equal(1, parsed.KilotonneSquareMeters);
                 Assert.Equal(MassMomentOfInertiaUnit.KilotonneSquareMeter, parsed.Unit);
             }
 
             {
                 Assert.True(MassMomentOfInertia.TryParse("1 kt·mm²", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.KilotonneSquareMilimeters, KilotonneSquareMilimetersTolerance);
+                Assert.Equal(1, parsed.KilotonneSquareMilimeters);
                 Assert.Equal(MassMomentOfInertiaUnit.KilotonneSquareMilimeter, parsed.Unit);
             }
 
             {
                 Assert.True(MassMomentOfInertia.TryParse("1 Mt·cm²", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.MegatonneSquareCentimeters, MegatonneSquareCentimetersTolerance);
+                Assert.Equal(1, parsed.MegatonneSquareCentimeters);
                 Assert.Equal(MassMomentOfInertiaUnit.MegatonneSquareCentimeter, parsed.Unit);
             }
 
             {
                 Assert.True(MassMomentOfInertia.TryParse("1 Mt·dm²", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.MegatonneSquareDecimeters, MegatonneSquareDecimetersTolerance);
+                Assert.Equal(1, parsed.MegatonneSquareDecimeters);
                 Assert.Equal(MassMomentOfInertiaUnit.MegatonneSquareDecimeter, parsed.Unit);
             }
 
             {
                 Assert.True(MassMomentOfInertia.TryParse("1 Mt·m²", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.MegatonneSquareMeters, MegatonneSquareMetersTolerance);
+                Assert.Equal(1, parsed.MegatonneSquareMeters);
                 Assert.Equal(MassMomentOfInertiaUnit.MegatonneSquareMeter, parsed.Unit);
             }
 
             {
                 Assert.True(MassMomentOfInertia.TryParse("1 Mt·mm²", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.MegatonneSquareMilimeters, MegatonneSquareMilimetersTolerance);
+                Assert.Equal(1, parsed.MegatonneSquareMilimeters);
                 Assert.Equal(MassMomentOfInertiaUnit.MegatonneSquareMilimeter, parsed.Unit);
             }
 
             {
                 Assert.True(MassMomentOfInertia.TryParse("1 mg·cm²", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.MilligramSquareCentimeters, MilligramSquareCentimetersTolerance);
+                Assert.Equal(1, parsed.MilligramSquareCentimeters);
                 Assert.Equal(MassMomentOfInertiaUnit.MilligramSquareCentimeter, parsed.Unit);
             }
 
             {
                 Assert.True(MassMomentOfInertia.TryParse("1 mg·dm²", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.MilligramSquareDecimeters, MilligramSquareDecimetersTolerance);
+                Assert.Equal(1, parsed.MilligramSquareDecimeters);
                 Assert.Equal(MassMomentOfInertiaUnit.MilligramSquareDecimeter, parsed.Unit);
             }
 
             {
                 Assert.True(MassMomentOfInertia.TryParse("1 mg·m²", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.MilligramSquareMeters, MilligramSquareMetersTolerance);
+                Assert.Equal(1, parsed.MilligramSquareMeters);
                 Assert.Equal(MassMomentOfInertiaUnit.MilligramSquareMeter, parsed.Unit);
             }
 
             {
                 Assert.True(MassMomentOfInertia.TryParse("1 mg·mm²", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.MilligramSquareMillimeters, MilligramSquareMillimetersTolerance);
+                Assert.Equal(1, parsed.MilligramSquareMillimeters);
                 Assert.Equal(MassMomentOfInertiaUnit.MilligramSquareMillimeter, parsed.Unit);
             }
 
             {
                 Assert.True(MassMomentOfInertia.TryParse("1 lb·ft²", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.PoundSquareFeet, PoundSquareFeetTolerance);
+                Assert.Equal(1, parsed.PoundSquareFeet);
                 Assert.Equal(MassMomentOfInertiaUnit.PoundSquareFoot, parsed.Unit);
             }
 
             {
                 Assert.True(MassMomentOfInertia.TryParse("1 lb·in²", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.PoundSquareInches, PoundSquareInchesTolerance);
+                Assert.Equal(1, parsed.PoundSquareInches);
                 Assert.Equal(MassMomentOfInertiaUnit.PoundSquareInch, parsed.Unit);
             }
 
             {
                 Assert.True(MassMomentOfInertia.TryParse("1 slug·ft²", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.SlugSquareFeet, SlugSquareFeetTolerance);
+                Assert.Equal(1, parsed.SlugSquareFeet);
                 Assert.Equal(MassMomentOfInertiaUnit.SlugSquareFoot, parsed.Unit);
             }
 
             {
                 Assert.True(MassMomentOfInertia.TryParse("1 slug·in²", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.SlugSquareInches, SlugSquareInchesTolerance);
+                Assert.Equal(1, parsed.SlugSquareInches);
                 Assert.Equal(MassMomentOfInertiaUnit.SlugSquareInch, parsed.Unit);
             }
 
             {
                 Assert.True(MassMomentOfInertia.TryParse("1 t·cm²", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.TonneSquareCentimeters, TonneSquareCentimetersTolerance);
+                Assert.Equal(1, parsed.TonneSquareCentimeters);
                 Assert.Equal(MassMomentOfInertiaUnit.TonneSquareCentimeter, parsed.Unit);
             }
 
             {
                 Assert.True(MassMomentOfInertia.TryParse("1 t·dm²", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.TonneSquareDecimeters, TonneSquareDecimetersTolerance);
+                Assert.Equal(1, parsed.TonneSquareDecimeters);
                 Assert.Equal(MassMomentOfInertiaUnit.TonneSquareDecimeter, parsed.Unit);
             }
 
             {
                 Assert.True(MassMomentOfInertia.TryParse("1 t·m²", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.TonneSquareMeters, TonneSquareMetersTolerance);
+                Assert.Equal(1, parsed.TonneSquareMeters);
                 Assert.Equal(MassMomentOfInertiaUnit.TonneSquareMeter, parsed.Unit);
             }
 
             {
                 Assert.True(MassMomentOfInertia.TryParse("1 t·mm²", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.TonneSquareMilimeters, TonneSquareMilimetersTolerance);
+                Assert.Equal(1, parsed.TonneSquareMilimeters);
                 Assert.Equal(MassMomentOfInertiaUnit.TonneSquareMilimeter, parsed.Unit);
             }
 
@@ -1185,47 +1181,47 @@ namespace UnitsNet.Tests
         public void ConversionRoundTrip()
         {
             MassMomentOfInertia kilogramsquaremeter = MassMomentOfInertia.FromKilogramSquareMeters(1);
-            AssertEx.EqualTolerance(1, MassMomentOfInertia.FromGramSquareCentimeters(kilogramsquaremeter.GramSquareCentimeters).KilogramSquareMeters, GramSquareCentimetersTolerance);
-            AssertEx.EqualTolerance(1, MassMomentOfInertia.FromGramSquareDecimeters(kilogramsquaremeter.GramSquareDecimeters).KilogramSquareMeters, GramSquareDecimetersTolerance);
-            AssertEx.EqualTolerance(1, MassMomentOfInertia.FromGramSquareMeters(kilogramsquaremeter.GramSquareMeters).KilogramSquareMeters, GramSquareMetersTolerance);
-            AssertEx.EqualTolerance(1, MassMomentOfInertia.FromGramSquareMillimeters(kilogramsquaremeter.GramSquareMillimeters).KilogramSquareMeters, GramSquareMillimetersTolerance);
-            AssertEx.EqualTolerance(1, MassMomentOfInertia.FromKilogramSquareCentimeters(kilogramsquaremeter.KilogramSquareCentimeters).KilogramSquareMeters, KilogramSquareCentimetersTolerance);
-            AssertEx.EqualTolerance(1, MassMomentOfInertia.FromKilogramSquareDecimeters(kilogramsquaremeter.KilogramSquareDecimeters).KilogramSquareMeters, KilogramSquareDecimetersTolerance);
-            AssertEx.EqualTolerance(1, MassMomentOfInertia.FromKilogramSquareMeters(kilogramsquaremeter.KilogramSquareMeters).KilogramSquareMeters, KilogramSquareMetersTolerance);
-            AssertEx.EqualTolerance(1, MassMomentOfInertia.FromKilogramSquareMillimeters(kilogramsquaremeter.KilogramSquareMillimeters).KilogramSquareMeters, KilogramSquareMillimetersTolerance);
-            AssertEx.EqualTolerance(1, MassMomentOfInertia.FromKilotonneSquareCentimeters(kilogramsquaremeter.KilotonneSquareCentimeters).KilogramSquareMeters, KilotonneSquareCentimetersTolerance);
-            AssertEx.EqualTolerance(1, MassMomentOfInertia.FromKilotonneSquareDecimeters(kilogramsquaremeter.KilotonneSquareDecimeters).KilogramSquareMeters, KilotonneSquareDecimetersTolerance);
-            AssertEx.EqualTolerance(1, MassMomentOfInertia.FromKilotonneSquareMeters(kilogramsquaremeter.KilotonneSquareMeters).KilogramSquareMeters, KilotonneSquareMetersTolerance);
-            AssertEx.EqualTolerance(1, MassMomentOfInertia.FromKilotonneSquareMilimeters(kilogramsquaremeter.KilotonneSquareMilimeters).KilogramSquareMeters, KilotonneSquareMilimetersTolerance);
-            AssertEx.EqualTolerance(1, MassMomentOfInertia.FromMegatonneSquareCentimeters(kilogramsquaremeter.MegatonneSquareCentimeters).KilogramSquareMeters, MegatonneSquareCentimetersTolerance);
-            AssertEx.EqualTolerance(1, MassMomentOfInertia.FromMegatonneSquareDecimeters(kilogramsquaremeter.MegatonneSquareDecimeters).KilogramSquareMeters, MegatonneSquareDecimetersTolerance);
-            AssertEx.EqualTolerance(1, MassMomentOfInertia.FromMegatonneSquareMeters(kilogramsquaremeter.MegatonneSquareMeters).KilogramSquareMeters, MegatonneSquareMetersTolerance);
-            AssertEx.EqualTolerance(1, MassMomentOfInertia.FromMegatonneSquareMilimeters(kilogramsquaremeter.MegatonneSquareMilimeters).KilogramSquareMeters, MegatonneSquareMilimetersTolerance);
-            AssertEx.EqualTolerance(1, MassMomentOfInertia.FromMilligramSquareCentimeters(kilogramsquaremeter.MilligramSquareCentimeters).KilogramSquareMeters, MilligramSquareCentimetersTolerance);
-            AssertEx.EqualTolerance(1, MassMomentOfInertia.FromMilligramSquareDecimeters(kilogramsquaremeter.MilligramSquareDecimeters).KilogramSquareMeters, MilligramSquareDecimetersTolerance);
-            AssertEx.EqualTolerance(1, MassMomentOfInertia.FromMilligramSquareMeters(kilogramsquaremeter.MilligramSquareMeters).KilogramSquareMeters, MilligramSquareMetersTolerance);
-            AssertEx.EqualTolerance(1, MassMomentOfInertia.FromMilligramSquareMillimeters(kilogramsquaremeter.MilligramSquareMillimeters).KilogramSquareMeters, MilligramSquareMillimetersTolerance);
-            AssertEx.EqualTolerance(1, MassMomentOfInertia.FromPoundSquareFeet(kilogramsquaremeter.PoundSquareFeet).KilogramSquareMeters, PoundSquareFeetTolerance);
-            AssertEx.EqualTolerance(1, MassMomentOfInertia.FromPoundSquareInches(kilogramsquaremeter.PoundSquareInches).KilogramSquareMeters, PoundSquareInchesTolerance);
-            AssertEx.EqualTolerance(1, MassMomentOfInertia.FromSlugSquareFeet(kilogramsquaremeter.SlugSquareFeet).KilogramSquareMeters, SlugSquareFeetTolerance);
-            AssertEx.EqualTolerance(1, MassMomentOfInertia.FromSlugSquareInches(kilogramsquaremeter.SlugSquareInches).KilogramSquareMeters, SlugSquareInchesTolerance);
-            AssertEx.EqualTolerance(1, MassMomentOfInertia.FromTonneSquareCentimeters(kilogramsquaremeter.TonneSquareCentimeters).KilogramSquareMeters, TonneSquareCentimetersTolerance);
-            AssertEx.EqualTolerance(1, MassMomentOfInertia.FromTonneSquareDecimeters(kilogramsquaremeter.TonneSquareDecimeters).KilogramSquareMeters, TonneSquareDecimetersTolerance);
-            AssertEx.EqualTolerance(1, MassMomentOfInertia.FromTonneSquareMeters(kilogramsquaremeter.TonneSquareMeters).KilogramSquareMeters, TonneSquareMetersTolerance);
-            AssertEx.EqualTolerance(1, MassMomentOfInertia.FromTonneSquareMilimeters(kilogramsquaremeter.TonneSquareMilimeters).KilogramSquareMeters, TonneSquareMilimetersTolerance);
+            Assert.Equal(1, MassMomentOfInertia.FromGramSquareCentimeters(kilogramsquaremeter.GramSquareCentimeters).KilogramSquareMeters);
+            Assert.Equal(1, MassMomentOfInertia.FromGramSquareDecimeters(kilogramsquaremeter.GramSquareDecimeters).KilogramSquareMeters);
+            Assert.Equal(1, MassMomentOfInertia.FromGramSquareMeters(kilogramsquaremeter.GramSquareMeters).KilogramSquareMeters);
+            Assert.Equal(1, MassMomentOfInertia.FromGramSquareMillimeters(kilogramsquaremeter.GramSquareMillimeters).KilogramSquareMeters);
+            Assert.Equal(1, MassMomentOfInertia.FromKilogramSquareCentimeters(kilogramsquaremeter.KilogramSquareCentimeters).KilogramSquareMeters);
+            Assert.Equal(1, MassMomentOfInertia.FromKilogramSquareDecimeters(kilogramsquaremeter.KilogramSquareDecimeters).KilogramSquareMeters);
+            Assert.Equal(1, MassMomentOfInertia.FromKilogramSquareMeters(kilogramsquaremeter.KilogramSquareMeters).KilogramSquareMeters);
+            Assert.Equal(1, MassMomentOfInertia.FromKilogramSquareMillimeters(kilogramsquaremeter.KilogramSquareMillimeters).KilogramSquareMeters);
+            Assert.Equal(1, MassMomentOfInertia.FromKilotonneSquareCentimeters(kilogramsquaremeter.KilotonneSquareCentimeters).KilogramSquareMeters);
+            Assert.Equal(1, MassMomentOfInertia.FromKilotonneSquareDecimeters(kilogramsquaremeter.KilotonneSquareDecimeters).KilogramSquareMeters);
+            Assert.Equal(1, MassMomentOfInertia.FromKilotonneSquareMeters(kilogramsquaremeter.KilotonneSquareMeters).KilogramSquareMeters);
+            Assert.Equal(1, MassMomentOfInertia.FromKilotonneSquareMilimeters(kilogramsquaremeter.KilotonneSquareMilimeters).KilogramSquareMeters);
+            Assert.Equal(1, MassMomentOfInertia.FromMegatonneSquareCentimeters(kilogramsquaremeter.MegatonneSquareCentimeters).KilogramSquareMeters);
+            Assert.Equal(1, MassMomentOfInertia.FromMegatonneSquareDecimeters(kilogramsquaremeter.MegatonneSquareDecimeters).KilogramSquareMeters);
+            Assert.Equal(1, MassMomentOfInertia.FromMegatonneSquareMeters(kilogramsquaremeter.MegatonneSquareMeters).KilogramSquareMeters);
+            Assert.Equal(1, MassMomentOfInertia.FromMegatonneSquareMilimeters(kilogramsquaremeter.MegatonneSquareMilimeters).KilogramSquareMeters);
+            Assert.Equal(1, MassMomentOfInertia.FromMilligramSquareCentimeters(kilogramsquaremeter.MilligramSquareCentimeters).KilogramSquareMeters);
+            Assert.Equal(1, MassMomentOfInertia.FromMilligramSquareDecimeters(kilogramsquaremeter.MilligramSquareDecimeters).KilogramSquareMeters);
+            Assert.Equal(1, MassMomentOfInertia.FromMilligramSquareMeters(kilogramsquaremeter.MilligramSquareMeters).KilogramSquareMeters);
+            Assert.Equal(1, MassMomentOfInertia.FromMilligramSquareMillimeters(kilogramsquaremeter.MilligramSquareMillimeters).KilogramSquareMeters);
+            Assert.Equal(1, MassMomentOfInertia.FromPoundSquareFeet(kilogramsquaremeter.PoundSquareFeet).KilogramSquareMeters);
+            Assert.Equal(1, MassMomentOfInertia.FromPoundSquareInches(kilogramsquaremeter.PoundSquareInches).KilogramSquareMeters);
+            Assert.Equal(1, MassMomentOfInertia.FromSlugSquareFeet(kilogramsquaremeter.SlugSquareFeet).KilogramSquareMeters);
+            Assert.Equal(1, MassMomentOfInertia.FromSlugSquareInches(kilogramsquaremeter.SlugSquareInches).KilogramSquareMeters);
+            Assert.Equal(1, MassMomentOfInertia.FromTonneSquareCentimeters(kilogramsquaremeter.TonneSquareCentimeters).KilogramSquareMeters);
+            Assert.Equal(1, MassMomentOfInertia.FromTonneSquareDecimeters(kilogramsquaremeter.TonneSquareDecimeters).KilogramSquareMeters);
+            Assert.Equal(1, MassMomentOfInertia.FromTonneSquareMeters(kilogramsquaremeter.TonneSquareMeters).KilogramSquareMeters);
+            Assert.Equal(1, MassMomentOfInertia.FromTonneSquareMilimeters(kilogramsquaremeter.TonneSquareMilimeters).KilogramSquareMeters);
         }
 
         [Fact]
         public void ArithmeticOperators()
         {
             MassMomentOfInertia v = MassMomentOfInertia.FromKilogramSquareMeters(1);
-            AssertEx.EqualTolerance(-1, -v.KilogramSquareMeters, KilogramSquareMetersTolerance);
-            AssertEx.EqualTolerance(2, (MassMomentOfInertia.FromKilogramSquareMeters(3)-v).KilogramSquareMeters, KilogramSquareMetersTolerance);
-            AssertEx.EqualTolerance(2, (v + v).KilogramSquareMeters, KilogramSquareMetersTolerance);
-            AssertEx.EqualTolerance(10, (v*10).KilogramSquareMeters, KilogramSquareMetersTolerance);
-            AssertEx.EqualTolerance(10, (10*v).KilogramSquareMeters, KilogramSquareMetersTolerance);
-            AssertEx.EqualTolerance(2, (MassMomentOfInertia.FromKilogramSquareMeters(10)/5).KilogramSquareMeters, KilogramSquareMetersTolerance);
-            AssertEx.EqualTolerance(2, MassMomentOfInertia.FromKilogramSquareMeters(10)/MassMomentOfInertia.FromKilogramSquareMeters(5), KilogramSquareMetersTolerance);
+            Assert.Equal(-1, -v.KilogramSquareMeters);
+            Assert.Equal(2, (MassMomentOfInertia.FromKilogramSquareMeters(3) - v).KilogramSquareMeters);
+            Assert.Equal(2, (v + v).KilogramSquareMeters);
+            Assert.Equal(10, (v * 10).KilogramSquareMeters);
+            Assert.Equal(10, (10 * v).KilogramSquareMeters);
+            Assert.Equal(2, (MassMomentOfInertia.FromKilogramSquareMeters(10) / 5).KilogramSquareMeters);
+            Assert.Equal(2, MassMomentOfInertia.FromKilogramSquareMeters(10) / MassMomentOfInertia.FromKilogramSquareMeters(5));
         }
 
         [Fact]
@@ -1271,8 +1267,6 @@ namespace UnitsNet.Tests
         [Theory]
         [InlineData(1, MassMomentOfInertiaUnit.KilogramSquareMeter, 1, MassMomentOfInertiaUnit.KilogramSquareMeter, true)]  // Same value and unit.
         [InlineData(1, MassMomentOfInertiaUnit.KilogramSquareMeter, 2, MassMomentOfInertiaUnit.KilogramSquareMeter, false)] // Different value.
-        [InlineData(2, MassMomentOfInertiaUnit.KilogramSquareMeter, 1, MassMomentOfInertiaUnit.GramSquareCentimeter, false)] // Different value and unit.
-        [InlineData(1, MassMomentOfInertiaUnit.KilogramSquareMeter, 1, MassMomentOfInertiaUnit.GramSquareCentimeter, false)] // Different unit.
         public void Equals_ReturnsTrue_IfValueAndUnitAreEqual(double valueA, MassMomentOfInertiaUnit unitA, double valueB, MassMomentOfInertiaUnit unitB, bool expectEqual)
         {
             var a = new MassMomentOfInertia(valueA, unitA);
@@ -1310,20 +1304,22 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
-        public void Equals_RelativeTolerance_IsImplemented()
+        public void Equals_WithTolerance_IsImplemented()
         {
             var v = MassMomentOfInertia.FromKilogramSquareMeters(1);
-            Assert.True(v.Equals(MassMomentOfInertia.FromKilogramSquareMeters(1), KilogramSquareMetersTolerance, ComparisonType.Relative));
-            Assert.False(v.Equals(MassMomentOfInertia.Zero, KilogramSquareMetersTolerance, ComparisonType.Relative));
-            Assert.True(MassMomentOfInertia.FromKilogramSquareMeters(100).Equals(MassMomentOfInertia.FromKilogramSquareMeters(120), 0.3, ComparisonType.Relative));
-            Assert.False(MassMomentOfInertia.FromKilogramSquareMeters(100).Equals(MassMomentOfInertia.FromKilogramSquareMeters(120), 0.1, ComparisonType.Relative));
+            Assert.True(v.Equals(MassMomentOfInertia.FromKilogramSquareMeters(1), MassMomentOfInertia.FromKilogramSquareMeters(0)));
+            Assert.True(v.Equals(MassMomentOfInertia.FromKilogramSquareMeters(1), MassMomentOfInertia.FromKilogramSquareMeters(0.001m)));
+            Assert.True(v.Equals(MassMomentOfInertia.FromKilogramSquareMeters(0.9999), MassMomentOfInertia.FromKilogramSquareMeters(0.001m)));
+            Assert.False(v.Equals(MassMomentOfInertia.FromKilogramSquareMeters(0.99), MassMomentOfInertia.FromKilogramSquareMeters(0.001m)));
+            Assert.False(v.Equals(MassMomentOfInertia.Zero, MassMomentOfInertia.FromKilogramSquareMeters(0.001m)));
         }
 
         [Fact]
-        public void Equals_NegativeRelativeTolerance_ThrowsArgumentOutOfRangeException()
+        public void Equals_WithNegativeTolerance_ThrowsArgumentOutOfRangeException()
         {
             var v = MassMomentOfInertia.FromKilogramSquareMeters(1);
-            Assert.Throws<ArgumentOutOfRangeException>(() => v.Equals(MassMomentOfInertia.FromKilogramSquareMeters(1), -1, ComparisonType.Relative));
+            var negativeTolerance = MassMomentOfInertia.FromKilogramSquareMeters(-1);
+            Assert.Throws<ArgumentOutOfRangeException>(() => v.Equals(MassMomentOfInertia.FromKilogramSquareMeters(1), negativeTolerance));
         }
 
         [Fact]
@@ -1346,7 +1342,7 @@ namespace UnitsNet.Tests
             var units = Enum.GetValues(typeof(MassMomentOfInertiaUnit)).Cast<MassMomentOfInertiaUnit>();
             foreach (var unit in units)
             {
-                var defaultAbbreviation = UnitAbbreviationsCache.Default.GetDefaultAbbreviation(unit);
+                var defaultAbbreviation = UnitsNetSetup.Default.UnitAbbreviations.GetDefaultAbbreviation(unit);
             }
         }
 
@@ -1627,7 +1623,12 @@ namespace UnitsNet.Tests
         public void GetHashCode_Equals()
         {
             var quantity = MassMomentOfInertia.FromKilogramSquareMeters(1.0);
-            Assert.Equal(new {MassMomentOfInertia.Info.Name, quantity.Value, quantity.Unit}.GetHashCode(), quantity.GetHashCode());
+            #if NET7_0_OR_GREATER
+            var expected = HashCode.Combine(MassMomentOfInertia.Info.Name, quantity.KilogramSquareMeters);
+            #else
+            var expected = new {MassMomentOfInertia.Info.Name, valueInBaseUnit = quantity.KilogramSquareMeters}.GetHashCode();
+            #endif
+            Assert.Equal(expected, quantity.GetHashCode());
         }
 
         [Theory]

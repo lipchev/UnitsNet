@@ -105,15 +105,14 @@ namespace UnitsNet.Tests
         [Fact]
         public void Ctor_SIUnitSystem_ThrowsArgumentExceptionIfNotSupported()
         {
-            Func<object> TestCode = () => new Illuminance(value: 1, unitSystem: UnitSystem.SI);
             if (SupportsSIUnitSystem)
             {
-                var quantity = (Illuminance) TestCode();
+                var quantity = new Illuminance(value: 1, unitSystem: UnitSystem.SI);
                 Assert.Equal(1, quantity.Value);
             }
             else
             {
-                Assert.Throws<ArgumentException>(TestCode);
+                Assert.Throws<ArgumentException>(() => new Illuminance(value: 1, unitSystem: UnitSystem.SI));
             }
         }
 
@@ -145,19 +144,19 @@ namespace UnitsNet.Tests
         public void From_ValueAndUnit_ReturnsQuantityWithSameValueAndUnit()
         {
             var quantity00 = Illuminance.From(1, IlluminanceUnit.Kilolux);
-            AssertEx.EqualTolerance(1, quantity00.Kilolux, KiloluxTolerance);
+            Assert.Equal(1, quantity00.Kilolux);
             Assert.Equal(IlluminanceUnit.Kilolux, quantity00.Unit);
 
             var quantity01 = Illuminance.From(1, IlluminanceUnit.Lux);
-            AssertEx.EqualTolerance(1, quantity01.Lux, LuxTolerance);
+            Assert.Equal(1, quantity01.Lux);
             Assert.Equal(IlluminanceUnit.Lux, quantity01.Unit);
 
             var quantity02 = Illuminance.From(1, IlluminanceUnit.Megalux);
-            AssertEx.EqualTolerance(1, quantity02.Megalux, MegaluxTolerance);
+            Assert.Equal(1, quantity02.Megalux);
             Assert.Equal(IlluminanceUnit.Megalux, quantity02.Unit);
 
             var quantity03 = Illuminance.From(1, IlluminanceUnit.Millilux);
-            AssertEx.EqualTolerance(1, quantity03.Millilux, MilliluxTolerance);
+            Assert.Equal(1, quantity03.Millilux);
             Assert.Equal(IlluminanceUnit.Millilux, quantity03.Unit);
 
         }
@@ -194,16 +193,13 @@ namespace UnitsNet.Tests
         public void As_SIUnitSystem_ThrowsArgumentExceptionIfNotSupported()
         {
             var quantity = new Illuminance(value: 1, unit: Illuminance.BaseUnit);
-            Func<object> AsWithSIUnitSystem = () => quantity.As(UnitSystem.SI);
-
             if (SupportsSIUnitSystem)
             {
-                var value = Convert.ToDouble(AsWithSIUnitSystem());
-                Assert.Equal(1, value);
+                Assert.Equal(1, quantity.As(UnitSystem.SI));
             }
             else
             {
-                Assert.Throws<ArgumentException>(AsWithSIUnitSystem);
+                Assert.Throws<ArgumentException>(() => quantity.As(UnitSystem.SI));
             }
         }
 
@@ -213,28 +209,28 @@ namespace UnitsNet.Tests
             try
             {
                 var parsed = Illuminance.Parse("1 klx", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.Kilolux, KiloluxTolerance);
+                Assert.Equal(1, parsed.Kilolux);
                 Assert.Equal(IlluminanceUnit.Kilolux, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = Illuminance.Parse("1 lx", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.Lux, LuxTolerance);
+                Assert.Equal(1, parsed.Lux);
                 Assert.Equal(IlluminanceUnit.Lux, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = Illuminance.Parse("1 Mlx", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.Megalux, MegaluxTolerance);
+                Assert.Equal(1, parsed.Megalux);
                 Assert.Equal(IlluminanceUnit.Megalux, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = Illuminance.Parse("1 mlx", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.Millilux, MilliluxTolerance);
+                Assert.Equal(1, parsed.Millilux);
                 Assert.Equal(IlluminanceUnit.Millilux, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
@@ -245,13 +241,13 @@ namespace UnitsNet.Tests
         {
             {
                 Assert.True(Illuminance.TryParse("1 klx", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.Kilolux, KiloluxTolerance);
+                Assert.Equal(1, parsed.Kilolux);
                 Assert.Equal(IlluminanceUnit.Kilolux, parsed.Unit);
             }
 
             {
                 Assert.True(Illuminance.TryParse("1 lx", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.Lux, LuxTolerance);
+                Assert.Equal(1, parsed.Lux);
                 Assert.Equal(IlluminanceUnit.Lux, parsed.Unit);
             }
 
@@ -347,23 +343,23 @@ namespace UnitsNet.Tests
         public void ConversionRoundTrip()
         {
             Illuminance lux = Illuminance.FromLux(1);
-            AssertEx.EqualTolerance(1, Illuminance.FromKilolux(lux.Kilolux).Lux, KiloluxTolerance);
-            AssertEx.EqualTolerance(1, Illuminance.FromLux(lux.Lux).Lux, LuxTolerance);
-            AssertEx.EqualTolerance(1, Illuminance.FromMegalux(lux.Megalux).Lux, MegaluxTolerance);
-            AssertEx.EqualTolerance(1, Illuminance.FromMillilux(lux.Millilux).Lux, MilliluxTolerance);
+            Assert.Equal(1, Illuminance.FromKilolux(lux.Kilolux).Lux);
+            Assert.Equal(1, Illuminance.FromLux(lux.Lux).Lux);
+            Assert.Equal(1, Illuminance.FromMegalux(lux.Megalux).Lux);
+            Assert.Equal(1, Illuminance.FromMillilux(lux.Millilux).Lux);
         }
 
         [Fact]
         public void ArithmeticOperators()
         {
             Illuminance v = Illuminance.FromLux(1);
-            AssertEx.EqualTolerance(-1, -v.Lux, LuxTolerance);
-            AssertEx.EqualTolerance(2, (Illuminance.FromLux(3)-v).Lux, LuxTolerance);
-            AssertEx.EqualTolerance(2, (v + v).Lux, LuxTolerance);
-            AssertEx.EqualTolerance(10, (v*10).Lux, LuxTolerance);
-            AssertEx.EqualTolerance(10, (10*v).Lux, LuxTolerance);
-            AssertEx.EqualTolerance(2, (Illuminance.FromLux(10)/5).Lux, LuxTolerance);
-            AssertEx.EqualTolerance(2, Illuminance.FromLux(10)/Illuminance.FromLux(5), LuxTolerance);
+            Assert.Equal(-1, -v.Lux);
+            Assert.Equal(2, (Illuminance.FromLux(3) - v).Lux);
+            Assert.Equal(2, (v + v).Lux);
+            Assert.Equal(10, (v * 10).Lux);
+            Assert.Equal(10, (10 * v).Lux);
+            Assert.Equal(2, (Illuminance.FromLux(10) / 5).Lux);
+            Assert.Equal(2, Illuminance.FromLux(10) / Illuminance.FromLux(5));
         }
 
         [Fact]
@@ -409,8 +405,6 @@ namespace UnitsNet.Tests
         [Theory]
         [InlineData(1, IlluminanceUnit.Lux, 1, IlluminanceUnit.Lux, true)]  // Same value and unit.
         [InlineData(1, IlluminanceUnit.Lux, 2, IlluminanceUnit.Lux, false)] // Different value.
-        [InlineData(2, IlluminanceUnit.Lux, 1, IlluminanceUnit.Kilolux, false)] // Different value and unit.
-        [InlineData(1, IlluminanceUnit.Lux, 1, IlluminanceUnit.Kilolux, false)] // Different unit.
         public void Equals_ReturnsTrue_IfValueAndUnitAreEqual(double valueA, IlluminanceUnit unitA, double valueB, IlluminanceUnit unitB, bool expectEqual)
         {
             var a = new Illuminance(valueA, unitA);
@@ -448,20 +442,22 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
-        public void Equals_RelativeTolerance_IsImplemented()
+        public void Equals_WithTolerance_IsImplemented()
         {
             var v = Illuminance.FromLux(1);
-            Assert.True(v.Equals(Illuminance.FromLux(1), LuxTolerance, ComparisonType.Relative));
-            Assert.False(v.Equals(Illuminance.Zero, LuxTolerance, ComparisonType.Relative));
-            Assert.True(Illuminance.FromLux(100).Equals(Illuminance.FromLux(120), 0.3, ComparisonType.Relative));
-            Assert.False(Illuminance.FromLux(100).Equals(Illuminance.FromLux(120), 0.1, ComparisonType.Relative));
+            Assert.True(v.Equals(Illuminance.FromLux(1), Illuminance.FromLux(0)));
+            Assert.True(v.Equals(Illuminance.FromLux(1), Illuminance.FromLux(0.001m)));
+            Assert.True(v.Equals(Illuminance.FromLux(0.9999), Illuminance.FromLux(0.001m)));
+            Assert.False(v.Equals(Illuminance.FromLux(0.99), Illuminance.FromLux(0.001m)));
+            Assert.False(v.Equals(Illuminance.Zero, Illuminance.FromLux(0.001m)));
         }
 
         [Fact]
-        public void Equals_NegativeRelativeTolerance_ThrowsArgumentOutOfRangeException()
+        public void Equals_WithNegativeTolerance_ThrowsArgumentOutOfRangeException()
         {
             var v = Illuminance.FromLux(1);
-            Assert.Throws<ArgumentOutOfRangeException>(() => v.Equals(Illuminance.FromLux(1), -1, ComparisonType.Relative));
+            var negativeTolerance = Illuminance.FromLux(-1);
+            Assert.Throws<ArgumentOutOfRangeException>(() => v.Equals(Illuminance.FromLux(1), negativeTolerance));
         }
 
         [Fact]
@@ -484,7 +480,7 @@ namespace UnitsNet.Tests
             var units = Enum.GetValues(typeof(IlluminanceUnit)).Cast<IlluminanceUnit>();
             foreach (var unit in units)
             {
-                var defaultAbbreviation = UnitAbbreviationsCache.Default.GetDefaultAbbreviation(unit);
+                var defaultAbbreviation = UnitsNetSetup.Default.UnitAbbreviations.GetDefaultAbbreviation(unit);
             }
         }
 
@@ -717,7 +713,12 @@ namespace UnitsNet.Tests
         public void GetHashCode_Equals()
         {
             var quantity = Illuminance.FromLux(1.0);
-            Assert.Equal(new {Illuminance.Info.Name, quantity.Value, quantity.Unit}.GetHashCode(), quantity.GetHashCode());
+            #if NET7_0_OR_GREATER
+            var expected = HashCode.Combine(Illuminance.Info.Name, quantity.Lux);
+            #else
+            var expected = new {Illuminance.Info.Name, valueInBaseUnit = quantity.Lux}.GetHashCode();
+            #endif
+            Assert.Equal(expected, quantity.GetHashCode());
         }
 
         [Theory]

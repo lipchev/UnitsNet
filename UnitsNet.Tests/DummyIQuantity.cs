@@ -13,11 +13,11 @@ namespace UnitsNet.Tests
 
         public Enum Unit => throw new NotImplementedException();
 
-        public double Value => throw new NotImplementedException();
+        public QuantityValue Value => throw new NotImplementedException();
 
-        public double As(Enum unit ) => throw new NotImplementedException();
+        public QuantityValue As(Enum unit ) => throw new NotImplementedException();
 
-        public double As(UnitSystem unitSystem ) => throw new NotImplementedException();
+        public QuantityValue As(UnitSystem unitSystem ) => throw new NotImplementedException();
 
         public bool Equals(IQuantity? other, double tolerance, ComparisonType comparisonType) => throw new NotImplementedException();
 

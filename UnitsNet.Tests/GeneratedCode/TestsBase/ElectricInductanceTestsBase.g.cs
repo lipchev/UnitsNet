@@ -109,15 +109,14 @@ namespace UnitsNet.Tests
         [Fact]
         public void Ctor_SIUnitSystem_ThrowsArgumentExceptionIfNotSupported()
         {
-            Func<object> TestCode = () => new ElectricInductance(value: 1, unitSystem: UnitSystem.SI);
             if (SupportsSIUnitSystem)
             {
-                var quantity = (ElectricInductance) TestCode();
+                var quantity = new ElectricInductance(value: 1, unitSystem: UnitSystem.SI);
                 Assert.Equal(1, quantity.Value);
             }
             else
             {
-                Assert.Throws<ArgumentException>(TestCode);
+                Assert.Throws<ArgumentException>(() => new ElectricInductance(value: 1, unitSystem: UnitSystem.SI));
             }
         }
 
@@ -150,23 +149,23 @@ namespace UnitsNet.Tests
         public void From_ValueAndUnit_ReturnsQuantityWithSameValueAndUnit()
         {
             var quantity00 = ElectricInductance.From(1, ElectricInductanceUnit.Henry);
-            AssertEx.EqualTolerance(1, quantity00.Henries, HenriesTolerance);
+            Assert.Equal(1, quantity00.Henries);
             Assert.Equal(ElectricInductanceUnit.Henry, quantity00.Unit);
 
             var quantity01 = ElectricInductance.From(1, ElectricInductanceUnit.Microhenry);
-            AssertEx.EqualTolerance(1, quantity01.Microhenries, MicrohenriesTolerance);
+            Assert.Equal(1, quantity01.Microhenries);
             Assert.Equal(ElectricInductanceUnit.Microhenry, quantity01.Unit);
 
             var quantity02 = ElectricInductance.From(1, ElectricInductanceUnit.Millihenry);
-            AssertEx.EqualTolerance(1, quantity02.Millihenries, MillihenriesTolerance);
+            Assert.Equal(1, quantity02.Millihenries);
             Assert.Equal(ElectricInductanceUnit.Millihenry, quantity02.Unit);
 
             var quantity03 = ElectricInductance.From(1, ElectricInductanceUnit.Nanohenry);
-            AssertEx.EqualTolerance(1, quantity03.Nanohenries, NanohenriesTolerance);
+            Assert.Equal(1, quantity03.Nanohenries);
             Assert.Equal(ElectricInductanceUnit.Nanohenry, quantity03.Unit);
 
             var quantity04 = ElectricInductance.From(1, ElectricInductanceUnit.Picohenry);
-            AssertEx.EqualTolerance(1, quantity04.Picohenries, PicohenriesTolerance);
+            Assert.Equal(1, quantity04.Picohenries);
             Assert.Equal(ElectricInductanceUnit.Picohenry, quantity04.Unit);
 
         }
@@ -204,16 +203,13 @@ namespace UnitsNet.Tests
         public void As_SIUnitSystem_ThrowsArgumentExceptionIfNotSupported()
         {
             var quantity = new ElectricInductance(value: 1, unit: ElectricInductance.BaseUnit);
-            Func<object> AsWithSIUnitSystem = () => quantity.As(UnitSystem.SI);
-
             if (SupportsSIUnitSystem)
             {
-                var value = Convert.ToDouble(AsWithSIUnitSystem());
-                Assert.Equal(1, value);
+                Assert.Equal(1, quantity.As(UnitSystem.SI));
             }
             else
             {
-                Assert.Throws<ArgumentException>(AsWithSIUnitSystem);
+                Assert.Throws<ArgumentException>(() => quantity.As(UnitSystem.SI));
             }
         }
 
@@ -223,35 +219,35 @@ namespace UnitsNet.Tests
             try
             {
                 var parsed = ElectricInductance.Parse("1 H", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.Henries, HenriesTolerance);
+                Assert.Equal(1, parsed.Henries);
                 Assert.Equal(ElectricInductanceUnit.Henry, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = ElectricInductance.Parse("1 µH", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.Microhenries, MicrohenriesTolerance);
+                Assert.Equal(1, parsed.Microhenries);
                 Assert.Equal(ElectricInductanceUnit.Microhenry, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = ElectricInductance.Parse("1 mH", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.Millihenries, MillihenriesTolerance);
+                Assert.Equal(1, parsed.Millihenries);
                 Assert.Equal(ElectricInductanceUnit.Millihenry, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = ElectricInductance.Parse("1 nH", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.Nanohenries, NanohenriesTolerance);
+                Assert.Equal(1, parsed.Nanohenries);
                 Assert.Equal(ElectricInductanceUnit.Nanohenry, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = ElectricInductance.Parse("1 pH", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.Picohenries, PicohenriesTolerance);
+                Assert.Equal(1, parsed.Picohenries);
                 Assert.Equal(ElectricInductanceUnit.Picohenry, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
@@ -262,31 +258,31 @@ namespace UnitsNet.Tests
         {
             {
                 Assert.True(ElectricInductance.TryParse("1 H", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.Henries, HenriesTolerance);
+                Assert.Equal(1, parsed.Henries);
                 Assert.Equal(ElectricInductanceUnit.Henry, parsed.Unit);
             }
 
             {
                 Assert.True(ElectricInductance.TryParse("1 µH", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.Microhenries, MicrohenriesTolerance);
+                Assert.Equal(1, parsed.Microhenries);
                 Assert.Equal(ElectricInductanceUnit.Microhenry, parsed.Unit);
             }
 
             {
                 Assert.True(ElectricInductance.TryParse("1 mH", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.Millihenries, MillihenriesTolerance);
+                Assert.Equal(1, parsed.Millihenries);
                 Assert.Equal(ElectricInductanceUnit.Millihenry, parsed.Unit);
             }
 
             {
                 Assert.True(ElectricInductance.TryParse("1 nH", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.Nanohenries, NanohenriesTolerance);
+                Assert.Equal(1, parsed.Nanohenries);
                 Assert.Equal(ElectricInductanceUnit.Nanohenry, parsed.Unit);
             }
 
             {
                 Assert.True(ElectricInductance.TryParse("1 pH", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.Picohenries, PicohenriesTolerance);
+                Assert.Equal(1, parsed.Picohenries);
                 Assert.Equal(ElectricInductanceUnit.Picohenry, parsed.Unit);
             }
 
@@ -403,24 +399,24 @@ namespace UnitsNet.Tests
         public void ConversionRoundTrip()
         {
             ElectricInductance henry = ElectricInductance.FromHenries(1);
-            AssertEx.EqualTolerance(1, ElectricInductance.FromHenries(henry.Henries).Henries, HenriesTolerance);
-            AssertEx.EqualTolerance(1, ElectricInductance.FromMicrohenries(henry.Microhenries).Henries, MicrohenriesTolerance);
-            AssertEx.EqualTolerance(1, ElectricInductance.FromMillihenries(henry.Millihenries).Henries, MillihenriesTolerance);
-            AssertEx.EqualTolerance(1, ElectricInductance.FromNanohenries(henry.Nanohenries).Henries, NanohenriesTolerance);
-            AssertEx.EqualTolerance(1, ElectricInductance.FromPicohenries(henry.Picohenries).Henries, PicohenriesTolerance);
+            Assert.Equal(1, ElectricInductance.FromHenries(henry.Henries).Henries);
+            Assert.Equal(1, ElectricInductance.FromMicrohenries(henry.Microhenries).Henries);
+            Assert.Equal(1, ElectricInductance.FromMillihenries(henry.Millihenries).Henries);
+            Assert.Equal(1, ElectricInductance.FromNanohenries(henry.Nanohenries).Henries);
+            Assert.Equal(1, ElectricInductance.FromPicohenries(henry.Picohenries).Henries);
         }
 
         [Fact]
         public void ArithmeticOperators()
         {
             ElectricInductance v = ElectricInductance.FromHenries(1);
-            AssertEx.EqualTolerance(-1, -v.Henries, HenriesTolerance);
-            AssertEx.EqualTolerance(2, (ElectricInductance.FromHenries(3)-v).Henries, HenriesTolerance);
-            AssertEx.EqualTolerance(2, (v + v).Henries, HenriesTolerance);
-            AssertEx.EqualTolerance(10, (v*10).Henries, HenriesTolerance);
-            AssertEx.EqualTolerance(10, (10*v).Henries, HenriesTolerance);
-            AssertEx.EqualTolerance(2, (ElectricInductance.FromHenries(10)/5).Henries, HenriesTolerance);
-            AssertEx.EqualTolerance(2, ElectricInductance.FromHenries(10)/ElectricInductance.FromHenries(5), HenriesTolerance);
+            Assert.Equal(-1, -v.Henries);
+            Assert.Equal(2, (ElectricInductance.FromHenries(3) - v).Henries);
+            Assert.Equal(2, (v + v).Henries);
+            Assert.Equal(10, (v * 10).Henries);
+            Assert.Equal(10, (10 * v).Henries);
+            Assert.Equal(2, (ElectricInductance.FromHenries(10) / 5).Henries);
+            Assert.Equal(2, ElectricInductance.FromHenries(10) / ElectricInductance.FromHenries(5));
         }
 
         [Fact]
@@ -466,8 +462,6 @@ namespace UnitsNet.Tests
         [Theory]
         [InlineData(1, ElectricInductanceUnit.Henry, 1, ElectricInductanceUnit.Henry, true)]  // Same value and unit.
         [InlineData(1, ElectricInductanceUnit.Henry, 2, ElectricInductanceUnit.Henry, false)] // Different value.
-        [InlineData(2, ElectricInductanceUnit.Henry, 1, ElectricInductanceUnit.Microhenry, false)] // Different value and unit.
-        [InlineData(1, ElectricInductanceUnit.Henry, 1, ElectricInductanceUnit.Microhenry, false)] // Different unit.
         public void Equals_ReturnsTrue_IfValueAndUnitAreEqual(double valueA, ElectricInductanceUnit unitA, double valueB, ElectricInductanceUnit unitB, bool expectEqual)
         {
             var a = new ElectricInductance(valueA, unitA);
@@ -505,20 +499,22 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
-        public void Equals_RelativeTolerance_IsImplemented()
+        public void Equals_WithTolerance_IsImplemented()
         {
             var v = ElectricInductance.FromHenries(1);
-            Assert.True(v.Equals(ElectricInductance.FromHenries(1), HenriesTolerance, ComparisonType.Relative));
-            Assert.False(v.Equals(ElectricInductance.Zero, HenriesTolerance, ComparisonType.Relative));
-            Assert.True(ElectricInductance.FromHenries(100).Equals(ElectricInductance.FromHenries(120), 0.3, ComparisonType.Relative));
-            Assert.False(ElectricInductance.FromHenries(100).Equals(ElectricInductance.FromHenries(120), 0.1, ComparisonType.Relative));
+            Assert.True(v.Equals(ElectricInductance.FromHenries(1), ElectricInductance.FromHenries(0)));
+            Assert.True(v.Equals(ElectricInductance.FromHenries(1), ElectricInductance.FromHenries(0.001m)));
+            Assert.True(v.Equals(ElectricInductance.FromHenries(0.9999), ElectricInductance.FromHenries(0.001m)));
+            Assert.False(v.Equals(ElectricInductance.FromHenries(0.99), ElectricInductance.FromHenries(0.001m)));
+            Assert.False(v.Equals(ElectricInductance.Zero, ElectricInductance.FromHenries(0.001m)));
         }
 
         [Fact]
-        public void Equals_NegativeRelativeTolerance_ThrowsArgumentOutOfRangeException()
+        public void Equals_WithNegativeTolerance_ThrowsArgumentOutOfRangeException()
         {
             var v = ElectricInductance.FromHenries(1);
-            Assert.Throws<ArgumentOutOfRangeException>(() => v.Equals(ElectricInductance.FromHenries(1), -1, ComparisonType.Relative));
+            var negativeTolerance = ElectricInductance.FromHenries(-1);
+            Assert.Throws<ArgumentOutOfRangeException>(() => v.Equals(ElectricInductance.FromHenries(1), negativeTolerance));
         }
 
         [Fact]
@@ -541,7 +537,7 @@ namespace UnitsNet.Tests
             var units = Enum.GetValues(typeof(ElectricInductanceUnit)).Cast<ElectricInductanceUnit>();
             foreach (var unit in units)
             {
-                var defaultAbbreviation = UnitAbbreviationsCache.Default.GetDefaultAbbreviation(unit);
+                var defaultAbbreviation = UnitsNetSetup.Default.UnitAbbreviations.GetDefaultAbbreviation(unit);
             }
         }
 
@@ -776,7 +772,12 @@ namespace UnitsNet.Tests
         public void GetHashCode_Equals()
         {
             var quantity = ElectricInductance.FromHenries(1.0);
-            Assert.Equal(new {ElectricInductance.Info.Name, quantity.Value, quantity.Unit}.GetHashCode(), quantity.GetHashCode());
+            #if NET7_0_OR_GREATER
+            var expected = HashCode.Combine(ElectricInductance.Info.Name, quantity.Henries);
+            #else
+            var expected = new {ElectricInductance.Info.Name, valueInBaseUnit = quantity.Henries}.GetHashCode();
+            #endif
+            Assert.Equal(expected, quantity.GetHashCode());
         }
 
         [Theory]

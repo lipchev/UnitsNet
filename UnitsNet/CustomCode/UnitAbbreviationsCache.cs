@@ -15,7 +15,7 @@ namespace UnitsNet
 {
     /// <summary>
     ///     Cache of the mapping between unit enum values and unit abbreviation strings for one or more cultures.
-    ///     A static instance <see cref="Default"/> is used internally for ToString() and Parse() of quantities and units.
+    ///     A static instance is created in the <see cref="UnitsNetSetup.Default"/>, which is used for ToString() and Parse() of quantities and units.
     /// </summary>
     public sealed class UnitAbbreviationsCache
     {
@@ -44,12 +44,11 @@ namespace UnitsNet
         private ConcurrentDictionary<AbbreviationMapKey, IReadOnlyList<string>> AbbreviationsMap { get; } = new();
 
         /// <summary>
-        ///     Create an instance of the cache and load all the abbreviations defined in the library.
+        ///     Create an instance with empty cache.
         /// </summary>
-        // TODO Change this to create an empty cache in v6: https://github.com/angularsen/UnitsNet/issues/1200
-        [Obsolete("Use CreateDefault() instead to create an instance that loads the built-in units. The default ctor will change to create an empty cache in UnitsNet v6.")]
+        /// <returns>Instance with empty cache.</returns>
         public UnitAbbreviationsCache()
-            : this(new QuantityInfoLookup(Quantity.ByName.Values))
+            :this(new QuantityInfoLookup(new List<QuantityInfo>()))
         {
         }
 
@@ -63,16 +62,6 @@ namespace UnitsNet
         {
             QuantityInfoLookup = quantityInfoLookup;
         }
-
-        /// <summary>
-        ///     Create an instance with empty cache.
-        /// </summary>
-        /// <remarks>
-        ///     Workaround until v6 changes the default ctor to create an empty cache.<br/>
-        /// </remarks>
-        /// <returns>Instance with empty cache.</returns>
-        // TODO Remove in v6: https://github.com/angularsen/UnitsNet/issues/1200
-        public static UnitAbbreviationsCache CreateEmpty() => new(new QuantityInfoLookup(new List<QuantityInfo>()));
 
         /// <summary>
         ///     Create an instance of the cache and load all the built-in unit abbreviations defined in the library.

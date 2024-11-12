@@ -22,12 +22,9 @@ using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
-#if NET7_0_OR_GREATER
-using System.Numerics;
-#endif
 using System.Runtime.Serialization;
-using UnitsNet.InternalHelpers;
 using UnitsNet.Units;
+using System.Numerics;
 
 #nullable enable
 
@@ -60,13 +57,13 @@ namespace UnitsNet
         /// <summary>
         ///     The numeric value this quantity was constructed with.
         /// </summary>
-        [DataMember(Name = "Value", Order = 1)]
-        private readonly double _value;
+        [DataMember(Name = "Value", Order = 1, EmitDefaultValue = false)]
+        private readonly QuantityValue _value;
 
         /// <summary>
         ///     The unit this quantity was constructed with.
         /// </summary>
-        [DataMember(Name = "Unit", Order = 2)]
+        [DataMember(Name = "Unit", Order = 2, EmitDefaultValue = false)]
         private readonly LinearDensityUnit? _unit;
 
         static LinearDensity()
@@ -108,7 +105,7 @@ namespace UnitsNet
         /// </summary>
         /// <param name="value">The numeric value to construct this quantity with.</param>
         /// <param name="unit">The unit representation to construct this quantity with.</param>
-        public LinearDensity(double value, LinearDensityUnit unit)
+        public LinearDensity(QuantityValue value, LinearDensityUnit unit)
         {
             _value = value;
             _unit = unit;
@@ -122,7 +119,7 @@ namespace UnitsNet
         /// <param name="unitSystem">The unit system to create the quantity with.</param>
         /// <exception cref="ArgumentNullException">The given <see cref="UnitSystem"/> is null.</exception>
         /// <exception cref="ArgumentException">No unit was found for the given <see cref="UnitSystem"/>.</exception>
-        public LinearDensity(double value, UnitSystem unitSystem)
+        public LinearDensity(QuantityValue value, UnitSystem unitSystem)
         {
             if (unitSystem is null) throw new ArgumentNullException(nameof(unitSystem));
 
@@ -173,10 +170,10 @@ namespace UnitsNet
         /// <summary>
         ///     The numeric value this quantity was constructed with.
         /// </summary>
-        public double Value => _value;
+        public QuantityValue Value => _value;
 
         /// <inheritdoc />
-        double IQuantity.Value => _value;
+        QuantityValue IQuantity.Value => _value;
 
         Enum IQuantity.Unit => Unit;
 
@@ -201,92 +198,92 @@ namespace UnitsNet
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="LinearDensityUnit.GramPerCentimeter"/>
         /// </summary>
-        public double GramsPerCentimeter => As(LinearDensityUnit.GramPerCentimeter);
+        public QuantityValue GramsPerCentimeter => As(LinearDensityUnit.GramPerCentimeter);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="LinearDensityUnit.GramPerFoot"/>
         /// </summary>
-        public double GramsPerFoot => As(LinearDensityUnit.GramPerFoot);
+        public QuantityValue GramsPerFoot => As(LinearDensityUnit.GramPerFoot);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="LinearDensityUnit.GramPerMeter"/>
         /// </summary>
-        public double GramsPerMeter => As(LinearDensityUnit.GramPerMeter);
+        public QuantityValue GramsPerMeter => As(LinearDensityUnit.GramPerMeter);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="LinearDensityUnit.GramPerMillimeter"/>
         /// </summary>
-        public double GramsPerMillimeter => As(LinearDensityUnit.GramPerMillimeter);
+        public QuantityValue GramsPerMillimeter => As(LinearDensityUnit.GramPerMillimeter);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="LinearDensityUnit.KilogramPerCentimeter"/>
         /// </summary>
-        public double KilogramsPerCentimeter => As(LinearDensityUnit.KilogramPerCentimeter);
+        public QuantityValue KilogramsPerCentimeter => As(LinearDensityUnit.KilogramPerCentimeter);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="LinearDensityUnit.KilogramPerFoot"/>
         /// </summary>
-        public double KilogramsPerFoot => As(LinearDensityUnit.KilogramPerFoot);
+        public QuantityValue KilogramsPerFoot => As(LinearDensityUnit.KilogramPerFoot);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="LinearDensityUnit.KilogramPerMeter"/>
         /// </summary>
-        public double KilogramsPerMeter => As(LinearDensityUnit.KilogramPerMeter);
+        public QuantityValue KilogramsPerMeter => As(LinearDensityUnit.KilogramPerMeter);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="LinearDensityUnit.KilogramPerMillimeter"/>
         /// </summary>
-        public double KilogramsPerMillimeter => As(LinearDensityUnit.KilogramPerMillimeter);
+        public QuantityValue KilogramsPerMillimeter => As(LinearDensityUnit.KilogramPerMillimeter);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="LinearDensityUnit.MicrogramPerCentimeter"/>
         /// </summary>
-        public double MicrogramsPerCentimeter => As(LinearDensityUnit.MicrogramPerCentimeter);
+        public QuantityValue MicrogramsPerCentimeter => As(LinearDensityUnit.MicrogramPerCentimeter);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="LinearDensityUnit.MicrogramPerFoot"/>
         /// </summary>
-        public double MicrogramsPerFoot => As(LinearDensityUnit.MicrogramPerFoot);
+        public QuantityValue MicrogramsPerFoot => As(LinearDensityUnit.MicrogramPerFoot);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="LinearDensityUnit.MicrogramPerMeter"/>
         /// </summary>
-        public double MicrogramsPerMeter => As(LinearDensityUnit.MicrogramPerMeter);
+        public QuantityValue MicrogramsPerMeter => As(LinearDensityUnit.MicrogramPerMeter);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="LinearDensityUnit.MicrogramPerMillimeter"/>
         /// </summary>
-        public double MicrogramsPerMillimeter => As(LinearDensityUnit.MicrogramPerMillimeter);
+        public QuantityValue MicrogramsPerMillimeter => As(LinearDensityUnit.MicrogramPerMillimeter);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="LinearDensityUnit.MilligramPerCentimeter"/>
         /// </summary>
-        public double MilligramsPerCentimeter => As(LinearDensityUnit.MilligramPerCentimeter);
+        public QuantityValue MilligramsPerCentimeter => As(LinearDensityUnit.MilligramPerCentimeter);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="LinearDensityUnit.MilligramPerFoot"/>
         /// </summary>
-        public double MilligramsPerFoot => As(LinearDensityUnit.MilligramPerFoot);
+        public QuantityValue MilligramsPerFoot => As(LinearDensityUnit.MilligramPerFoot);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="LinearDensityUnit.MilligramPerMeter"/>
         /// </summary>
-        public double MilligramsPerMeter => As(LinearDensityUnit.MilligramPerMeter);
+        public QuantityValue MilligramsPerMeter => As(LinearDensityUnit.MilligramPerMeter);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="LinearDensityUnit.MilligramPerMillimeter"/>
         /// </summary>
-        public double MilligramsPerMillimeter => As(LinearDensityUnit.MilligramPerMillimeter);
+        public QuantityValue MilligramsPerMillimeter => As(LinearDensityUnit.MilligramPerMillimeter);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="LinearDensityUnit.PoundPerFoot"/>
         /// </summary>
-        public double PoundsPerFoot => As(LinearDensityUnit.PoundPerFoot);
+        public QuantityValue PoundsPerFoot => As(LinearDensityUnit.PoundPerFoot);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="LinearDensityUnit.PoundPerInch"/>
         /// </summary>
-        public double PoundsPerInch => As(LinearDensityUnit.PoundPerInch);
+        public QuantityValue PoundsPerInch => As(LinearDensityUnit.PoundPerInch);
 
         #endregion
 
@@ -358,7 +355,7 @@ namespace UnitsNet
         /// <param name="provider">Format to use for localization. Defaults to <see cref="CultureInfo.CurrentCulture" /> if null.</param>
         public static string GetAbbreviation(LinearDensityUnit unit, IFormatProvider? provider)
         {
-            return UnitAbbreviationsCache.Default.GetDefaultAbbreviation(unit, provider);
+            return UnitsNetSetup.Default.UnitAbbreviations.GetDefaultAbbreviation(unit, provider);
         }
 
         #endregion
@@ -368,7 +365,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="LinearDensity"/> from <see cref="LinearDensityUnit.GramPerCentimeter"/>.
         /// </summary>
-        public static LinearDensity FromGramsPerCentimeter(double value)
+        public static LinearDensity FromGramsPerCentimeter(QuantityValue value)
         {
             return new LinearDensity(value, LinearDensityUnit.GramPerCentimeter);
         }
@@ -376,7 +373,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="LinearDensity"/> from <see cref="LinearDensityUnit.GramPerFoot"/>.
         /// </summary>
-        public static LinearDensity FromGramsPerFoot(double value)
+        public static LinearDensity FromGramsPerFoot(QuantityValue value)
         {
             return new LinearDensity(value, LinearDensityUnit.GramPerFoot);
         }
@@ -384,7 +381,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="LinearDensity"/> from <see cref="LinearDensityUnit.GramPerMeter"/>.
         /// </summary>
-        public static LinearDensity FromGramsPerMeter(double value)
+        public static LinearDensity FromGramsPerMeter(QuantityValue value)
         {
             return new LinearDensity(value, LinearDensityUnit.GramPerMeter);
         }
@@ -392,7 +389,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="LinearDensity"/> from <see cref="LinearDensityUnit.GramPerMillimeter"/>.
         /// </summary>
-        public static LinearDensity FromGramsPerMillimeter(double value)
+        public static LinearDensity FromGramsPerMillimeter(QuantityValue value)
         {
             return new LinearDensity(value, LinearDensityUnit.GramPerMillimeter);
         }
@@ -400,7 +397,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="LinearDensity"/> from <see cref="LinearDensityUnit.KilogramPerCentimeter"/>.
         /// </summary>
-        public static LinearDensity FromKilogramsPerCentimeter(double value)
+        public static LinearDensity FromKilogramsPerCentimeter(QuantityValue value)
         {
             return new LinearDensity(value, LinearDensityUnit.KilogramPerCentimeter);
         }
@@ -408,7 +405,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="LinearDensity"/> from <see cref="LinearDensityUnit.KilogramPerFoot"/>.
         /// </summary>
-        public static LinearDensity FromKilogramsPerFoot(double value)
+        public static LinearDensity FromKilogramsPerFoot(QuantityValue value)
         {
             return new LinearDensity(value, LinearDensityUnit.KilogramPerFoot);
         }
@@ -416,7 +413,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="LinearDensity"/> from <see cref="LinearDensityUnit.KilogramPerMeter"/>.
         /// </summary>
-        public static LinearDensity FromKilogramsPerMeter(double value)
+        public static LinearDensity FromKilogramsPerMeter(QuantityValue value)
         {
             return new LinearDensity(value, LinearDensityUnit.KilogramPerMeter);
         }
@@ -424,7 +421,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="LinearDensity"/> from <see cref="LinearDensityUnit.KilogramPerMillimeter"/>.
         /// </summary>
-        public static LinearDensity FromKilogramsPerMillimeter(double value)
+        public static LinearDensity FromKilogramsPerMillimeter(QuantityValue value)
         {
             return new LinearDensity(value, LinearDensityUnit.KilogramPerMillimeter);
         }
@@ -432,7 +429,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="LinearDensity"/> from <see cref="LinearDensityUnit.MicrogramPerCentimeter"/>.
         /// </summary>
-        public static LinearDensity FromMicrogramsPerCentimeter(double value)
+        public static LinearDensity FromMicrogramsPerCentimeter(QuantityValue value)
         {
             return new LinearDensity(value, LinearDensityUnit.MicrogramPerCentimeter);
         }
@@ -440,7 +437,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="LinearDensity"/> from <see cref="LinearDensityUnit.MicrogramPerFoot"/>.
         /// </summary>
-        public static LinearDensity FromMicrogramsPerFoot(double value)
+        public static LinearDensity FromMicrogramsPerFoot(QuantityValue value)
         {
             return new LinearDensity(value, LinearDensityUnit.MicrogramPerFoot);
         }
@@ -448,7 +445,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="LinearDensity"/> from <see cref="LinearDensityUnit.MicrogramPerMeter"/>.
         /// </summary>
-        public static LinearDensity FromMicrogramsPerMeter(double value)
+        public static LinearDensity FromMicrogramsPerMeter(QuantityValue value)
         {
             return new LinearDensity(value, LinearDensityUnit.MicrogramPerMeter);
         }
@@ -456,7 +453,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="LinearDensity"/> from <see cref="LinearDensityUnit.MicrogramPerMillimeter"/>.
         /// </summary>
-        public static LinearDensity FromMicrogramsPerMillimeter(double value)
+        public static LinearDensity FromMicrogramsPerMillimeter(QuantityValue value)
         {
             return new LinearDensity(value, LinearDensityUnit.MicrogramPerMillimeter);
         }
@@ -464,7 +461,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="LinearDensity"/> from <see cref="LinearDensityUnit.MilligramPerCentimeter"/>.
         /// </summary>
-        public static LinearDensity FromMilligramsPerCentimeter(double value)
+        public static LinearDensity FromMilligramsPerCentimeter(QuantityValue value)
         {
             return new LinearDensity(value, LinearDensityUnit.MilligramPerCentimeter);
         }
@@ -472,7 +469,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="LinearDensity"/> from <see cref="LinearDensityUnit.MilligramPerFoot"/>.
         /// </summary>
-        public static LinearDensity FromMilligramsPerFoot(double value)
+        public static LinearDensity FromMilligramsPerFoot(QuantityValue value)
         {
             return new LinearDensity(value, LinearDensityUnit.MilligramPerFoot);
         }
@@ -480,7 +477,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="LinearDensity"/> from <see cref="LinearDensityUnit.MilligramPerMeter"/>.
         /// </summary>
-        public static LinearDensity FromMilligramsPerMeter(double value)
+        public static LinearDensity FromMilligramsPerMeter(QuantityValue value)
         {
             return new LinearDensity(value, LinearDensityUnit.MilligramPerMeter);
         }
@@ -488,7 +485,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="LinearDensity"/> from <see cref="LinearDensityUnit.MilligramPerMillimeter"/>.
         /// </summary>
-        public static LinearDensity FromMilligramsPerMillimeter(double value)
+        public static LinearDensity FromMilligramsPerMillimeter(QuantityValue value)
         {
             return new LinearDensity(value, LinearDensityUnit.MilligramPerMillimeter);
         }
@@ -496,7 +493,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="LinearDensity"/> from <see cref="LinearDensityUnit.PoundPerFoot"/>.
         /// </summary>
-        public static LinearDensity FromPoundsPerFoot(double value)
+        public static LinearDensity FromPoundsPerFoot(QuantityValue value)
         {
             return new LinearDensity(value, LinearDensityUnit.PoundPerFoot);
         }
@@ -504,7 +501,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="LinearDensity"/> from <see cref="LinearDensityUnit.PoundPerInch"/>.
         /// </summary>
-        public static LinearDensity FromPoundsPerInch(double value)
+        public static LinearDensity FromPoundsPerInch(QuantityValue value)
         {
             return new LinearDensity(value, LinearDensityUnit.PoundPerInch);
         }
@@ -515,7 +512,7 @@ namespace UnitsNet
         /// <param name="value">Value to convert from.</param>
         /// <param name="fromUnit">Unit to convert from.</param>
         /// <returns>LinearDensity unit value.</returns>
-        public static LinearDensity From(double value, LinearDensityUnit fromUnit)
+        public static LinearDensity From(QuantityValue value, LinearDensityUnit fromUnit)
         {
             return new LinearDensity(value, fromUnit);
         }
@@ -576,7 +573,7 @@ namespace UnitsNet
         /// <param name="provider">Format to use when parsing number and unit. Defaults to <see cref="CultureInfo.CurrentCulture" /> if null.</param>
         public static LinearDensity Parse(string str, IFormatProvider? provider)
         {
-            return QuantityParser.Default.Parse<LinearDensity, LinearDensityUnit>(
+            return UnitsNetSetup.Default.QuantityParser.Parse<LinearDensity, LinearDensityUnit>(
                 str,
                 provider,
                 From);
@@ -607,7 +604,7 @@ namespace UnitsNet
         /// <param name="provider">Format to use when parsing number and unit. Defaults to <see cref="CultureInfo.CurrentCulture" /> if null.</param>
         public static bool TryParse(string? str, IFormatProvider? provider, out LinearDensity result)
         {
-            return QuantityParser.Default.TryParse<LinearDensity, LinearDensityUnit>(
+            return UnitsNetSetup.Default.QuantityParser.TryParse<LinearDensity, LinearDensityUnit>(
                 str,
                 provider,
                 From,
@@ -640,7 +637,7 @@ namespace UnitsNet
         /// <exception cref="UnitsNetException">Error parsing string.</exception>
         public static LinearDensityUnit ParseUnit(string str, IFormatProvider? provider)
         {
-            return UnitParser.Default.Parse<LinearDensityUnit>(str, provider);
+            return UnitsNetSetup.Default.UnitParser.Parse<LinearDensityUnit>(str, provider);
         }
 
         /// <inheritdoc cref="TryParseUnit(string,IFormatProvider,out UnitsNet.Units.LinearDensityUnit)"/>
@@ -661,7 +658,7 @@ namespace UnitsNet
         /// <param name="provider">Format to use when parsing number and unit. Defaults to <see cref="CultureInfo.CurrentCulture" /> if null.</param>
         public static bool TryParseUnit(string str, IFormatProvider? provider, out LinearDensityUnit unit)
         {
-            return UnitParser.Default.TryParse<LinearDensityUnit>(str, provider, out unit);
+            return UnitsNetSetup.Default.UnitParser.TryParse<LinearDensityUnit>(str, provider, out unit);
         }
 
         #endregion
@@ -687,25 +684,25 @@ namespace UnitsNet
         }
 
         /// <summary>Get <see cref="LinearDensity"/> from multiplying value and <see cref="LinearDensity"/>.</summary>
-        public static LinearDensity operator *(double left, LinearDensity right)
+        public static LinearDensity operator *(QuantityValue left, LinearDensity right)
         {
             return new LinearDensity(left * right.Value, right.Unit);
         }
 
         /// <summary>Get <see cref="LinearDensity"/> from multiplying value and <see cref="LinearDensity"/>.</summary>
-        public static LinearDensity operator *(LinearDensity left, double right)
+        public static LinearDensity operator *(LinearDensity left, QuantityValue right)
         {
             return new LinearDensity(left.Value * right, left.Unit);
         }
 
         /// <summary>Get <see cref="LinearDensity"/> from dividing <see cref="LinearDensity"/> by value.</summary>
-        public static LinearDensity operator /(LinearDensity left, double right)
+        public static LinearDensity operator /(LinearDensity left, QuantityValue right)
         {
             return new LinearDensity(left.Value / right, left.Unit);
         }
 
         /// <summary>Get ratio value from dividing <see cref="LinearDensity"/> by <see cref="LinearDensity"/>.</summary>
-        public static double operator /(LinearDensity left, LinearDensity right)
+        public static QuantityValue operator /(LinearDensity left, LinearDensity right)
         {
             return left.KilogramsPerMeter / right.KilogramsPerMeter;
         }
@@ -760,27 +757,20 @@ namespace UnitsNet
             return left.Value > right.ToUnit(left.Unit).Value;
         }
 
-        // We use obsolete attribute to communicate the preferred equality members to use.
-        // CS0809: Obsolete member 'memberA' overrides non-obsolete member 'memberB'.
-        #pragma warning disable CS0809
-
-        /// <summary>Indicates strict equality of two <see cref="LinearDensity"/> quantities, where both <see cref="Value" /> and <see cref="Unit" /> are exactly equal.</summary>
-        [Obsolete("For null checks, use `x is null` syntax to not invoke overloads. For equality checks, use Equals(LinearDensity other, LinearDensity tolerance) instead, to check equality across units and to specify the max tolerance for rounding errors due to floating-point arithmetic when converting between units.")]
+        /// <summary>Indicates strict equality of two <see cref="LinearDensity"/> quantities.</summary>
         public static bool operator ==(LinearDensity left, LinearDensity right)
         {
             return left.Equals(right);
         }
 
-        /// <summary>Indicates strict inequality of two <see cref="LinearDensity"/> quantities, where both <see cref="Value" /> and <see cref="Unit" /> are exactly equal.</summary>
-        [Obsolete("For null checks, use `x is null` syntax to not invoke overloads. For equality checks, use Equals(LinearDensity other, LinearDensity tolerance) instead, to check equality across units and to specify the max tolerance for rounding errors due to floating-point arithmetic when converting between units.")]
+        /// <summary>Indicates strict inequality of two <see cref="LinearDensity"/> quantities.</summary>
         public static bool operator !=(LinearDensity left, LinearDensity right)
         {
             return !(left == right);
         }
 
         /// <inheritdoc />
-        /// <summary>Indicates strict equality of two <see cref="LinearDensity"/> quantities, where both <see cref="Value" /> and <see cref="Unit" /> are exactly equal.</summary>
-        [Obsolete("Use Equals(LinearDensity other, LinearDensity tolerance) instead, to check equality across units and to specify the max tolerance for rounding errors due to floating-point arithmetic when converting between units.")]
+        /// <summary>Indicates strict equality of two <see cref="LinearDensity"/> quantities.</summary>
         public override bool Equals(object? obj)
         {
             if (obj is null || !(obj is LinearDensity otherQuantity))
@@ -790,14 +780,11 @@ namespace UnitsNet
         }
 
         /// <inheritdoc />
-        /// <summary>Indicates strict equality of two <see cref="LinearDensity"/> quantities, where both <see cref="Value" /> and <see cref="Unit" /> are exactly equal.</summary>
-        [Obsolete("Use Equals(LinearDensity other, LinearDensity tolerance) instead, to check equality across units and to specify the max tolerance for rounding errors due to floating-point arithmetic when converting between units.")]
+        /// <summary>Indicates strict equality of two <see cref="LinearDensity"/> quantities.</summary>
         public bool Equals(LinearDensity other)
         {
-            return new { Value, Unit }.Equals(new { other.Value, other.Unit });
+            return _value.Equals(other.As(this.Unit));
         }
-
-        #pragma warning restore CS0809
 
         /// <summary>Compares the current <see cref="LinearDensity"/> with another object of the same type and returns an integer that indicates whether the current instance precedes, follows, or occurs in the same position in the sort order as the other when converted to the same unit.</summary>
         /// <param name="obj">An object to compare with this instance.</param>
@@ -835,59 +822,6 @@ namespace UnitsNet
             return _value.CompareTo(other.ToUnit(this.Unit).Value);
         }
 
-        /// <summary>
-        ///     <para>
-        ///     Compare equality to another LinearDensity within the given absolute or relative tolerance.
-        ///     </para>
-        ///     <para>
-        ///     Relative tolerance is defined as the maximum allowable absolute difference between this quantity's value and
-        ///     <paramref name="other"/> as a percentage of this quantity's value. <paramref name="other"/> will be converted into
-        ///     this quantity's unit for comparison. A relative tolerance of 0.01 means the absolute difference must be within +/- 1% of
-        ///     this quantity's value to be considered equal.
-        ///     <example>
-        ///     In this example, the two quantities will be equal if the value of b is within +/- 1% of a (0.02m or 2cm).
-        ///     <code>
-        ///     var a = Length.FromMeters(2.0);
-        ///     var b = Length.FromInches(50.0);
-        ///     a.Equals(b, 0.01, ComparisonType.Relative);
-        ///     </code>
-        ///     </example>
-        ///     </para>
-        ///     <para>
-        ///     Absolute tolerance is defined as the maximum allowable absolute difference between this quantity's value and
-        ///     <paramref name="other"/> as a fixed number in this quantity's unit. <paramref name="other"/> will be converted into
-        ///     this quantity's unit for comparison.
-        ///     <example>
-        ///     In this example, the two quantities will be equal if the value of b is within 0.01 of a (0.01m or 1cm).
-        ///     <code>
-        ///     var a = Length.FromMeters(2.0);
-        ///     var b = Length.FromInches(50.0);
-        ///     a.Equals(b, 0.01, ComparisonType.Absolute);
-        ///     </code>
-        ///     </example>
-        ///     </para>
-        ///     <para>
-        ///     Note that it is advised against specifying zero difference, due to the nature
-        ///     of floating-point operations and using double internally.
-        ///     </para>
-        /// </summary>
-        /// <param name="other">The other quantity to compare to.</param>
-        /// <param name="tolerance">The absolute or relative tolerance value. Must be greater than or equal to 0.</param>
-        /// <param name="comparisonType">The comparison type: either relative or absolute.</param>
-        /// <returns>True if the absolute difference between the two values is not greater than the specified relative or absolute tolerance.</returns>
-        [Obsolete("Use Equals(LinearDensity other, LinearDensity tolerance) instead, to check equality across units and to specify the max tolerance for rounding errors due to floating-point arithmetic when converting between units.")]
-        public bool Equals(LinearDensity other, double tolerance, ComparisonType comparisonType)
-        {
-            if (tolerance < 0)
-                throw new ArgumentOutOfRangeException(nameof(tolerance), "Tolerance must be greater than or equal to 0.");
-
-            return UnitsNet.Comparison.Equals(
-                referenceValue: this.Value,
-                otherValue: other.As(this.Unit),
-                tolerance: tolerance,
-                comparisonType: comparisonType);
-        }
-
         /// <inheritdoc />
         public bool Equals(IQuantity? other, IQuantity tolerance)
         {
@@ -901,11 +835,10 @@ namespace UnitsNet
         /// <inheritdoc />
         public bool Equals(LinearDensity other, LinearDensity tolerance)
         {
-            return UnitsNet.Comparison.Equals(
-                referenceValue: this.Value,
-                otherValue: other.As(this.Unit),
-                tolerance: tolerance.As(this.Unit),
-                comparisonType: ComparisonType.Absolute);
+            return UnitsNet.Comparison.EqualsAbsolute(
+                this.Value,
+                other.As(this.Unit),
+                tolerance: tolerance.As(this.Unit));
         }
 
         /// <summary>
@@ -914,7 +847,12 @@ namespace UnitsNet
         /// <returns>A hash code for the current LinearDensity.</returns>
         public override int GetHashCode()
         {
-            return new { Info.Name, Value, Unit }.GetHashCode();
+            var valueInBaseUnit = As(BaseUnit);
+            #if NET7_0_OR_GREATER
+            return HashCode.Combine(Info.Name, valueInBaseUnit);
+            #else
+            return new { Info.Name, valueInBaseUnit }.GetHashCode();
+            #endif
         }
 
         #endregion
@@ -925,7 +863,7 @@ namespace UnitsNet
         ///     Convert to the unit representation <paramref name="unit" />.
         /// </summary>
         /// <returns>Value converted to the specified unit.</returns>
-        public double As(LinearDensityUnit unit)
+        public QuantityValue As(LinearDensityUnit unit)
         {
             if (Unit == unit)
                 return Value;
@@ -934,7 +872,7 @@ namespace UnitsNet
         }
 
         /// <inheritdoc cref="IQuantity.As(UnitSystem)"/>
-        public double As(UnitSystem unitSystem)
+        public QuantityValue As(UnitSystem unitSystem)
         {
             if (unitSystem is null)
                 throw new ArgumentNullException(nameof(unitSystem));
@@ -949,7 +887,7 @@ namespace UnitsNet
         }
 
         /// <inheritdoc />
-        double IQuantity.As(Enum unit)
+        QuantityValue IQuantity.As(Enum unit)
         {
             if (!(unit is LinearDensityUnit typedUnit))
                 throw new ArgumentException($"The given unit is of type {unit.GetType()}. Only {typeof(LinearDensityUnit)} is supported.", nameof(unit));
@@ -1015,42 +953,42 @@ namespace UnitsNet
             LinearDensity? convertedOrNull = (Unit, unit) switch
             {
                 // LinearDensityUnit -> BaseUnit
-                (LinearDensityUnit.GramPerCentimeter, LinearDensityUnit.KilogramPerMeter) => new LinearDensity(_value * 1e-1, LinearDensityUnit.KilogramPerMeter),
-                (LinearDensityUnit.GramPerFoot, LinearDensityUnit.KilogramPerMeter) => new LinearDensity(_value * ( 1e-3 / 0.3048 ), LinearDensityUnit.KilogramPerMeter),
-                (LinearDensityUnit.GramPerMeter, LinearDensityUnit.KilogramPerMeter) => new LinearDensity(_value * 1e-3, LinearDensityUnit.KilogramPerMeter),
+                (LinearDensityUnit.GramPerCentimeter, LinearDensityUnit.KilogramPerMeter) => new LinearDensity(_value / 10, LinearDensityUnit.KilogramPerMeter),
+                (LinearDensityUnit.GramPerFoot, LinearDensityUnit.KilogramPerMeter) => new LinearDensity(_value * new QuantityValue(5, 1524), LinearDensityUnit.KilogramPerMeter),
+                (LinearDensityUnit.GramPerMeter, LinearDensityUnit.KilogramPerMeter) => new LinearDensity(_value / 1000, LinearDensityUnit.KilogramPerMeter),
                 (LinearDensityUnit.GramPerMillimeter, LinearDensityUnit.KilogramPerMeter) => new LinearDensity(_value, LinearDensityUnit.KilogramPerMeter),
-                (LinearDensityUnit.KilogramPerCentimeter, LinearDensityUnit.KilogramPerMeter) => new LinearDensity((_value * 1e-1) * 1e3d, LinearDensityUnit.KilogramPerMeter),
-                (LinearDensityUnit.KilogramPerFoot, LinearDensityUnit.KilogramPerMeter) => new LinearDensity((_value * ( 1e-3 / 0.3048 )) * 1e3d, LinearDensityUnit.KilogramPerMeter),
-                (LinearDensityUnit.KilogramPerMillimeter, LinearDensityUnit.KilogramPerMeter) => new LinearDensity((_value) * 1e3d, LinearDensityUnit.KilogramPerMeter),
-                (LinearDensityUnit.MicrogramPerCentimeter, LinearDensityUnit.KilogramPerMeter) => new LinearDensity((_value * 1e-1) * 1e-6d, LinearDensityUnit.KilogramPerMeter),
-                (LinearDensityUnit.MicrogramPerFoot, LinearDensityUnit.KilogramPerMeter) => new LinearDensity((_value * ( 1e-3 / 0.3048 )) * 1e-6d, LinearDensityUnit.KilogramPerMeter),
-                (LinearDensityUnit.MicrogramPerMeter, LinearDensityUnit.KilogramPerMeter) => new LinearDensity((_value * 1e-3) * 1e-6d, LinearDensityUnit.KilogramPerMeter),
-                (LinearDensityUnit.MicrogramPerMillimeter, LinearDensityUnit.KilogramPerMeter) => new LinearDensity((_value) * 1e-6d, LinearDensityUnit.KilogramPerMeter),
-                (LinearDensityUnit.MilligramPerCentimeter, LinearDensityUnit.KilogramPerMeter) => new LinearDensity((_value * 1e-1) * 1e-3d, LinearDensityUnit.KilogramPerMeter),
-                (LinearDensityUnit.MilligramPerFoot, LinearDensityUnit.KilogramPerMeter) => new LinearDensity((_value * ( 1e-3 / 0.3048 )) * 1e-3d, LinearDensityUnit.KilogramPerMeter),
-                (LinearDensityUnit.MilligramPerMeter, LinearDensityUnit.KilogramPerMeter) => new LinearDensity((_value * 1e-3) * 1e-3d, LinearDensityUnit.KilogramPerMeter),
-                (LinearDensityUnit.MilligramPerMillimeter, LinearDensityUnit.KilogramPerMeter) => new LinearDensity((_value) * 1e-3d, LinearDensityUnit.KilogramPerMeter),
-                (LinearDensityUnit.PoundPerFoot, LinearDensityUnit.KilogramPerMeter) => new LinearDensity(_value * 1.48816394, LinearDensityUnit.KilogramPerMeter),
-                (LinearDensityUnit.PoundPerInch, LinearDensityUnit.KilogramPerMeter) => new LinearDensity(_value / 5.5997415e-2, LinearDensityUnit.KilogramPerMeter),
+                (LinearDensityUnit.KilogramPerCentimeter, LinearDensityUnit.KilogramPerMeter) => new LinearDensity(_value * 100, LinearDensityUnit.KilogramPerMeter),
+                (LinearDensityUnit.KilogramPerFoot, LinearDensityUnit.KilogramPerMeter) => new LinearDensity(_value * new QuantityValue(1250, 381), LinearDensityUnit.KilogramPerMeter),
+                (LinearDensityUnit.KilogramPerMillimeter, LinearDensityUnit.KilogramPerMeter) => new LinearDensity(_value * 1000, LinearDensityUnit.KilogramPerMeter),
+                (LinearDensityUnit.MicrogramPerCentimeter, LinearDensityUnit.KilogramPerMeter) => new LinearDensity(_value / 10000000, LinearDensityUnit.KilogramPerMeter),
+                (LinearDensityUnit.MicrogramPerFoot, LinearDensityUnit.KilogramPerMeter) => new LinearDensity(_value / 304800000, LinearDensityUnit.KilogramPerMeter),
+                (LinearDensityUnit.MicrogramPerMeter, LinearDensityUnit.KilogramPerMeter) => new LinearDensity(_value / 1000000000, LinearDensityUnit.KilogramPerMeter),
+                (LinearDensityUnit.MicrogramPerMillimeter, LinearDensityUnit.KilogramPerMeter) => new LinearDensity(_value / 1000000, LinearDensityUnit.KilogramPerMeter),
+                (LinearDensityUnit.MilligramPerCentimeter, LinearDensityUnit.KilogramPerMeter) => new LinearDensity(_value / 10000, LinearDensityUnit.KilogramPerMeter),
+                (LinearDensityUnit.MilligramPerFoot, LinearDensityUnit.KilogramPerMeter) => new LinearDensity(_value / 304800, LinearDensityUnit.KilogramPerMeter),
+                (LinearDensityUnit.MilligramPerMeter, LinearDensityUnit.KilogramPerMeter) => new LinearDensity(_value / 1000000, LinearDensityUnit.KilogramPerMeter),
+                (LinearDensityUnit.MilligramPerMillimeter, LinearDensityUnit.KilogramPerMeter) => new LinearDensity(_value / 1000, LinearDensityUnit.KilogramPerMeter),
+                (LinearDensityUnit.PoundPerFoot, LinearDensityUnit.KilogramPerMeter) => new LinearDensity(_value * new QuantityValue(45359237, 30480000), LinearDensityUnit.KilogramPerMeter),
+                (LinearDensityUnit.PoundPerInch, LinearDensityUnit.KilogramPerMeter) => new LinearDensity(_value * new QuantityValue(45359237, 2540000), LinearDensityUnit.KilogramPerMeter),
 
                 // BaseUnit -> LinearDensityUnit
-                (LinearDensityUnit.KilogramPerMeter, LinearDensityUnit.GramPerCentimeter) => new LinearDensity(_value / 1e-1, LinearDensityUnit.GramPerCentimeter),
-                (LinearDensityUnit.KilogramPerMeter, LinearDensityUnit.GramPerFoot) => new LinearDensity(_value / ( 1e-3 / 0.3048 ), LinearDensityUnit.GramPerFoot),
-                (LinearDensityUnit.KilogramPerMeter, LinearDensityUnit.GramPerMeter) => new LinearDensity(_value / 1e-3, LinearDensityUnit.GramPerMeter),
+                (LinearDensityUnit.KilogramPerMeter, LinearDensityUnit.GramPerCentimeter) => new LinearDensity(_value * 10, LinearDensityUnit.GramPerCentimeter),
+                (LinearDensityUnit.KilogramPerMeter, LinearDensityUnit.GramPerFoot) => new LinearDensity(_value * new QuantityValue(1524, 5), LinearDensityUnit.GramPerFoot),
+                (LinearDensityUnit.KilogramPerMeter, LinearDensityUnit.GramPerMeter) => new LinearDensity(_value * 1000, LinearDensityUnit.GramPerMeter),
                 (LinearDensityUnit.KilogramPerMeter, LinearDensityUnit.GramPerMillimeter) => new LinearDensity(_value, LinearDensityUnit.GramPerMillimeter),
-                (LinearDensityUnit.KilogramPerMeter, LinearDensityUnit.KilogramPerCentimeter) => new LinearDensity((_value / 1e-1) / 1e3d, LinearDensityUnit.KilogramPerCentimeter),
-                (LinearDensityUnit.KilogramPerMeter, LinearDensityUnit.KilogramPerFoot) => new LinearDensity((_value / ( 1e-3 / 0.3048 )) / 1e3d, LinearDensityUnit.KilogramPerFoot),
-                (LinearDensityUnit.KilogramPerMeter, LinearDensityUnit.KilogramPerMillimeter) => new LinearDensity((_value) / 1e3d, LinearDensityUnit.KilogramPerMillimeter),
-                (LinearDensityUnit.KilogramPerMeter, LinearDensityUnit.MicrogramPerCentimeter) => new LinearDensity((_value / 1e-1) / 1e-6d, LinearDensityUnit.MicrogramPerCentimeter),
-                (LinearDensityUnit.KilogramPerMeter, LinearDensityUnit.MicrogramPerFoot) => new LinearDensity((_value / ( 1e-3 / 0.3048 )) / 1e-6d, LinearDensityUnit.MicrogramPerFoot),
-                (LinearDensityUnit.KilogramPerMeter, LinearDensityUnit.MicrogramPerMeter) => new LinearDensity((_value / 1e-3) / 1e-6d, LinearDensityUnit.MicrogramPerMeter),
-                (LinearDensityUnit.KilogramPerMeter, LinearDensityUnit.MicrogramPerMillimeter) => new LinearDensity((_value) / 1e-6d, LinearDensityUnit.MicrogramPerMillimeter),
-                (LinearDensityUnit.KilogramPerMeter, LinearDensityUnit.MilligramPerCentimeter) => new LinearDensity((_value / 1e-1) / 1e-3d, LinearDensityUnit.MilligramPerCentimeter),
-                (LinearDensityUnit.KilogramPerMeter, LinearDensityUnit.MilligramPerFoot) => new LinearDensity((_value / ( 1e-3 / 0.3048 )) / 1e-3d, LinearDensityUnit.MilligramPerFoot),
-                (LinearDensityUnit.KilogramPerMeter, LinearDensityUnit.MilligramPerMeter) => new LinearDensity((_value / 1e-3) / 1e-3d, LinearDensityUnit.MilligramPerMeter),
-                (LinearDensityUnit.KilogramPerMeter, LinearDensityUnit.MilligramPerMillimeter) => new LinearDensity((_value) / 1e-3d, LinearDensityUnit.MilligramPerMillimeter),
-                (LinearDensityUnit.KilogramPerMeter, LinearDensityUnit.PoundPerFoot) => new LinearDensity(_value / 1.48816394, LinearDensityUnit.PoundPerFoot),
-                (LinearDensityUnit.KilogramPerMeter, LinearDensityUnit.PoundPerInch) => new LinearDensity(_value * 5.5997415e-2, LinearDensityUnit.PoundPerInch),
+                (LinearDensityUnit.KilogramPerMeter, LinearDensityUnit.KilogramPerCentimeter) => new LinearDensity(_value / 100, LinearDensityUnit.KilogramPerCentimeter),
+                (LinearDensityUnit.KilogramPerMeter, LinearDensityUnit.KilogramPerFoot) => new LinearDensity(_value * new QuantityValue(381, 1250), LinearDensityUnit.KilogramPerFoot),
+                (LinearDensityUnit.KilogramPerMeter, LinearDensityUnit.KilogramPerMillimeter) => new LinearDensity(_value / 1000, LinearDensityUnit.KilogramPerMillimeter),
+                (LinearDensityUnit.KilogramPerMeter, LinearDensityUnit.MicrogramPerCentimeter) => new LinearDensity(_value * 10000000, LinearDensityUnit.MicrogramPerCentimeter),
+                (LinearDensityUnit.KilogramPerMeter, LinearDensityUnit.MicrogramPerFoot) => new LinearDensity(_value * 304800000, LinearDensityUnit.MicrogramPerFoot),
+                (LinearDensityUnit.KilogramPerMeter, LinearDensityUnit.MicrogramPerMeter) => new LinearDensity(_value * 1000000000, LinearDensityUnit.MicrogramPerMeter),
+                (LinearDensityUnit.KilogramPerMeter, LinearDensityUnit.MicrogramPerMillimeter) => new LinearDensity(_value * 1000000, LinearDensityUnit.MicrogramPerMillimeter),
+                (LinearDensityUnit.KilogramPerMeter, LinearDensityUnit.MilligramPerCentimeter) => new LinearDensity(_value * 10000, LinearDensityUnit.MilligramPerCentimeter),
+                (LinearDensityUnit.KilogramPerMeter, LinearDensityUnit.MilligramPerFoot) => new LinearDensity(_value * 304800, LinearDensityUnit.MilligramPerFoot),
+                (LinearDensityUnit.KilogramPerMeter, LinearDensityUnit.MilligramPerMeter) => new LinearDensity(_value * 1000000, LinearDensityUnit.MilligramPerMeter),
+                (LinearDensityUnit.KilogramPerMeter, LinearDensityUnit.MilligramPerMillimeter) => new LinearDensity(_value * 1000, LinearDensityUnit.MilligramPerMillimeter),
+                (LinearDensityUnit.KilogramPerMeter, LinearDensityUnit.PoundPerFoot) => new LinearDensity(_value * new QuantityValue(30480000, 45359237), LinearDensityUnit.PoundPerFoot),
+                (LinearDensityUnit.KilogramPerMeter, LinearDensityUnit.PoundPerInch) => new LinearDensity(_value * new QuantityValue(2540000, 45359237), LinearDensityUnit.PoundPerInch),
 
                 _ => null
             };

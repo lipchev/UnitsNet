@@ -93,15 +93,14 @@ namespace UnitsNet.Tests
         [Fact]
         public void Ctor_SIUnitSystem_ThrowsArgumentExceptionIfNotSupported()
         {
-            Func<object> TestCode = () => new Turbidity(value: 1, unitSystem: UnitSystem.SI);
             if (SupportsSIUnitSystem)
             {
-                var quantity = (Turbidity) TestCode();
+                var quantity = new Turbidity(value: 1, unitSystem: UnitSystem.SI);
                 Assert.Equal(1, quantity.Value);
             }
             else
             {
-                Assert.Throws<ArgumentException>(TestCode);
+                Assert.Throws<ArgumentException>(() => new Turbidity(value: 1, unitSystem: UnitSystem.SI));
             }
         }
 
@@ -130,7 +129,7 @@ namespace UnitsNet.Tests
         public void From_ValueAndUnit_ReturnsQuantityWithSameValueAndUnit()
         {
             var quantity00 = Turbidity.From(1, TurbidityUnit.NTU);
-            AssertEx.EqualTolerance(1, quantity00.NTU, NTUTolerance);
+            Assert.Equal(1, quantity00.NTU);
             Assert.Equal(TurbidityUnit.NTU, quantity00.Unit);
 
         }
@@ -164,16 +163,13 @@ namespace UnitsNet.Tests
         public void As_SIUnitSystem_ThrowsArgumentExceptionIfNotSupported()
         {
             var quantity = new Turbidity(value: 1, unit: Turbidity.BaseUnit);
-            Func<object> AsWithSIUnitSystem = () => quantity.As(UnitSystem.SI);
-
             if (SupportsSIUnitSystem)
             {
-                var value = Convert.ToDouble(AsWithSIUnitSystem());
-                Assert.Equal(1, value);
+                Assert.Equal(1, quantity.As(UnitSystem.SI));
             }
             else
             {
-                Assert.Throws<ArgumentException>(AsWithSIUnitSystem);
+                Assert.Throws<ArgumentException>(() => quantity.As(UnitSystem.SI));
             }
         }
 
@@ -183,7 +179,7 @@ namespace UnitsNet.Tests
             try
             {
                 var parsed = Turbidity.Parse("1 NTU", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.NTU, NTUTolerance);
+                Assert.Equal(1, parsed.NTU);
                 Assert.Equal(TurbidityUnit.NTU, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
@@ -194,7 +190,7 @@ namespace UnitsNet.Tests
         {
             {
                 Assert.True(Turbidity.TryParse("1 NTU", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.NTU, NTUTolerance);
+                Assert.Equal(1, parsed.NTU);
                 Assert.Equal(TurbidityUnit.NTU, parsed.Unit);
             }
 
@@ -267,20 +263,20 @@ namespace UnitsNet.Tests
         public void ConversionRoundTrip()
         {
             Turbidity ntu = Turbidity.FromNTU(1);
-            AssertEx.EqualTolerance(1, Turbidity.FromNTU(ntu.NTU).NTU, NTUTolerance);
+            Assert.Equal(1, Turbidity.FromNTU(ntu.NTU).NTU);
         }
 
         [Fact]
         public void ArithmeticOperators()
         {
             Turbidity v = Turbidity.FromNTU(1);
-            AssertEx.EqualTolerance(-1, -v.NTU, NTUTolerance);
-            AssertEx.EqualTolerance(2, (Turbidity.FromNTU(3)-v).NTU, NTUTolerance);
-            AssertEx.EqualTolerance(2, (v + v).NTU, NTUTolerance);
-            AssertEx.EqualTolerance(10, (v*10).NTU, NTUTolerance);
-            AssertEx.EqualTolerance(10, (10*v).NTU, NTUTolerance);
-            AssertEx.EqualTolerance(2, (Turbidity.FromNTU(10)/5).NTU, NTUTolerance);
-            AssertEx.EqualTolerance(2, Turbidity.FromNTU(10)/Turbidity.FromNTU(5), NTUTolerance);
+            Assert.Equal(-1, -v.NTU);
+            Assert.Equal(2, (Turbidity.FromNTU(3) - v).NTU);
+            Assert.Equal(2, (v + v).NTU);
+            Assert.Equal(10, (v * 10).NTU);
+            Assert.Equal(10, (10 * v).NTU);
+            Assert.Equal(2, (Turbidity.FromNTU(10) / 5).NTU);
+            Assert.Equal(2, Turbidity.FromNTU(10) / Turbidity.FromNTU(5));
         }
 
         [Fact]
@@ -326,7 +322,6 @@ namespace UnitsNet.Tests
         [Theory]
         [InlineData(1, TurbidityUnit.NTU, 1, TurbidityUnit.NTU, true)]  // Same value and unit.
         [InlineData(1, TurbidityUnit.NTU, 2, TurbidityUnit.NTU, false)] // Different value.
-        [InlineData(2, TurbidityUnit.NTU, 1, TurbidityUnit.NTU, false)] // Different value and unit.
         public void Equals_ReturnsTrue_IfValueAndUnitAreEqual(double valueA, TurbidityUnit unitA, double valueB, TurbidityUnit unitB, bool expectEqual)
         {
             var a = new Turbidity(valueA, unitA);
@@ -364,20 +359,22 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
-        public void Equals_RelativeTolerance_IsImplemented()
+        public void Equals_WithTolerance_IsImplemented()
         {
             var v = Turbidity.FromNTU(1);
-            Assert.True(v.Equals(Turbidity.FromNTU(1), NTUTolerance, ComparisonType.Relative));
-            Assert.False(v.Equals(Turbidity.Zero, NTUTolerance, ComparisonType.Relative));
-            Assert.True(Turbidity.FromNTU(100).Equals(Turbidity.FromNTU(120), 0.3, ComparisonType.Relative));
-            Assert.False(Turbidity.FromNTU(100).Equals(Turbidity.FromNTU(120), 0.1, ComparisonType.Relative));
+            Assert.True(v.Equals(Turbidity.FromNTU(1), Turbidity.FromNTU(0)));
+            Assert.True(v.Equals(Turbidity.FromNTU(1), Turbidity.FromNTU(0.001m)));
+            Assert.True(v.Equals(Turbidity.FromNTU(0.9999), Turbidity.FromNTU(0.001m)));
+            Assert.False(v.Equals(Turbidity.FromNTU(0.99), Turbidity.FromNTU(0.001m)));
+            Assert.False(v.Equals(Turbidity.Zero, Turbidity.FromNTU(0.001m)));
         }
 
         [Fact]
-        public void Equals_NegativeRelativeTolerance_ThrowsArgumentOutOfRangeException()
+        public void Equals_WithNegativeTolerance_ThrowsArgumentOutOfRangeException()
         {
             var v = Turbidity.FromNTU(1);
-            Assert.Throws<ArgumentOutOfRangeException>(() => v.Equals(Turbidity.FromNTU(1), -1, ComparisonType.Relative));
+            var negativeTolerance = Turbidity.FromNTU(-1);
+            Assert.Throws<ArgumentOutOfRangeException>(() => v.Equals(Turbidity.FromNTU(1), negativeTolerance));
         }
 
         [Fact]
@@ -400,7 +397,7 @@ namespace UnitsNet.Tests
             var units = Enum.GetValues(typeof(TurbidityUnit)).Cast<TurbidityUnit>();
             foreach (var unit in units)
             {
-                var defaultAbbreviation = UnitAbbreviationsCache.Default.GetDefaultAbbreviation(unit);
+                var defaultAbbreviation = UnitsNetSetup.Default.UnitAbbreviations.GetDefaultAbbreviation(unit);
             }
         }
 
@@ -627,7 +624,12 @@ namespace UnitsNet.Tests
         public void GetHashCode_Equals()
         {
             var quantity = Turbidity.FromNTU(1.0);
-            Assert.Equal(new {Turbidity.Info.Name, quantity.Value, quantity.Unit}.GetHashCode(), quantity.GetHashCode());
+            #if NET7_0_OR_GREATER
+            var expected = HashCode.Combine(Turbidity.Info.Name, quantity.NTU);
+            #else
+            var expected = new {Turbidity.Info.Name, valueInBaseUnit = quantity.NTU}.GetHashCode();
+            #endif
+            Assert.Equal(expected, quantity.GetHashCode());
         }
 
         [Theory]

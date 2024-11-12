@@ -12,16 +12,21 @@ namespace UnitsNet
         ///     Initializes a new instance of the <see cref="PowerRatio" /> struct from the specified power referenced to one watt.
         /// </summary>
         /// <param name="power">The power relative to one watt.</param>
-
-        public PowerRatio(Power power)
+        /// <param name="significantDigits">The number of significant digits to use in the calculation. Default is 15.</param>
+        /// <exception cref="T:System.ArgumentOutOfRangeException">
+        ///     Thrown when the number of significant digits is less than 1 or greater than 17.
+        /// </exception>
+        public PowerRatio(Power power, int significantDigits = 15)
             : this()
         {
             if (power.Watts <= 0)
+            {
                 throw new ArgumentOutOfRangeException(
                     nameof(power), "The base-10 logarithm of a number ≤ 0 is undefined. Power must be greater than 0 W.");
+            }
 
             // P(dBW) = 10*log10(value(W)/reference(W))
-            _value = 10 * Math.Log10((double)power.Watts);
+            _value = QuantityValue.FromDoubleRounded(10 * Math.Log10(power.Watts.ToDouble()), significantDigits);
             _unit = PowerRatioUnit.DecibelWatt;
         }
 
@@ -34,20 +39,25 @@ namespace UnitsNet
         ///         <c>var power = powerRatio.ToPower();</c>
         ///     </example>
         /// </remarks>
-        public Power ToPower()
+        public Power ToPower(int significantDigits = 15)
         {
             // P(W) = 1W * 10^(P(dBW)/10)
-            return Power.FromWatts(Math.Pow(10, DecibelWatts / 10));
+            return Power.FromWatts(QuantityValue.FromDoubleRounded(Math.Pow(10, DecibelWatts.ToDouble() / 10), significantDigits));
         }
 
         /// <summary>
         ///     Gets a <see cref="AmplitudeRatio" /> from this <see cref="PowerRatio" />.
         /// </summary>
         /// <param name="impedance">The input impedance of the load. This is usually 50, 75 or 600 ohms.</param>
-        public AmplitudeRatio ToAmplitudeRatio(ElectricResistance impedance)
+        /// <param name="significantDigits">The number of significant digits to use in the calculation. Default is 15.</param>
+        /// <exception cref="T:System.ArgumentOutOfRangeException">
+        ///     Thrown when the number of significant digits is less than 1 or greater than 17.
+        /// </exception>
+        public AmplitudeRatio ToAmplitudeRatio(ElectricResistance impedance, int significantDigits = 15)
         {
             // E(dBV) = 10*log10(Z(Ω)/1) + P(dBW)
-            return AmplitudeRatio.FromDecibelVolts(10 * Math.Log10(impedance.Ohms / 1) + DecibelWatts);
+            return AmplitudeRatio.FromDecibelVolts(
+                QuantityValue.FromDoubleRounded(10 * Math.Log10(impedance.Ohms.ToDouble() / 1), significantDigits) + DecibelWatts);
         }
 
         #region Static Methods
@@ -56,9 +66,13 @@ namespace UnitsNet
         ///     Gets a <see cref="PowerRatio" /> from a <see cref="Power" /> relative to one watt.
         /// </summary>
         /// <param name="power">The power relative to one watt.</param>
-        public static PowerRatio FromPower(Power power)
+        /// <param name="significantDigits">The number of significant digits to use in the calculation. Default is 15.</param>
+        /// <exception cref="T:System.ArgumentOutOfRangeException">
+        ///     Thrown when the number of significant digits is less than 1 or greater than 17.
+        /// </exception>
+        public static PowerRatio FromPower(Power power, int significantDigits = 15)
         {
-            return new PowerRatio(power);
+            return new PowerRatio(power, significantDigits);
         }
 
         #endregion

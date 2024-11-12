@@ -137,15 +137,14 @@ namespace UnitsNet.Tests
         [Fact]
         public void Ctor_SIUnitSystem_ThrowsArgumentExceptionIfNotSupported()
         {
-            Func<object> TestCode = () => new Duration(value: 1, unitSystem: UnitSystem.SI);
             if (SupportsSIUnitSystem)
             {
-                var quantity = (Duration) TestCode();
+                var quantity = new Duration(value: 1, unitSystem: UnitSystem.SI);
                 Assert.Equal(1, quantity.Value);
             }
             else
             {
-                Assert.Throws<ArgumentException>(TestCode);
+                Assert.Throws<ArgumentException>(() => new Duration(value: 1, unitSystem: UnitSystem.SI));
             }
         }
 
@@ -185,51 +184,51 @@ namespace UnitsNet.Tests
         public void From_ValueAndUnit_ReturnsQuantityWithSameValueAndUnit()
         {
             var quantity00 = Duration.From(1, DurationUnit.Day);
-            AssertEx.EqualTolerance(1, quantity00.Days, DaysTolerance);
+            Assert.Equal(1, quantity00.Days);
             Assert.Equal(DurationUnit.Day, quantity00.Unit);
 
             var quantity01 = Duration.From(1, DurationUnit.Hour);
-            AssertEx.EqualTolerance(1, quantity01.Hours, HoursTolerance);
+            Assert.Equal(1, quantity01.Hours);
             Assert.Equal(DurationUnit.Hour, quantity01.Unit);
 
             var quantity02 = Duration.From(1, DurationUnit.JulianYear);
-            AssertEx.EqualTolerance(1, quantity02.JulianYears, JulianYearsTolerance);
+            Assert.Equal(1, quantity02.JulianYears);
             Assert.Equal(DurationUnit.JulianYear, quantity02.Unit);
 
             var quantity03 = Duration.From(1, DurationUnit.Microsecond);
-            AssertEx.EqualTolerance(1, quantity03.Microseconds, MicrosecondsTolerance);
+            Assert.Equal(1, quantity03.Microseconds);
             Assert.Equal(DurationUnit.Microsecond, quantity03.Unit);
 
             var quantity04 = Duration.From(1, DurationUnit.Millisecond);
-            AssertEx.EqualTolerance(1, quantity04.Milliseconds, MillisecondsTolerance);
+            Assert.Equal(1, quantity04.Milliseconds);
             Assert.Equal(DurationUnit.Millisecond, quantity04.Unit);
 
             var quantity05 = Duration.From(1, DurationUnit.Minute);
-            AssertEx.EqualTolerance(1, quantity05.Minutes, MinutesTolerance);
+            Assert.Equal(1, quantity05.Minutes);
             Assert.Equal(DurationUnit.Minute, quantity05.Unit);
 
             var quantity06 = Duration.From(1, DurationUnit.Month30);
-            AssertEx.EqualTolerance(1, quantity06.Months30, Months30Tolerance);
+            Assert.Equal(1, quantity06.Months30);
             Assert.Equal(DurationUnit.Month30, quantity06.Unit);
 
             var quantity07 = Duration.From(1, DurationUnit.Nanosecond);
-            AssertEx.EqualTolerance(1, quantity07.Nanoseconds, NanosecondsTolerance);
+            Assert.Equal(1, quantity07.Nanoseconds);
             Assert.Equal(DurationUnit.Nanosecond, quantity07.Unit);
 
             var quantity08 = Duration.From(1, DurationUnit.Second);
-            AssertEx.EqualTolerance(1, quantity08.Seconds, SecondsTolerance);
+            Assert.Equal(1, quantity08.Seconds);
             Assert.Equal(DurationUnit.Second, quantity08.Unit);
 
             var quantity09 = Duration.From(1, DurationUnit.Sol);
-            AssertEx.EqualTolerance(1, quantity09.Sols, SolsTolerance);
+            Assert.Equal(1, quantity09.Sols);
             Assert.Equal(DurationUnit.Sol, quantity09.Unit);
 
             var quantity10 = Duration.From(1, DurationUnit.Week);
-            AssertEx.EqualTolerance(1, quantity10.Weeks, WeeksTolerance);
+            Assert.Equal(1, quantity10.Weeks);
             Assert.Equal(DurationUnit.Week, quantity10.Unit);
 
             var quantity11 = Duration.From(1, DurationUnit.Year365);
-            AssertEx.EqualTolerance(1, quantity11.Years365, Years365Tolerance);
+            Assert.Equal(1, quantity11.Years365);
             Assert.Equal(DurationUnit.Year365, quantity11.Unit);
 
         }
@@ -274,16 +273,13 @@ namespace UnitsNet.Tests
         public void As_SIUnitSystem_ThrowsArgumentExceptionIfNotSupported()
         {
             var quantity = new Duration(value: 1, unit: Duration.BaseUnit);
-            Func<object> AsWithSIUnitSystem = () => quantity.As(UnitSystem.SI);
-
             if (SupportsSIUnitSystem)
             {
-                var value = Convert.ToDouble(AsWithSIUnitSystem());
-                Assert.Equal(1, value);
+                Assert.Equal(1, quantity.As(UnitSystem.SI));
             }
             else
             {
-                Assert.Throws<ArgumentException>(AsWithSIUnitSystem);
+                Assert.Throws<ArgumentException>(() => quantity.As(UnitSystem.SI));
             }
         }
 
@@ -293,427 +289,427 @@ namespace UnitsNet.Tests
             try
             {
                 var parsed = Duration.Parse("1 d", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.Days, DaysTolerance);
+                Assert.Equal(1, parsed.Days);
                 Assert.Equal(DurationUnit.Day, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = Duration.Parse("1 day", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.Days, DaysTolerance);
+                Assert.Equal(1, parsed.Days);
                 Assert.Equal(DurationUnit.Day, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = Duration.Parse("1 days", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.Days, DaysTolerance);
+                Assert.Equal(1, parsed.Days);
                 Assert.Equal(DurationUnit.Day, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = Duration.Parse("1 сут", CultureInfo.GetCultureInfo("ru-RU"));
-                AssertEx.EqualTolerance(1, parsed.Days, DaysTolerance);
+                Assert.Equal(1, parsed.Days);
                 Assert.Equal(DurationUnit.Day, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = Duration.Parse("1 д", CultureInfo.GetCultureInfo("ru-RU"));
-                AssertEx.EqualTolerance(1, parsed.Days, DaysTolerance);
+                Assert.Equal(1, parsed.Days);
                 Assert.Equal(DurationUnit.Day, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = Duration.Parse("1 h", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.Hours, HoursTolerance);
+                Assert.Equal(1, parsed.Hours);
                 Assert.Equal(DurationUnit.Hour, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = Duration.Parse("1 hr", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.Hours, HoursTolerance);
+                Assert.Equal(1, parsed.Hours);
                 Assert.Equal(DurationUnit.Hour, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = Duration.Parse("1 hrs", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.Hours, HoursTolerance);
+                Assert.Equal(1, parsed.Hours);
                 Assert.Equal(DurationUnit.Hour, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = Duration.Parse("1 hour", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.Hours, HoursTolerance);
+                Assert.Equal(1, parsed.Hours);
                 Assert.Equal(DurationUnit.Hour, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = Duration.Parse("1 hours", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.Hours, HoursTolerance);
+                Assert.Equal(1, parsed.Hours);
                 Assert.Equal(DurationUnit.Hour, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = Duration.Parse("1 ч", CultureInfo.GetCultureInfo("ru-RU"));
-                AssertEx.EqualTolerance(1, parsed.Hours, HoursTolerance);
+                Assert.Equal(1, parsed.Hours);
                 Assert.Equal(DurationUnit.Hour, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = Duration.Parse("1 час", CultureInfo.GetCultureInfo("ru-RU"));
-                AssertEx.EqualTolerance(1, parsed.Hours, HoursTolerance);
+                Assert.Equal(1, parsed.Hours);
                 Assert.Equal(DurationUnit.Hour, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = Duration.Parse("1 jyr", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.JulianYears, JulianYearsTolerance);
+                Assert.Equal(1, parsed.JulianYears);
                 Assert.Equal(DurationUnit.JulianYear, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = Duration.Parse("1 jyear", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.JulianYears, JulianYearsTolerance);
+                Assert.Equal(1, parsed.JulianYears);
                 Assert.Equal(DurationUnit.JulianYear, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = Duration.Parse("1 jyears", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.JulianYears, JulianYearsTolerance);
+                Assert.Equal(1, parsed.JulianYears);
                 Assert.Equal(DurationUnit.JulianYear, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = Duration.Parse("1 µs", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.Microseconds, MicrosecondsTolerance);
+                Assert.Equal(1, parsed.Microseconds);
                 Assert.Equal(DurationUnit.Microsecond, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = Duration.Parse("1 µsec", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.Microseconds, MicrosecondsTolerance);
+                Assert.Equal(1, parsed.Microseconds);
                 Assert.Equal(DurationUnit.Microsecond, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = Duration.Parse("1 µsecs", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.Microseconds, MicrosecondsTolerance);
+                Assert.Equal(1, parsed.Microseconds);
                 Assert.Equal(DurationUnit.Microsecond, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = Duration.Parse("1 µsecond", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.Microseconds, MicrosecondsTolerance);
+                Assert.Equal(1, parsed.Microseconds);
                 Assert.Equal(DurationUnit.Microsecond, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = Duration.Parse("1 µseconds", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.Microseconds, MicrosecondsTolerance);
+                Assert.Equal(1, parsed.Microseconds);
                 Assert.Equal(DurationUnit.Microsecond, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = Duration.Parse("1 мксек", CultureInfo.GetCultureInfo("ru-RU"));
-                AssertEx.EqualTolerance(1, parsed.Microseconds, MicrosecondsTolerance);
+                Assert.Equal(1, parsed.Microseconds);
                 Assert.Equal(DurationUnit.Microsecond, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = Duration.Parse("1 мкс", CultureInfo.GetCultureInfo("ru-RU"));
-                AssertEx.EqualTolerance(1, parsed.Microseconds, MicrosecondsTolerance);
+                Assert.Equal(1, parsed.Microseconds);
                 Assert.Equal(DurationUnit.Microsecond, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = Duration.Parse("1 ms", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.Milliseconds, MillisecondsTolerance);
+                Assert.Equal(1, parsed.Milliseconds);
                 Assert.Equal(DurationUnit.Millisecond, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = Duration.Parse("1 msec", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.Milliseconds, MillisecondsTolerance);
+                Assert.Equal(1, parsed.Milliseconds);
                 Assert.Equal(DurationUnit.Millisecond, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = Duration.Parse("1 msecs", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.Milliseconds, MillisecondsTolerance);
+                Assert.Equal(1, parsed.Milliseconds);
                 Assert.Equal(DurationUnit.Millisecond, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = Duration.Parse("1 msecond", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.Milliseconds, MillisecondsTolerance);
+                Assert.Equal(1, parsed.Milliseconds);
                 Assert.Equal(DurationUnit.Millisecond, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = Duration.Parse("1 mseconds", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.Milliseconds, MillisecondsTolerance);
+                Assert.Equal(1, parsed.Milliseconds);
                 Assert.Equal(DurationUnit.Millisecond, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = Duration.Parse("1 мсек", CultureInfo.GetCultureInfo("ru-RU"));
-                AssertEx.EqualTolerance(1, parsed.Milliseconds, MillisecondsTolerance);
+                Assert.Equal(1, parsed.Milliseconds);
                 Assert.Equal(DurationUnit.Millisecond, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = Duration.Parse("1 мс", CultureInfo.GetCultureInfo("ru-RU"));
-                AssertEx.EqualTolerance(1, parsed.Milliseconds, MillisecondsTolerance);
+                Assert.Equal(1, parsed.Milliseconds);
                 Assert.Equal(DurationUnit.Millisecond, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = Duration.Parse("1 m", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.Minutes, MinutesTolerance);
+                Assert.Equal(1, parsed.Minutes);
                 Assert.Equal(DurationUnit.Minute, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = Duration.Parse("1 min", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.Minutes, MinutesTolerance);
+                Assert.Equal(1, parsed.Minutes);
                 Assert.Equal(DurationUnit.Minute, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = Duration.Parse("1 minute", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.Minutes, MinutesTolerance);
+                Assert.Equal(1, parsed.Minutes);
                 Assert.Equal(DurationUnit.Minute, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = Duration.Parse("1 minutes", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.Minutes, MinutesTolerance);
+                Assert.Equal(1, parsed.Minutes);
                 Assert.Equal(DurationUnit.Minute, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = Duration.Parse("1 мин", CultureInfo.GetCultureInfo("ru-RU"));
-                AssertEx.EqualTolerance(1, parsed.Minutes, MinutesTolerance);
+                Assert.Equal(1, parsed.Minutes);
                 Assert.Equal(DurationUnit.Minute, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = Duration.Parse("1 mo", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.Months30, Months30Tolerance);
+                Assert.Equal(1, parsed.Months30);
                 Assert.Equal(DurationUnit.Month30, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = Duration.Parse("1 month", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.Months30, Months30Tolerance);
+                Assert.Equal(1, parsed.Months30);
                 Assert.Equal(DurationUnit.Month30, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = Duration.Parse("1 months", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.Months30, Months30Tolerance);
+                Assert.Equal(1, parsed.Months30);
                 Assert.Equal(DurationUnit.Month30, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = Duration.Parse("1 месяц", CultureInfo.GetCultureInfo("ru-RU"));
-                AssertEx.EqualTolerance(1, parsed.Months30, Months30Tolerance);
+                Assert.Equal(1, parsed.Months30);
                 Assert.Equal(DurationUnit.Month30, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = Duration.Parse("1 ns", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.Nanoseconds, NanosecondsTolerance);
+                Assert.Equal(1, parsed.Nanoseconds);
                 Assert.Equal(DurationUnit.Nanosecond, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = Duration.Parse("1 nsec", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.Nanoseconds, NanosecondsTolerance);
+                Assert.Equal(1, parsed.Nanoseconds);
                 Assert.Equal(DurationUnit.Nanosecond, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = Duration.Parse("1 nsecs", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.Nanoseconds, NanosecondsTolerance);
+                Assert.Equal(1, parsed.Nanoseconds);
                 Assert.Equal(DurationUnit.Nanosecond, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = Duration.Parse("1 nsecond", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.Nanoseconds, NanosecondsTolerance);
+                Assert.Equal(1, parsed.Nanoseconds);
                 Assert.Equal(DurationUnit.Nanosecond, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = Duration.Parse("1 nseconds", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.Nanoseconds, NanosecondsTolerance);
+                Assert.Equal(1, parsed.Nanoseconds);
                 Assert.Equal(DurationUnit.Nanosecond, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = Duration.Parse("1 нсек", CultureInfo.GetCultureInfo("ru-RU"));
-                AssertEx.EqualTolerance(1, parsed.Nanoseconds, NanosecondsTolerance);
+                Assert.Equal(1, parsed.Nanoseconds);
                 Assert.Equal(DurationUnit.Nanosecond, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = Duration.Parse("1 нс", CultureInfo.GetCultureInfo("ru-RU"));
-                AssertEx.EqualTolerance(1, parsed.Nanoseconds, NanosecondsTolerance);
+                Assert.Equal(1, parsed.Nanoseconds);
                 Assert.Equal(DurationUnit.Nanosecond, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = Duration.Parse("1 s", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.Seconds, SecondsTolerance);
+                Assert.Equal(1, parsed.Seconds);
                 Assert.Equal(DurationUnit.Second, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = Duration.Parse("1 sec", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.Seconds, SecondsTolerance);
+                Assert.Equal(1, parsed.Seconds);
                 Assert.Equal(DurationUnit.Second, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = Duration.Parse("1 secs", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.Seconds, SecondsTolerance);
+                Assert.Equal(1, parsed.Seconds);
                 Assert.Equal(DurationUnit.Second, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = Duration.Parse("1 second", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.Seconds, SecondsTolerance);
+                Assert.Equal(1, parsed.Seconds);
                 Assert.Equal(DurationUnit.Second, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = Duration.Parse("1 seconds", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.Seconds, SecondsTolerance);
+                Assert.Equal(1, parsed.Seconds);
                 Assert.Equal(DurationUnit.Second, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = Duration.Parse("1 сек", CultureInfo.GetCultureInfo("ru-RU"));
-                AssertEx.EqualTolerance(1, parsed.Seconds, SecondsTolerance);
+                Assert.Equal(1, parsed.Seconds);
                 Assert.Equal(DurationUnit.Second, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = Duration.Parse("1 с", CultureInfo.GetCultureInfo("ru-RU"));
-                AssertEx.EqualTolerance(1, parsed.Seconds, SecondsTolerance);
+                Assert.Equal(1, parsed.Seconds);
                 Assert.Equal(DurationUnit.Second, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = Duration.Parse("1 sol", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.Sols, SolsTolerance);
+                Assert.Equal(1, parsed.Sols);
                 Assert.Equal(DurationUnit.Sol, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = Duration.Parse("1 wk", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.Weeks, WeeksTolerance);
+                Assert.Equal(1, parsed.Weeks);
                 Assert.Equal(DurationUnit.Week, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = Duration.Parse("1 week", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.Weeks, WeeksTolerance);
+                Assert.Equal(1, parsed.Weeks);
                 Assert.Equal(DurationUnit.Week, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = Duration.Parse("1 weeks", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.Weeks, WeeksTolerance);
+                Assert.Equal(1, parsed.Weeks);
                 Assert.Equal(DurationUnit.Week, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = Duration.Parse("1 нед", CultureInfo.GetCultureInfo("ru-RU"));
-                AssertEx.EqualTolerance(1, parsed.Weeks, WeeksTolerance);
+                Assert.Equal(1, parsed.Weeks);
                 Assert.Equal(DurationUnit.Week, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = Duration.Parse("1 yr", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.Years365, Years365Tolerance);
+                Assert.Equal(1, parsed.Years365);
                 Assert.Equal(DurationUnit.Year365, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = Duration.Parse("1 year", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.Years365, Years365Tolerance);
+                Assert.Equal(1, parsed.Years365);
                 Assert.Equal(DurationUnit.Year365, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = Duration.Parse("1 years", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.Years365, Years365Tolerance);
+                Assert.Equal(1, parsed.Years365);
                 Assert.Equal(DurationUnit.Year365, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = Duration.Parse("1 год", CultureInfo.GetCultureInfo("ru-RU"));
-                AssertEx.EqualTolerance(1, parsed.Years365, Years365Tolerance);
+                Assert.Equal(1, parsed.Years365);
                 Assert.Equal(DurationUnit.Year365, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
@@ -724,367 +720,367 @@ namespace UnitsNet.Tests
         {
             {
                 Assert.True(Duration.TryParse("1 d", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.Days, DaysTolerance);
+                Assert.Equal(1, parsed.Days);
                 Assert.Equal(DurationUnit.Day, parsed.Unit);
             }
 
             {
                 Assert.True(Duration.TryParse("1 day", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.Days, DaysTolerance);
+                Assert.Equal(1, parsed.Days);
                 Assert.Equal(DurationUnit.Day, parsed.Unit);
             }
 
             {
                 Assert.True(Duration.TryParse("1 days", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.Days, DaysTolerance);
+                Assert.Equal(1, parsed.Days);
                 Assert.Equal(DurationUnit.Day, parsed.Unit);
             }
 
             {
                 Assert.True(Duration.TryParse("1 сут", CultureInfo.GetCultureInfo("ru-RU"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.Days, DaysTolerance);
+                Assert.Equal(1, parsed.Days);
                 Assert.Equal(DurationUnit.Day, parsed.Unit);
             }
 
             {
                 Assert.True(Duration.TryParse("1 д", CultureInfo.GetCultureInfo("ru-RU"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.Days, DaysTolerance);
+                Assert.Equal(1, parsed.Days);
                 Assert.Equal(DurationUnit.Day, parsed.Unit);
             }
 
             {
                 Assert.True(Duration.TryParse("1 h", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.Hours, HoursTolerance);
+                Assert.Equal(1, parsed.Hours);
                 Assert.Equal(DurationUnit.Hour, parsed.Unit);
             }
 
             {
                 Assert.True(Duration.TryParse("1 hr", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.Hours, HoursTolerance);
+                Assert.Equal(1, parsed.Hours);
                 Assert.Equal(DurationUnit.Hour, parsed.Unit);
             }
 
             {
                 Assert.True(Duration.TryParse("1 hrs", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.Hours, HoursTolerance);
+                Assert.Equal(1, parsed.Hours);
                 Assert.Equal(DurationUnit.Hour, parsed.Unit);
             }
 
             {
                 Assert.True(Duration.TryParse("1 hour", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.Hours, HoursTolerance);
+                Assert.Equal(1, parsed.Hours);
                 Assert.Equal(DurationUnit.Hour, parsed.Unit);
             }
 
             {
                 Assert.True(Duration.TryParse("1 hours", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.Hours, HoursTolerance);
+                Assert.Equal(1, parsed.Hours);
                 Assert.Equal(DurationUnit.Hour, parsed.Unit);
             }
 
             {
                 Assert.True(Duration.TryParse("1 ч", CultureInfo.GetCultureInfo("ru-RU"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.Hours, HoursTolerance);
+                Assert.Equal(1, parsed.Hours);
                 Assert.Equal(DurationUnit.Hour, parsed.Unit);
             }
 
             {
                 Assert.True(Duration.TryParse("1 час", CultureInfo.GetCultureInfo("ru-RU"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.Hours, HoursTolerance);
+                Assert.Equal(1, parsed.Hours);
                 Assert.Equal(DurationUnit.Hour, parsed.Unit);
             }
 
             {
                 Assert.True(Duration.TryParse("1 jyr", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.JulianYears, JulianYearsTolerance);
+                Assert.Equal(1, parsed.JulianYears);
                 Assert.Equal(DurationUnit.JulianYear, parsed.Unit);
             }
 
             {
                 Assert.True(Duration.TryParse("1 jyear", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.JulianYears, JulianYearsTolerance);
+                Assert.Equal(1, parsed.JulianYears);
                 Assert.Equal(DurationUnit.JulianYear, parsed.Unit);
             }
 
             {
                 Assert.True(Duration.TryParse("1 jyears", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.JulianYears, JulianYearsTolerance);
+                Assert.Equal(1, parsed.JulianYears);
                 Assert.Equal(DurationUnit.JulianYear, parsed.Unit);
             }
 
             {
                 Assert.True(Duration.TryParse("1 µs", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.Microseconds, MicrosecondsTolerance);
+                Assert.Equal(1, parsed.Microseconds);
                 Assert.Equal(DurationUnit.Microsecond, parsed.Unit);
             }
 
             {
                 Assert.True(Duration.TryParse("1 µsec", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.Microseconds, MicrosecondsTolerance);
+                Assert.Equal(1, parsed.Microseconds);
                 Assert.Equal(DurationUnit.Microsecond, parsed.Unit);
             }
 
             {
                 Assert.True(Duration.TryParse("1 µsecs", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.Microseconds, MicrosecondsTolerance);
+                Assert.Equal(1, parsed.Microseconds);
                 Assert.Equal(DurationUnit.Microsecond, parsed.Unit);
             }
 
             {
                 Assert.True(Duration.TryParse("1 µsecond", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.Microseconds, MicrosecondsTolerance);
+                Assert.Equal(1, parsed.Microseconds);
                 Assert.Equal(DurationUnit.Microsecond, parsed.Unit);
             }
 
             {
                 Assert.True(Duration.TryParse("1 µseconds", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.Microseconds, MicrosecondsTolerance);
+                Assert.Equal(1, parsed.Microseconds);
                 Assert.Equal(DurationUnit.Microsecond, parsed.Unit);
             }
 
             {
                 Assert.True(Duration.TryParse("1 мксек", CultureInfo.GetCultureInfo("ru-RU"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.Microseconds, MicrosecondsTolerance);
+                Assert.Equal(1, parsed.Microseconds);
                 Assert.Equal(DurationUnit.Microsecond, parsed.Unit);
             }
 
             {
                 Assert.True(Duration.TryParse("1 мкс", CultureInfo.GetCultureInfo("ru-RU"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.Microseconds, MicrosecondsTolerance);
+                Assert.Equal(1, parsed.Microseconds);
                 Assert.Equal(DurationUnit.Microsecond, parsed.Unit);
             }
 
             {
                 Assert.True(Duration.TryParse("1 ms", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.Milliseconds, MillisecondsTolerance);
+                Assert.Equal(1, parsed.Milliseconds);
                 Assert.Equal(DurationUnit.Millisecond, parsed.Unit);
             }
 
             {
                 Assert.True(Duration.TryParse("1 msec", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.Milliseconds, MillisecondsTolerance);
+                Assert.Equal(1, parsed.Milliseconds);
                 Assert.Equal(DurationUnit.Millisecond, parsed.Unit);
             }
 
             {
                 Assert.True(Duration.TryParse("1 msecs", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.Milliseconds, MillisecondsTolerance);
+                Assert.Equal(1, parsed.Milliseconds);
                 Assert.Equal(DurationUnit.Millisecond, parsed.Unit);
             }
 
             {
                 Assert.True(Duration.TryParse("1 msecond", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.Milliseconds, MillisecondsTolerance);
+                Assert.Equal(1, parsed.Milliseconds);
                 Assert.Equal(DurationUnit.Millisecond, parsed.Unit);
             }
 
             {
                 Assert.True(Duration.TryParse("1 mseconds", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.Milliseconds, MillisecondsTolerance);
+                Assert.Equal(1, parsed.Milliseconds);
                 Assert.Equal(DurationUnit.Millisecond, parsed.Unit);
             }
 
             {
                 Assert.True(Duration.TryParse("1 мсек", CultureInfo.GetCultureInfo("ru-RU"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.Milliseconds, MillisecondsTolerance);
+                Assert.Equal(1, parsed.Milliseconds);
                 Assert.Equal(DurationUnit.Millisecond, parsed.Unit);
             }
 
             {
                 Assert.True(Duration.TryParse("1 мс", CultureInfo.GetCultureInfo("ru-RU"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.Milliseconds, MillisecondsTolerance);
+                Assert.Equal(1, parsed.Milliseconds);
                 Assert.Equal(DurationUnit.Millisecond, parsed.Unit);
             }
 
             {
                 Assert.True(Duration.TryParse("1 m", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.Minutes, MinutesTolerance);
+                Assert.Equal(1, parsed.Minutes);
                 Assert.Equal(DurationUnit.Minute, parsed.Unit);
             }
 
             {
                 Assert.True(Duration.TryParse("1 min", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.Minutes, MinutesTolerance);
+                Assert.Equal(1, parsed.Minutes);
                 Assert.Equal(DurationUnit.Minute, parsed.Unit);
             }
 
             {
                 Assert.True(Duration.TryParse("1 minute", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.Minutes, MinutesTolerance);
+                Assert.Equal(1, parsed.Minutes);
                 Assert.Equal(DurationUnit.Minute, parsed.Unit);
             }
 
             {
                 Assert.True(Duration.TryParse("1 minutes", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.Minutes, MinutesTolerance);
+                Assert.Equal(1, parsed.Minutes);
                 Assert.Equal(DurationUnit.Minute, parsed.Unit);
             }
 
             {
                 Assert.True(Duration.TryParse("1 мин", CultureInfo.GetCultureInfo("ru-RU"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.Minutes, MinutesTolerance);
+                Assert.Equal(1, parsed.Minutes);
                 Assert.Equal(DurationUnit.Minute, parsed.Unit);
             }
 
             {
                 Assert.True(Duration.TryParse("1 mo", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.Months30, Months30Tolerance);
+                Assert.Equal(1, parsed.Months30);
                 Assert.Equal(DurationUnit.Month30, parsed.Unit);
             }
 
             {
                 Assert.True(Duration.TryParse("1 month", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.Months30, Months30Tolerance);
+                Assert.Equal(1, parsed.Months30);
                 Assert.Equal(DurationUnit.Month30, parsed.Unit);
             }
 
             {
                 Assert.True(Duration.TryParse("1 months", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.Months30, Months30Tolerance);
+                Assert.Equal(1, parsed.Months30);
                 Assert.Equal(DurationUnit.Month30, parsed.Unit);
             }
 
             {
                 Assert.True(Duration.TryParse("1 месяц", CultureInfo.GetCultureInfo("ru-RU"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.Months30, Months30Tolerance);
+                Assert.Equal(1, parsed.Months30);
                 Assert.Equal(DurationUnit.Month30, parsed.Unit);
             }
 
             {
                 Assert.True(Duration.TryParse("1 ns", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.Nanoseconds, NanosecondsTolerance);
+                Assert.Equal(1, parsed.Nanoseconds);
                 Assert.Equal(DurationUnit.Nanosecond, parsed.Unit);
             }
 
             {
                 Assert.True(Duration.TryParse("1 nsec", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.Nanoseconds, NanosecondsTolerance);
+                Assert.Equal(1, parsed.Nanoseconds);
                 Assert.Equal(DurationUnit.Nanosecond, parsed.Unit);
             }
 
             {
                 Assert.True(Duration.TryParse("1 nsecs", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.Nanoseconds, NanosecondsTolerance);
+                Assert.Equal(1, parsed.Nanoseconds);
                 Assert.Equal(DurationUnit.Nanosecond, parsed.Unit);
             }
 
             {
                 Assert.True(Duration.TryParse("1 nsecond", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.Nanoseconds, NanosecondsTolerance);
+                Assert.Equal(1, parsed.Nanoseconds);
                 Assert.Equal(DurationUnit.Nanosecond, parsed.Unit);
             }
 
             {
                 Assert.True(Duration.TryParse("1 nseconds", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.Nanoseconds, NanosecondsTolerance);
+                Assert.Equal(1, parsed.Nanoseconds);
                 Assert.Equal(DurationUnit.Nanosecond, parsed.Unit);
             }
 
             {
                 Assert.True(Duration.TryParse("1 нсек", CultureInfo.GetCultureInfo("ru-RU"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.Nanoseconds, NanosecondsTolerance);
+                Assert.Equal(1, parsed.Nanoseconds);
                 Assert.Equal(DurationUnit.Nanosecond, parsed.Unit);
             }
 
             {
                 Assert.True(Duration.TryParse("1 нс", CultureInfo.GetCultureInfo("ru-RU"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.Nanoseconds, NanosecondsTolerance);
+                Assert.Equal(1, parsed.Nanoseconds);
                 Assert.Equal(DurationUnit.Nanosecond, parsed.Unit);
             }
 
             {
                 Assert.True(Duration.TryParse("1 s", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.Seconds, SecondsTolerance);
+                Assert.Equal(1, parsed.Seconds);
                 Assert.Equal(DurationUnit.Second, parsed.Unit);
             }
 
             {
                 Assert.True(Duration.TryParse("1 sec", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.Seconds, SecondsTolerance);
+                Assert.Equal(1, parsed.Seconds);
                 Assert.Equal(DurationUnit.Second, parsed.Unit);
             }
 
             {
                 Assert.True(Duration.TryParse("1 secs", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.Seconds, SecondsTolerance);
+                Assert.Equal(1, parsed.Seconds);
                 Assert.Equal(DurationUnit.Second, parsed.Unit);
             }
 
             {
                 Assert.True(Duration.TryParse("1 second", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.Seconds, SecondsTolerance);
+                Assert.Equal(1, parsed.Seconds);
                 Assert.Equal(DurationUnit.Second, parsed.Unit);
             }
 
             {
                 Assert.True(Duration.TryParse("1 seconds", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.Seconds, SecondsTolerance);
+                Assert.Equal(1, parsed.Seconds);
                 Assert.Equal(DurationUnit.Second, parsed.Unit);
             }
 
             {
                 Assert.True(Duration.TryParse("1 сек", CultureInfo.GetCultureInfo("ru-RU"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.Seconds, SecondsTolerance);
+                Assert.Equal(1, parsed.Seconds);
                 Assert.Equal(DurationUnit.Second, parsed.Unit);
             }
 
             {
                 Assert.True(Duration.TryParse("1 с", CultureInfo.GetCultureInfo("ru-RU"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.Seconds, SecondsTolerance);
+                Assert.Equal(1, parsed.Seconds);
                 Assert.Equal(DurationUnit.Second, parsed.Unit);
             }
 
             {
                 Assert.True(Duration.TryParse("1 sol", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.Sols, SolsTolerance);
+                Assert.Equal(1, parsed.Sols);
                 Assert.Equal(DurationUnit.Sol, parsed.Unit);
             }
 
             {
                 Assert.True(Duration.TryParse("1 wk", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.Weeks, WeeksTolerance);
+                Assert.Equal(1, parsed.Weeks);
                 Assert.Equal(DurationUnit.Week, parsed.Unit);
             }
 
             {
                 Assert.True(Duration.TryParse("1 week", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.Weeks, WeeksTolerance);
+                Assert.Equal(1, parsed.Weeks);
                 Assert.Equal(DurationUnit.Week, parsed.Unit);
             }
 
             {
                 Assert.True(Duration.TryParse("1 weeks", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.Weeks, WeeksTolerance);
+                Assert.Equal(1, parsed.Weeks);
                 Assert.Equal(DurationUnit.Week, parsed.Unit);
             }
 
             {
                 Assert.True(Duration.TryParse("1 нед", CultureInfo.GetCultureInfo("ru-RU"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.Weeks, WeeksTolerance);
+                Assert.Equal(1, parsed.Weeks);
                 Assert.Equal(DurationUnit.Week, parsed.Unit);
             }
 
             {
                 Assert.True(Duration.TryParse("1 yr", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.Years365, Years365Tolerance);
+                Assert.Equal(1, parsed.Years365);
                 Assert.Equal(DurationUnit.Year365, parsed.Unit);
             }
 
             {
                 Assert.True(Duration.TryParse("1 year", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.Years365, Years365Tolerance);
+                Assert.Equal(1, parsed.Years365);
                 Assert.Equal(DurationUnit.Year365, parsed.Unit);
             }
 
             {
                 Assert.True(Duration.TryParse("1 years", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.Years365, Years365Tolerance);
+                Assert.Equal(1, parsed.Years365);
                 Assert.Equal(DurationUnit.Year365, parsed.Unit);
             }
 
             {
                 Assert.True(Duration.TryParse("1 год", CultureInfo.GetCultureInfo("ru-RU"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.Years365, Years365Tolerance);
+                Assert.Equal(1, parsed.Years365);
                 Assert.Equal(DurationUnit.Year365, parsed.Unit);
             }
 
@@ -1817,31 +1813,31 @@ namespace UnitsNet.Tests
         public void ConversionRoundTrip()
         {
             Duration second = Duration.FromSeconds(1);
-            AssertEx.EqualTolerance(1, Duration.FromDays(second.Days).Seconds, DaysTolerance);
-            AssertEx.EqualTolerance(1, Duration.FromHours(second.Hours).Seconds, HoursTolerance);
-            AssertEx.EqualTolerance(1, Duration.FromJulianYears(second.JulianYears).Seconds, JulianYearsTolerance);
-            AssertEx.EqualTolerance(1, Duration.FromMicroseconds(second.Microseconds).Seconds, MicrosecondsTolerance);
-            AssertEx.EqualTolerance(1, Duration.FromMilliseconds(second.Milliseconds).Seconds, MillisecondsTolerance);
-            AssertEx.EqualTolerance(1, Duration.FromMinutes(second.Minutes).Seconds, MinutesTolerance);
-            AssertEx.EqualTolerance(1, Duration.FromMonths30(second.Months30).Seconds, Months30Tolerance);
-            AssertEx.EqualTolerance(1, Duration.FromNanoseconds(second.Nanoseconds).Seconds, NanosecondsTolerance);
-            AssertEx.EqualTolerance(1, Duration.FromSeconds(second.Seconds).Seconds, SecondsTolerance);
-            AssertEx.EqualTolerance(1, Duration.FromSols(second.Sols).Seconds, SolsTolerance);
-            AssertEx.EqualTolerance(1, Duration.FromWeeks(second.Weeks).Seconds, WeeksTolerance);
-            AssertEx.EqualTolerance(1, Duration.FromYears365(second.Years365).Seconds, Years365Tolerance);
+            Assert.Equal(1, Duration.FromDays(second.Days).Seconds);
+            Assert.Equal(1, Duration.FromHours(second.Hours).Seconds);
+            Assert.Equal(1, Duration.FromJulianYears(second.JulianYears).Seconds);
+            Assert.Equal(1, Duration.FromMicroseconds(second.Microseconds).Seconds);
+            Assert.Equal(1, Duration.FromMilliseconds(second.Milliseconds).Seconds);
+            Assert.Equal(1, Duration.FromMinutes(second.Minutes).Seconds);
+            Assert.Equal(1, Duration.FromMonths30(second.Months30).Seconds);
+            Assert.Equal(1, Duration.FromNanoseconds(second.Nanoseconds).Seconds);
+            Assert.Equal(1, Duration.FromSeconds(second.Seconds).Seconds);
+            Assert.Equal(1, Duration.FromSols(second.Sols).Seconds);
+            Assert.Equal(1, Duration.FromWeeks(second.Weeks).Seconds);
+            Assert.Equal(1, Duration.FromYears365(second.Years365).Seconds);
         }
 
         [Fact]
         public void ArithmeticOperators()
         {
             Duration v = Duration.FromSeconds(1);
-            AssertEx.EqualTolerance(-1, -v.Seconds, SecondsTolerance);
-            AssertEx.EqualTolerance(2, (Duration.FromSeconds(3)-v).Seconds, SecondsTolerance);
-            AssertEx.EqualTolerance(2, (v + v).Seconds, SecondsTolerance);
-            AssertEx.EqualTolerance(10, (v*10).Seconds, SecondsTolerance);
-            AssertEx.EqualTolerance(10, (10*v).Seconds, SecondsTolerance);
-            AssertEx.EqualTolerance(2, (Duration.FromSeconds(10)/5).Seconds, SecondsTolerance);
-            AssertEx.EqualTolerance(2, Duration.FromSeconds(10)/Duration.FromSeconds(5), SecondsTolerance);
+            Assert.Equal(-1, -v.Seconds);
+            Assert.Equal(2, (Duration.FromSeconds(3) - v).Seconds);
+            Assert.Equal(2, (v + v).Seconds);
+            Assert.Equal(10, (v * 10).Seconds);
+            Assert.Equal(10, (10 * v).Seconds);
+            Assert.Equal(2, (Duration.FromSeconds(10) / 5).Seconds);
+            Assert.Equal(2, Duration.FromSeconds(10) / Duration.FromSeconds(5));
         }
 
         [Fact]
@@ -1887,8 +1883,6 @@ namespace UnitsNet.Tests
         [Theory]
         [InlineData(1, DurationUnit.Second, 1, DurationUnit.Second, true)]  // Same value and unit.
         [InlineData(1, DurationUnit.Second, 2, DurationUnit.Second, false)] // Different value.
-        [InlineData(2, DurationUnit.Second, 1, DurationUnit.Day, false)] // Different value and unit.
-        [InlineData(1, DurationUnit.Second, 1, DurationUnit.Day, false)] // Different unit.
         public void Equals_ReturnsTrue_IfValueAndUnitAreEqual(double valueA, DurationUnit unitA, double valueB, DurationUnit unitB, bool expectEqual)
         {
             var a = new Duration(valueA, unitA);
@@ -1926,20 +1920,22 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
-        public void Equals_RelativeTolerance_IsImplemented()
+        public void Equals_WithTolerance_IsImplemented()
         {
             var v = Duration.FromSeconds(1);
-            Assert.True(v.Equals(Duration.FromSeconds(1), SecondsTolerance, ComparisonType.Relative));
-            Assert.False(v.Equals(Duration.Zero, SecondsTolerance, ComparisonType.Relative));
-            Assert.True(Duration.FromSeconds(100).Equals(Duration.FromSeconds(120), 0.3, ComparisonType.Relative));
-            Assert.False(Duration.FromSeconds(100).Equals(Duration.FromSeconds(120), 0.1, ComparisonType.Relative));
+            Assert.True(v.Equals(Duration.FromSeconds(1), Duration.FromSeconds(0)));
+            Assert.True(v.Equals(Duration.FromSeconds(1), Duration.FromSeconds(0.001m)));
+            Assert.True(v.Equals(Duration.FromSeconds(0.9999), Duration.FromSeconds(0.001m)));
+            Assert.False(v.Equals(Duration.FromSeconds(0.99), Duration.FromSeconds(0.001m)));
+            Assert.False(v.Equals(Duration.Zero, Duration.FromSeconds(0.001m)));
         }
 
         [Fact]
-        public void Equals_NegativeRelativeTolerance_ThrowsArgumentOutOfRangeException()
+        public void Equals_WithNegativeTolerance_ThrowsArgumentOutOfRangeException()
         {
             var v = Duration.FromSeconds(1);
-            Assert.Throws<ArgumentOutOfRangeException>(() => v.Equals(Duration.FromSeconds(1), -1, ComparisonType.Relative));
+            var negativeTolerance = Duration.FromSeconds(-1);
+            Assert.Throws<ArgumentOutOfRangeException>(() => v.Equals(Duration.FromSeconds(1), negativeTolerance));
         }
 
         [Fact]
@@ -1962,7 +1958,7 @@ namespace UnitsNet.Tests
             var units = Enum.GetValues(typeof(DurationUnit)).Cast<DurationUnit>();
             foreach (var unit in units)
             {
-                var defaultAbbreviation = UnitAbbreviationsCache.Default.GetDefaultAbbreviation(unit);
+                var defaultAbbreviation = UnitsNetSetup.Default.UnitAbbreviations.GetDefaultAbbreviation(unit);
             }
         }
 
@@ -2211,7 +2207,12 @@ namespace UnitsNet.Tests
         public void GetHashCode_Equals()
         {
             var quantity = Duration.FromSeconds(1.0);
-            Assert.Equal(new {Duration.Info.Name, quantity.Value, quantity.Unit}.GetHashCode(), quantity.GetHashCode());
+            #if NET7_0_OR_GREATER
+            var expected = HashCode.Combine(Duration.Info.Name, quantity.Seconds);
+            #else
+            var expected = new {Duration.Info.Name, valueInBaseUnit = quantity.Seconds}.GetHashCode();
+            #endif
+            Assert.Equal(expected, quantity.GetHashCode());
         }
 
         [Theory]

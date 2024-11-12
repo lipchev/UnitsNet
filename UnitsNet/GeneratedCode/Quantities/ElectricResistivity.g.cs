@@ -23,8 +23,8 @@ using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
 using System.Runtime.Serialization;
-using UnitsNet.InternalHelpers;
 using UnitsNet.Units;
+using System.Numerics;
 
 #nullable enable
 
@@ -52,13 +52,13 @@ namespace UnitsNet
         /// <summary>
         ///     The numeric value this quantity was constructed with.
         /// </summary>
-        [DataMember(Name = "Value", Order = 1)]
-        private readonly double _value;
+        [DataMember(Name = "Value", Order = 1, EmitDefaultValue = false)]
+        private readonly QuantityValue _value;
 
         /// <summary>
         ///     The unit this quantity was constructed with.
         /// </summary>
-        [DataMember(Name = "Unit", Order = 2)]
+        [DataMember(Name = "Unit", Order = 2, EmitDefaultValue = false)]
         private readonly ElectricResistivityUnit? _unit;
 
         static ElectricResistivity()
@@ -96,7 +96,7 @@ namespace UnitsNet
         /// </summary>
         /// <param name="value">The numeric value to construct this quantity with.</param>
         /// <param name="unit">The unit representation to construct this quantity with.</param>
-        public ElectricResistivity(double value, ElectricResistivityUnit unit)
+        public ElectricResistivity(QuantityValue value, ElectricResistivityUnit unit)
         {
             _value = value;
             _unit = unit;
@@ -110,7 +110,7 @@ namespace UnitsNet
         /// <param name="unitSystem">The unit system to create the quantity with.</param>
         /// <exception cref="ArgumentNullException">The given <see cref="UnitSystem"/> is null.</exception>
         /// <exception cref="ArgumentException">No unit was found for the given <see cref="UnitSystem"/>.</exception>
-        public ElectricResistivity(double value, UnitSystem unitSystem)
+        public ElectricResistivity(QuantityValue value, UnitSystem unitSystem)
         {
             if (unitSystem is null) throw new ArgumentNullException(nameof(unitSystem));
 
@@ -161,10 +161,10 @@ namespace UnitsNet
         /// <summary>
         ///     The numeric value this quantity was constructed with.
         /// </summary>
-        public double Value => _value;
+        public QuantityValue Value => _value;
 
         /// <inheritdoc />
-        double IQuantity.Value => _value;
+        QuantityValue IQuantity.Value => _value;
 
         Enum IQuantity.Unit => Unit;
 
@@ -189,72 +189,72 @@ namespace UnitsNet
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="ElectricResistivityUnit.KiloohmCentimeter"/>
         /// </summary>
-        public double KiloohmsCentimeter => As(ElectricResistivityUnit.KiloohmCentimeter);
+        public QuantityValue KiloohmsCentimeter => As(ElectricResistivityUnit.KiloohmCentimeter);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="ElectricResistivityUnit.KiloohmMeter"/>
         /// </summary>
-        public double KiloohmMeters => As(ElectricResistivityUnit.KiloohmMeter);
+        public QuantityValue KiloohmMeters => As(ElectricResistivityUnit.KiloohmMeter);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="ElectricResistivityUnit.MegaohmCentimeter"/>
         /// </summary>
-        public double MegaohmsCentimeter => As(ElectricResistivityUnit.MegaohmCentimeter);
+        public QuantityValue MegaohmsCentimeter => As(ElectricResistivityUnit.MegaohmCentimeter);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="ElectricResistivityUnit.MegaohmMeter"/>
         /// </summary>
-        public double MegaohmMeters => As(ElectricResistivityUnit.MegaohmMeter);
+        public QuantityValue MegaohmMeters => As(ElectricResistivityUnit.MegaohmMeter);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="ElectricResistivityUnit.MicroohmCentimeter"/>
         /// </summary>
-        public double MicroohmsCentimeter => As(ElectricResistivityUnit.MicroohmCentimeter);
+        public QuantityValue MicroohmsCentimeter => As(ElectricResistivityUnit.MicroohmCentimeter);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="ElectricResistivityUnit.MicroohmMeter"/>
         /// </summary>
-        public double MicroohmMeters => As(ElectricResistivityUnit.MicroohmMeter);
+        public QuantityValue MicroohmMeters => As(ElectricResistivityUnit.MicroohmMeter);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="ElectricResistivityUnit.MilliohmCentimeter"/>
         /// </summary>
-        public double MilliohmsCentimeter => As(ElectricResistivityUnit.MilliohmCentimeter);
+        public QuantityValue MilliohmsCentimeter => As(ElectricResistivityUnit.MilliohmCentimeter);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="ElectricResistivityUnit.MilliohmMeter"/>
         /// </summary>
-        public double MilliohmMeters => As(ElectricResistivityUnit.MilliohmMeter);
+        public QuantityValue MilliohmMeters => As(ElectricResistivityUnit.MilliohmMeter);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="ElectricResistivityUnit.NanoohmCentimeter"/>
         /// </summary>
-        public double NanoohmsCentimeter => As(ElectricResistivityUnit.NanoohmCentimeter);
+        public QuantityValue NanoohmsCentimeter => As(ElectricResistivityUnit.NanoohmCentimeter);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="ElectricResistivityUnit.NanoohmMeter"/>
         /// </summary>
-        public double NanoohmMeters => As(ElectricResistivityUnit.NanoohmMeter);
+        public QuantityValue NanoohmMeters => As(ElectricResistivityUnit.NanoohmMeter);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="ElectricResistivityUnit.OhmCentimeter"/>
         /// </summary>
-        public double OhmsCentimeter => As(ElectricResistivityUnit.OhmCentimeter);
+        public QuantityValue OhmsCentimeter => As(ElectricResistivityUnit.OhmCentimeter);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="ElectricResistivityUnit.OhmMeter"/>
         /// </summary>
-        public double OhmMeters => As(ElectricResistivityUnit.OhmMeter);
+        public QuantityValue OhmMeters => As(ElectricResistivityUnit.OhmMeter);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="ElectricResistivityUnit.PicoohmCentimeter"/>
         /// </summary>
-        public double PicoohmsCentimeter => As(ElectricResistivityUnit.PicoohmCentimeter);
+        public QuantityValue PicoohmsCentimeter => As(ElectricResistivityUnit.PicoohmCentimeter);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="ElectricResistivityUnit.PicoohmMeter"/>
         /// </summary>
-        public double PicoohmMeters => As(ElectricResistivityUnit.PicoohmMeter);
+        public QuantityValue PicoohmMeters => As(ElectricResistivityUnit.PicoohmMeter);
 
         #endregion
 
@@ -318,7 +318,7 @@ namespace UnitsNet
         /// <param name="provider">Format to use for localization. Defaults to <see cref="CultureInfo.CurrentCulture" /> if null.</param>
         public static string GetAbbreviation(ElectricResistivityUnit unit, IFormatProvider? provider)
         {
-            return UnitAbbreviationsCache.Default.GetDefaultAbbreviation(unit, provider);
+            return UnitsNetSetup.Default.UnitAbbreviations.GetDefaultAbbreviation(unit, provider);
         }
 
         #endregion
@@ -328,7 +328,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="ElectricResistivity"/> from <see cref="ElectricResistivityUnit.KiloohmCentimeter"/>.
         /// </summary>
-        public static ElectricResistivity FromKiloohmsCentimeter(double value)
+        public static ElectricResistivity FromKiloohmsCentimeter(QuantityValue value)
         {
             return new ElectricResistivity(value, ElectricResistivityUnit.KiloohmCentimeter);
         }
@@ -336,7 +336,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="ElectricResistivity"/> from <see cref="ElectricResistivityUnit.KiloohmMeter"/>.
         /// </summary>
-        public static ElectricResistivity FromKiloohmMeters(double value)
+        public static ElectricResistivity FromKiloohmMeters(QuantityValue value)
         {
             return new ElectricResistivity(value, ElectricResistivityUnit.KiloohmMeter);
         }
@@ -344,7 +344,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="ElectricResistivity"/> from <see cref="ElectricResistivityUnit.MegaohmCentimeter"/>.
         /// </summary>
-        public static ElectricResistivity FromMegaohmsCentimeter(double value)
+        public static ElectricResistivity FromMegaohmsCentimeter(QuantityValue value)
         {
             return new ElectricResistivity(value, ElectricResistivityUnit.MegaohmCentimeter);
         }
@@ -352,7 +352,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="ElectricResistivity"/> from <see cref="ElectricResistivityUnit.MegaohmMeter"/>.
         /// </summary>
-        public static ElectricResistivity FromMegaohmMeters(double value)
+        public static ElectricResistivity FromMegaohmMeters(QuantityValue value)
         {
             return new ElectricResistivity(value, ElectricResistivityUnit.MegaohmMeter);
         }
@@ -360,7 +360,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="ElectricResistivity"/> from <see cref="ElectricResistivityUnit.MicroohmCentimeter"/>.
         /// </summary>
-        public static ElectricResistivity FromMicroohmsCentimeter(double value)
+        public static ElectricResistivity FromMicroohmsCentimeter(QuantityValue value)
         {
             return new ElectricResistivity(value, ElectricResistivityUnit.MicroohmCentimeter);
         }
@@ -368,7 +368,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="ElectricResistivity"/> from <see cref="ElectricResistivityUnit.MicroohmMeter"/>.
         /// </summary>
-        public static ElectricResistivity FromMicroohmMeters(double value)
+        public static ElectricResistivity FromMicroohmMeters(QuantityValue value)
         {
             return new ElectricResistivity(value, ElectricResistivityUnit.MicroohmMeter);
         }
@@ -376,7 +376,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="ElectricResistivity"/> from <see cref="ElectricResistivityUnit.MilliohmCentimeter"/>.
         /// </summary>
-        public static ElectricResistivity FromMilliohmsCentimeter(double value)
+        public static ElectricResistivity FromMilliohmsCentimeter(QuantityValue value)
         {
             return new ElectricResistivity(value, ElectricResistivityUnit.MilliohmCentimeter);
         }
@@ -384,7 +384,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="ElectricResistivity"/> from <see cref="ElectricResistivityUnit.MilliohmMeter"/>.
         /// </summary>
-        public static ElectricResistivity FromMilliohmMeters(double value)
+        public static ElectricResistivity FromMilliohmMeters(QuantityValue value)
         {
             return new ElectricResistivity(value, ElectricResistivityUnit.MilliohmMeter);
         }
@@ -392,7 +392,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="ElectricResistivity"/> from <see cref="ElectricResistivityUnit.NanoohmCentimeter"/>.
         /// </summary>
-        public static ElectricResistivity FromNanoohmsCentimeter(double value)
+        public static ElectricResistivity FromNanoohmsCentimeter(QuantityValue value)
         {
             return new ElectricResistivity(value, ElectricResistivityUnit.NanoohmCentimeter);
         }
@@ -400,7 +400,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="ElectricResistivity"/> from <see cref="ElectricResistivityUnit.NanoohmMeter"/>.
         /// </summary>
-        public static ElectricResistivity FromNanoohmMeters(double value)
+        public static ElectricResistivity FromNanoohmMeters(QuantityValue value)
         {
             return new ElectricResistivity(value, ElectricResistivityUnit.NanoohmMeter);
         }
@@ -408,7 +408,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="ElectricResistivity"/> from <see cref="ElectricResistivityUnit.OhmCentimeter"/>.
         /// </summary>
-        public static ElectricResistivity FromOhmsCentimeter(double value)
+        public static ElectricResistivity FromOhmsCentimeter(QuantityValue value)
         {
             return new ElectricResistivity(value, ElectricResistivityUnit.OhmCentimeter);
         }
@@ -416,7 +416,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="ElectricResistivity"/> from <see cref="ElectricResistivityUnit.OhmMeter"/>.
         /// </summary>
-        public static ElectricResistivity FromOhmMeters(double value)
+        public static ElectricResistivity FromOhmMeters(QuantityValue value)
         {
             return new ElectricResistivity(value, ElectricResistivityUnit.OhmMeter);
         }
@@ -424,7 +424,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="ElectricResistivity"/> from <see cref="ElectricResistivityUnit.PicoohmCentimeter"/>.
         /// </summary>
-        public static ElectricResistivity FromPicoohmsCentimeter(double value)
+        public static ElectricResistivity FromPicoohmsCentimeter(QuantityValue value)
         {
             return new ElectricResistivity(value, ElectricResistivityUnit.PicoohmCentimeter);
         }
@@ -432,7 +432,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="ElectricResistivity"/> from <see cref="ElectricResistivityUnit.PicoohmMeter"/>.
         /// </summary>
-        public static ElectricResistivity FromPicoohmMeters(double value)
+        public static ElectricResistivity FromPicoohmMeters(QuantityValue value)
         {
             return new ElectricResistivity(value, ElectricResistivityUnit.PicoohmMeter);
         }
@@ -443,7 +443,7 @@ namespace UnitsNet
         /// <param name="value">Value to convert from.</param>
         /// <param name="fromUnit">Unit to convert from.</param>
         /// <returns>ElectricResistivity unit value.</returns>
-        public static ElectricResistivity From(double value, ElectricResistivityUnit fromUnit)
+        public static ElectricResistivity From(QuantityValue value, ElectricResistivityUnit fromUnit)
         {
             return new ElectricResistivity(value, fromUnit);
         }
@@ -504,7 +504,7 @@ namespace UnitsNet
         /// <param name="provider">Format to use when parsing number and unit. Defaults to <see cref="CultureInfo.CurrentCulture" /> if null.</param>
         public static ElectricResistivity Parse(string str, IFormatProvider? provider)
         {
-            return QuantityParser.Default.Parse<ElectricResistivity, ElectricResistivityUnit>(
+            return UnitsNetSetup.Default.QuantityParser.Parse<ElectricResistivity, ElectricResistivityUnit>(
                 str,
                 provider,
                 From);
@@ -535,7 +535,7 @@ namespace UnitsNet
         /// <param name="provider">Format to use when parsing number and unit. Defaults to <see cref="CultureInfo.CurrentCulture" /> if null.</param>
         public static bool TryParse(string? str, IFormatProvider? provider, out ElectricResistivity result)
         {
-            return QuantityParser.Default.TryParse<ElectricResistivity, ElectricResistivityUnit>(
+            return UnitsNetSetup.Default.QuantityParser.TryParse<ElectricResistivity, ElectricResistivityUnit>(
                 str,
                 provider,
                 From,
@@ -568,7 +568,7 @@ namespace UnitsNet
         /// <exception cref="UnitsNetException">Error parsing string.</exception>
         public static ElectricResistivityUnit ParseUnit(string str, IFormatProvider? provider)
         {
-            return UnitParser.Default.Parse<ElectricResistivityUnit>(str, provider);
+            return UnitsNetSetup.Default.UnitParser.Parse<ElectricResistivityUnit>(str, provider);
         }
 
         /// <inheritdoc cref="TryParseUnit(string,IFormatProvider,out UnitsNet.Units.ElectricResistivityUnit)"/>
@@ -589,7 +589,7 @@ namespace UnitsNet
         /// <param name="provider">Format to use when parsing number and unit. Defaults to <see cref="CultureInfo.CurrentCulture" /> if null.</param>
         public static bool TryParseUnit(string str, IFormatProvider? provider, out ElectricResistivityUnit unit)
         {
-            return UnitParser.Default.TryParse<ElectricResistivityUnit>(str, provider, out unit);
+            return UnitsNetSetup.Default.UnitParser.TryParse<ElectricResistivityUnit>(str, provider, out unit);
         }
 
         #endregion
@@ -615,25 +615,25 @@ namespace UnitsNet
         }
 
         /// <summary>Get <see cref="ElectricResistivity"/> from multiplying value and <see cref="ElectricResistivity"/>.</summary>
-        public static ElectricResistivity operator *(double left, ElectricResistivity right)
+        public static ElectricResistivity operator *(QuantityValue left, ElectricResistivity right)
         {
             return new ElectricResistivity(left * right.Value, right.Unit);
         }
 
         /// <summary>Get <see cref="ElectricResistivity"/> from multiplying value and <see cref="ElectricResistivity"/>.</summary>
-        public static ElectricResistivity operator *(ElectricResistivity left, double right)
+        public static ElectricResistivity operator *(ElectricResistivity left, QuantityValue right)
         {
             return new ElectricResistivity(left.Value * right, left.Unit);
         }
 
         /// <summary>Get <see cref="ElectricResistivity"/> from dividing <see cref="ElectricResistivity"/> by value.</summary>
-        public static ElectricResistivity operator /(ElectricResistivity left, double right)
+        public static ElectricResistivity operator /(ElectricResistivity left, QuantityValue right)
         {
             return new ElectricResistivity(left.Value / right, left.Unit);
         }
 
         /// <summary>Get ratio value from dividing <see cref="ElectricResistivity"/> by <see cref="ElectricResistivity"/>.</summary>
-        public static double operator /(ElectricResistivity left, ElectricResistivity right)
+        public static QuantityValue operator /(ElectricResistivity left, ElectricResistivity right)
         {
             return left.OhmMeters / right.OhmMeters;
         }
@@ -646,7 +646,7 @@ namespace UnitsNet
         /// <returns>The corresponding inverse quantity, <see cref="ElectricConductivity"/>.</returns>
         public ElectricConductivity Inverse()
         {
-            return OhmMeters == 0.0 ? ElectricConductivity.Zero : ElectricConductivity.FromSiemensPerMeter(1 / OhmMeters);
+            return ElectricConductivity.FromSiemensPerMeter(QuantityValue.Inverse(OhmMeters));
         }
 
         #endregion
@@ -677,27 +677,20 @@ namespace UnitsNet
             return left.Value > right.ToUnit(left.Unit).Value;
         }
 
-        // We use obsolete attribute to communicate the preferred equality members to use.
-        // CS0809: Obsolete member 'memberA' overrides non-obsolete member 'memberB'.
-        #pragma warning disable CS0809
-
-        /// <summary>Indicates strict equality of two <see cref="ElectricResistivity"/> quantities, where both <see cref="Value" /> and <see cref="Unit" /> are exactly equal.</summary>
-        [Obsolete("For null checks, use `x is null` syntax to not invoke overloads. For equality checks, use Equals(ElectricResistivity other, ElectricResistivity tolerance) instead, to check equality across units and to specify the max tolerance for rounding errors due to floating-point arithmetic when converting between units.")]
+        /// <summary>Indicates strict equality of two <see cref="ElectricResistivity"/> quantities.</summary>
         public static bool operator ==(ElectricResistivity left, ElectricResistivity right)
         {
             return left.Equals(right);
         }
 
-        /// <summary>Indicates strict inequality of two <see cref="ElectricResistivity"/> quantities, where both <see cref="Value" /> and <see cref="Unit" /> are exactly equal.</summary>
-        [Obsolete("For null checks, use `x is null` syntax to not invoke overloads. For equality checks, use Equals(ElectricResistivity other, ElectricResistivity tolerance) instead, to check equality across units and to specify the max tolerance for rounding errors due to floating-point arithmetic when converting between units.")]
+        /// <summary>Indicates strict inequality of two <see cref="ElectricResistivity"/> quantities.</summary>
         public static bool operator !=(ElectricResistivity left, ElectricResistivity right)
         {
             return !(left == right);
         }
 
         /// <inheritdoc />
-        /// <summary>Indicates strict equality of two <see cref="ElectricResistivity"/> quantities, where both <see cref="Value" /> and <see cref="Unit" /> are exactly equal.</summary>
-        [Obsolete("Use Equals(ElectricResistivity other, ElectricResistivity tolerance) instead, to check equality across units and to specify the max tolerance for rounding errors due to floating-point arithmetic when converting between units.")]
+        /// <summary>Indicates strict equality of two <see cref="ElectricResistivity"/> quantities.</summary>
         public override bool Equals(object? obj)
         {
             if (obj is null || !(obj is ElectricResistivity otherQuantity))
@@ -707,14 +700,11 @@ namespace UnitsNet
         }
 
         /// <inheritdoc />
-        /// <summary>Indicates strict equality of two <see cref="ElectricResistivity"/> quantities, where both <see cref="Value" /> and <see cref="Unit" /> are exactly equal.</summary>
-        [Obsolete("Use Equals(ElectricResistivity other, ElectricResistivity tolerance) instead, to check equality across units and to specify the max tolerance for rounding errors due to floating-point arithmetic when converting between units.")]
+        /// <summary>Indicates strict equality of two <see cref="ElectricResistivity"/> quantities.</summary>
         public bool Equals(ElectricResistivity other)
         {
-            return new { Value, Unit }.Equals(new { other.Value, other.Unit });
+            return _value.Equals(other.As(this.Unit));
         }
-
-        #pragma warning restore CS0809
 
         /// <summary>Compares the current <see cref="ElectricResistivity"/> with another object of the same type and returns an integer that indicates whether the current instance precedes, follows, or occurs in the same position in the sort order as the other when converted to the same unit.</summary>
         /// <param name="obj">An object to compare with this instance.</param>
@@ -752,59 +742,6 @@ namespace UnitsNet
             return _value.CompareTo(other.ToUnit(this.Unit).Value);
         }
 
-        /// <summary>
-        ///     <para>
-        ///     Compare equality to another ElectricResistivity within the given absolute or relative tolerance.
-        ///     </para>
-        ///     <para>
-        ///     Relative tolerance is defined as the maximum allowable absolute difference between this quantity's value and
-        ///     <paramref name="other"/> as a percentage of this quantity's value. <paramref name="other"/> will be converted into
-        ///     this quantity's unit for comparison. A relative tolerance of 0.01 means the absolute difference must be within +/- 1% of
-        ///     this quantity's value to be considered equal.
-        ///     <example>
-        ///     In this example, the two quantities will be equal if the value of b is within +/- 1% of a (0.02m or 2cm).
-        ///     <code>
-        ///     var a = Length.FromMeters(2.0);
-        ///     var b = Length.FromInches(50.0);
-        ///     a.Equals(b, 0.01, ComparisonType.Relative);
-        ///     </code>
-        ///     </example>
-        ///     </para>
-        ///     <para>
-        ///     Absolute tolerance is defined as the maximum allowable absolute difference between this quantity's value and
-        ///     <paramref name="other"/> as a fixed number in this quantity's unit. <paramref name="other"/> will be converted into
-        ///     this quantity's unit for comparison.
-        ///     <example>
-        ///     In this example, the two quantities will be equal if the value of b is within 0.01 of a (0.01m or 1cm).
-        ///     <code>
-        ///     var a = Length.FromMeters(2.0);
-        ///     var b = Length.FromInches(50.0);
-        ///     a.Equals(b, 0.01, ComparisonType.Absolute);
-        ///     </code>
-        ///     </example>
-        ///     </para>
-        ///     <para>
-        ///     Note that it is advised against specifying zero difference, due to the nature
-        ///     of floating-point operations and using double internally.
-        ///     </para>
-        /// </summary>
-        /// <param name="other">The other quantity to compare to.</param>
-        /// <param name="tolerance">The absolute or relative tolerance value. Must be greater than or equal to 0.</param>
-        /// <param name="comparisonType">The comparison type: either relative or absolute.</param>
-        /// <returns>True if the absolute difference between the two values is not greater than the specified relative or absolute tolerance.</returns>
-        [Obsolete("Use Equals(ElectricResistivity other, ElectricResistivity tolerance) instead, to check equality across units and to specify the max tolerance for rounding errors due to floating-point arithmetic when converting between units.")]
-        public bool Equals(ElectricResistivity other, double tolerance, ComparisonType comparisonType)
-        {
-            if (tolerance < 0)
-                throw new ArgumentOutOfRangeException(nameof(tolerance), "Tolerance must be greater than or equal to 0.");
-
-            return UnitsNet.Comparison.Equals(
-                referenceValue: this.Value,
-                otherValue: other.As(this.Unit),
-                tolerance: tolerance,
-                comparisonType: comparisonType);
-        }
-
         /// <inheritdoc />
         public bool Equals(IQuantity? other, IQuantity tolerance)
         {
@@ -818,11 +755,10 @@ namespace UnitsNet
         /// <inheritdoc />
         public bool Equals(ElectricResistivity other, ElectricResistivity tolerance)
         {
-            return UnitsNet.Comparison.Equals(
-                referenceValue: this.Value,
-                otherValue: other.As(this.Unit),
-                tolerance: tolerance.As(this.Unit),
-                comparisonType: ComparisonType.Absolute);
+            return UnitsNet.Comparison.EqualsAbsolute(
+                this.Value,
+                other.As(this.Unit),
+                tolerance: tolerance.As(this.Unit));
         }
 
         /// <summary>
@@ -831,7 +767,12 @@ namespace UnitsNet
         /// <returns>A hash code for the current ElectricResistivity.</returns>
         public override int GetHashCode()
         {
-            return new { Info.Name, Value, Unit }.GetHashCode();
+            var valueInBaseUnit = As(BaseUnit);
+            #if NET7_0_OR_GREATER
+            return HashCode.Combine(Info.Name, valueInBaseUnit);
+            #else
+            return new { Info.Name, valueInBaseUnit }.GetHashCode();
+            #endif
         }
 
         #endregion
@@ -842,7 +783,7 @@ namespace UnitsNet
         ///     Convert to the unit representation <paramref name="unit" />.
         /// </summary>
         /// <returns>Value converted to the specified unit.</returns>
-        public double As(ElectricResistivityUnit unit)
+        public QuantityValue As(ElectricResistivityUnit unit)
         {
             if (Unit == unit)
                 return Value;
@@ -851,7 +792,7 @@ namespace UnitsNet
         }
 
         /// <inheritdoc cref="IQuantity.As(UnitSystem)"/>
-        public double As(UnitSystem unitSystem)
+        public QuantityValue As(UnitSystem unitSystem)
         {
             if (unitSystem is null)
                 throw new ArgumentNullException(nameof(unitSystem));
@@ -866,7 +807,7 @@ namespace UnitsNet
         }
 
         /// <inheritdoc />
-        double IQuantity.As(Enum unit)
+        QuantityValue IQuantity.As(Enum unit)
         {
             if (!(unit is ElectricResistivityUnit typedUnit))
                 throw new ArgumentException($"The given unit is of type {unit.GetType()}. Only {typeof(ElectricResistivityUnit)} is supported.", nameof(unit));
@@ -932,34 +873,34 @@ namespace UnitsNet
             ElectricResistivity? convertedOrNull = (Unit, unit) switch
             {
                 // ElectricResistivityUnit -> BaseUnit
-                (ElectricResistivityUnit.KiloohmCentimeter, ElectricResistivityUnit.OhmMeter) => new ElectricResistivity((_value / 100) * 1e3d, ElectricResistivityUnit.OhmMeter),
-                (ElectricResistivityUnit.KiloohmMeter, ElectricResistivityUnit.OhmMeter) => new ElectricResistivity((_value) * 1e3d, ElectricResistivityUnit.OhmMeter),
-                (ElectricResistivityUnit.MegaohmCentimeter, ElectricResistivityUnit.OhmMeter) => new ElectricResistivity((_value / 100) * 1e6d, ElectricResistivityUnit.OhmMeter),
-                (ElectricResistivityUnit.MegaohmMeter, ElectricResistivityUnit.OhmMeter) => new ElectricResistivity((_value) * 1e6d, ElectricResistivityUnit.OhmMeter),
-                (ElectricResistivityUnit.MicroohmCentimeter, ElectricResistivityUnit.OhmMeter) => new ElectricResistivity((_value / 100) * 1e-6d, ElectricResistivityUnit.OhmMeter),
-                (ElectricResistivityUnit.MicroohmMeter, ElectricResistivityUnit.OhmMeter) => new ElectricResistivity((_value) * 1e-6d, ElectricResistivityUnit.OhmMeter),
-                (ElectricResistivityUnit.MilliohmCentimeter, ElectricResistivityUnit.OhmMeter) => new ElectricResistivity((_value / 100) * 1e-3d, ElectricResistivityUnit.OhmMeter),
-                (ElectricResistivityUnit.MilliohmMeter, ElectricResistivityUnit.OhmMeter) => new ElectricResistivity((_value) * 1e-3d, ElectricResistivityUnit.OhmMeter),
-                (ElectricResistivityUnit.NanoohmCentimeter, ElectricResistivityUnit.OhmMeter) => new ElectricResistivity((_value / 100) * 1e-9d, ElectricResistivityUnit.OhmMeter),
-                (ElectricResistivityUnit.NanoohmMeter, ElectricResistivityUnit.OhmMeter) => new ElectricResistivity((_value) * 1e-9d, ElectricResistivityUnit.OhmMeter),
+                (ElectricResistivityUnit.KiloohmCentimeter, ElectricResistivityUnit.OhmMeter) => new ElectricResistivity(_value * 10, ElectricResistivityUnit.OhmMeter),
+                (ElectricResistivityUnit.KiloohmMeter, ElectricResistivityUnit.OhmMeter) => new ElectricResistivity(_value * 1000, ElectricResistivityUnit.OhmMeter),
+                (ElectricResistivityUnit.MegaohmCentimeter, ElectricResistivityUnit.OhmMeter) => new ElectricResistivity(_value * 10000, ElectricResistivityUnit.OhmMeter),
+                (ElectricResistivityUnit.MegaohmMeter, ElectricResistivityUnit.OhmMeter) => new ElectricResistivity(_value * 1000000, ElectricResistivityUnit.OhmMeter),
+                (ElectricResistivityUnit.MicroohmCentimeter, ElectricResistivityUnit.OhmMeter) => new ElectricResistivity(_value / 100000000, ElectricResistivityUnit.OhmMeter),
+                (ElectricResistivityUnit.MicroohmMeter, ElectricResistivityUnit.OhmMeter) => new ElectricResistivity(_value / 1000000, ElectricResistivityUnit.OhmMeter),
+                (ElectricResistivityUnit.MilliohmCentimeter, ElectricResistivityUnit.OhmMeter) => new ElectricResistivity(_value / 100000, ElectricResistivityUnit.OhmMeter),
+                (ElectricResistivityUnit.MilliohmMeter, ElectricResistivityUnit.OhmMeter) => new ElectricResistivity(_value / 1000, ElectricResistivityUnit.OhmMeter),
+                (ElectricResistivityUnit.NanoohmCentimeter, ElectricResistivityUnit.OhmMeter) => new ElectricResistivity(_value / 100000000000, ElectricResistivityUnit.OhmMeter),
+                (ElectricResistivityUnit.NanoohmMeter, ElectricResistivityUnit.OhmMeter) => new ElectricResistivity(_value / 1000000000, ElectricResistivityUnit.OhmMeter),
                 (ElectricResistivityUnit.OhmCentimeter, ElectricResistivityUnit.OhmMeter) => new ElectricResistivity(_value / 100, ElectricResistivityUnit.OhmMeter),
-                (ElectricResistivityUnit.PicoohmCentimeter, ElectricResistivityUnit.OhmMeter) => new ElectricResistivity((_value / 100) * 1e-12d, ElectricResistivityUnit.OhmMeter),
-                (ElectricResistivityUnit.PicoohmMeter, ElectricResistivityUnit.OhmMeter) => new ElectricResistivity((_value) * 1e-12d, ElectricResistivityUnit.OhmMeter),
+                (ElectricResistivityUnit.PicoohmCentimeter, ElectricResistivityUnit.OhmMeter) => new ElectricResistivity(_value / 100000000000000, ElectricResistivityUnit.OhmMeter),
+                (ElectricResistivityUnit.PicoohmMeter, ElectricResistivityUnit.OhmMeter) => new ElectricResistivity(_value / 1000000000000, ElectricResistivityUnit.OhmMeter),
 
                 // BaseUnit -> ElectricResistivityUnit
-                (ElectricResistivityUnit.OhmMeter, ElectricResistivityUnit.KiloohmCentimeter) => new ElectricResistivity((_value * 100) / 1e3d, ElectricResistivityUnit.KiloohmCentimeter),
-                (ElectricResistivityUnit.OhmMeter, ElectricResistivityUnit.KiloohmMeter) => new ElectricResistivity((_value) / 1e3d, ElectricResistivityUnit.KiloohmMeter),
-                (ElectricResistivityUnit.OhmMeter, ElectricResistivityUnit.MegaohmCentimeter) => new ElectricResistivity((_value * 100) / 1e6d, ElectricResistivityUnit.MegaohmCentimeter),
-                (ElectricResistivityUnit.OhmMeter, ElectricResistivityUnit.MegaohmMeter) => new ElectricResistivity((_value) / 1e6d, ElectricResistivityUnit.MegaohmMeter),
-                (ElectricResistivityUnit.OhmMeter, ElectricResistivityUnit.MicroohmCentimeter) => new ElectricResistivity((_value * 100) / 1e-6d, ElectricResistivityUnit.MicroohmCentimeter),
-                (ElectricResistivityUnit.OhmMeter, ElectricResistivityUnit.MicroohmMeter) => new ElectricResistivity((_value) / 1e-6d, ElectricResistivityUnit.MicroohmMeter),
-                (ElectricResistivityUnit.OhmMeter, ElectricResistivityUnit.MilliohmCentimeter) => new ElectricResistivity((_value * 100) / 1e-3d, ElectricResistivityUnit.MilliohmCentimeter),
-                (ElectricResistivityUnit.OhmMeter, ElectricResistivityUnit.MilliohmMeter) => new ElectricResistivity((_value) / 1e-3d, ElectricResistivityUnit.MilliohmMeter),
-                (ElectricResistivityUnit.OhmMeter, ElectricResistivityUnit.NanoohmCentimeter) => new ElectricResistivity((_value * 100) / 1e-9d, ElectricResistivityUnit.NanoohmCentimeter),
-                (ElectricResistivityUnit.OhmMeter, ElectricResistivityUnit.NanoohmMeter) => new ElectricResistivity((_value) / 1e-9d, ElectricResistivityUnit.NanoohmMeter),
+                (ElectricResistivityUnit.OhmMeter, ElectricResistivityUnit.KiloohmCentimeter) => new ElectricResistivity(_value / 10, ElectricResistivityUnit.KiloohmCentimeter),
+                (ElectricResistivityUnit.OhmMeter, ElectricResistivityUnit.KiloohmMeter) => new ElectricResistivity(_value / 1000, ElectricResistivityUnit.KiloohmMeter),
+                (ElectricResistivityUnit.OhmMeter, ElectricResistivityUnit.MegaohmCentimeter) => new ElectricResistivity(_value / 10000, ElectricResistivityUnit.MegaohmCentimeter),
+                (ElectricResistivityUnit.OhmMeter, ElectricResistivityUnit.MegaohmMeter) => new ElectricResistivity(_value / 1000000, ElectricResistivityUnit.MegaohmMeter),
+                (ElectricResistivityUnit.OhmMeter, ElectricResistivityUnit.MicroohmCentimeter) => new ElectricResistivity(_value * 100000000, ElectricResistivityUnit.MicroohmCentimeter),
+                (ElectricResistivityUnit.OhmMeter, ElectricResistivityUnit.MicroohmMeter) => new ElectricResistivity(_value * 1000000, ElectricResistivityUnit.MicroohmMeter),
+                (ElectricResistivityUnit.OhmMeter, ElectricResistivityUnit.MilliohmCentimeter) => new ElectricResistivity(_value * 100000, ElectricResistivityUnit.MilliohmCentimeter),
+                (ElectricResistivityUnit.OhmMeter, ElectricResistivityUnit.MilliohmMeter) => new ElectricResistivity(_value * 1000, ElectricResistivityUnit.MilliohmMeter),
+                (ElectricResistivityUnit.OhmMeter, ElectricResistivityUnit.NanoohmCentimeter) => new ElectricResistivity(_value * 100000000000, ElectricResistivityUnit.NanoohmCentimeter),
+                (ElectricResistivityUnit.OhmMeter, ElectricResistivityUnit.NanoohmMeter) => new ElectricResistivity(_value * 1000000000, ElectricResistivityUnit.NanoohmMeter),
                 (ElectricResistivityUnit.OhmMeter, ElectricResistivityUnit.OhmCentimeter) => new ElectricResistivity(_value * 100, ElectricResistivityUnit.OhmCentimeter),
-                (ElectricResistivityUnit.OhmMeter, ElectricResistivityUnit.PicoohmCentimeter) => new ElectricResistivity((_value * 100) / 1e-12d, ElectricResistivityUnit.PicoohmCentimeter),
-                (ElectricResistivityUnit.OhmMeter, ElectricResistivityUnit.PicoohmMeter) => new ElectricResistivity((_value) / 1e-12d, ElectricResistivityUnit.PicoohmMeter),
+                (ElectricResistivityUnit.OhmMeter, ElectricResistivityUnit.PicoohmCentimeter) => new ElectricResistivity(_value * 100000000000000, ElectricResistivityUnit.PicoohmCentimeter),
+                (ElectricResistivityUnit.OhmMeter, ElectricResistivityUnit.PicoohmMeter) => new ElectricResistivity(_value * 1000000000000, ElectricResistivityUnit.PicoohmMeter),
 
                 _ => null
             };

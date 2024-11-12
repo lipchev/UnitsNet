@@ -26,16 +26,9 @@ namespace UnitsNet.Tests.CustomCode
     public class FuelEfficiencyTests : FuelEfficiencyTestsBase
     {
         protected override bool SupportsSIUnitSystem => false;
-        protected override double KilometersPerLiterInOneLiterPer100Kilometers => 100;
-        protected override double LitersPer100KilometersInOneLiterPer100Kilometers => 1;
-        protected override double MilesPerUkGallonInOneLiterPer100Kilometers => 282.4809363;
-        protected override double MilesPerUsGallonInOneLiterPer100Kilometers => 235.2145833;
-        
-        [Theory(Skip = "Conversion from 0 km/L results in infinity")]
-        [MemberData(nameof(UnitTypes))]
-        public override void ToUnit_FromDefaultQuantity_ReturnsQuantityWithGivenUnit(FuelEfficiencyUnit unit)
-        {
-            base.ToUnit_FromDefaultQuantity_ReturnsQuantityWithGivenUnit(unit);
-        }
+        protected override double KilometersPerLiterInOneKilometerPerLiter => 1;
+        protected override double LitersPer100KilometersInOneKilometerPerLiter => 100;
+        protected override double MilesPerUkGallonInOneKilometerPerLiter => 2.824809363318222;
+        protected override double MilesPerUsGallonInOneKilometerPerLiter => 2.352145833333333;
     }
 }

@@ -93,15 +93,14 @@ namespace UnitsNet.Tests
         [Fact]
         public void Ctor_SIUnitSystem_ThrowsArgumentExceptionIfNotSupported()
         {
-            Func<object> TestCode = () => new LuminousIntensity(value: 1, unitSystem: UnitSystem.SI);
             if (SupportsSIUnitSystem)
             {
-                var quantity = (LuminousIntensity) TestCode();
+                var quantity = new LuminousIntensity(value: 1, unitSystem: UnitSystem.SI);
                 Assert.Equal(1, quantity.Value);
             }
             else
             {
-                Assert.Throws<ArgumentException>(TestCode);
+                Assert.Throws<ArgumentException>(() => new LuminousIntensity(value: 1, unitSystem: UnitSystem.SI));
             }
         }
 
@@ -130,7 +129,7 @@ namespace UnitsNet.Tests
         public void From_ValueAndUnit_ReturnsQuantityWithSameValueAndUnit()
         {
             var quantity00 = LuminousIntensity.From(1, LuminousIntensityUnit.Candela);
-            AssertEx.EqualTolerance(1, quantity00.Candela, CandelaTolerance);
+            Assert.Equal(1, quantity00.Candela);
             Assert.Equal(LuminousIntensityUnit.Candela, quantity00.Unit);
 
         }
@@ -164,16 +163,13 @@ namespace UnitsNet.Tests
         public void As_SIUnitSystem_ThrowsArgumentExceptionIfNotSupported()
         {
             var quantity = new LuminousIntensity(value: 1, unit: LuminousIntensity.BaseUnit);
-            Func<object> AsWithSIUnitSystem = () => quantity.As(UnitSystem.SI);
-
             if (SupportsSIUnitSystem)
             {
-                var value = Convert.ToDouble(AsWithSIUnitSystem());
-                Assert.Equal(1, value);
+                Assert.Equal(1, quantity.As(UnitSystem.SI));
             }
             else
             {
-                Assert.Throws<ArgumentException>(AsWithSIUnitSystem);
+                Assert.Throws<ArgumentException>(() => quantity.As(UnitSystem.SI));
             }
         }
 
@@ -183,7 +179,7 @@ namespace UnitsNet.Tests
             try
             {
                 var parsed = LuminousIntensity.Parse("1 cd", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.Candela, CandelaTolerance);
+                Assert.Equal(1, parsed.Candela);
                 Assert.Equal(LuminousIntensityUnit.Candela, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
@@ -194,7 +190,7 @@ namespace UnitsNet.Tests
         {
             {
                 Assert.True(LuminousIntensity.TryParse("1 cd", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.Candela, CandelaTolerance);
+                Assert.Equal(1, parsed.Candela);
                 Assert.Equal(LuminousIntensityUnit.Candela, parsed.Unit);
             }
 
@@ -267,20 +263,20 @@ namespace UnitsNet.Tests
         public void ConversionRoundTrip()
         {
             LuminousIntensity candela = LuminousIntensity.FromCandela(1);
-            AssertEx.EqualTolerance(1, LuminousIntensity.FromCandela(candela.Candela).Candela, CandelaTolerance);
+            Assert.Equal(1, LuminousIntensity.FromCandela(candela.Candela).Candela);
         }
 
         [Fact]
         public void ArithmeticOperators()
         {
             LuminousIntensity v = LuminousIntensity.FromCandela(1);
-            AssertEx.EqualTolerance(-1, -v.Candela, CandelaTolerance);
-            AssertEx.EqualTolerance(2, (LuminousIntensity.FromCandela(3)-v).Candela, CandelaTolerance);
-            AssertEx.EqualTolerance(2, (v + v).Candela, CandelaTolerance);
-            AssertEx.EqualTolerance(10, (v*10).Candela, CandelaTolerance);
-            AssertEx.EqualTolerance(10, (10*v).Candela, CandelaTolerance);
-            AssertEx.EqualTolerance(2, (LuminousIntensity.FromCandela(10)/5).Candela, CandelaTolerance);
-            AssertEx.EqualTolerance(2, LuminousIntensity.FromCandela(10)/LuminousIntensity.FromCandela(5), CandelaTolerance);
+            Assert.Equal(-1, -v.Candela);
+            Assert.Equal(2, (LuminousIntensity.FromCandela(3) - v).Candela);
+            Assert.Equal(2, (v + v).Candela);
+            Assert.Equal(10, (v * 10).Candela);
+            Assert.Equal(10, (10 * v).Candela);
+            Assert.Equal(2, (LuminousIntensity.FromCandela(10) / 5).Candela);
+            Assert.Equal(2, LuminousIntensity.FromCandela(10) / LuminousIntensity.FromCandela(5));
         }
 
         [Fact]
@@ -326,7 +322,6 @@ namespace UnitsNet.Tests
         [Theory]
         [InlineData(1, LuminousIntensityUnit.Candela, 1, LuminousIntensityUnit.Candela, true)]  // Same value and unit.
         [InlineData(1, LuminousIntensityUnit.Candela, 2, LuminousIntensityUnit.Candela, false)] // Different value.
-        [InlineData(2, LuminousIntensityUnit.Candela, 1, LuminousIntensityUnit.Candela, false)] // Different value and unit.
         public void Equals_ReturnsTrue_IfValueAndUnitAreEqual(double valueA, LuminousIntensityUnit unitA, double valueB, LuminousIntensityUnit unitB, bool expectEqual)
         {
             var a = new LuminousIntensity(valueA, unitA);
@@ -364,20 +359,22 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
-        public void Equals_RelativeTolerance_IsImplemented()
+        public void Equals_WithTolerance_IsImplemented()
         {
             var v = LuminousIntensity.FromCandela(1);
-            Assert.True(v.Equals(LuminousIntensity.FromCandela(1), CandelaTolerance, ComparisonType.Relative));
-            Assert.False(v.Equals(LuminousIntensity.Zero, CandelaTolerance, ComparisonType.Relative));
-            Assert.True(LuminousIntensity.FromCandela(100).Equals(LuminousIntensity.FromCandela(120), 0.3, ComparisonType.Relative));
-            Assert.False(LuminousIntensity.FromCandela(100).Equals(LuminousIntensity.FromCandela(120), 0.1, ComparisonType.Relative));
+            Assert.True(v.Equals(LuminousIntensity.FromCandela(1), LuminousIntensity.FromCandela(0)));
+            Assert.True(v.Equals(LuminousIntensity.FromCandela(1), LuminousIntensity.FromCandela(0.001m)));
+            Assert.True(v.Equals(LuminousIntensity.FromCandela(0.9999), LuminousIntensity.FromCandela(0.001m)));
+            Assert.False(v.Equals(LuminousIntensity.FromCandela(0.99), LuminousIntensity.FromCandela(0.001m)));
+            Assert.False(v.Equals(LuminousIntensity.Zero, LuminousIntensity.FromCandela(0.001m)));
         }
 
         [Fact]
-        public void Equals_NegativeRelativeTolerance_ThrowsArgumentOutOfRangeException()
+        public void Equals_WithNegativeTolerance_ThrowsArgumentOutOfRangeException()
         {
             var v = LuminousIntensity.FromCandela(1);
-            Assert.Throws<ArgumentOutOfRangeException>(() => v.Equals(LuminousIntensity.FromCandela(1), -1, ComparisonType.Relative));
+            var negativeTolerance = LuminousIntensity.FromCandela(-1);
+            Assert.Throws<ArgumentOutOfRangeException>(() => v.Equals(LuminousIntensity.FromCandela(1), negativeTolerance));
         }
 
         [Fact]
@@ -400,7 +397,7 @@ namespace UnitsNet.Tests
             var units = Enum.GetValues(typeof(LuminousIntensityUnit)).Cast<LuminousIntensityUnit>();
             foreach (var unit in units)
             {
-                var defaultAbbreviation = UnitAbbreviationsCache.Default.GetDefaultAbbreviation(unit);
+                var defaultAbbreviation = UnitsNetSetup.Default.UnitAbbreviations.GetDefaultAbbreviation(unit);
             }
         }
 
@@ -627,7 +624,12 @@ namespace UnitsNet.Tests
         public void GetHashCode_Equals()
         {
             var quantity = LuminousIntensity.FromCandela(1.0);
-            Assert.Equal(new {LuminousIntensity.Info.Name, quantity.Value, quantity.Unit}.GetHashCode(), quantity.GetHashCode());
+            #if NET7_0_OR_GREATER
+            var expected = HashCode.Combine(LuminousIntensity.Info.Name, quantity.Candela);
+            #else
+            var expected = new {LuminousIntensity.Info.Name, valueInBaseUnit = quantity.Candela}.GetHashCode();
+            #endif
+            Assert.Equal(expected, quantity.GetHashCode());
         }
 
         [Theory]

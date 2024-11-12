@@ -93,15 +93,14 @@ namespace UnitsNet.Tests
         [Fact]
         public void Ctor_SIUnitSystem_ThrowsArgumentExceptionIfNotSupported()
         {
-            Func<object> TestCode = () => new Permeability(value: 1, unitSystem: UnitSystem.SI);
             if (SupportsSIUnitSystem)
             {
-                var quantity = (Permeability) TestCode();
+                var quantity = new Permeability(value: 1, unitSystem: UnitSystem.SI);
                 Assert.Equal(1, quantity.Value);
             }
             else
             {
-                Assert.Throws<ArgumentException>(TestCode);
+                Assert.Throws<ArgumentException>(() => new Permeability(value: 1, unitSystem: UnitSystem.SI));
             }
         }
 
@@ -130,7 +129,7 @@ namespace UnitsNet.Tests
         public void From_ValueAndUnit_ReturnsQuantityWithSameValueAndUnit()
         {
             var quantity00 = Permeability.From(1, PermeabilityUnit.HenryPerMeter);
-            AssertEx.EqualTolerance(1, quantity00.HenriesPerMeter, HenriesPerMeterTolerance);
+            Assert.Equal(1, quantity00.HenriesPerMeter);
             Assert.Equal(PermeabilityUnit.HenryPerMeter, quantity00.Unit);
 
         }
@@ -164,16 +163,13 @@ namespace UnitsNet.Tests
         public void As_SIUnitSystem_ThrowsArgumentExceptionIfNotSupported()
         {
             var quantity = new Permeability(value: 1, unit: Permeability.BaseUnit);
-            Func<object> AsWithSIUnitSystem = () => quantity.As(UnitSystem.SI);
-
             if (SupportsSIUnitSystem)
             {
-                var value = Convert.ToDouble(AsWithSIUnitSystem());
-                Assert.Equal(1, value);
+                Assert.Equal(1, quantity.As(UnitSystem.SI));
             }
             else
             {
-                Assert.Throws<ArgumentException>(AsWithSIUnitSystem);
+                Assert.Throws<ArgumentException>(() => quantity.As(UnitSystem.SI));
             }
         }
 
@@ -183,7 +179,7 @@ namespace UnitsNet.Tests
             try
             {
                 var parsed = Permeability.Parse("1 H/m", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.HenriesPerMeter, HenriesPerMeterTolerance);
+                Assert.Equal(1, parsed.HenriesPerMeter);
                 Assert.Equal(PermeabilityUnit.HenryPerMeter, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
@@ -194,7 +190,7 @@ namespace UnitsNet.Tests
         {
             {
                 Assert.True(Permeability.TryParse("1 H/m", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.HenriesPerMeter, HenriesPerMeterTolerance);
+                Assert.Equal(1, parsed.HenriesPerMeter);
                 Assert.Equal(PermeabilityUnit.HenryPerMeter, parsed.Unit);
             }
 
@@ -267,20 +263,20 @@ namespace UnitsNet.Tests
         public void ConversionRoundTrip()
         {
             Permeability henrypermeter = Permeability.FromHenriesPerMeter(1);
-            AssertEx.EqualTolerance(1, Permeability.FromHenriesPerMeter(henrypermeter.HenriesPerMeter).HenriesPerMeter, HenriesPerMeterTolerance);
+            Assert.Equal(1, Permeability.FromHenriesPerMeter(henrypermeter.HenriesPerMeter).HenriesPerMeter);
         }
 
         [Fact]
         public void ArithmeticOperators()
         {
             Permeability v = Permeability.FromHenriesPerMeter(1);
-            AssertEx.EqualTolerance(-1, -v.HenriesPerMeter, HenriesPerMeterTolerance);
-            AssertEx.EqualTolerance(2, (Permeability.FromHenriesPerMeter(3)-v).HenriesPerMeter, HenriesPerMeterTolerance);
-            AssertEx.EqualTolerance(2, (v + v).HenriesPerMeter, HenriesPerMeterTolerance);
-            AssertEx.EqualTolerance(10, (v*10).HenriesPerMeter, HenriesPerMeterTolerance);
-            AssertEx.EqualTolerance(10, (10*v).HenriesPerMeter, HenriesPerMeterTolerance);
-            AssertEx.EqualTolerance(2, (Permeability.FromHenriesPerMeter(10)/5).HenriesPerMeter, HenriesPerMeterTolerance);
-            AssertEx.EqualTolerance(2, Permeability.FromHenriesPerMeter(10)/Permeability.FromHenriesPerMeter(5), HenriesPerMeterTolerance);
+            Assert.Equal(-1, -v.HenriesPerMeter);
+            Assert.Equal(2, (Permeability.FromHenriesPerMeter(3) - v).HenriesPerMeter);
+            Assert.Equal(2, (v + v).HenriesPerMeter);
+            Assert.Equal(10, (v * 10).HenriesPerMeter);
+            Assert.Equal(10, (10 * v).HenriesPerMeter);
+            Assert.Equal(2, (Permeability.FromHenriesPerMeter(10) / 5).HenriesPerMeter);
+            Assert.Equal(2, Permeability.FromHenriesPerMeter(10) / Permeability.FromHenriesPerMeter(5));
         }
 
         [Fact]
@@ -326,7 +322,6 @@ namespace UnitsNet.Tests
         [Theory]
         [InlineData(1, PermeabilityUnit.HenryPerMeter, 1, PermeabilityUnit.HenryPerMeter, true)]  // Same value and unit.
         [InlineData(1, PermeabilityUnit.HenryPerMeter, 2, PermeabilityUnit.HenryPerMeter, false)] // Different value.
-        [InlineData(2, PermeabilityUnit.HenryPerMeter, 1, PermeabilityUnit.HenryPerMeter, false)] // Different value and unit.
         public void Equals_ReturnsTrue_IfValueAndUnitAreEqual(double valueA, PermeabilityUnit unitA, double valueB, PermeabilityUnit unitB, bool expectEqual)
         {
             var a = new Permeability(valueA, unitA);
@@ -364,20 +359,22 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
-        public void Equals_RelativeTolerance_IsImplemented()
+        public void Equals_WithTolerance_IsImplemented()
         {
             var v = Permeability.FromHenriesPerMeter(1);
-            Assert.True(v.Equals(Permeability.FromHenriesPerMeter(1), HenriesPerMeterTolerance, ComparisonType.Relative));
-            Assert.False(v.Equals(Permeability.Zero, HenriesPerMeterTolerance, ComparisonType.Relative));
-            Assert.True(Permeability.FromHenriesPerMeter(100).Equals(Permeability.FromHenriesPerMeter(120), 0.3, ComparisonType.Relative));
-            Assert.False(Permeability.FromHenriesPerMeter(100).Equals(Permeability.FromHenriesPerMeter(120), 0.1, ComparisonType.Relative));
+            Assert.True(v.Equals(Permeability.FromHenriesPerMeter(1), Permeability.FromHenriesPerMeter(0)));
+            Assert.True(v.Equals(Permeability.FromHenriesPerMeter(1), Permeability.FromHenriesPerMeter(0.001m)));
+            Assert.True(v.Equals(Permeability.FromHenriesPerMeter(0.9999), Permeability.FromHenriesPerMeter(0.001m)));
+            Assert.False(v.Equals(Permeability.FromHenriesPerMeter(0.99), Permeability.FromHenriesPerMeter(0.001m)));
+            Assert.False(v.Equals(Permeability.Zero, Permeability.FromHenriesPerMeter(0.001m)));
         }
 
         [Fact]
-        public void Equals_NegativeRelativeTolerance_ThrowsArgumentOutOfRangeException()
+        public void Equals_WithNegativeTolerance_ThrowsArgumentOutOfRangeException()
         {
             var v = Permeability.FromHenriesPerMeter(1);
-            Assert.Throws<ArgumentOutOfRangeException>(() => v.Equals(Permeability.FromHenriesPerMeter(1), -1, ComparisonType.Relative));
+            var negativeTolerance = Permeability.FromHenriesPerMeter(-1);
+            Assert.Throws<ArgumentOutOfRangeException>(() => v.Equals(Permeability.FromHenriesPerMeter(1), negativeTolerance));
         }
 
         [Fact]
@@ -400,7 +397,7 @@ namespace UnitsNet.Tests
             var units = Enum.GetValues(typeof(PermeabilityUnit)).Cast<PermeabilityUnit>();
             foreach (var unit in units)
             {
-                var defaultAbbreviation = UnitAbbreviationsCache.Default.GetDefaultAbbreviation(unit);
+                var defaultAbbreviation = UnitsNetSetup.Default.UnitAbbreviations.GetDefaultAbbreviation(unit);
             }
         }
 
@@ -627,7 +624,12 @@ namespace UnitsNet.Tests
         public void GetHashCode_Equals()
         {
             var quantity = Permeability.FromHenriesPerMeter(1.0);
-            Assert.Equal(new {Permeability.Info.Name, quantity.Value, quantity.Unit}.GetHashCode(), quantity.GetHashCode());
+            #if NET7_0_OR_GREATER
+            var expected = HashCode.Combine(Permeability.Info.Name, quantity.HenriesPerMeter);
+            #else
+            var expected = new {Permeability.Info.Name, valueInBaseUnit = quantity.HenriesPerMeter}.GetHashCode();
+            #endif
+            Assert.Equal(expected, quantity.GetHashCode());
         }
 
         [Theory]

@@ -117,15 +117,14 @@ namespace UnitsNet.Tests
         [Fact]
         public void Ctor_SIUnitSystem_ThrowsArgumentExceptionIfNotSupported()
         {
-            Func<object> TestCode = () => new Capacitance(value: 1, unitSystem: UnitSystem.SI);
             if (SupportsSIUnitSystem)
             {
-                var quantity = (Capacitance) TestCode();
+                var quantity = new Capacitance(value: 1, unitSystem: UnitSystem.SI);
                 Assert.Equal(1, quantity.Value);
             }
             else
             {
-                Assert.Throws<ArgumentException>(TestCode);
+                Assert.Throws<ArgumentException>(() => new Capacitance(value: 1, unitSystem: UnitSystem.SI));
             }
         }
 
@@ -160,31 +159,31 @@ namespace UnitsNet.Tests
         public void From_ValueAndUnit_ReturnsQuantityWithSameValueAndUnit()
         {
             var quantity00 = Capacitance.From(1, CapacitanceUnit.Farad);
-            AssertEx.EqualTolerance(1, quantity00.Farads, FaradsTolerance);
+            Assert.Equal(1, quantity00.Farads);
             Assert.Equal(CapacitanceUnit.Farad, quantity00.Unit);
 
             var quantity01 = Capacitance.From(1, CapacitanceUnit.Kilofarad);
-            AssertEx.EqualTolerance(1, quantity01.Kilofarads, KilofaradsTolerance);
+            Assert.Equal(1, quantity01.Kilofarads);
             Assert.Equal(CapacitanceUnit.Kilofarad, quantity01.Unit);
 
             var quantity02 = Capacitance.From(1, CapacitanceUnit.Megafarad);
-            AssertEx.EqualTolerance(1, quantity02.Megafarads, MegafaradsTolerance);
+            Assert.Equal(1, quantity02.Megafarads);
             Assert.Equal(CapacitanceUnit.Megafarad, quantity02.Unit);
 
             var quantity03 = Capacitance.From(1, CapacitanceUnit.Microfarad);
-            AssertEx.EqualTolerance(1, quantity03.Microfarads, MicrofaradsTolerance);
+            Assert.Equal(1, quantity03.Microfarads);
             Assert.Equal(CapacitanceUnit.Microfarad, quantity03.Unit);
 
             var quantity04 = Capacitance.From(1, CapacitanceUnit.Millifarad);
-            AssertEx.EqualTolerance(1, quantity04.Millifarads, MillifaradsTolerance);
+            Assert.Equal(1, quantity04.Millifarads);
             Assert.Equal(CapacitanceUnit.Millifarad, quantity04.Unit);
 
             var quantity05 = Capacitance.From(1, CapacitanceUnit.Nanofarad);
-            AssertEx.EqualTolerance(1, quantity05.Nanofarads, NanofaradsTolerance);
+            Assert.Equal(1, quantity05.Nanofarads);
             Assert.Equal(CapacitanceUnit.Nanofarad, quantity05.Unit);
 
             var quantity06 = Capacitance.From(1, CapacitanceUnit.Picofarad);
-            AssertEx.EqualTolerance(1, quantity06.Picofarads, PicofaradsTolerance);
+            Assert.Equal(1, quantity06.Picofarads);
             Assert.Equal(CapacitanceUnit.Picofarad, quantity06.Unit);
 
         }
@@ -224,16 +223,13 @@ namespace UnitsNet.Tests
         public void As_SIUnitSystem_ThrowsArgumentExceptionIfNotSupported()
         {
             var quantity = new Capacitance(value: 1, unit: Capacitance.BaseUnit);
-            Func<object> AsWithSIUnitSystem = () => quantity.As(UnitSystem.SI);
-
             if (SupportsSIUnitSystem)
             {
-                var value = Convert.ToDouble(AsWithSIUnitSystem());
-                Assert.Equal(1, value);
+                Assert.Equal(1, quantity.As(UnitSystem.SI));
             }
             else
             {
-                Assert.Throws<ArgumentException>(AsWithSIUnitSystem);
+                Assert.Throws<ArgumentException>(() => quantity.As(UnitSystem.SI));
             }
         }
 
@@ -243,49 +239,49 @@ namespace UnitsNet.Tests
             try
             {
                 var parsed = Capacitance.Parse("1 F", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.Farads, FaradsTolerance);
+                Assert.Equal(1, parsed.Farads);
                 Assert.Equal(CapacitanceUnit.Farad, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = Capacitance.Parse("1 kF", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.Kilofarads, KilofaradsTolerance);
+                Assert.Equal(1, parsed.Kilofarads);
                 Assert.Equal(CapacitanceUnit.Kilofarad, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = Capacitance.Parse("1 MF", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.Megafarads, MegafaradsTolerance);
+                Assert.Equal(1, parsed.Megafarads);
                 Assert.Equal(CapacitanceUnit.Megafarad, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = Capacitance.Parse("1 µF", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.Microfarads, MicrofaradsTolerance);
+                Assert.Equal(1, parsed.Microfarads);
                 Assert.Equal(CapacitanceUnit.Microfarad, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = Capacitance.Parse("1 mF", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.Millifarads, MillifaradsTolerance);
+                Assert.Equal(1, parsed.Millifarads);
                 Assert.Equal(CapacitanceUnit.Millifarad, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = Capacitance.Parse("1 nF", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.Nanofarads, NanofaradsTolerance);
+                Assert.Equal(1, parsed.Nanofarads);
                 Assert.Equal(CapacitanceUnit.Nanofarad, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = Capacitance.Parse("1 pF", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.Picofarads, PicofaradsTolerance);
+                Assert.Equal(1, parsed.Picofarads);
                 Assert.Equal(CapacitanceUnit.Picofarad, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
@@ -296,31 +292,31 @@ namespace UnitsNet.Tests
         {
             {
                 Assert.True(Capacitance.TryParse("1 F", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.Farads, FaradsTolerance);
+                Assert.Equal(1, parsed.Farads);
                 Assert.Equal(CapacitanceUnit.Farad, parsed.Unit);
             }
 
             {
                 Assert.True(Capacitance.TryParse("1 kF", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.Kilofarads, KilofaradsTolerance);
+                Assert.Equal(1, parsed.Kilofarads);
                 Assert.Equal(CapacitanceUnit.Kilofarad, parsed.Unit);
             }
 
             {
                 Assert.True(Capacitance.TryParse("1 µF", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.Microfarads, MicrofaradsTolerance);
+                Assert.Equal(1, parsed.Microfarads);
                 Assert.Equal(CapacitanceUnit.Microfarad, parsed.Unit);
             }
 
             {
                 Assert.True(Capacitance.TryParse("1 nF", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.Nanofarads, NanofaradsTolerance);
+                Assert.Equal(1, parsed.Nanofarads);
                 Assert.Equal(CapacitanceUnit.Nanofarad, parsed.Unit);
             }
 
             {
                 Assert.True(Capacitance.TryParse("1 pF", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.Picofarads, PicofaradsTolerance);
+                Assert.Equal(1, parsed.Picofarads);
                 Assert.Equal(CapacitanceUnit.Picofarad, parsed.Unit);
             }
 
@@ -449,26 +445,26 @@ namespace UnitsNet.Tests
         public void ConversionRoundTrip()
         {
             Capacitance farad = Capacitance.FromFarads(1);
-            AssertEx.EqualTolerance(1, Capacitance.FromFarads(farad.Farads).Farads, FaradsTolerance);
-            AssertEx.EqualTolerance(1, Capacitance.FromKilofarads(farad.Kilofarads).Farads, KilofaradsTolerance);
-            AssertEx.EqualTolerance(1, Capacitance.FromMegafarads(farad.Megafarads).Farads, MegafaradsTolerance);
-            AssertEx.EqualTolerance(1, Capacitance.FromMicrofarads(farad.Microfarads).Farads, MicrofaradsTolerance);
-            AssertEx.EqualTolerance(1, Capacitance.FromMillifarads(farad.Millifarads).Farads, MillifaradsTolerance);
-            AssertEx.EqualTolerance(1, Capacitance.FromNanofarads(farad.Nanofarads).Farads, NanofaradsTolerance);
-            AssertEx.EqualTolerance(1, Capacitance.FromPicofarads(farad.Picofarads).Farads, PicofaradsTolerance);
+            Assert.Equal(1, Capacitance.FromFarads(farad.Farads).Farads);
+            Assert.Equal(1, Capacitance.FromKilofarads(farad.Kilofarads).Farads);
+            Assert.Equal(1, Capacitance.FromMegafarads(farad.Megafarads).Farads);
+            Assert.Equal(1, Capacitance.FromMicrofarads(farad.Microfarads).Farads);
+            Assert.Equal(1, Capacitance.FromMillifarads(farad.Millifarads).Farads);
+            Assert.Equal(1, Capacitance.FromNanofarads(farad.Nanofarads).Farads);
+            Assert.Equal(1, Capacitance.FromPicofarads(farad.Picofarads).Farads);
         }
 
         [Fact]
         public void ArithmeticOperators()
         {
             Capacitance v = Capacitance.FromFarads(1);
-            AssertEx.EqualTolerance(-1, -v.Farads, FaradsTolerance);
-            AssertEx.EqualTolerance(2, (Capacitance.FromFarads(3)-v).Farads, FaradsTolerance);
-            AssertEx.EqualTolerance(2, (v + v).Farads, FaradsTolerance);
-            AssertEx.EqualTolerance(10, (v*10).Farads, FaradsTolerance);
-            AssertEx.EqualTolerance(10, (10*v).Farads, FaradsTolerance);
-            AssertEx.EqualTolerance(2, (Capacitance.FromFarads(10)/5).Farads, FaradsTolerance);
-            AssertEx.EqualTolerance(2, Capacitance.FromFarads(10)/Capacitance.FromFarads(5), FaradsTolerance);
+            Assert.Equal(-1, -v.Farads);
+            Assert.Equal(2, (Capacitance.FromFarads(3) - v).Farads);
+            Assert.Equal(2, (v + v).Farads);
+            Assert.Equal(10, (v * 10).Farads);
+            Assert.Equal(10, (10 * v).Farads);
+            Assert.Equal(2, (Capacitance.FromFarads(10) / 5).Farads);
+            Assert.Equal(2, Capacitance.FromFarads(10) / Capacitance.FromFarads(5));
         }
 
         [Fact]
@@ -514,8 +510,6 @@ namespace UnitsNet.Tests
         [Theory]
         [InlineData(1, CapacitanceUnit.Farad, 1, CapacitanceUnit.Farad, true)]  // Same value and unit.
         [InlineData(1, CapacitanceUnit.Farad, 2, CapacitanceUnit.Farad, false)] // Different value.
-        [InlineData(2, CapacitanceUnit.Farad, 1, CapacitanceUnit.Kilofarad, false)] // Different value and unit.
-        [InlineData(1, CapacitanceUnit.Farad, 1, CapacitanceUnit.Kilofarad, false)] // Different unit.
         public void Equals_ReturnsTrue_IfValueAndUnitAreEqual(double valueA, CapacitanceUnit unitA, double valueB, CapacitanceUnit unitB, bool expectEqual)
         {
             var a = new Capacitance(valueA, unitA);
@@ -553,20 +547,22 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
-        public void Equals_RelativeTolerance_IsImplemented()
+        public void Equals_WithTolerance_IsImplemented()
         {
             var v = Capacitance.FromFarads(1);
-            Assert.True(v.Equals(Capacitance.FromFarads(1), FaradsTolerance, ComparisonType.Relative));
-            Assert.False(v.Equals(Capacitance.Zero, FaradsTolerance, ComparisonType.Relative));
-            Assert.True(Capacitance.FromFarads(100).Equals(Capacitance.FromFarads(120), 0.3, ComparisonType.Relative));
-            Assert.False(Capacitance.FromFarads(100).Equals(Capacitance.FromFarads(120), 0.1, ComparisonType.Relative));
+            Assert.True(v.Equals(Capacitance.FromFarads(1), Capacitance.FromFarads(0)));
+            Assert.True(v.Equals(Capacitance.FromFarads(1), Capacitance.FromFarads(0.001m)));
+            Assert.True(v.Equals(Capacitance.FromFarads(0.9999), Capacitance.FromFarads(0.001m)));
+            Assert.False(v.Equals(Capacitance.FromFarads(0.99), Capacitance.FromFarads(0.001m)));
+            Assert.False(v.Equals(Capacitance.Zero, Capacitance.FromFarads(0.001m)));
         }
 
         [Fact]
-        public void Equals_NegativeRelativeTolerance_ThrowsArgumentOutOfRangeException()
+        public void Equals_WithNegativeTolerance_ThrowsArgumentOutOfRangeException()
         {
             var v = Capacitance.FromFarads(1);
-            Assert.Throws<ArgumentOutOfRangeException>(() => v.Equals(Capacitance.FromFarads(1), -1, ComparisonType.Relative));
+            var negativeTolerance = Capacitance.FromFarads(-1);
+            Assert.Throws<ArgumentOutOfRangeException>(() => v.Equals(Capacitance.FromFarads(1), negativeTolerance));
         }
 
         [Fact]
@@ -589,7 +585,7 @@ namespace UnitsNet.Tests
             var units = Enum.GetValues(typeof(CapacitanceUnit)).Cast<CapacitanceUnit>();
             foreach (var unit in units)
             {
-                var defaultAbbreviation = UnitAbbreviationsCache.Default.GetDefaultAbbreviation(unit);
+                var defaultAbbreviation = UnitsNetSetup.Default.UnitAbbreviations.GetDefaultAbbreviation(unit);
             }
         }
 
@@ -828,7 +824,12 @@ namespace UnitsNet.Tests
         public void GetHashCode_Equals()
         {
             var quantity = Capacitance.FromFarads(1.0);
-            Assert.Equal(new {Capacitance.Info.Name, quantity.Value, quantity.Unit}.GetHashCode(), quantity.GetHashCode());
+            #if NET7_0_OR_GREATER
+            var expected = HashCode.Combine(Capacitance.Info.Name, quantity.Farads);
+            #else
+            var expected = new {Capacitance.Info.Name, valueInBaseUnit = quantity.Farads}.GetHashCode();
+            #endif
+            Assert.Equal(expected, quantity.GetHashCode());
         }
 
         [Theory]

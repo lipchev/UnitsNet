@@ -97,15 +97,14 @@ namespace UnitsNet.Tests
         [Fact]
         public void Ctor_SIUnitSystem_ThrowsArgumentExceptionIfNotSupported()
         {
-            Func<object> TestCode = () => new Level(value: 1, unitSystem: UnitSystem.SI);
             if (SupportsSIUnitSystem)
             {
-                var quantity = (Level) TestCode();
+                var quantity = new Level(value: 1, unitSystem: UnitSystem.SI);
                 Assert.Equal(1, quantity.Value);
             }
             else
             {
-                Assert.Throws<ArgumentException>(TestCode);
+                Assert.Throws<ArgumentException>(() => new Level(value: 1, unitSystem: UnitSystem.SI));
             }
         }
 
@@ -135,11 +134,11 @@ namespace UnitsNet.Tests
         public void From_ValueAndUnit_ReturnsQuantityWithSameValueAndUnit()
         {
             var quantity00 = Level.From(1, LevelUnit.Decibel);
-            AssertEx.EqualTolerance(1, quantity00.Decibels, DecibelsTolerance);
+            Assert.Equal(1, quantity00.Decibels);
             Assert.Equal(LevelUnit.Decibel, quantity00.Unit);
 
             var quantity01 = Level.From(1, LevelUnit.Neper);
-            AssertEx.EqualTolerance(1, quantity01.Nepers, NepersTolerance);
+            Assert.Equal(1, quantity01.Nepers);
             Assert.Equal(LevelUnit.Neper, quantity01.Unit);
 
         }
@@ -174,16 +173,13 @@ namespace UnitsNet.Tests
         public void As_SIUnitSystem_ThrowsArgumentExceptionIfNotSupported()
         {
             var quantity = new Level(value: 1, unit: Level.BaseUnit);
-            Func<object> AsWithSIUnitSystem = () => quantity.As(UnitSystem.SI);
-
             if (SupportsSIUnitSystem)
             {
-                var value = Convert.ToDouble(AsWithSIUnitSystem());
-                Assert.Equal(1, value);
+                Assert.Equal(1, quantity.As(UnitSystem.SI));
             }
             else
             {
-                Assert.Throws<ArgumentException>(AsWithSIUnitSystem);
+                Assert.Throws<ArgumentException>(() => quantity.As(UnitSystem.SI));
             }
         }
 
@@ -193,14 +189,14 @@ namespace UnitsNet.Tests
             try
             {
                 var parsed = Level.Parse("1 dB", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.Decibels, DecibelsTolerance);
+                Assert.Equal(1, parsed.Decibels);
                 Assert.Equal(LevelUnit.Decibel, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = Level.Parse("1 Np", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.Nepers, NepersTolerance);
+                Assert.Equal(1, parsed.Nepers);
                 Assert.Equal(LevelUnit.Neper, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
@@ -211,13 +207,13 @@ namespace UnitsNet.Tests
         {
             {
                 Assert.True(Level.TryParse("1 dB", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.Decibels, DecibelsTolerance);
+                Assert.Equal(1, parsed.Decibels);
                 Assert.Equal(LevelUnit.Decibel, parsed.Unit);
             }
 
             {
                 Assert.True(Level.TryParse("1 Np", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.Nepers, NepersTolerance);
+                Assert.Equal(1, parsed.Nepers);
                 Assert.Equal(LevelUnit.Neper, parsed.Unit);
             }
 
@@ -301,21 +297,21 @@ namespace UnitsNet.Tests
         public void ConversionRoundTrip()
         {
             Level decibel = Level.FromDecibels(1);
-            AssertEx.EqualTolerance(1, Level.FromDecibels(decibel.Decibels).Decibels, DecibelsTolerance);
-            AssertEx.EqualTolerance(1, Level.FromNepers(decibel.Nepers).Decibels, NepersTolerance);
+            Assert.Equal(1, Level.FromDecibels(decibel.Decibels).Decibels);
+            Assert.Equal(1, Level.FromNepers(decibel.Nepers).Decibels);
         }
 
         [Fact]
         public void LogarithmicArithmeticOperators()
         {
             Level v = Level.FromDecibels(40);
-            AssertEx.EqualTolerance(-40, -v.Decibels, NepersTolerance);
+            Assert.Equal(-40, -v.Decibels);
             AssertLogarithmicAddition();
             AssertLogarithmicSubtraction();
-            AssertEx.EqualTolerance(50, (v*10).Decibels, NepersTolerance);
-            AssertEx.EqualTolerance(50, (10*v).Decibels, NepersTolerance);
-            AssertEx.EqualTolerance(35, (v/5).Decibels, NepersTolerance);
-            AssertEx.EqualTolerance(35, v/Level.FromDecibels(5), NepersTolerance);
+            Assert.Equal(50, (v * 10).Decibels);
+            Assert.Equal(50, (10 * v).Decibels);
+            Assert.Equal(35, (v / 5).Decibels);
+            Assert.Equal(35, v / Level.FromDecibels(5));
         }
 
         protected abstract void AssertLogarithmicAddition();
@@ -365,8 +361,6 @@ namespace UnitsNet.Tests
         [Theory]
         [InlineData(1, LevelUnit.Decibel, 1, LevelUnit.Decibel, true)]  // Same value and unit.
         [InlineData(1, LevelUnit.Decibel, 2, LevelUnit.Decibel, false)] // Different value.
-        [InlineData(2, LevelUnit.Decibel, 1, LevelUnit.Neper, false)] // Different value and unit.
-        [InlineData(1, LevelUnit.Decibel, 1, LevelUnit.Neper, false)] // Different unit.
         public void Equals_ReturnsTrue_IfValueAndUnitAreEqual(double valueA, LevelUnit unitA, double valueB, LevelUnit unitB, bool expectEqual)
         {
             var a = new Level(valueA, unitA);
@@ -404,20 +398,22 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
-        public void Equals_RelativeTolerance_IsImplemented()
+        public void Equals_WithTolerance_IsImplemented()
         {
             var v = Level.FromDecibels(1);
-            Assert.True(v.Equals(Level.FromDecibels(1), DecibelsTolerance, ComparisonType.Relative));
-            Assert.False(v.Equals(Level.Zero, DecibelsTolerance, ComparisonType.Relative));
-            Assert.True(Level.FromDecibels(100).Equals(Level.FromDecibels(120), 0.3, ComparisonType.Relative));
-            Assert.False(Level.FromDecibels(100).Equals(Level.FromDecibels(120), 0.1, ComparisonType.Relative));
+            Assert.True(v.Equals(Level.FromDecibels(1), Level.FromDecibels(0)));
+            Assert.True(v.Equals(Level.FromDecibels(1), Level.FromDecibels(0.001m)));
+            Assert.True(v.Equals(Level.FromDecibels(0.9999), Level.FromDecibels(0.001m)));
+            Assert.False(v.Equals(Level.FromDecibels(0.99), Level.FromDecibels(0.001m)));
+            Assert.False(v.Equals(Level.Zero, Level.FromDecibels(0.001m)));
         }
 
         [Fact]
-        public void Equals_NegativeRelativeTolerance_ThrowsArgumentOutOfRangeException()
+        public void Equals_WithNegativeTolerance_ThrowsArgumentOutOfRangeException()
         {
             var v = Level.FromDecibels(1);
-            Assert.Throws<ArgumentOutOfRangeException>(() => v.Equals(Level.FromDecibels(1), -1, ComparisonType.Relative));
+            var negativeTolerance = Level.FromDecibels(-1);
+            Assert.Throws<ArgumentOutOfRangeException>(() => v.Equals(Level.FromDecibels(1), negativeTolerance));
         }
 
         [Fact]
@@ -440,7 +436,7 @@ namespace UnitsNet.Tests
             var units = Enum.GetValues(typeof(LevelUnit)).Cast<LevelUnit>();
             foreach (var unit in units)
             {
-                var defaultAbbreviation = UnitAbbreviationsCache.Default.GetDefaultAbbreviation(unit);
+                var defaultAbbreviation = UnitsNetSetup.Default.UnitAbbreviations.GetDefaultAbbreviation(unit);
             }
         }
 
@@ -669,7 +665,12 @@ namespace UnitsNet.Tests
         public void GetHashCode_Equals()
         {
             var quantity = Level.FromDecibels(1.0);
-            Assert.Equal(new {Level.Info.Name, quantity.Value, quantity.Unit}.GetHashCode(), quantity.GetHashCode());
+            #if NET7_0_OR_GREATER
+            var expected = HashCode.Combine(Level.Info.Name, quantity.Decibels);
+            #else
+            var expected = new {Level.Info.Name, valueInBaseUnit = quantity.Decibels}.GetHashCode();
+            #endif
+            Assert.Equal(expected, quantity.GetHashCode());
         }
 
         [Theory]

@@ -3,6 +3,7 @@
 
 using System;
 using UnitsNet.CustomCode.Units;
+using UnitsNet.Units;
 using UnitsNet.Wrappers;
 using Xunit;
 
@@ -55,7 +56,7 @@ namespace UnitsNet.Tests
 
         protected override double PoundsForcePerSquareMilInOnePascal => 1.450377377302092e-10;
 
-        protected override double TechnicalAtmospheresInOnePascal => 1.0197 * 1E-5;
+        protected override double TechnicalAtmospheresInOnePascal => 1.019716212977928E-05;
 
         protected override double TonnesForcePerSquareCentimeterInOnePascal => 1.019716212977928e-8;
 
@@ -70,7 +71,7 @@ namespace UnitsNet.Tests
         protected override double DecapascalsInOnePascal => 1e-1;
 
         protected override double DecibarsInOnePascal => 1e-4;
-        protected override double FeetOfHeadInOnePascal => 0.000334552565551;
+        protected override double FeetOfHeadInOnePascal => 0.0003346382329391094;
 
         protected override double GigapascalsInOnePascal => 1e-9;
 
@@ -103,10 +104,6 @@ namespace UnitsNet.Tests
         protected override double PoundsPerInchSecondSquaredInOnePascal => 5.599741459495891e-2;
 
         protected override double MillipascalsInOnePascal => 1e3;
-
-        protected override double MetersOfElevationInOnePascal => 39364.9129730686;
-
-        protected override double FeetOfElevationInOnePascal => 129149.976945763;
 
         [Fact]
         public void Absolute_WithAbsolutePressureReference_IsEqual()
@@ -257,10 +254,24 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
-        public void PressureDividedByTimeSpanEqualsPressurechangeRate()
+        public void PressureDividedByTimeSpanEqualsPressureChangeRate()
         {
             PressureChangeRate pressureChangeRate = Pressure.FromPascals(50) / TimeSpan.FromSeconds(5);
             Assert.Equal(PressureChangeRate.FromPascalsPerSecond(10), pressureChangeRate);
+        }
+
+        [Fact]
+        public void PressureFromElevation_ConvertsWithRounding()
+        {
+            var pressureFromElevation = Pressure.FromElevation(new Length(129149.9769457631m, LengthUnit.Foot), 13);
+            Assert.Equal(1, pressureFromElevation.Pascals);
+        }
+
+        [Fact]
+        public void ElevationFromPressure_ConvertsWithRounding()
+        {
+            Length elevationFromPressure = Pressure.FromPascals(1).ToElevation(16);
+            Assert.Equal(39364.91297306859288m, elevationFromPressure.Meters);
         }
     }
 }

@@ -48,7 +48,7 @@ namespace UnitsNet.Tests
         public void DividedByTemperatureDeltaEqualsTemperature(Temperature temperature, int divisor, Temperature expected)
         {
             Temperature resultTemp = temperature.Divide(divisor, temperature.Unit);
-            Assert.True(expected.Equals(resultTemp, 1e-5, ComparisonType.Absolute));
+            Assert.True(expected.Equals(resultTemp));
         }
 
         public static IEnumerable<object[]> MultiplyByTemperatureDeltaEqualsTemperatureData { get; } =
@@ -69,7 +69,7 @@ namespace UnitsNet.Tests
         public void MultiplyByTemperatureDeltaEqualsTemperature(Temperature temperature, int factor, Temperature expected)
         {
             Temperature resultTemp = temperature.Multiply(factor, temperature.Unit);
-            Assert.True(expected.Equals(resultTemp, 1e-5, ComparisonType.Absolute));
+            Assert.True(expected.Equals(resultTemp));
         }
 
         public static IEnumerable<object[]> TemperatureDeltaPlusTemperatureEqualsTemperatureData { get; } =
@@ -88,7 +88,7 @@ namespace UnitsNet.Tests
         public void TemperatureDeltaPlusTemperatureEqualsTemperature(Temperature temperature, TemperatureDelta delta, Temperature expected)
         {
             Temperature resultTemp = delta + temperature;
-            Assert.True(expected.Equals(resultTemp, 1e-5, ComparisonType.Absolute));
+            Assert.True(expected.Equals(resultTemp));
         }
 
         public static IEnumerable<object[]> TemperatureMinusTemperatureDeltaEqualsTemperatureData { get; } =
@@ -107,7 +107,7 @@ namespace UnitsNet.Tests
         public void TemperatureMinusTemperatureDeltaEqualsTemperature(Temperature temperature, TemperatureDelta delta, Temperature expected)
         {
             Temperature resultTemp = temperature - delta;
-            Assert.True(expected.Equals(resultTemp, 1e-5, ComparisonType.Absolute));
+            Assert.True(expected.Equals(resultTemp));
         }
 
         public static IEnumerable<object[]> TemperaturePlusTemperatureDeltaEqualsTemperatureData { get; } =
@@ -126,7 +126,7 @@ namespace UnitsNet.Tests
         public void TemperaturePlusTemperatureDeltaEqualsTemperature(Temperature temperature, TemperatureDelta delta, Temperature expected)
         {
             Temperature resultTemp = temperature + delta;
-            Assert.True(expected.Equals(resultTemp, 1e-5, ComparisonType.Absolute));
+            Assert.True(expected.Equals(resultTemp));
         }
     }
 }

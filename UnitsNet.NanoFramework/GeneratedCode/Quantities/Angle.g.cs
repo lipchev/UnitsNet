@@ -153,11 +153,6 @@ namespace UnitsNet
         /// </summary>
         public double Revolutions => As(AngleUnit.Revolution);
 
-        /// <summary>
-        ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="AngleUnit.Tilt"/>
-        /// </summary>
-        public double Tilt => As(AngleUnit.Tilt);
-
         #endregion
 
         #region Static Factory Methods
@@ -238,11 +233,6 @@ namespace UnitsNet
         public static Angle FromRevolutions(double revolutions) => new Angle(revolutions, AngleUnit.Revolution);
 
         /// <summary>
-        ///     Creates a <see cref="Angle"/> from <see cref="AngleUnit.Tilt"/>.
-        /// </summary>
-        public static Angle FromTilt(double tilt) => new Angle(tilt, AngleUnit.Tilt);
-
-        /// <summary>
         ///     Dynamically convert from value and unit enum <see cref="AngleUnit" /> to <see cref="Angle" />.
         /// </summary>
         /// <param name="value">Value to convert from.</param>
@@ -297,7 +287,6 @@ namespace UnitsNet
                         AngleUnit.NatoMil => _value * 9 / 160,
                         AngleUnit.Radian => _value * 180 / 3.1415926535897931,
                         AngleUnit.Revolution => _value * 360,
-                        AngleUnit.Tilt => Math.Asin(_value) * 180 / 3.1415926535897931,
                         _ => throw new NotImplementedException($"Can not convert {Unit} to base units.")
                     };
                     }
@@ -326,7 +315,6 @@ namespace UnitsNet
                         AngleUnit.NatoMil => baseUnitValue * 160 / 9,
                         AngleUnit.Radian => baseUnitValue / 180 * 3.1415926535897931,
                         AngleUnit.Revolution => baseUnitValue / 360,
-                        AngleUnit.Tilt => Math.Sin(baseUnitValue / 180 * 3.1415926535897931),
                         _ => throw new NotImplementedException($"Can not convert {Unit} to {unit}.")
                     };
                     }

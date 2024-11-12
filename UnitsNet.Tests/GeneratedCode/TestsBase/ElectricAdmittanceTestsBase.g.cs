@@ -105,15 +105,14 @@ namespace UnitsNet.Tests
         [Fact]
         public void Ctor_SIUnitSystem_ThrowsArgumentExceptionIfNotSupported()
         {
-            Func<object> TestCode = () => new ElectricAdmittance(value: 1, unitSystem: UnitSystem.SI);
             if (SupportsSIUnitSystem)
             {
-                var quantity = (ElectricAdmittance) TestCode();
+                var quantity = new ElectricAdmittance(value: 1, unitSystem: UnitSystem.SI);
                 Assert.Equal(1, quantity.Value);
             }
             else
             {
-                Assert.Throws<ArgumentException>(TestCode);
+                Assert.Throws<ArgumentException>(() => new ElectricAdmittance(value: 1, unitSystem: UnitSystem.SI));
             }
         }
 
@@ -145,19 +144,19 @@ namespace UnitsNet.Tests
         public void From_ValueAndUnit_ReturnsQuantityWithSameValueAndUnit()
         {
             var quantity00 = ElectricAdmittance.From(1, ElectricAdmittanceUnit.Microsiemens);
-            AssertEx.EqualTolerance(1, quantity00.Microsiemens, MicrosiemensTolerance);
+            Assert.Equal(1, quantity00.Microsiemens);
             Assert.Equal(ElectricAdmittanceUnit.Microsiemens, quantity00.Unit);
 
             var quantity01 = ElectricAdmittance.From(1, ElectricAdmittanceUnit.Millisiemens);
-            AssertEx.EqualTolerance(1, quantity01.Millisiemens, MillisiemensTolerance);
+            Assert.Equal(1, quantity01.Millisiemens);
             Assert.Equal(ElectricAdmittanceUnit.Millisiemens, quantity01.Unit);
 
             var quantity02 = ElectricAdmittance.From(1, ElectricAdmittanceUnit.Nanosiemens);
-            AssertEx.EqualTolerance(1, quantity02.Nanosiemens, NanosiemensTolerance);
+            Assert.Equal(1, quantity02.Nanosiemens);
             Assert.Equal(ElectricAdmittanceUnit.Nanosiemens, quantity02.Unit);
 
             var quantity03 = ElectricAdmittance.From(1, ElectricAdmittanceUnit.Siemens);
-            AssertEx.EqualTolerance(1, quantity03.Siemens, SiemensTolerance);
+            Assert.Equal(1, quantity03.Siemens);
             Assert.Equal(ElectricAdmittanceUnit.Siemens, quantity03.Unit);
 
         }
@@ -194,16 +193,13 @@ namespace UnitsNet.Tests
         public void As_SIUnitSystem_ThrowsArgumentExceptionIfNotSupported()
         {
             var quantity = new ElectricAdmittance(value: 1, unit: ElectricAdmittance.BaseUnit);
-            Func<object> AsWithSIUnitSystem = () => quantity.As(UnitSystem.SI);
-
             if (SupportsSIUnitSystem)
             {
-                var value = Convert.ToDouble(AsWithSIUnitSystem());
-                Assert.Equal(1, value);
+                Assert.Equal(1, quantity.As(UnitSystem.SI));
             }
             else
             {
-                Assert.Throws<ArgumentException>(AsWithSIUnitSystem);
+                Assert.Throws<ArgumentException>(() => quantity.As(UnitSystem.SI));
             }
         }
 
@@ -213,28 +209,28 @@ namespace UnitsNet.Tests
             try
             {
                 var parsed = ElectricAdmittance.Parse("1 µS", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.Microsiemens, MicrosiemensTolerance);
+                Assert.Equal(1, parsed.Microsiemens);
                 Assert.Equal(ElectricAdmittanceUnit.Microsiemens, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = ElectricAdmittance.Parse("1 mS", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.Millisiemens, MillisiemensTolerance);
+                Assert.Equal(1, parsed.Millisiemens);
                 Assert.Equal(ElectricAdmittanceUnit.Millisiemens, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = ElectricAdmittance.Parse("1 nS", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.Nanosiemens, NanosiemensTolerance);
+                Assert.Equal(1, parsed.Nanosiemens);
                 Assert.Equal(ElectricAdmittanceUnit.Nanosiemens, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = ElectricAdmittance.Parse("1 S", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.Siemens, SiemensTolerance);
+                Assert.Equal(1, parsed.Siemens);
                 Assert.Equal(ElectricAdmittanceUnit.Siemens, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
@@ -245,25 +241,25 @@ namespace UnitsNet.Tests
         {
             {
                 Assert.True(ElectricAdmittance.TryParse("1 µS", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.Microsiemens, MicrosiemensTolerance);
+                Assert.Equal(1, parsed.Microsiemens);
                 Assert.Equal(ElectricAdmittanceUnit.Microsiemens, parsed.Unit);
             }
 
             {
                 Assert.True(ElectricAdmittance.TryParse("1 mS", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.Millisiemens, MillisiemensTolerance);
+                Assert.Equal(1, parsed.Millisiemens);
                 Assert.Equal(ElectricAdmittanceUnit.Millisiemens, parsed.Unit);
             }
 
             {
                 Assert.True(ElectricAdmittance.TryParse("1 nS", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.Nanosiemens, NanosiemensTolerance);
+                Assert.Equal(1, parsed.Nanosiemens);
                 Assert.Equal(ElectricAdmittanceUnit.Nanosiemens, parsed.Unit);
             }
 
             {
                 Assert.True(ElectricAdmittance.TryParse("1 S", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.Siemens, SiemensTolerance);
+                Assert.Equal(1, parsed.Siemens);
                 Assert.Equal(ElectricAdmittanceUnit.Siemens, parsed.Unit);
             }
 
@@ -369,23 +365,23 @@ namespace UnitsNet.Tests
         public void ConversionRoundTrip()
         {
             ElectricAdmittance siemens = ElectricAdmittance.FromSiemens(1);
-            AssertEx.EqualTolerance(1, ElectricAdmittance.FromMicrosiemens(siemens.Microsiemens).Siemens, MicrosiemensTolerance);
-            AssertEx.EqualTolerance(1, ElectricAdmittance.FromMillisiemens(siemens.Millisiemens).Siemens, MillisiemensTolerance);
-            AssertEx.EqualTolerance(1, ElectricAdmittance.FromNanosiemens(siemens.Nanosiemens).Siemens, NanosiemensTolerance);
-            AssertEx.EqualTolerance(1, ElectricAdmittance.FromSiemens(siemens.Siemens).Siemens, SiemensTolerance);
+            Assert.Equal(1, ElectricAdmittance.FromMicrosiemens(siemens.Microsiemens).Siemens);
+            Assert.Equal(1, ElectricAdmittance.FromMillisiemens(siemens.Millisiemens).Siemens);
+            Assert.Equal(1, ElectricAdmittance.FromNanosiemens(siemens.Nanosiemens).Siemens);
+            Assert.Equal(1, ElectricAdmittance.FromSiemens(siemens.Siemens).Siemens);
         }
 
         [Fact]
         public void ArithmeticOperators()
         {
             ElectricAdmittance v = ElectricAdmittance.FromSiemens(1);
-            AssertEx.EqualTolerance(-1, -v.Siemens, SiemensTolerance);
-            AssertEx.EqualTolerance(2, (ElectricAdmittance.FromSiemens(3)-v).Siemens, SiemensTolerance);
-            AssertEx.EqualTolerance(2, (v + v).Siemens, SiemensTolerance);
-            AssertEx.EqualTolerance(10, (v*10).Siemens, SiemensTolerance);
-            AssertEx.EqualTolerance(10, (10*v).Siemens, SiemensTolerance);
-            AssertEx.EqualTolerance(2, (ElectricAdmittance.FromSiemens(10)/5).Siemens, SiemensTolerance);
-            AssertEx.EqualTolerance(2, ElectricAdmittance.FromSiemens(10)/ElectricAdmittance.FromSiemens(5), SiemensTolerance);
+            Assert.Equal(-1, -v.Siemens);
+            Assert.Equal(2, (ElectricAdmittance.FromSiemens(3) - v).Siemens);
+            Assert.Equal(2, (v + v).Siemens);
+            Assert.Equal(10, (v * 10).Siemens);
+            Assert.Equal(10, (10 * v).Siemens);
+            Assert.Equal(2, (ElectricAdmittance.FromSiemens(10) / 5).Siemens);
+            Assert.Equal(2, ElectricAdmittance.FromSiemens(10) / ElectricAdmittance.FromSiemens(5));
         }
 
         [Fact]
@@ -431,8 +427,6 @@ namespace UnitsNet.Tests
         [Theory]
         [InlineData(1, ElectricAdmittanceUnit.Siemens, 1, ElectricAdmittanceUnit.Siemens, true)]  // Same value and unit.
         [InlineData(1, ElectricAdmittanceUnit.Siemens, 2, ElectricAdmittanceUnit.Siemens, false)] // Different value.
-        [InlineData(2, ElectricAdmittanceUnit.Siemens, 1, ElectricAdmittanceUnit.Microsiemens, false)] // Different value and unit.
-        [InlineData(1, ElectricAdmittanceUnit.Siemens, 1, ElectricAdmittanceUnit.Microsiemens, false)] // Different unit.
         public void Equals_ReturnsTrue_IfValueAndUnitAreEqual(double valueA, ElectricAdmittanceUnit unitA, double valueB, ElectricAdmittanceUnit unitB, bool expectEqual)
         {
             var a = new ElectricAdmittance(valueA, unitA);
@@ -470,20 +464,22 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
-        public void Equals_RelativeTolerance_IsImplemented()
+        public void Equals_WithTolerance_IsImplemented()
         {
             var v = ElectricAdmittance.FromSiemens(1);
-            Assert.True(v.Equals(ElectricAdmittance.FromSiemens(1), SiemensTolerance, ComparisonType.Relative));
-            Assert.False(v.Equals(ElectricAdmittance.Zero, SiemensTolerance, ComparisonType.Relative));
-            Assert.True(ElectricAdmittance.FromSiemens(100).Equals(ElectricAdmittance.FromSiemens(120), 0.3, ComparisonType.Relative));
-            Assert.False(ElectricAdmittance.FromSiemens(100).Equals(ElectricAdmittance.FromSiemens(120), 0.1, ComparisonType.Relative));
+            Assert.True(v.Equals(ElectricAdmittance.FromSiemens(1), ElectricAdmittance.FromSiemens(0)));
+            Assert.True(v.Equals(ElectricAdmittance.FromSiemens(1), ElectricAdmittance.FromSiemens(0.001m)));
+            Assert.True(v.Equals(ElectricAdmittance.FromSiemens(0.9999), ElectricAdmittance.FromSiemens(0.001m)));
+            Assert.False(v.Equals(ElectricAdmittance.FromSiemens(0.99), ElectricAdmittance.FromSiemens(0.001m)));
+            Assert.False(v.Equals(ElectricAdmittance.Zero, ElectricAdmittance.FromSiemens(0.001m)));
         }
 
         [Fact]
-        public void Equals_NegativeRelativeTolerance_ThrowsArgumentOutOfRangeException()
+        public void Equals_WithNegativeTolerance_ThrowsArgumentOutOfRangeException()
         {
             var v = ElectricAdmittance.FromSiemens(1);
-            Assert.Throws<ArgumentOutOfRangeException>(() => v.Equals(ElectricAdmittance.FromSiemens(1), -1, ComparisonType.Relative));
+            var negativeTolerance = ElectricAdmittance.FromSiemens(-1);
+            Assert.Throws<ArgumentOutOfRangeException>(() => v.Equals(ElectricAdmittance.FromSiemens(1), negativeTolerance));
         }
 
         [Fact]
@@ -506,7 +502,7 @@ namespace UnitsNet.Tests
             var units = Enum.GetValues(typeof(ElectricAdmittanceUnit)).Cast<ElectricAdmittanceUnit>();
             foreach (var unit in units)
             {
-                var defaultAbbreviation = UnitAbbreviationsCache.Default.GetDefaultAbbreviation(unit);
+                var defaultAbbreviation = UnitsNetSetup.Default.UnitAbbreviations.GetDefaultAbbreviation(unit);
             }
         }
 
@@ -739,7 +735,12 @@ namespace UnitsNet.Tests
         public void GetHashCode_Equals()
         {
             var quantity = ElectricAdmittance.FromSiemens(1.0);
-            Assert.Equal(new {ElectricAdmittance.Info.Name, quantity.Value, quantity.Unit}.GetHashCode(), quantity.GetHashCode());
+            #if NET7_0_OR_GREATER
+            var expected = HashCode.Combine(ElectricAdmittance.Info.Name, quantity.Siemens);
+            #else
+            var expected = new {ElectricAdmittance.Info.Name, valueInBaseUnit = quantity.Siemens}.GetHashCode();
+            #endif
+            Assert.Equal(expected, quantity.GetHashCode());
         }
 
         [Theory]

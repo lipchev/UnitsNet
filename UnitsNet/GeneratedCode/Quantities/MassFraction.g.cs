@@ -22,12 +22,9 @@ using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
-#if NET7_0_OR_GREATER
-using System.Numerics;
-#endif
 using System.Runtime.Serialization;
-using UnitsNet.InternalHelpers;
 using UnitsNet.Units;
+using System.Numerics;
 
 #nullable enable
 
@@ -58,13 +55,13 @@ namespace UnitsNet
         /// <summary>
         ///     The numeric value this quantity was constructed with.
         /// </summary>
-        [DataMember(Name = "Value", Order = 1)]
-        private readonly double _value;
+        [DataMember(Name = "Value", Order = 1, EmitDefaultValue = false)]
+        private readonly QuantityValue _value;
 
         /// <summary>
         ///     The unit this quantity was constructed with.
         /// </summary>
-        [DataMember(Name = "Unit", Order = 2)]
+        [DataMember(Name = "Unit", Order = 2, EmitDefaultValue = false)]
         private readonly MassFractionUnit? _unit;
 
         static MassFraction()
@@ -112,7 +109,7 @@ namespace UnitsNet
         /// </summary>
         /// <param name="value">The numeric value to construct this quantity with.</param>
         /// <param name="unit">The unit representation to construct this quantity with.</param>
-        public MassFraction(double value, MassFractionUnit unit)
+        public MassFraction(QuantityValue value, MassFractionUnit unit)
         {
             _value = value;
             _unit = unit;
@@ -126,7 +123,7 @@ namespace UnitsNet
         /// <param name="unitSystem">The unit system to create the quantity with.</param>
         /// <exception cref="ArgumentNullException">The given <see cref="UnitSystem"/> is null.</exception>
         /// <exception cref="ArgumentException">No unit was found for the given <see cref="UnitSystem"/>.</exception>
-        public MassFraction(double value, UnitSystem unitSystem)
+        public MassFraction(QuantityValue value, UnitSystem unitSystem)
         {
             if (unitSystem is null) throw new ArgumentNullException(nameof(unitSystem));
 
@@ -177,10 +174,10 @@ namespace UnitsNet
         /// <summary>
         ///     The numeric value this quantity was constructed with.
         /// </summary>
-        public double Value => _value;
+        public QuantityValue Value => _value;
 
         /// <inheritdoc />
-        double IQuantity.Value => _value;
+        QuantityValue IQuantity.Value => _value;
 
         Enum IQuantity.Unit => Unit;
 
@@ -205,122 +202,122 @@ namespace UnitsNet
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="MassFractionUnit.CentigramPerGram"/>
         /// </summary>
-        public double CentigramsPerGram => As(MassFractionUnit.CentigramPerGram);
+        public QuantityValue CentigramsPerGram => As(MassFractionUnit.CentigramPerGram);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="MassFractionUnit.CentigramPerKilogram"/>
         /// </summary>
-        public double CentigramsPerKilogram => As(MassFractionUnit.CentigramPerKilogram);
+        public QuantityValue CentigramsPerKilogram => As(MassFractionUnit.CentigramPerKilogram);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="MassFractionUnit.DecagramPerGram"/>
         /// </summary>
-        public double DecagramsPerGram => As(MassFractionUnit.DecagramPerGram);
+        public QuantityValue DecagramsPerGram => As(MassFractionUnit.DecagramPerGram);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="MassFractionUnit.DecagramPerKilogram"/>
         /// </summary>
-        public double DecagramsPerKilogram => As(MassFractionUnit.DecagramPerKilogram);
+        public QuantityValue DecagramsPerKilogram => As(MassFractionUnit.DecagramPerKilogram);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="MassFractionUnit.DecigramPerGram"/>
         /// </summary>
-        public double DecigramsPerGram => As(MassFractionUnit.DecigramPerGram);
+        public QuantityValue DecigramsPerGram => As(MassFractionUnit.DecigramPerGram);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="MassFractionUnit.DecigramPerKilogram"/>
         /// </summary>
-        public double DecigramsPerKilogram => As(MassFractionUnit.DecigramPerKilogram);
+        public QuantityValue DecigramsPerKilogram => As(MassFractionUnit.DecigramPerKilogram);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="MassFractionUnit.DecimalFraction"/>
         /// </summary>
-        public double DecimalFractions => As(MassFractionUnit.DecimalFraction);
+        public QuantityValue DecimalFractions => As(MassFractionUnit.DecimalFraction);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="MassFractionUnit.GramPerGram"/>
         /// </summary>
-        public double GramsPerGram => As(MassFractionUnit.GramPerGram);
+        public QuantityValue GramsPerGram => As(MassFractionUnit.GramPerGram);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="MassFractionUnit.GramPerKilogram"/>
         /// </summary>
-        public double GramsPerKilogram => As(MassFractionUnit.GramPerKilogram);
+        public QuantityValue GramsPerKilogram => As(MassFractionUnit.GramPerKilogram);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="MassFractionUnit.HectogramPerGram"/>
         /// </summary>
-        public double HectogramsPerGram => As(MassFractionUnit.HectogramPerGram);
+        public QuantityValue HectogramsPerGram => As(MassFractionUnit.HectogramPerGram);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="MassFractionUnit.HectogramPerKilogram"/>
         /// </summary>
-        public double HectogramsPerKilogram => As(MassFractionUnit.HectogramPerKilogram);
+        public QuantityValue HectogramsPerKilogram => As(MassFractionUnit.HectogramPerKilogram);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="MassFractionUnit.KilogramPerGram"/>
         /// </summary>
-        public double KilogramsPerGram => As(MassFractionUnit.KilogramPerGram);
+        public QuantityValue KilogramsPerGram => As(MassFractionUnit.KilogramPerGram);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="MassFractionUnit.KilogramPerKilogram"/>
         /// </summary>
-        public double KilogramsPerKilogram => As(MassFractionUnit.KilogramPerKilogram);
+        public QuantityValue KilogramsPerKilogram => As(MassFractionUnit.KilogramPerKilogram);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="MassFractionUnit.MicrogramPerGram"/>
         /// </summary>
-        public double MicrogramsPerGram => As(MassFractionUnit.MicrogramPerGram);
+        public QuantityValue MicrogramsPerGram => As(MassFractionUnit.MicrogramPerGram);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="MassFractionUnit.MicrogramPerKilogram"/>
         /// </summary>
-        public double MicrogramsPerKilogram => As(MassFractionUnit.MicrogramPerKilogram);
+        public QuantityValue MicrogramsPerKilogram => As(MassFractionUnit.MicrogramPerKilogram);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="MassFractionUnit.MilligramPerGram"/>
         /// </summary>
-        public double MilligramsPerGram => As(MassFractionUnit.MilligramPerGram);
+        public QuantityValue MilligramsPerGram => As(MassFractionUnit.MilligramPerGram);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="MassFractionUnit.MilligramPerKilogram"/>
         /// </summary>
-        public double MilligramsPerKilogram => As(MassFractionUnit.MilligramPerKilogram);
+        public QuantityValue MilligramsPerKilogram => As(MassFractionUnit.MilligramPerKilogram);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="MassFractionUnit.NanogramPerGram"/>
         /// </summary>
-        public double NanogramsPerGram => As(MassFractionUnit.NanogramPerGram);
+        public QuantityValue NanogramsPerGram => As(MassFractionUnit.NanogramPerGram);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="MassFractionUnit.NanogramPerKilogram"/>
         /// </summary>
-        public double NanogramsPerKilogram => As(MassFractionUnit.NanogramPerKilogram);
+        public QuantityValue NanogramsPerKilogram => As(MassFractionUnit.NanogramPerKilogram);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="MassFractionUnit.PartPerBillion"/>
         /// </summary>
-        public double PartsPerBillion => As(MassFractionUnit.PartPerBillion);
+        public QuantityValue PartsPerBillion => As(MassFractionUnit.PartPerBillion);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="MassFractionUnit.PartPerMillion"/>
         /// </summary>
-        public double PartsPerMillion => As(MassFractionUnit.PartPerMillion);
+        public QuantityValue PartsPerMillion => As(MassFractionUnit.PartPerMillion);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="MassFractionUnit.PartPerThousand"/>
         /// </summary>
-        public double PartsPerThousand => As(MassFractionUnit.PartPerThousand);
+        public QuantityValue PartsPerThousand => As(MassFractionUnit.PartPerThousand);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="MassFractionUnit.PartPerTrillion"/>
         /// </summary>
-        public double PartsPerTrillion => As(MassFractionUnit.PartPerTrillion);
+        public QuantityValue PartsPerTrillion => As(MassFractionUnit.PartPerTrillion);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="MassFractionUnit.Percent"/>
         /// </summary>
-        public double Percent => As(MassFractionUnit.Percent);
+        public QuantityValue Percent => As(MassFractionUnit.Percent);
 
         #endregion
 
@@ -404,7 +401,7 @@ namespace UnitsNet
         /// <param name="provider">Format to use for localization. Defaults to <see cref="CultureInfo.CurrentCulture" /> if null.</param>
         public static string GetAbbreviation(MassFractionUnit unit, IFormatProvider? provider)
         {
-            return UnitAbbreviationsCache.Default.GetDefaultAbbreviation(unit, provider);
+            return UnitsNetSetup.Default.UnitAbbreviations.GetDefaultAbbreviation(unit, provider);
         }
 
         #endregion
@@ -414,7 +411,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="MassFraction"/> from <see cref="MassFractionUnit.CentigramPerGram"/>.
         /// </summary>
-        public static MassFraction FromCentigramsPerGram(double value)
+        public static MassFraction FromCentigramsPerGram(QuantityValue value)
         {
             return new MassFraction(value, MassFractionUnit.CentigramPerGram);
         }
@@ -422,7 +419,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="MassFraction"/> from <see cref="MassFractionUnit.CentigramPerKilogram"/>.
         /// </summary>
-        public static MassFraction FromCentigramsPerKilogram(double value)
+        public static MassFraction FromCentigramsPerKilogram(QuantityValue value)
         {
             return new MassFraction(value, MassFractionUnit.CentigramPerKilogram);
         }
@@ -430,7 +427,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="MassFraction"/> from <see cref="MassFractionUnit.DecagramPerGram"/>.
         /// </summary>
-        public static MassFraction FromDecagramsPerGram(double value)
+        public static MassFraction FromDecagramsPerGram(QuantityValue value)
         {
             return new MassFraction(value, MassFractionUnit.DecagramPerGram);
         }
@@ -438,7 +435,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="MassFraction"/> from <see cref="MassFractionUnit.DecagramPerKilogram"/>.
         /// </summary>
-        public static MassFraction FromDecagramsPerKilogram(double value)
+        public static MassFraction FromDecagramsPerKilogram(QuantityValue value)
         {
             return new MassFraction(value, MassFractionUnit.DecagramPerKilogram);
         }
@@ -446,7 +443,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="MassFraction"/> from <see cref="MassFractionUnit.DecigramPerGram"/>.
         /// </summary>
-        public static MassFraction FromDecigramsPerGram(double value)
+        public static MassFraction FromDecigramsPerGram(QuantityValue value)
         {
             return new MassFraction(value, MassFractionUnit.DecigramPerGram);
         }
@@ -454,7 +451,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="MassFraction"/> from <see cref="MassFractionUnit.DecigramPerKilogram"/>.
         /// </summary>
-        public static MassFraction FromDecigramsPerKilogram(double value)
+        public static MassFraction FromDecigramsPerKilogram(QuantityValue value)
         {
             return new MassFraction(value, MassFractionUnit.DecigramPerKilogram);
         }
@@ -462,7 +459,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="MassFraction"/> from <see cref="MassFractionUnit.DecimalFraction"/>.
         /// </summary>
-        public static MassFraction FromDecimalFractions(double value)
+        public static MassFraction FromDecimalFractions(QuantityValue value)
         {
             return new MassFraction(value, MassFractionUnit.DecimalFraction);
         }
@@ -470,7 +467,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="MassFraction"/> from <see cref="MassFractionUnit.GramPerGram"/>.
         /// </summary>
-        public static MassFraction FromGramsPerGram(double value)
+        public static MassFraction FromGramsPerGram(QuantityValue value)
         {
             return new MassFraction(value, MassFractionUnit.GramPerGram);
         }
@@ -478,7 +475,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="MassFraction"/> from <see cref="MassFractionUnit.GramPerKilogram"/>.
         /// </summary>
-        public static MassFraction FromGramsPerKilogram(double value)
+        public static MassFraction FromGramsPerKilogram(QuantityValue value)
         {
             return new MassFraction(value, MassFractionUnit.GramPerKilogram);
         }
@@ -486,7 +483,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="MassFraction"/> from <see cref="MassFractionUnit.HectogramPerGram"/>.
         /// </summary>
-        public static MassFraction FromHectogramsPerGram(double value)
+        public static MassFraction FromHectogramsPerGram(QuantityValue value)
         {
             return new MassFraction(value, MassFractionUnit.HectogramPerGram);
         }
@@ -494,7 +491,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="MassFraction"/> from <see cref="MassFractionUnit.HectogramPerKilogram"/>.
         /// </summary>
-        public static MassFraction FromHectogramsPerKilogram(double value)
+        public static MassFraction FromHectogramsPerKilogram(QuantityValue value)
         {
             return new MassFraction(value, MassFractionUnit.HectogramPerKilogram);
         }
@@ -502,7 +499,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="MassFraction"/> from <see cref="MassFractionUnit.KilogramPerGram"/>.
         /// </summary>
-        public static MassFraction FromKilogramsPerGram(double value)
+        public static MassFraction FromKilogramsPerGram(QuantityValue value)
         {
             return new MassFraction(value, MassFractionUnit.KilogramPerGram);
         }
@@ -510,7 +507,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="MassFraction"/> from <see cref="MassFractionUnit.KilogramPerKilogram"/>.
         /// </summary>
-        public static MassFraction FromKilogramsPerKilogram(double value)
+        public static MassFraction FromKilogramsPerKilogram(QuantityValue value)
         {
             return new MassFraction(value, MassFractionUnit.KilogramPerKilogram);
         }
@@ -518,7 +515,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="MassFraction"/> from <see cref="MassFractionUnit.MicrogramPerGram"/>.
         /// </summary>
-        public static MassFraction FromMicrogramsPerGram(double value)
+        public static MassFraction FromMicrogramsPerGram(QuantityValue value)
         {
             return new MassFraction(value, MassFractionUnit.MicrogramPerGram);
         }
@@ -526,7 +523,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="MassFraction"/> from <see cref="MassFractionUnit.MicrogramPerKilogram"/>.
         /// </summary>
-        public static MassFraction FromMicrogramsPerKilogram(double value)
+        public static MassFraction FromMicrogramsPerKilogram(QuantityValue value)
         {
             return new MassFraction(value, MassFractionUnit.MicrogramPerKilogram);
         }
@@ -534,7 +531,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="MassFraction"/> from <see cref="MassFractionUnit.MilligramPerGram"/>.
         /// </summary>
-        public static MassFraction FromMilligramsPerGram(double value)
+        public static MassFraction FromMilligramsPerGram(QuantityValue value)
         {
             return new MassFraction(value, MassFractionUnit.MilligramPerGram);
         }
@@ -542,7 +539,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="MassFraction"/> from <see cref="MassFractionUnit.MilligramPerKilogram"/>.
         /// </summary>
-        public static MassFraction FromMilligramsPerKilogram(double value)
+        public static MassFraction FromMilligramsPerKilogram(QuantityValue value)
         {
             return new MassFraction(value, MassFractionUnit.MilligramPerKilogram);
         }
@@ -550,7 +547,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="MassFraction"/> from <see cref="MassFractionUnit.NanogramPerGram"/>.
         /// </summary>
-        public static MassFraction FromNanogramsPerGram(double value)
+        public static MassFraction FromNanogramsPerGram(QuantityValue value)
         {
             return new MassFraction(value, MassFractionUnit.NanogramPerGram);
         }
@@ -558,7 +555,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="MassFraction"/> from <see cref="MassFractionUnit.NanogramPerKilogram"/>.
         /// </summary>
-        public static MassFraction FromNanogramsPerKilogram(double value)
+        public static MassFraction FromNanogramsPerKilogram(QuantityValue value)
         {
             return new MassFraction(value, MassFractionUnit.NanogramPerKilogram);
         }
@@ -566,7 +563,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="MassFraction"/> from <see cref="MassFractionUnit.PartPerBillion"/>.
         /// </summary>
-        public static MassFraction FromPartsPerBillion(double value)
+        public static MassFraction FromPartsPerBillion(QuantityValue value)
         {
             return new MassFraction(value, MassFractionUnit.PartPerBillion);
         }
@@ -574,7 +571,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="MassFraction"/> from <see cref="MassFractionUnit.PartPerMillion"/>.
         /// </summary>
-        public static MassFraction FromPartsPerMillion(double value)
+        public static MassFraction FromPartsPerMillion(QuantityValue value)
         {
             return new MassFraction(value, MassFractionUnit.PartPerMillion);
         }
@@ -582,7 +579,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="MassFraction"/> from <see cref="MassFractionUnit.PartPerThousand"/>.
         /// </summary>
-        public static MassFraction FromPartsPerThousand(double value)
+        public static MassFraction FromPartsPerThousand(QuantityValue value)
         {
             return new MassFraction(value, MassFractionUnit.PartPerThousand);
         }
@@ -590,7 +587,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="MassFraction"/> from <see cref="MassFractionUnit.PartPerTrillion"/>.
         /// </summary>
-        public static MassFraction FromPartsPerTrillion(double value)
+        public static MassFraction FromPartsPerTrillion(QuantityValue value)
         {
             return new MassFraction(value, MassFractionUnit.PartPerTrillion);
         }
@@ -598,7 +595,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="MassFraction"/> from <see cref="MassFractionUnit.Percent"/>.
         /// </summary>
-        public static MassFraction FromPercent(double value)
+        public static MassFraction FromPercent(QuantityValue value)
         {
             return new MassFraction(value, MassFractionUnit.Percent);
         }
@@ -609,7 +606,7 @@ namespace UnitsNet
         /// <param name="value">Value to convert from.</param>
         /// <param name="fromUnit">Unit to convert from.</param>
         /// <returns>MassFraction unit value.</returns>
-        public static MassFraction From(double value, MassFractionUnit fromUnit)
+        public static MassFraction From(QuantityValue value, MassFractionUnit fromUnit)
         {
             return new MassFraction(value, fromUnit);
         }
@@ -670,7 +667,7 @@ namespace UnitsNet
         /// <param name="provider">Format to use when parsing number and unit. Defaults to <see cref="CultureInfo.CurrentCulture" /> if null.</param>
         public static MassFraction Parse(string str, IFormatProvider? provider)
         {
-            return QuantityParser.Default.Parse<MassFraction, MassFractionUnit>(
+            return UnitsNetSetup.Default.QuantityParser.Parse<MassFraction, MassFractionUnit>(
                 str,
                 provider,
                 From);
@@ -701,7 +698,7 @@ namespace UnitsNet
         /// <param name="provider">Format to use when parsing number and unit. Defaults to <see cref="CultureInfo.CurrentCulture" /> if null.</param>
         public static bool TryParse(string? str, IFormatProvider? provider, out MassFraction result)
         {
-            return QuantityParser.Default.TryParse<MassFraction, MassFractionUnit>(
+            return UnitsNetSetup.Default.QuantityParser.TryParse<MassFraction, MassFractionUnit>(
                 str,
                 provider,
                 From,
@@ -734,7 +731,7 @@ namespace UnitsNet
         /// <exception cref="UnitsNetException">Error parsing string.</exception>
         public static MassFractionUnit ParseUnit(string str, IFormatProvider? provider)
         {
-            return UnitParser.Default.Parse<MassFractionUnit>(str, provider);
+            return UnitsNetSetup.Default.UnitParser.Parse<MassFractionUnit>(str, provider);
         }
 
         /// <inheritdoc cref="TryParseUnit(string,IFormatProvider,out UnitsNet.Units.MassFractionUnit)"/>
@@ -755,7 +752,7 @@ namespace UnitsNet
         /// <param name="provider">Format to use when parsing number and unit. Defaults to <see cref="CultureInfo.CurrentCulture" /> if null.</param>
         public static bool TryParseUnit(string str, IFormatProvider? provider, out MassFractionUnit unit)
         {
-            return UnitParser.Default.TryParse<MassFractionUnit>(str, provider, out unit);
+            return UnitsNetSetup.Default.UnitParser.TryParse<MassFractionUnit>(str, provider, out unit);
         }
 
         #endregion
@@ -781,25 +778,25 @@ namespace UnitsNet
         }
 
         /// <summary>Get <see cref="MassFraction"/> from multiplying value and <see cref="MassFraction"/>.</summary>
-        public static MassFraction operator *(double left, MassFraction right)
+        public static MassFraction operator *(QuantityValue left, MassFraction right)
         {
             return new MassFraction(left * right.Value, right.Unit);
         }
 
         /// <summary>Get <see cref="MassFraction"/> from multiplying value and <see cref="MassFraction"/>.</summary>
-        public static MassFraction operator *(MassFraction left, double right)
+        public static MassFraction operator *(MassFraction left, QuantityValue right)
         {
             return new MassFraction(left.Value * right, left.Unit);
         }
 
         /// <summary>Get <see cref="MassFraction"/> from dividing <see cref="MassFraction"/> by value.</summary>
-        public static MassFraction operator /(MassFraction left, double right)
+        public static MassFraction operator /(MassFraction left, QuantityValue right)
         {
             return new MassFraction(left.Value / right, left.Unit);
         }
 
         /// <summary>Get ratio value from dividing <see cref="MassFraction"/> by <see cref="MassFraction"/>.</summary>
-        public static double operator /(MassFraction left, MassFraction right)
+        public static QuantityValue operator /(MassFraction left, MassFraction right)
         {
             return left.DecimalFractions / right.DecimalFractions;
         }
@@ -842,27 +839,20 @@ namespace UnitsNet
             return left.Value > right.ToUnit(left.Unit).Value;
         }
 
-        // We use obsolete attribute to communicate the preferred equality members to use.
-        // CS0809: Obsolete member 'memberA' overrides non-obsolete member 'memberB'.
-        #pragma warning disable CS0809
-
-        /// <summary>Indicates strict equality of two <see cref="MassFraction"/> quantities, where both <see cref="Value" /> and <see cref="Unit" /> are exactly equal.</summary>
-        [Obsolete("For null checks, use `x is null` syntax to not invoke overloads. For equality checks, use Equals(MassFraction other, MassFraction tolerance) instead, to check equality across units and to specify the max tolerance for rounding errors due to floating-point arithmetic when converting between units.")]
+        /// <summary>Indicates strict equality of two <see cref="MassFraction"/> quantities.</summary>
         public static bool operator ==(MassFraction left, MassFraction right)
         {
             return left.Equals(right);
         }
 
-        /// <summary>Indicates strict inequality of two <see cref="MassFraction"/> quantities, where both <see cref="Value" /> and <see cref="Unit" /> are exactly equal.</summary>
-        [Obsolete("For null checks, use `x is null` syntax to not invoke overloads. For equality checks, use Equals(MassFraction other, MassFraction tolerance) instead, to check equality across units and to specify the max tolerance for rounding errors due to floating-point arithmetic when converting between units.")]
+        /// <summary>Indicates strict inequality of two <see cref="MassFraction"/> quantities.</summary>
         public static bool operator !=(MassFraction left, MassFraction right)
         {
             return !(left == right);
         }
 
         /// <inheritdoc />
-        /// <summary>Indicates strict equality of two <see cref="MassFraction"/> quantities, where both <see cref="Value" /> and <see cref="Unit" /> are exactly equal.</summary>
-        [Obsolete("Use Equals(MassFraction other, MassFraction tolerance) instead, to check equality across units and to specify the max tolerance for rounding errors due to floating-point arithmetic when converting between units.")]
+        /// <summary>Indicates strict equality of two <see cref="MassFraction"/> quantities.</summary>
         public override bool Equals(object? obj)
         {
             if (obj is null || !(obj is MassFraction otherQuantity))
@@ -872,14 +862,11 @@ namespace UnitsNet
         }
 
         /// <inheritdoc />
-        /// <summary>Indicates strict equality of two <see cref="MassFraction"/> quantities, where both <see cref="Value" /> and <see cref="Unit" /> are exactly equal.</summary>
-        [Obsolete("Use Equals(MassFraction other, MassFraction tolerance) instead, to check equality across units and to specify the max tolerance for rounding errors due to floating-point arithmetic when converting between units.")]
+        /// <summary>Indicates strict equality of two <see cref="MassFraction"/> quantities.</summary>
         public bool Equals(MassFraction other)
         {
-            return new { Value, Unit }.Equals(new { other.Value, other.Unit });
+            return _value.Equals(other.As(this.Unit));
         }
-
-        #pragma warning restore CS0809
 
         /// <summary>Compares the current <see cref="MassFraction"/> with another object of the same type and returns an integer that indicates whether the current instance precedes, follows, or occurs in the same position in the sort order as the other when converted to the same unit.</summary>
         /// <param name="obj">An object to compare with this instance.</param>
@@ -917,59 +904,6 @@ namespace UnitsNet
             return _value.CompareTo(other.ToUnit(this.Unit).Value);
         }
 
-        /// <summary>
-        ///     <para>
-        ///     Compare equality to another MassFraction within the given absolute or relative tolerance.
-        ///     </para>
-        ///     <para>
-        ///     Relative tolerance is defined as the maximum allowable absolute difference between this quantity's value and
-        ///     <paramref name="other"/> as a percentage of this quantity's value. <paramref name="other"/> will be converted into
-        ///     this quantity's unit for comparison. A relative tolerance of 0.01 means the absolute difference must be within +/- 1% of
-        ///     this quantity's value to be considered equal.
-        ///     <example>
-        ///     In this example, the two quantities will be equal if the value of b is within +/- 1% of a (0.02m or 2cm).
-        ///     <code>
-        ///     var a = Length.FromMeters(2.0);
-        ///     var b = Length.FromInches(50.0);
-        ///     a.Equals(b, 0.01, ComparisonType.Relative);
-        ///     </code>
-        ///     </example>
-        ///     </para>
-        ///     <para>
-        ///     Absolute tolerance is defined as the maximum allowable absolute difference between this quantity's value and
-        ///     <paramref name="other"/> as a fixed number in this quantity's unit. <paramref name="other"/> will be converted into
-        ///     this quantity's unit for comparison.
-        ///     <example>
-        ///     In this example, the two quantities will be equal if the value of b is within 0.01 of a (0.01m or 1cm).
-        ///     <code>
-        ///     var a = Length.FromMeters(2.0);
-        ///     var b = Length.FromInches(50.0);
-        ///     a.Equals(b, 0.01, ComparisonType.Absolute);
-        ///     </code>
-        ///     </example>
-        ///     </para>
-        ///     <para>
-        ///     Note that it is advised against specifying zero difference, due to the nature
-        ///     of floating-point operations and using double internally.
-        ///     </para>
-        /// </summary>
-        /// <param name="other">The other quantity to compare to.</param>
-        /// <param name="tolerance">The absolute or relative tolerance value. Must be greater than or equal to 0.</param>
-        /// <param name="comparisonType">The comparison type: either relative or absolute.</param>
-        /// <returns>True if the absolute difference between the two values is not greater than the specified relative or absolute tolerance.</returns>
-        [Obsolete("Use Equals(MassFraction other, MassFraction tolerance) instead, to check equality across units and to specify the max tolerance for rounding errors due to floating-point arithmetic when converting between units.")]
-        public bool Equals(MassFraction other, double tolerance, ComparisonType comparisonType)
-        {
-            if (tolerance < 0)
-                throw new ArgumentOutOfRangeException(nameof(tolerance), "Tolerance must be greater than or equal to 0.");
-
-            return UnitsNet.Comparison.Equals(
-                referenceValue: this.Value,
-                otherValue: other.As(this.Unit),
-                tolerance: tolerance,
-                comparisonType: comparisonType);
-        }
-
         /// <inheritdoc />
         public bool Equals(IQuantity? other, IQuantity tolerance)
         {
@@ -983,11 +917,10 @@ namespace UnitsNet
         /// <inheritdoc />
         public bool Equals(MassFraction other, MassFraction tolerance)
         {
-            return UnitsNet.Comparison.Equals(
-                referenceValue: this.Value,
-                otherValue: other.As(this.Unit),
-                tolerance: tolerance.As(this.Unit),
-                comparisonType: ComparisonType.Absolute);
+            return UnitsNet.Comparison.EqualsAbsolute(
+                this.Value,
+                other.As(this.Unit),
+                tolerance: tolerance.As(this.Unit));
         }
 
         /// <summary>
@@ -996,7 +929,12 @@ namespace UnitsNet
         /// <returns>A hash code for the current MassFraction.</returns>
         public override int GetHashCode()
         {
-            return new { Info.Name, Value, Unit }.GetHashCode();
+            var valueInBaseUnit = As(BaseUnit);
+            #if NET7_0_OR_GREATER
+            return HashCode.Combine(Info.Name, valueInBaseUnit);
+            #else
+            return new { Info.Name, valueInBaseUnit }.GetHashCode();
+            #endif
         }
 
         #endregion
@@ -1007,7 +945,7 @@ namespace UnitsNet
         ///     Convert to the unit representation <paramref name="unit" />.
         /// </summary>
         /// <returns>Value converted to the specified unit.</returns>
-        public double As(MassFractionUnit unit)
+        public QuantityValue As(MassFractionUnit unit)
         {
             if (Unit == unit)
                 return Value;
@@ -1016,7 +954,7 @@ namespace UnitsNet
         }
 
         /// <inheritdoc cref="IQuantity.As(UnitSystem)"/>
-        public double As(UnitSystem unitSystem)
+        public QuantityValue As(UnitSystem unitSystem)
         {
             if (unitSystem is null)
                 throw new ArgumentNullException(nameof(unitSystem));
@@ -1031,7 +969,7 @@ namespace UnitsNet
         }
 
         /// <inheritdoc />
-        double IQuantity.As(Enum unit)
+        QuantityValue IQuantity.As(Enum unit)
         {
             if (!(unit is MassFractionUnit typedUnit))
                 throw new ArgumentException($"The given unit is of type {unit.GetType()}. Only {typeof(MassFractionUnit)} is supported.", nameof(unit));
@@ -1097,54 +1035,54 @@ namespace UnitsNet
             MassFraction? convertedOrNull = (Unit, unit) switch
             {
                 // MassFractionUnit -> BaseUnit
-                (MassFractionUnit.CentigramPerGram, MassFractionUnit.DecimalFraction) => new MassFraction((_value) * 1e-2d, MassFractionUnit.DecimalFraction),
-                (MassFractionUnit.CentigramPerKilogram, MassFractionUnit.DecimalFraction) => new MassFraction((_value / 1e3) * 1e-2d, MassFractionUnit.DecimalFraction),
-                (MassFractionUnit.DecagramPerGram, MassFractionUnit.DecimalFraction) => new MassFraction((_value) * 1e1d, MassFractionUnit.DecimalFraction),
-                (MassFractionUnit.DecagramPerKilogram, MassFractionUnit.DecimalFraction) => new MassFraction((_value / 1e3) * 1e1d, MassFractionUnit.DecimalFraction),
-                (MassFractionUnit.DecigramPerGram, MassFractionUnit.DecimalFraction) => new MassFraction((_value) * 1e-1d, MassFractionUnit.DecimalFraction),
-                (MassFractionUnit.DecigramPerKilogram, MassFractionUnit.DecimalFraction) => new MassFraction((_value / 1e3) * 1e-1d, MassFractionUnit.DecimalFraction),
+                (MassFractionUnit.CentigramPerGram, MassFractionUnit.DecimalFraction) => new MassFraction(_value / 100, MassFractionUnit.DecimalFraction),
+                (MassFractionUnit.CentigramPerKilogram, MassFractionUnit.DecimalFraction) => new MassFraction(_value / 100000, MassFractionUnit.DecimalFraction),
+                (MassFractionUnit.DecagramPerGram, MassFractionUnit.DecimalFraction) => new MassFraction(_value * 10, MassFractionUnit.DecimalFraction),
+                (MassFractionUnit.DecagramPerKilogram, MassFractionUnit.DecimalFraction) => new MassFraction(_value / 100, MassFractionUnit.DecimalFraction),
+                (MassFractionUnit.DecigramPerGram, MassFractionUnit.DecimalFraction) => new MassFraction(_value / 10, MassFractionUnit.DecimalFraction),
+                (MassFractionUnit.DecigramPerKilogram, MassFractionUnit.DecimalFraction) => new MassFraction(_value / 10000, MassFractionUnit.DecimalFraction),
                 (MassFractionUnit.GramPerGram, MassFractionUnit.DecimalFraction) => new MassFraction(_value, MassFractionUnit.DecimalFraction),
-                (MassFractionUnit.GramPerKilogram, MassFractionUnit.DecimalFraction) => new MassFraction(_value / 1e3, MassFractionUnit.DecimalFraction),
-                (MassFractionUnit.HectogramPerGram, MassFractionUnit.DecimalFraction) => new MassFraction((_value) * 1e2d, MassFractionUnit.DecimalFraction),
-                (MassFractionUnit.HectogramPerKilogram, MassFractionUnit.DecimalFraction) => new MassFraction((_value / 1e3) * 1e2d, MassFractionUnit.DecimalFraction),
-                (MassFractionUnit.KilogramPerGram, MassFractionUnit.DecimalFraction) => new MassFraction((_value) * 1e3d, MassFractionUnit.DecimalFraction),
-                (MassFractionUnit.KilogramPerKilogram, MassFractionUnit.DecimalFraction) => new MassFraction((_value / 1e3) * 1e3d, MassFractionUnit.DecimalFraction),
-                (MassFractionUnit.MicrogramPerGram, MassFractionUnit.DecimalFraction) => new MassFraction((_value) * 1e-6d, MassFractionUnit.DecimalFraction),
-                (MassFractionUnit.MicrogramPerKilogram, MassFractionUnit.DecimalFraction) => new MassFraction((_value / 1e3) * 1e-6d, MassFractionUnit.DecimalFraction),
-                (MassFractionUnit.MilligramPerGram, MassFractionUnit.DecimalFraction) => new MassFraction((_value) * 1e-3d, MassFractionUnit.DecimalFraction),
-                (MassFractionUnit.MilligramPerKilogram, MassFractionUnit.DecimalFraction) => new MassFraction((_value / 1e3) * 1e-3d, MassFractionUnit.DecimalFraction),
-                (MassFractionUnit.NanogramPerGram, MassFractionUnit.DecimalFraction) => new MassFraction((_value) * 1e-9d, MassFractionUnit.DecimalFraction),
-                (MassFractionUnit.NanogramPerKilogram, MassFractionUnit.DecimalFraction) => new MassFraction((_value / 1e3) * 1e-9d, MassFractionUnit.DecimalFraction),
-                (MassFractionUnit.PartPerBillion, MassFractionUnit.DecimalFraction) => new MassFraction(_value / 1e9, MassFractionUnit.DecimalFraction),
-                (MassFractionUnit.PartPerMillion, MassFractionUnit.DecimalFraction) => new MassFraction(_value / 1e6, MassFractionUnit.DecimalFraction),
-                (MassFractionUnit.PartPerThousand, MassFractionUnit.DecimalFraction) => new MassFraction(_value / 1e3, MassFractionUnit.DecimalFraction),
-                (MassFractionUnit.PartPerTrillion, MassFractionUnit.DecimalFraction) => new MassFraction(_value / 1e12, MassFractionUnit.DecimalFraction),
-                (MassFractionUnit.Percent, MassFractionUnit.DecimalFraction) => new MassFraction(_value / 1e2, MassFractionUnit.DecimalFraction),
+                (MassFractionUnit.GramPerKilogram, MassFractionUnit.DecimalFraction) => new MassFraction(_value / 1000, MassFractionUnit.DecimalFraction),
+                (MassFractionUnit.HectogramPerGram, MassFractionUnit.DecimalFraction) => new MassFraction(_value * 100, MassFractionUnit.DecimalFraction),
+                (MassFractionUnit.HectogramPerKilogram, MassFractionUnit.DecimalFraction) => new MassFraction(_value / 10, MassFractionUnit.DecimalFraction),
+                (MassFractionUnit.KilogramPerGram, MassFractionUnit.DecimalFraction) => new MassFraction(_value * 1000, MassFractionUnit.DecimalFraction),
+                (MassFractionUnit.KilogramPerKilogram, MassFractionUnit.DecimalFraction) => new MassFraction(_value, MassFractionUnit.DecimalFraction),
+                (MassFractionUnit.MicrogramPerGram, MassFractionUnit.DecimalFraction) => new MassFraction(_value / 1000000, MassFractionUnit.DecimalFraction),
+                (MassFractionUnit.MicrogramPerKilogram, MassFractionUnit.DecimalFraction) => new MassFraction(_value / 1000000000, MassFractionUnit.DecimalFraction),
+                (MassFractionUnit.MilligramPerGram, MassFractionUnit.DecimalFraction) => new MassFraction(_value / 1000, MassFractionUnit.DecimalFraction),
+                (MassFractionUnit.MilligramPerKilogram, MassFractionUnit.DecimalFraction) => new MassFraction(_value / 1000000, MassFractionUnit.DecimalFraction),
+                (MassFractionUnit.NanogramPerGram, MassFractionUnit.DecimalFraction) => new MassFraction(_value / 1000000000, MassFractionUnit.DecimalFraction),
+                (MassFractionUnit.NanogramPerKilogram, MassFractionUnit.DecimalFraction) => new MassFraction(_value / 1000000000000, MassFractionUnit.DecimalFraction),
+                (MassFractionUnit.PartPerBillion, MassFractionUnit.DecimalFraction) => new MassFraction(_value / 1000000000, MassFractionUnit.DecimalFraction),
+                (MassFractionUnit.PartPerMillion, MassFractionUnit.DecimalFraction) => new MassFraction(_value / 1000000, MassFractionUnit.DecimalFraction),
+                (MassFractionUnit.PartPerThousand, MassFractionUnit.DecimalFraction) => new MassFraction(_value / 1000, MassFractionUnit.DecimalFraction),
+                (MassFractionUnit.PartPerTrillion, MassFractionUnit.DecimalFraction) => new MassFraction(_value / 1000000000000, MassFractionUnit.DecimalFraction),
+                (MassFractionUnit.Percent, MassFractionUnit.DecimalFraction) => new MassFraction(_value / 100, MassFractionUnit.DecimalFraction),
 
                 // BaseUnit -> MassFractionUnit
-                (MassFractionUnit.DecimalFraction, MassFractionUnit.CentigramPerGram) => new MassFraction((_value) / 1e-2d, MassFractionUnit.CentigramPerGram),
-                (MassFractionUnit.DecimalFraction, MassFractionUnit.CentigramPerKilogram) => new MassFraction((_value * 1e3) / 1e-2d, MassFractionUnit.CentigramPerKilogram),
-                (MassFractionUnit.DecimalFraction, MassFractionUnit.DecagramPerGram) => new MassFraction((_value) / 1e1d, MassFractionUnit.DecagramPerGram),
-                (MassFractionUnit.DecimalFraction, MassFractionUnit.DecagramPerKilogram) => new MassFraction((_value * 1e3) / 1e1d, MassFractionUnit.DecagramPerKilogram),
-                (MassFractionUnit.DecimalFraction, MassFractionUnit.DecigramPerGram) => new MassFraction((_value) / 1e-1d, MassFractionUnit.DecigramPerGram),
-                (MassFractionUnit.DecimalFraction, MassFractionUnit.DecigramPerKilogram) => new MassFraction((_value * 1e3) / 1e-1d, MassFractionUnit.DecigramPerKilogram),
+                (MassFractionUnit.DecimalFraction, MassFractionUnit.CentigramPerGram) => new MassFraction(_value * 100, MassFractionUnit.CentigramPerGram),
+                (MassFractionUnit.DecimalFraction, MassFractionUnit.CentigramPerKilogram) => new MassFraction(_value * 100000, MassFractionUnit.CentigramPerKilogram),
+                (MassFractionUnit.DecimalFraction, MassFractionUnit.DecagramPerGram) => new MassFraction(_value / 10, MassFractionUnit.DecagramPerGram),
+                (MassFractionUnit.DecimalFraction, MassFractionUnit.DecagramPerKilogram) => new MassFraction(_value * 100, MassFractionUnit.DecagramPerKilogram),
+                (MassFractionUnit.DecimalFraction, MassFractionUnit.DecigramPerGram) => new MassFraction(_value * 10, MassFractionUnit.DecigramPerGram),
+                (MassFractionUnit.DecimalFraction, MassFractionUnit.DecigramPerKilogram) => new MassFraction(_value * 10000, MassFractionUnit.DecigramPerKilogram),
                 (MassFractionUnit.DecimalFraction, MassFractionUnit.GramPerGram) => new MassFraction(_value, MassFractionUnit.GramPerGram),
-                (MassFractionUnit.DecimalFraction, MassFractionUnit.GramPerKilogram) => new MassFraction(_value * 1e3, MassFractionUnit.GramPerKilogram),
-                (MassFractionUnit.DecimalFraction, MassFractionUnit.HectogramPerGram) => new MassFraction((_value) / 1e2d, MassFractionUnit.HectogramPerGram),
-                (MassFractionUnit.DecimalFraction, MassFractionUnit.HectogramPerKilogram) => new MassFraction((_value * 1e3) / 1e2d, MassFractionUnit.HectogramPerKilogram),
-                (MassFractionUnit.DecimalFraction, MassFractionUnit.KilogramPerGram) => new MassFraction((_value) / 1e3d, MassFractionUnit.KilogramPerGram),
-                (MassFractionUnit.DecimalFraction, MassFractionUnit.KilogramPerKilogram) => new MassFraction((_value * 1e3) / 1e3d, MassFractionUnit.KilogramPerKilogram),
-                (MassFractionUnit.DecimalFraction, MassFractionUnit.MicrogramPerGram) => new MassFraction((_value) / 1e-6d, MassFractionUnit.MicrogramPerGram),
-                (MassFractionUnit.DecimalFraction, MassFractionUnit.MicrogramPerKilogram) => new MassFraction((_value * 1e3) / 1e-6d, MassFractionUnit.MicrogramPerKilogram),
-                (MassFractionUnit.DecimalFraction, MassFractionUnit.MilligramPerGram) => new MassFraction((_value) / 1e-3d, MassFractionUnit.MilligramPerGram),
-                (MassFractionUnit.DecimalFraction, MassFractionUnit.MilligramPerKilogram) => new MassFraction((_value * 1e3) / 1e-3d, MassFractionUnit.MilligramPerKilogram),
-                (MassFractionUnit.DecimalFraction, MassFractionUnit.NanogramPerGram) => new MassFraction((_value) / 1e-9d, MassFractionUnit.NanogramPerGram),
-                (MassFractionUnit.DecimalFraction, MassFractionUnit.NanogramPerKilogram) => new MassFraction((_value * 1e3) / 1e-9d, MassFractionUnit.NanogramPerKilogram),
-                (MassFractionUnit.DecimalFraction, MassFractionUnit.PartPerBillion) => new MassFraction(_value * 1e9, MassFractionUnit.PartPerBillion),
-                (MassFractionUnit.DecimalFraction, MassFractionUnit.PartPerMillion) => new MassFraction(_value * 1e6, MassFractionUnit.PartPerMillion),
-                (MassFractionUnit.DecimalFraction, MassFractionUnit.PartPerThousand) => new MassFraction(_value * 1e3, MassFractionUnit.PartPerThousand),
-                (MassFractionUnit.DecimalFraction, MassFractionUnit.PartPerTrillion) => new MassFraction(_value * 1e12, MassFractionUnit.PartPerTrillion),
-                (MassFractionUnit.DecimalFraction, MassFractionUnit.Percent) => new MassFraction(_value * 1e2, MassFractionUnit.Percent),
+                (MassFractionUnit.DecimalFraction, MassFractionUnit.GramPerKilogram) => new MassFraction(_value * 1000, MassFractionUnit.GramPerKilogram),
+                (MassFractionUnit.DecimalFraction, MassFractionUnit.HectogramPerGram) => new MassFraction(_value / 100, MassFractionUnit.HectogramPerGram),
+                (MassFractionUnit.DecimalFraction, MassFractionUnit.HectogramPerKilogram) => new MassFraction(_value * 10, MassFractionUnit.HectogramPerKilogram),
+                (MassFractionUnit.DecimalFraction, MassFractionUnit.KilogramPerGram) => new MassFraction(_value / 1000, MassFractionUnit.KilogramPerGram),
+                (MassFractionUnit.DecimalFraction, MassFractionUnit.KilogramPerKilogram) => new MassFraction(_value, MassFractionUnit.KilogramPerKilogram),
+                (MassFractionUnit.DecimalFraction, MassFractionUnit.MicrogramPerGram) => new MassFraction(_value * 1000000, MassFractionUnit.MicrogramPerGram),
+                (MassFractionUnit.DecimalFraction, MassFractionUnit.MicrogramPerKilogram) => new MassFraction(_value * 1000000000, MassFractionUnit.MicrogramPerKilogram),
+                (MassFractionUnit.DecimalFraction, MassFractionUnit.MilligramPerGram) => new MassFraction(_value * 1000, MassFractionUnit.MilligramPerGram),
+                (MassFractionUnit.DecimalFraction, MassFractionUnit.MilligramPerKilogram) => new MassFraction(_value * 1000000, MassFractionUnit.MilligramPerKilogram),
+                (MassFractionUnit.DecimalFraction, MassFractionUnit.NanogramPerGram) => new MassFraction(_value * 1000000000, MassFractionUnit.NanogramPerGram),
+                (MassFractionUnit.DecimalFraction, MassFractionUnit.NanogramPerKilogram) => new MassFraction(_value * 1000000000000, MassFractionUnit.NanogramPerKilogram),
+                (MassFractionUnit.DecimalFraction, MassFractionUnit.PartPerBillion) => new MassFraction(_value * 1000000000, MassFractionUnit.PartPerBillion),
+                (MassFractionUnit.DecimalFraction, MassFractionUnit.PartPerMillion) => new MassFraction(_value * 1000000, MassFractionUnit.PartPerMillion),
+                (MassFractionUnit.DecimalFraction, MassFractionUnit.PartPerThousand) => new MassFraction(_value * 1000, MassFractionUnit.PartPerThousand),
+                (MassFractionUnit.DecimalFraction, MassFractionUnit.PartPerTrillion) => new MassFraction(_value * 1000000000000, MassFractionUnit.PartPerTrillion),
+                (MassFractionUnit.DecimalFraction, MassFractionUnit.Percent) => new MassFraction(_value * 100, MassFractionUnit.Percent),
 
                 _ => null
             };

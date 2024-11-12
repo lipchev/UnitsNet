@@ -20,7 +20,7 @@ namespace UnitsNet.Tests
         private static readonly IFormatProvider NorwegianCulture = CultureInfo.GetCultureInfo(NorwegianCultureName);
         private static readonly IFormatProvider RussianCulture = CultureInfo.GetCultureInfo(RussianCultureName);
 
-        // The default, parameterless ToString() method uses 2 sigifnificant digits after the radix point.
+        // The default, parameterless ToString() method uses 2 significant digits after the radix point.
         [Theory]
         [InlineData(0, "0 m")]
         [InlineData(0.1, "0.1 m")]
@@ -235,10 +235,10 @@ namespace UnitsNet.Tests
             var culture = AmericanCulture;
             var unit = AreaUnit.SquareMeter;
 
-            var cache1 = new UnitAbbreviationsCache();
+            var cache1 = UnitAbbreviationsCache.CreateDefault();
             cache1.MapUnitToAbbreviation(unit, culture, "m^2");
 
-            var cache2 = new UnitAbbreviationsCache();
+            var cache2 = UnitAbbreviationsCache.CreateDefault();
             cache2.MapUnitToAbbreviation(unit, culture, "m2");
 
             Assert.Equal(new[] { "m²", "m^2" }, cache1.GetUnitAbbreviations(unit, culture));
@@ -250,7 +250,7 @@ namespace UnitsNet.Tests
         [Fact]
         public void MapUnitToAbbreviation_AddCustomUnit_DoesNotOverrideDefaultAbbreviationForAlreadyMappedUnits()
         {
-            var cache = new UnitAbbreviationsCache();
+            var cache = UnitAbbreviationsCache.CreateDefault();
             cache.MapUnitToAbbreviation(AreaUnit.SquareMeter, AmericanCulture, "m^2");
 
             Assert.Equal("m²", cache.GetDefaultAbbreviation(AreaUnit.SquareMeter, AmericanCulture));
@@ -270,7 +270,7 @@ namespace UnitsNet.Tests
         {
             // Use a distinct culture here so that we don't mess up other tests that may rely on the default cache.
             var newZealandCulture = GetCulture("en-NZ");
-            UnitAbbreviationsCache.Default.MapUnitToDefaultAbbreviation(AreaUnit.SquareMeter, newZealandCulture, "m^2");
+            UnitsNetSetup.Default.UnitAbbreviations.MapUnitToDefaultAbbreviation(AreaUnit.SquareMeter, newZealandCulture, "m^2");
 
             Assert.Equal("1 m^2", Area.FromSquareMeters(1).ToString(newZealandCulture));
         }
@@ -310,8 +310,9 @@ namespace UnitsNet.Tests
         [Fact]
         public void MapAndLookup_WithSpecificEnumType()
         {
-            UnitAbbreviationsCache.Default.MapUnitToDefaultAbbreviation(HowMuchUnit.Some, "sm");
-            Assert.Equal("sm", UnitAbbreviationsCache.Default.GetDefaultAbbreviation(HowMuchUnit.Some));
+            UnitAbbreviationsCache defaultUnitAbbreviations = UnitsNetSetup.Default.UnitAbbreviations;
+            defaultUnitAbbreviations.MapUnitToDefaultAbbreviation(HowMuchUnit.Some, "sm");
+            Assert.Equal("sm", defaultUnitAbbreviations.GetDefaultAbbreviation(HowMuchUnit.Some));
         }
 
         /// <inheritdoc cref="MapAndLookup_WithSpecificEnumType"/>
@@ -319,16 +320,18 @@ namespace UnitsNet.Tests
         public void MapAndLookup_WithEnumType()
         {
             Enum valueAsEnumType = HowMuchUnit.Some;
-            UnitAbbreviationsCache.Default.MapUnitToDefaultAbbreviation(valueAsEnumType, "sm");
-            Assert.Equal("sm", UnitAbbreviationsCache.Default.GetDefaultAbbreviation(valueAsEnumType));
+            UnitAbbreviationsCache defaultUnitAbbreviations = UnitsNetSetup.Default.UnitAbbreviations;
+            defaultUnitAbbreviations.MapUnitToDefaultAbbreviation(valueAsEnumType, "sm");
+            Assert.Equal("sm", defaultUnitAbbreviations.GetDefaultAbbreviation(valueAsEnumType));
         }
 
         /// <inheritdoc cref="MapAndLookup_WithSpecificEnumType"/>
         [Fact]
         public void MapAndLookup_MapWithSpecificEnumType_LookupWithEnumType()
         {
-            UnitAbbreviationsCache.Default.MapUnitToDefaultAbbreviation(HowMuchUnit.Some, "sm");
-            Assert.Equal("sm", UnitAbbreviationsCache.Default.GetDefaultAbbreviation((Enum)HowMuchUnit.Some));
+            UnitAbbreviationsCache defaultUnitAbbreviations = UnitsNetSetup.Default.UnitAbbreviations;
+            defaultUnitAbbreviations.MapUnitToDefaultAbbreviation(HowMuchUnit.Some, "sm");
+            Assert.Equal("sm", defaultUnitAbbreviations.GetDefaultAbbreviation((Enum)HowMuchUnit.Some));
         }
 
         /// <summary>

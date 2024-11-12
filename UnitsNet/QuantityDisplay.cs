@@ -92,16 +92,11 @@ internal readonly struct QuantityDisplay(IQuantity quantity)
         }
     }
 
-    [DebuggerDisplay("{DoubleValue}")]
+    [DebuggerDisplay("{QuantityValue}")]
     internal readonly struct ValueDisplay(IQuantity quantity)
     {
-        public double DoubleValue => quantity.Value;
-        public decimal DecimalValue => (decimal)quantity.Value;
-
-        public override string ToString()
-        {
-            return DoubleValue.ToString(CultureInfo.CurrentCulture);
-        }
+        [DebuggerBrowsable(DebuggerBrowsableState.RootHidden)]
+        public QuantityValue QuantityValue => quantity.Value;
     }
 
     [DebuggerDisplay("{QuantityToString}")]
@@ -130,7 +125,7 @@ internal readonly struct QuantityDisplay(IQuantity quantity)
         {
             public Enum Unit => Quantity.Unit;
             public string Abbreviation => UnitsNetSetup.Default.UnitAbbreviations.GetDefaultAbbreviation(Quantity.Unit);
-            public ValueDisplay Value => new(Quantity);
+            public QuantityValue Value => Quantity.Value;
             public IQuantity Quantity { get; } = quantity;
 
             public override string ToString()

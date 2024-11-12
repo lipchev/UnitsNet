@@ -97,15 +97,14 @@ namespace UnitsNet.Tests
         [Fact]
         public void Ctor_SIUnitSystem_ThrowsArgumentExceptionIfNotSupported()
         {
-            Func<object> TestCode = () => new PowerRatio(value: 1, unitSystem: UnitSystem.SI);
             if (SupportsSIUnitSystem)
             {
-                var quantity = (PowerRatio) TestCode();
+                var quantity = new PowerRatio(value: 1, unitSystem: UnitSystem.SI);
                 Assert.Equal(1, quantity.Value);
             }
             else
             {
-                Assert.Throws<ArgumentException>(TestCode);
+                Assert.Throws<ArgumentException>(() => new PowerRatio(value: 1, unitSystem: UnitSystem.SI));
             }
         }
 
@@ -135,11 +134,11 @@ namespace UnitsNet.Tests
         public void From_ValueAndUnit_ReturnsQuantityWithSameValueAndUnit()
         {
             var quantity00 = PowerRatio.From(1, PowerRatioUnit.DecibelMilliwatt);
-            AssertEx.EqualTolerance(1, quantity00.DecibelMilliwatts, DecibelMilliwattsTolerance);
+            Assert.Equal(1, quantity00.DecibelMilliwatts);
             Assert.Equal(PowerRatioUnit.DecibelMilliwatt, quantity00.Unit);
 
             var quantity01 = PowerRatio.From(1, PowerRatioUnit.DecibelWatt);
-            AssertEx.EqualTolerance(1, quantity01.DecibelWatts, DecibelWattsTolerance);
+            Assert.Equal(1, quantity01.DecibelWatts);
             Assert.Equal(PowerRatioUnit.DecibelWatt, quantity01.Unit);
 
         }
@@ -174,16 +173,13 @@ namespace UnitsNet.Tests
         public void As_SIUnitSystem_ThrowsArgumentExceptionIfNotSupported()
         {
             var quantity = new PowerRatio(value: 1, unit: PowerRatio.BaseUnit);
-            Func<object> AsWithSIUnitSystem = () => quantity.As(UnitSystem.SI);
-
             if (SupportsSIUnitSystem)
             {
-                var value = Convert.ToDouble(AsWithSIUnitSystem());
-                Assert.Equal(1, value);
+                Assert.Equal(1, quantity.As(UnitSystem.SI));
             }
             else
             {
-                Assert.Throws<ArgumentException>(AsWithSIUnitSystem);
+                Assert.Throws<ArgumentException>(() => quantity.As(UnitSystem.SI));
             }
         }
 
@@ -193,21 +189,21 @@ namespace UnitsNet.Tests
             try
             {
                 var parsed = PowerRatio.Parse("1 dBmW", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.DecibelMilliwatts, DecibelMilliwattsTolerance);
+                Assert.Equal(1, parsed.DecibelMilliwatts);
                 Assert.Equal(PowerRatioUnit.DecibelMilliwatt, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = PowerRatio.Parse("1 dBm", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.DecibelMilliwatts, DecibelMilliwattsTolerance);
+                Assert.Equal(1, parsed.DecibelMilliwatts);
                 Assert.Equal(PowerRatioUnit.DecibelMilliwatt, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
             try
             {
                 var parsed = PowerRatio.Parse("1 dBW", CultureInfo.GetCultureInfo("en-US"));
-                AssertEx.EqualTolerance(1, parsed.DecibelWatts, DecibelWattsTolerance);
+                Assert.Equal(1, parsed.DecibelWatts);
                 Assert.Equal(PowerRatioUnit.DecibelWatt, parsed.Unit);
             } catch (AmbiguousUnitParseException) { /* Some units have the same abbreviations */ }
 
@@ -218,19 +214,19 @@ namespace UnitsNet.Tests
         {
             {
                 Assert.True(PowerRatio.TryParse("1 dBmW", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.DecibelMilliwatts, DecibelMilliwattsTolerance);
+                Assert.Equal(1, parsed.DecibelMilliwatts);
                 Assert.Equal(PowerRatioUnit.DecibelMilliwatt, parsed.Unit);
             }
 
             {
                 Assert.True(PowerRatio.TryParse("1 dBm", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.DecibelMilliwatts, DecibelMilliwattsTolerance);
+                Assert.Equal(1, parsed.DecibelMilliwatts);
                 Assert.Equal(PowerRatioUnit.DecibelMilliwatt, parsed.Unit);
             }
 
             {
                 Assert.True(PowerRatio.TryParse("1 dBW", CultureInfo.GetCultureInfo("en-US"), out var parsed));
-                AssertEx.EqualTolerance(1, parsed.DecibelWatts, DecibelWattsTolerance);
+                Assert.Equal(1, parsed.DecibelWatts);
                 Assert.Equal(PowerRatioUnit.DecibelWatt, parsed.Unit);
             }
 
@@ -325,21 +321,21 @@ namespace UnitsNet.Tests
         public void ConversionRoundTrip()
         {
             PowerRatio decibelwatt = PowerRatio.FromDecibelWatts(1);
-            AssertEx.EqualTolerance(1, PowerRatio.FromDecibelMilliwatts(decibelwatt.DecibelMilliwatts).DecibelWatts, DecibelMilliwattsTolerance);
-            AssertEx.EqualTolerance(1, PowerRatio.FromDecibelWatts(decibelwatt.DecibelWatts).DecibelWatts, DecibelWattsTolerance);
+            Assert.Equal(1, PowerRatio.FromDecibelMilliwatts(decibelwatt.DecibelMilliwatts).DecibelWatts);
+            Assert.Equal(1, PowerRatio.FromDecibelWatts(decibelwatt.DecibelWatts).DecibelWatts);
         }
 
         [Fact]
         public void LogarithmicArithmeticOperators()
         {
             PowerRatio v = PowerRatio.FromDecibelWatts(40);
-            AssertEx.EqualTolerance(-40, -v.DecibelWatts, DecibelWattsTolerance);
+            Assert.Equal(-40, -v.DecibelWatts);
             AssertLogarithmicAddition();
             AssertLogarithmicSubtraction();
-            AssertEx.EqualTolerance(50, (v*10).DecibelWatts, DecibelWattsTolerance);
-            AssertEx.EqualTolerance(50, (10*v).DecibelWatts, DecibelWattsTolerance);
-            AssertEx.EqualTolerance(35, (v/5).DecibelWatts, DecibelWattsTolerance);
-            AssertEx.EqualTolerance(35, v/PowerRatio.FromDecibelWatts(5), DecibelWattsTolerance);
+            Assert.Equal(50, (v * 10).DecibelWatts);
+            Assert.Equal(50, (10 * v).DecibelWatts);
+            Assert.Equal(35, (v / 5).DecibelWatts);
+            Assert.Equal(35, v / PowerRatio.FromDecibelWatts(5));
         }
 
         protected abstract void AssertLogarithmicAddition();
@@ -389,8 +385,6 @@ namespace UnitsNet.Tests
         [Theory]
         [InlineData(1, PowerRatioUnit.DecibelWatt, 1, PowerRatioUnit.DecibelWatt, true)]  // Same value and unit.
         [InlineData(1, PowerRatioUnit.DecibelWatt, 2, PowerRatioUnit.DecibelWatt, false)] // Different value.
-        [InlineData(2, PowerRatioUnit.DecibelWatt, 1, PowerRatioUnit.DecibelMilliwatt, false)] // Different value and unit.
-        [InlineData(1, PowerRatioUnit.DecibelWatt, 1, PowerRatioUnit.DecibelMilliwatt, false)] // Different unit.
         public void Equals_ReturnsTrue_IfValueAndUnitAreEqual(double valueA, PowerRatioUnit unitA, double valueB, PowerRatioUnit unitB, bool expectEqual)
         {
             var a = new PowerRatio(valueA, unitA);
@@ -428,20 +422,22 @@ namespace UnitsNet.Tests
         }
 
         [Fact]
-        public void Equals_RelativeTolerance_IsImplemented()
+        public void Equals_WithTolerance_IsImplemented()
         {
             var v = PowerRatio.FromDecibelWatts(1);
-            Assert.True(v.Equals(PowerRatio.FromDecibelWatts(1), DecibelWattsTolerance, ComparisonType.Relative));
-            Assert.False(v.Equals(PowerRatio.Zero, DecibelWattsTolerance, ComparisonType.Relative));
-            Assert.True(PowerRatio.FromDecibelWatts(100).Equals(PowerRatio.FromDecibelWatts(120), 0.3, ComparisonType.Relative));
-            Assert.False(PowerRatio.FromDecibelWatts(100).Equals(PowerRatio.FromDecibelWatts(120), 0.1, ComparisonType.Relative));
+            Assert.True(v.Equals(PowerRatio.FromDecibelWatts(1), PowerRatio.FromDecibelWatts(0)));
+            Assert.True(v.Equals(PowerRatio.FromDecibelWatts(1), PowerRatio.FromDecibelWatts(0.001m)));
+            Assert.True(v.Equals(PowerRatio.FromDecibelWatts(0.9999), PowerRatio.FromDecibelWatts(0.001m)));
+            Assert.False(v.Equals(PowerRatio.FromDecibelWatts(0.99), PowerRatio.FromDecibelWatts(0.001m)));
+            Assert.False(v.Equals(PowerRatio.Zero, PowerRatio.FromDecibelWatts(0.001m)));
         }
 
         [Fact]
-        public void Equals_NegativeRelativeTolerance_ThrowsArgumentOutOfRangeException()
+        public void Equals_WithNegativeTolerance_ThrowsArgumentOutOfRangeException()
         {
             var v = PowerRatio.FromDecibelWatts(1);
-            Assert.Throws<ArgumentOutOfRangeException>(() => v.Equals(PowerRatio.FromDecibelWatts(1), -1, ComparisonType.Relative));
+            var negativeTolerance = PowerRatio.FromDecibelWatts(-1);
+            Assert.Throws<ArgumentOutOfRangeException>(() => v.Equals(PowerRatio.FromDecibelWatts(1), negativeTolerance));
         }
 
         [Fact]
@@ -464,7 +460,7 @@ namespace UnitsNet.Tests
             var units = Enum.GetValues(typeof(PowerRatioUnit)).Cast<PowerRatioUnit>();
             foreach (var unit in units)
             {
-                var defaultAbbreviation = UnitAbbreviationsCache.Default.GetDefaultAbbreviation(unit);
+                var defaultAbbreviation = UnitsNetSetup.Default.UnitAbbreviations.GetDefaultAbbreviation(unit);
             }
         }
 
@@ -693,7 +689,12 @@ namespace UnitsNet.Tests
         public void GetHashCode_Equals()
         {
             var quantity = PowerRatio.FromDecibelWatts(1.0);
-            Assert.Equal(new {PowerRatio.Info.Name, quantity.Value, quantity.Unit}.GetHashCode(), quantity.GetHashCode());
+            #if NET7_0_OR_GREATER
+            var expected = HashCode.Combine(PowerRatio.Info.Name, quantity.DecibelWatts);
+            #else
+            var expected = new {PowerRatio.Info.Name, valueInBaseUnit = quantity.DecibelWatts}.GetHashCode();
+            #endif
+            Assert.Equal(expected, quantity.GetHashCode());
         }
 
         [Theory]

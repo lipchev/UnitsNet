@@ -22,12 +22,9 @@ using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
-#if NET7_0_OR_GREATER
-using System.Numerics;
-#endif
 using System.Runtime.Serialization;
-using UnitsNet.InternalHelpers;
 using UnitsNet.Units;
+using System.Numerics;
 
 #nullable enable
 
@@ -59,13 +56,13 @@ namespace UnitsNet
         /// <summary>
         ///     The numeric value this quantity was constructed with.
         /// </summary>
-        [DataMember(Name = "Value", Order = 1)]
-        private readonly double _value;
+        [DataMember(Name = "Value", Order = 1, EmitDefaultValue = false)]
+        private readonly QuantityValue _value;
 
         /// <summary>
         ///     The unit this quantity was constructed with.
         /// </summary>
-        [DataMember(Name = "Unit", Order = 2)]
+        [DataMember(Name = "Unit", Order = 2, EmitDefaultValue = false)]
         private readonly AmountOfSubstanceUnit? _unit;
 
         static AmountOfSubstance()
@@ -106,7 +103,7 @@ namespace UnitsNet
         /// </summary>
         /// <param name="value">The numeric value to construct this quantity with.</param>
         /// <param name="unit">The unit representation to construct this quantity with.</param>
-        public AmountOfSubstance(double value, AmountOfSubstanceUnit unit)
+        public AmountOfSubstance(QuantityValue value, AmountOfSubstanceUnit unit)
         {
             _value = value;
             _unit = unit;
@@ -120,7 +117,7 @@ namespace UnitsNet
         /// <param name="unitSystem">The unit system to create the quantity with.</param>
         /// <exception cref="ArgumentNullException">The given <see cref="UnitSystem"/> is null.</exception>
         /// <exception cref="ArgumentException">No unit was found for the given <see cref="UnitSystem"/>.</exception>
-        public AmountOfSubstance(double value, UnitSystem unitSystem)
+        public AmountOfSubstance(QuantityValue value, UnitSystem unitSystem)
         {
             if (unitSystem is null) throw new ArgumentNullException(nameof(unitSystem));
 
@@ -171,10 +168,10 @@ namespace UnitsNet
         /// <summary>
         ///     The numeric value this quantity was constructed with.
         /// </summary>
-        public double Value => _value;
+        public QuantityValue Value => _value;
 
         /// <inheritdoc />
-        double IQuantity.Value => _value;
+        QuantityValue IQuantity.Value => _value;
 
         Enum IQuantity.Unit => Unit;
 
@@ -199,87 +196,87 @@ namespace UnitsNet
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="AmountOfSubstanceUnit.Centimole"/>
         /// </summary>
-        public double Centimoles => As(AmountOfSubstanceUnit.Centimole);
+        public QuantityValue Centimoles => As(AmountOfSubstanceUnit.Centimole);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="AmountOfSubstanceUnit.CentipoundMole"/>
         /// </summary>
-        public double CentipoundMoles => As(AmountOfSubstanceUnit.CentipoundMole);
+        public QuantityValue CentipoundMoles => As(AmountOfSubstanceUnit.CentipoundMole);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="AmountOfSubstanceUnit.Decimole"/>
         /// </summary>
-        public double Decimoles => As(AmountOfSubstanceUnit.Decimole);
+        public QuantityValue Decimoles => As(AmountOfSubstanceUnit.Decimole);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="AmountOfSubstanceUnit.DecipoundMole"/>
         /// </summary>
-        public double DecipoundMoles => As(AmountOfSubstanceUnit.DecipoundMole);
+        public QuantityValue DecipoundMoles => As(AmountOfSubstanceUnit.DecipoundMole);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="AmountOfSubstanceUnit.Femtomole"/>
         /// </summary>
-        public double Femtomoles => As(AmountOfSubstanceUnit.Femtomole);
+        public QuantityValue Femtomoles => As(AmountOfSubstanceUnit.Femtomole);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="AmountOfSubstanceUnit.Kilomole"/>
         /// </summary>
-        public double Kilomoles => As(AmountOfSubstanceUnit.Kilomole);
+        public QuantityValue Kilomoles => As(AmountOfSubstanceUnit.Kilomole);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="AmountOfSubstanceUnit.KilopoundMole"/>
         /// </summary>
-        public double KilopoundMoles => As(AmountOfSubstanceUnit.KilopoundMole);
+        public QuantityValue KilopoundMoles => As(AmountOfSubstanceUnit.KilopoundMole);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="AmountOfSubstanceUnit.Megamole"/>
         /// </summary>
-        public double Megamoles => As(AmountOfSubstanceUnit.Megamole);
+        public QuantityValue Megamoles => As(AmountOfSubstanceUnit.Megamole);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="AmountOfSubstanceUnit.Micromole"/>
         /// </summary>
-        public double Micromoles => As(AmountOfSubstanceUnit.Micromole);
+        public QuantityValue Micromoles => As(AmountOfSubstanceUnit.Micromole);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="AmountOfSubstanceUnit.MicropoundMole"/>
         /// </summary>
-        public double MicropoundMoles => As(AmountOfSubstanceUnit.MicropoundMole);
+        public QuantityValue MicropoundMoles => As(AmountOfSubstanceUnit.MicropoundMole);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="AmountOfSubstanceUnit.Millimole"/>
         /// </summary>
-        public double Millimoles => As(AmountOfSubstanceUnit.Millimole);
+        public QuantityValue Millimoles => As(AmountOfSubstanceUnit.Millimole);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="AmountOfSubstanceUnit.MillipoundMole"/>
         /// </summary>
-        public double MillipoundMoles => As(AmountOfSubstanceUnit.MillipoundMole);
+        public QuantityValue MillipoundMoles => As(AmountOfSubstanceUnit.MillipoundMole);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="AmountOfSubstanceUnit.Mole"/>
         /// </summary>
-        public double Moles => As(AmountOfSubstanceUnit.Mole);
+        public QuantityValue Moles => As(AmountOfSubstanceUnit.Mole);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="AmountOfSubstanceUnit.Nanomole"/>
         /// </summary>
-        public double Nanomoles => As(AmountOfSubstanceUnit.Nanomole);
+        public QuantityValue Nanomoles => As(AmountOfSubstanceUnit.Nanomole);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="AmountOfSubstanceUnit.NanopoundMole"/>
         /// </summary>
-        public double NanopoundMoles => As(AmountOfSubstanceUnit.NanopoundMole);
+        public QuantityValue NanopoundMoles => As(AmountOfSubstanceUnit.NanopoundMole);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="AmountOfSubstanceUnit.Picomole"/>
         /// </summary>
-        public double Picomoles => As(AmountOfSubstanceUnit.Picomole);
+        public QuantityValue Picomoles => As(AmountOfSubstanceUnit.Picomole);
 
         /// <summary>
         ///     Gets a <see cref="double"/> value of this quantity converted into <see cref="AmountOfSubstanceUnit.PoundMole"/>
         /// </summary>
-        public double PoundMoles => As(AmountOfSubstanceUnit.PoundMole);
+        public QuantityValue PoundMoles => As(AmountOfSubstanceUnit.PoundMole);
 
         #endregion
 
@@ -349,7 +346,7 @@ namespace UnitsNet
         /// <param name="provider">Format to use for localization. Defaults to <see cref="CultureInfo.CurrentCulture" /> if null.</param>
         public static string GetAbbreviation(AmountOfSubstanceUnit unit, IFormatProvider? provider)
         {
-            return UnitAbbreviationsCache.Default.GetDefaultAbbreviation(unit, provider);
+            return UnitsNetSetup.Default.UnitAbbreviations.GetDefaultAbbreviation(unit, provider);
         }
 
         #endregion
@@ -359,7 +356,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="AmountOfSubstance"/> from <see cref="AmountOfSubstanceUnit.Centimole"/>.
         /// </summary>
-        public static AmountOfSubstance FromCentimoles(double value)
+        public static AmountOfSubstance FromCentimoles(QuantityValue value)
         {
             return new AmountOfSubstance(value, AmountOfSubstanceUnit.Centimole);
         }
@@ -367,7 +364,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="AmountOfSubstance"/> from <see cref="AmountOfSubstanceUnit.CentipoundMole"/>.
         /// </summary>
-        public static AmountOfSubstance FromCentipoundMoles(double value)
+        public static AmountOfSubstance FromCentipoundMoles(QuantityValue value)
         {
             return new AmountOfSubstance(value, AmountOfSubstanceUnit.CentipoundMole);
         }
@@ -375,7 +372,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="AmountOfSubstance"/> from <see cref="AmountOfSubstanceUnit.Decimole"/>.
         /// </summary>
-        public static AmountOfSubstance FromDecimoles(double value)
+        public static AmountOfSubstance FromDecimoles(QuantityValue value)
         {
             return new AmountOfSubstance(value, AmountOfSubstanceUnit.Decimole);
         }
@@ -383,7 +380,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="AmountOfSubstance"/> from <see cref="AmountOfSubstanceUnit.DecipoundMole"/>.
         /// </summary>
-        public static AmountOfSubstance FromDecipoundMoles(double value)
+        public static AmountOfSubstance FromDecipoundMoles(QuantityValue value)
         {
             return new AmountOfSubstance(value, AmountOfSubstanceUnit.DecipoundMole);
         }
@@ -391,7 +388,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="AmountOfSubstance"/> from <see cref="AmountOfSubstanceUnit.Femtomole"/>.
         /// </summary>
-        public static AmountOfSubstance FromFemtomoles(double value)
+        public static AmountOfSubstance FromFemtomoles(QuantityValue value)
         {
             return new AmountOfSubstance(value, AmountOfSubstanceUnit.Femtomole);
         }
@@ -399,7 +396,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="AmountOfSubstance"/> from <see cref="AmountOfSubstanceUnit.Kilomole"/>.
         /// </summary>
-        public static AmountOfSubstance FromKilomoles(double value)
+        public static AmountOfSubstance FromKilomoles(QuantityValue value)
         {
             return new AmountOfSubstance(value, AmountOfSubstanceUnit.Kilomole);
         }
@@ -407,7 +404,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="AmountOfSubstance"/> from <see cref="AmountOfSubstanceUnit.KilopoundMole"/>.
         /// </summary>
-        public static AmountOfSubstance FromKilopoundMoles(double value)
+        public static AmountOfSubstance FromKilopoundMoles(QuantityValue value)
         {
             return new AmountOfSubstance(value, AmountOfSubstanceUnit.KilopoundMole);
         }
@@ -415,7 +412,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="AmountOfSubstance"/> from <see cref="AmountOfSubstanceUnit.Megamole"/>.
         /// </summary>
-        public static AmountOfSubstance FromMegamoles(double value)
+        public static AmountOfSubstance FromMegamoles(QuantityValue value)
         {
             return new AmountOfSubstance(value, AmountOfSubstanceUnit.Megamole);
         }
@@ -423,7 +420,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="AmountOfSubstance"/> from <see cref="AmountOfSubstanceUnit.Micromole"/>.
         /// </summary>
-        public static AmountOfSubstance FromMicromoles(double value)
+        public static AmountOfSubstance FromMicromoles(QuantityValue value)
         {
             return new AmountOfSubstance(value, AmountOfSubstanceUnit.Micromole);
         }
@@ -431,7 +428,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="AmountOfSubstance"/> from <see cref="AmountOfSubstanceUnit.MicropoundMole"/>.
         /// </summary>
-        public static AmountOfSubstance FromMicropoundMoles(double value)
+        public static AmountOfSubstance FromMicropoundMoles(QuantityValue value)
         {
             return new AmountOfSubstance(value, AmountOfSubstanceUnit.MicropoundMole);
         }
@@ -439,7 +436,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="AmountOfSubstance"/> from <see cref="AmountOfSubstanceUnit.Millimole"/>.
         /// </summary>
-        public static AmountOfSubstance FromMillimoles(double value)
+        public static AmountOfSubstance FromMillimoles(QuantityValue value)
         {
             return new AmountOfSubstance(value, AmountOfSubstanceUnit.Millimole);
         }
@@ -447,7 +444,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="AmountOfSubstance"/> from <see cref="AmountOfSubstanceUnit.MillipoundMole"/>.
         /// </summary>
-        public static AmountOfSubstance FromMillipoundMoles(double value)
+        public static AmountOfSubstance FromMillipoundMoles(QuantityValue value)
         {
             return new AmountOfSubstance(value, AmountOfSubstanceUnit.MillipoundMole);
         }
@@ -455,7 +452,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="AmountOfSubstance"/> from <see cref="AmountOfSubstanceUnit.Mole"/>.
         /// </summary>
-        public static AmountOfSubstance FromMoles(double value)
+        public static AmountOfSubstance FromMoles(QuantityValue value)
         {
             return new AmountOfSubstance(value, AmountOfSubstanceUnit.Mole);
         }
@@ -463,7 +460,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="AmountOfSubstance"/> from <see cref="AmountOfSubstanceUnit.Nanomole"/>.
         /// </summary>
-        public static AmountOfSubstance FromNanomoles(double value)
+        public static AmountOfSubstance FromNanomoles(QuantityValue value)
         {
             return new AmountOfSubstance(value, AmountOfSubstanceUnit.Nanomole);
         }
@@ -471,7 +468,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="AmountOfSubstance"/> from <see cref="AmountOfSubstanceUnit.NanopoundMole"/>.
         /// </summary>
-        public static AmountOfSubstance FromNanopoundMoles(double value)
+        public static AmountOfSubstance FromNanopoundMoles(QuantityValue value)
         {
             return new AmountOfSubstance(value, AmountOfSubstanceUnit.NanopoundMole);
         }
@@ -479,7 +476,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="AmountOfSubstance"/> from <see cref="AmountOfSubstanceUnit.Picomole"/>.
         /// </summary>
-        public static AmountOfSubstance FromPicomoles(double value)
+        public static AmountOfSubstance FromPicomoles(QuantityValue value)
         {
             return new AmountOfSubstance(value, AmountOfSubstanceUnit.Picomole);
         }
@@ -487,7 +484,7 @@ namespace UnitsNet
         /// <summary>
         ///     Creates a <see cref="AmountOfSubstance"/> from <see cref="AmountOfSubstanceUnit.PoundMole"/>.
         /// </summary>
-        public static AmountOfSubstance FromPoundMoles(double value)
+        public static AmountOfSubstance FromPoundMoles(QuantityValue value)
         {
             return new AmountOfSubstance(value, AmountOfSubstanceUnit.PoundMole);
         }
@@ -498,7 +495,7 @@ namespace UnitsNet
         /// <param name="value">Value to convert from.</param>
         /// <param name="fromUnit">Unit to convert from.</param>
         /// <returns>AmountOfSubstance unit value.</returns>
-        public static AmountOfSubstance From(double value, AmountOfSubstanceUnit fromUnit)
+        public static AmountOfSubstance From(QuantityValue value, AmountOfSubstanceUnit fromUnit)
         {
             return new AmountOfSubstance(value, fromUnit);
         }
@@ -559,7 +556,7 @@ namespace UnitsNet
         /// <param name="provider">Format to use when parsing number and unit. Defaults to <see cref="CultureInfo.CurrentCulture" /> if null.</param>
         public static AmountOfSubstance Parse(string str, IFormatProvider? provider)
         {
-            return QuantityParser.Default.Parse<AmountOfSubstance, AmountOfSubstanceUnit>(
+            return UnitsNetSetup.Default.QuantityParser.Parse<AmountOfSubstance, AmountOfSubstanceUnit>(
                 str,
                 provider,
                 From);
@@ -590,7 +587,7 @@ namespace UnitsNet
         /// <param name="provider">Format to use when parsing number and unit. Defaults to <see cref="CultureInfo.CurrentCulture" /> if null.</param>
         public static bool TryParse(string? str, IFormatProvider? provider, out AmountOfSubstance result)
         {
-            return QuantityParser.Default.TryParse<AmountOfSubstance, AmountOfSubstanceUnit>(
+            return UnitsNetSetup.Default.QuantityParser.TryParse<AmountOfSubstance, AmountOfSubstanceUnit>(
                 str,
                 provider,
                 From,
@@ -623,7 +620,7 @@ namespace UnitsNet
         /// <exception cref="UnitsNetException">Error parsing string.</exception>
         public static AmountOfSubstanceUnit ParseUnit(string str, IFormatProvider? provider)
         {
-            return UnitParser.Default.Parse<AmountOfSubstanceUnit>(str, provider);
+            return UnitsNetSetup.Default.UnitParser.Parse<AmountOfSubstanceUnit>(str, provider);
         }
 
         /// <inheritdoc cref="TryParseUnit(string,IFormatProvider,out UnitsNet.Units.AmountOfSubstanceUnit)"/>
@@ -644,7 +641,7 @@ namespace UnitsNet
         /// <param name="provider">Format to use when parsing number and unit. Defaults to <see cref="CultureInfo.CurrentCulture" /> if null.</param>
         public static bool TryParseUnit(string str, IFormatProvider? provider, out AmountOfSubstanceUnit unit)
         {
-            return UnitParser.Default.TryParse<AmountOfSubstanceUnit>(str, provider, out unit);
+            return UnitsNetSetup.Default.UnitParser.TryParse<AmountOfSubstanceUnit>(str, provider, out unit);
         }
 
         #endregion
@@ -670,25 +667,25 @@ namespace UnitsNet
         }
 
         /// <summary>Get <see cref="AmountOfSubstance"/> from multiplying value and <see cref="AmountOfSubstance"/>.</summary>
-        public static AmountOfSubstance operator *(double left, AmountOfSubstance right)
+        public static AmountOfSubstance operator *(QuantityValue left, AmountOfSubstance right)
         {
             return new AmountOfSubstance(left * right.Value, right.Unit);
         }
 
         /// <summary>Get <see cref="AmountOfSubstance"/> from multiplying value and <see cref="AmountOfSubstance"/>.</summary>
-        public static AmountOfSubstance operator *(AmountOfSubstance left, double right)
+        public static AmountOfSubstance operator *(AmountOfSubstance left, QuantityValue right)
         {
             return new AmountOfSubstance(left.Value * right, left.Unit);
         }
 
         /// <summary>Get <see cref="AmountOfSubstance"/> from dividing <see cref="AmountOfSubstance"/> by value.</summary>
-        public static AmountOfSubstance operator /(AmountOfSubstance left, double right)
+        public static AmountOfSubstance operator /(AmountOfSubstance left, QuantityValue right)
         {
             return new AmountOfSubstance(left.Value / right, left.Unit);
         }
 
         /// <summary>Get ratio value from dividing <see cref="AmountOfSubstance"/> by <see cref="AmountOfSubstance"/>.</summary>
-        public static double operator /(AmountOfSubstance left, AmountOfSubstance right)
+        public static QuantityValue operator /(AmountOfSubstance left, AmountOfSubstance right)
         {
             return left.Moles / right.Moles;
         }
@@ -755,27 +752,20 @@ namespace UnitsNet
             return left.Value > right.ToUnit(left.Unit).Value;
         }
 
-        // We use obsolete attribute to communicate the preferred equality members to use.
-        // CS0809: Obsolete member 'memberA' overrides non-obsolete member 'memberB'.
-        #pragma warning disable CS0809
-
-        /// <summary>Indicates strict equality of two <see cref="AmountOfSubstance"/> quantities, where both <see cref="Value" /> and <see cref="Unit" /> are exactly equal.</summary>
-        [Obsolete("For null checks, use `x is null` syntax to not invoke overloads. For equality checks, use Equals(AmountOfSubstance other, AmountOfSubstance tolerance) instead, to check equality across units and to specify the max tolerance for rounding errors due to floating-point arithmetic when converting between units.")]
+        /// <summary>Indicates strict equality of two <see cref="AmountOfSubstance"/> quantities.</summary>
         public static bool operator ==(AmountOfSubstance left, AmountOfSubstance right)
         {
             return left.Equals(right);
         }
 
-        /// <summary>Indicates strict inequality of two <see cref="AmountOfSubstance"/> quantities, where both <see cref="Value" /> and <see cref="Unit" /> are exactly equal.</summary>
-        [Obsolete("For null checks, use `x is null` syntax to not invoke overloads. For equality checks, use Equals(AmountOfSubstance other, AmountOfSubstance tolerance) instead, to check equality across units and to specify the max tolerance for rounding errors due to floating-point arithmetic when converting between units.")]
+        /// <summary>Indicates strict inequality of two <see cref="AmountOfSubstance"/> quantities.</summary>
         public static bool operator !=(AmountOfSubstance left, AmountOfSubstance right)
         {
             return !(left == right);
         }
 
         /// <inheritdoc />
-        /// <summary>Indicates strict equality of two <see cref="AmountOfSubstance"/> quantities, where both <see cref="Value" /> and <see cref="Unit" /> are exactly equal.</summary>
-        [Obsolete("Use Equals(AmountOfSubstance other, AmountOfSubstance tolerance) instead, to check equality across units and to specify the max tolerance for rounding errors due to floating-point arithmetic when converting between units.")]
+        /// <summary>Indicates strict equality of two <see cref="AmountOfSubstance"/> quantities.</summary>
         public override bool Equals(object? obj)
         {
             if (obj is null || !(obj is AmountOfSubstance otherQuantity))
@@ -785,14 +775,11 @@ namespace UnitsNet
         }
 
         /// <inheritdoc />
-        /// <summary>Indicates strict equality of two <see cref="AmountOfSubstance"/> quantities, where both <see cref="Value" /> and <see cref="Unit" /> are exactly equal.</summary>
-        [Obsolete("Use Equals(AmountOfSubstance other, AmountOfSubstance tolerance) instead, to check equality across units and to specify the max tolerance for rounding errors due to floating-point arithmetic when converting between units.")]
+        /// <summary>Indicates strict equality of two <see cref="AmountOfSubstance"/> quantities.</summary>
         public bool Equals(AmountOfSubstance other)
         {
-            return new { Value, Unit }.Equals(new { other.Value, other.Unit });
+            return _value.Equals(other.As(this.Unit));
         }
-
-        #pragma warning restore CS0809
 
         /// <summary>Compares the current <see cref="AmountOfSubstance"/> with another object of the same type and returns an integer that indicates whether the current instance precedes, follows, or occurs in the same position in the sort order as the other when converted to the same unit.</summary>
         /// <param name="obj">An object to compare with this instance.</param>
@@ -830,59 +817,6 @@ namespace UnitsNet
             return _value.CompareTo(other.ToUnit(this.Unit).Value);
         }
 
-        /// <summary>
-        ///     <para>
-        ///     Compare equality to another AmountOfSubstance within the given absolute or relative tolerance.
-        ///     </para>
-        ///     <para>
-        ///     Relative tolerance is defined as the maximum allowable absolute difference between this quantity's value and
-        ///     <paramref name="other"/> as a percentage of this quantity's value. <paramref name="other"/> will be converted into
-        ///     this quantity's unit for comparison. A relative tolerance of 0.01 means the absolute difference must be within +/- 1% of
-        ///     this quantity's value to be considered equal.
-        ///     <example>
-        ///     In this example, the two quantities will be equal if the value of b is within +/- 1% of a (0.02m or 2cm).
-        ///     <code>
-        ///     var a = Length.FromMeters(2.0);
-        ///     var b = Length.FromInches(50.0);
-        ///     a.Equals(b, 0.01, ComparisonType.Relative);
-        ///     </code>
-        ///     </example>
-        ///     </para>
-        ///     <para>
-        ///     Absolute tolerance is defined as the maximum allowable absolute difference between this quantity's value and
-        ///     <paramref name="other"/> as a fixed number in this quantity's unit. <paramref name="other"/> will be converted into
-        ///     this quantity's unit for comparison.
-        ///     <example>
-        ///     In this example, the two quantities will be equal if the value of b is within 0.01 of a (0.01m or 1cm).
-        ///     <code>
-        ///     var a = Length.FromMeters(2.0);
-        ///     var b = Length.FromInches(50.0);
-        ///     a.Equals(b, 0.01, ComparisonType.Absolute);
-        ///     </code>
-        ///     </example>
-        ///     </para>
-        ///     <para>
-        ///     Note that it is advised against specifying zero difference, due to the nature
-        ///     of floating-point operations and using double internally.
-        ///     </para>
-        /// </summary>
-        /// <param name="other">The other quantity to compare to.</param>
-        /// <param name="tolerance">The absolute or relative tolerance value. Must be greater than or equal to 0.</param>
-        /// <param name="comparisonType">The comparison type: either relative or absolute.</param>
-        /// <returns>True if the absolute difference between the two values is not greater than the specified relative or absolute tolerance.</returns>
-        [Obsolete("Use Equals(AmountOfSubstance other, AmountOfSubstance tolerance) instead, to check equality across units and to specify the max tolerance for rounding errors due to floating-point arithmetic when converting between units.")]
-        public bool Equals(AmountOfSubstance other, double tolerance, ComparisonType comparisonType)
-        {
-            if (tolerance < 0)
-                throw new ArgumentOutOfRangeException(nameof(tolerance), "Tolerance must be greater than or equal to 0.");
-
-            return UnitsNet.Comparison.Equals(
-                referenceValue: this.Value,
-                otherValue: other.As(this.Unit),
-                tolerance: tolerance,
-                comparisonType: comparisonType);
-        }
-
         /// <inheritdoc />
         public bool Equals(IQuantity? other, IQuantity tolerance)
         {
@@ -896,11 +830,10 @@ namespace UnitsNet
         /// <inheritdoc />
         public bool Equals(AmountOfSubstance other, AmountOfSubstance tolerance)
         {
-            return UnitsNet.Comparison.Equals(
-                referenceValue: this.Value,
-                otherValue: other.As(this.Unit),
-                tolerance: tolerance.As(this.Unit),
-                comparisonType: ComparisonType.Absolute);
+            return UnitsNet.Comparison.EqualsAbsolute(
+                this.Value,
+                other.As(this.Unit),
+                tolerance: tolerance.As(this.Unit));
         }
 
         /// <summary>
@@ -909,7 +842,12 @@ namespace UnitsNet
         /// <returns>A hash code for the current AmountOfSubstance.</returns>
         public override int GetHashCode()
         {
-            return new { Info.Name, Value, Unit }.GetHashCode();
+            var valueInBaseUnit = As(BaseUnit);
+            #if NET7_0_OR_GREATER
+            return HashCode.Combine(Info.Name, valueInBaseUnit);
+            #else
+            return new { Info.Name, valueInBaseUnit }.GetHashCode();
+            #endif
         }
 
         #endregion
@@ -920,7 +858,7 @@ namespace UnitsNet
         ///     Convert to the unit representation <paramref name="unit" />.
         /// </summary>
         /// <returns>Value converted to the specified unit.</returns>
-        public double As(AmountOfSubstanceUnit unit)
+        public QuantityValue As(AmountOfSubstanceUnit unit)
         {
             if (Unit == unit)
                 return Value;
@@ -929,7 +867,7 @@ namespace UnitsNet
         }
 
         /// <inheritdoc cref="IQuantity.As(UnitSystem)"/>
-        public double As(UnitSystem unitSystem)
+        public QuantityValue As(UnitSystem unitSystem)
         {
             if (unitSystem is null)
                 throw new ArgumentNullException(nameof(unitSystem));
@@ -944,7 +882,7 @@ namespace UnitsNet
         }
 
         /// <inheritdoc />
-        double IQuantity.As(Enum unit)
+        QuantityValue IQuantity.As(Enum unit)
         {
             if (!(unit is AmountOfSubstanceUnit typedUnit))
                 throw new ArgumentException($"The given unit is of type {unit.GetType()}. Only {typeof(AmountOfSubstanceUnit)} is supported.", nameof(unit));
@@ -1010,40 +948,40 @@ namespace UnitsNet
             AmountOfSubstance? convertedOrNull = (Unit, unit) switch
             {
                 // AmountOfSubstanceUnit -> BaseUnit
-                (AmountOfSubstanceUnit.Centimole, AmountOfSubstanceUnit.Mole) => new AmountOfSubstance((_value) * 1e-2d, AmountOfSubstanceUnit.Mole),
-                (AmountOfSubstanceUnit.CentipoundMole, AmountOfSubstanceUnit.Mole) => new AmountOfSubstance((_value * 453.59237) * 1e-2d, AmountOfSubstanceUnit.Mole),
-                (AmountOfSubstanceUnit.Decimole, AmountOfSubstanceUnit.Mole) => new AmountOfSubstance((_value) * 1e-1d, AmountOfSubstanceUnit.Mole),
-                (AmountOfSubstanceUnit.DecipoundMole, AmountOfSubstanceUnit.Mole) => new AmountOfSubstance((_value * 453.59237) * 1e-1d, AmountOfSubstanceUnit.Mole),
-                (AmountOfSubstanceUnit.Femtomole, AmountOfSubstanceUnit.Mole) => new AmountOfSubstance((_value) * 1e-15d, AmountOfSubstanceUnit.Mole),
-                (AmountOfSubstanceUnit.Kilomole, AmountOfSubstanceUnit.Mole) => new AmountOfSubstance((_value) * 1e3d, AmountOfSubstanceUnit.Mole),
-                (AmountOfSubstanceUnit.KilopoundMole, AmountOfSubstanceUnit.Mole) => new AmountOfSubstance((_value * 453.59237) * 1e3d, AmountOfSubstanceUnit.Mole),
-                (AmountOfSubstanceUnit.Megamole, AmountOfSubstanceUnit.Mole) => new AmountOfSubstance((_value) * 1e6d, AmountOfSubstanceUnit.Mole),
-                (AmountOfSubstanceUnit.Micromole, AmountOfSubstanceUnit.Mole) => new AmountOfSubstance((_value) * 1e-6d, AmountOfSubstanceUnit.Mole),
-                (AmountOfSubstanceUnit.MicropoundMole, AmountOfSubstanceUnit.Mole) => new AmountOfSubstance((_value * 453.59237) * 1e-6d, AmountOfSubstanceUnit.Mole),
-                (AmountOfSubstanceUnit.Millimole, AmountOfSubstanceUnit.Mole) => new AmountOfSubstance((_value) * 1e-3d, AmountOfSubstanceUnit.Mole),
-                (AmountOfSubstanceUnit.MillipoundMole, AmountOfSubstanceUnit.Mole) => new AmountOfSubstance((_value * 453.59237) * 1e-3d, AmountOfSubstanceUnit.Mole),
-                (AmountOfSubstanceUnit.Nanomole, AmountOfSubstanceUnit.Mole) => new AmountOfSubstance((_value) * 1e-9d, AmountOfSubstanceUnit.Mole),
-                (AmountOfSubstanceUnit.NanopoundMole, AmountOfSubstanceUnit.Mole) => new AmountOfSubstance((_value * 453.59237) * 1e-9d, AmountOfSubstanceUnit.Mole),
-                (AmountOfSubstanceUnit.Picomole, AmountOfSubstanceUnit.Mole) => new AmountOfSubstance((_value) * 1e-12d, AmountOfSubstanceUnit.Mole),
-                (AmountOfSubstanceUnit.PoundMole, AmountOfSubstanceUnit.Mole) => new AmountOfSubstance(_value * 453.59237, AmountOfSubstanceUnit.Mole),
+                (AmountOfSubstanceUnit.Centimole, AmountOfSubstanceUnit.Mole) => new AmountOfSubstance(_value / 100, AmountOfSubstanceUnit.Mole),
+                (AmountOfSubstanceUnit.CentipoundMole, AmountOfSubstanceUnit.Mole) => new AmountOfSubstance(_value * new QuantityValue(45359237, 10000000), AmountOfSubstanceUnit.Mole),
+                (AmountOfSubstanceUnit.Decimole, AmountOfSubstanceUnit.Mole) => new AmountOfSubstance(_value / 10, AmountOfSubstanceUnit.Mole),
+                (AmountOfSubstanceUnit.DecipoundMole, AmountOfSubstanceUnit.Mole) => new AmountOfSubstance(_value * new QuantityValue(45359237, 1000000), AmountOfSubstanceUnit.Mole),
+                (AmountOfSubstanceUnit.Femtomole, AmountOfSubstanceUnit.Mole) => new AmountOfSubstance(_value / 1000000000000000, AmountOfSubstanceUnit.Mole),
+                (AmountOfSubstanceUnit.Kilomole, AmountOfSubstanceUnit.Mole) => new AmountOfSubstance(_value * 1000, AmountOfSubstanceUnit.Mole),
+                (AmountOfSubstanceUnit.KilopoundMole, AmountOfSubstanceUnit.Mole) => new AmountOfSubstance(_value * new QuantityValue(45359237, 100), AmountOfSubstanceUnit.Mole),
+                (AmountOfSubstanceUnit.Megamole, AmountOfSubstanceUnit.Mole) => new AmountOfSubstance(_value * 1000000, AmountOfSubstanceUnit.Mole),
+                (AmountOfSubstanceUnit.Micromole, AmountOfSubstanceUnit.Mole) => new AmountOfSubstance(_value / 1000000, AmountOfSubstanceUnit.Mole),
+                (AmountOfSubstanceUnit.MicropoundMole, AmountOfSubstanceUnit.Mole) => new AmountOfSubstance(_value * new QuantityValue(45359237, 100000000000), AmountOfSubstanceUnit.Mole),
+                (AmountOfSubstanceUnit.Millimole, AmountOfSubstanceUnit.Mole) => new AmountOfSubstance(_value / 1000, AmountOfSubstanceUnit.Mole),
+                (AmountOfSubstanceUnit.MillipoundMole, AmountOfSubstanceUnit.Mole) => new AmountOfSubstance(_value * new QuantityValue(45359237, 100000000), AmountOfSubstanceUnit.Mole),
+                (AmountOfSubstanceUnit.Nanomole, AmountOfSubstanceUnit.Mole) => new AmountOfSubstance(_value / 1000000000, AmountOfSubstanceUnit.Mole),
+                (AmountOfSubstanceUnit.NanopoundMole, AmountOfSubstanceUnit.Mole) => new AmountOfSubstance(_value * new QuantityValue(45359237, 100000000000000), AmountOfSubstanceUnit.Mole),
+                (AmountOfSubstanceUnit.Picomole, AmountOfSubstanceUnit.Mole) => new AmountOfSubstance(_value / 1000000000000, AmountOfSubstanceUnit.Mole),
+                (AmountOfSubstanceUnit.PoundMole, AmountOfSubstanceUnit.Mole) => new AmountOfSubstance(_value * new QuantityValue(45359237, 100000), AmountOfSubstanceUnit.Mole),
 
                 // BaseUnit -> AmountOfSubstanceUnit
-                (AmountOfSubstanceUnit.Mole, AmountOfSubstanceUnit.Centimole) => new AmountOfSubstance((_value) / 1e-2d, AmountOfSubstanceUnit.Centimole),
-                (AmountOfSubstanceUnit.Mole, AmountOfSubstanceUnit.CentipoundMole) => new AmountOfSubstance((_value / 453.59237) / 1e-2d, AmountOfSubstanceUnit.CentipoundMole),
-                (AmountOfSubstanceUnit.Mole, AmountOfSubstanceUnit.Decimole) => new AmountOfSubstance((_value) / 1e-1d, AmountOfSubstanceUnit.Decimole),
-                (AmountOfSubstanceUnit.Mole, AmountOfSubstanceUnit.DecipoundMole) => new AmountOfSubstance((_value / 453.59237) / 1e-1d, AmountOfSubstanceUnit.DecipoundMole),
-                (AmountOfSubstanceUnit.Mole, AmountOfSubstanceUnit.Femtomole) => new AmountOfSubstance((_value) / 1e-15d, AmountOfSubstanceUnit.Femtomole),
-                (AmountOfSubstanceUnit.Mole, AmountOfSubstanceUnit.Kilomole) => new AmountOfSubstance((_value) / 1e3d, AmountOfSubstanceUnit.Kilomole),
-                (AmountOfSubstanceUnit.Mole, AmountOfSubstanceUnit.KilopoundMole) => new AmountOfSubstance((_value / 453.59237) / 1e3d, AmountOfSubstanceUnit.KilopoundMole),
-                (AmountOfSubstanceUnit.Mole, AmountOfSubstanceUnit.Megamole) => new AmountOfSubstance((_value) / 1e6d, AmountOfSubstanceUnit.Megamole),
-                (AmountOfSubstanceUnit.Mole, AmountOfSubstanceUnit.Micromole) => new AmountOfSubstance((_value) / 1e-6d, AmountOfSubstanceUnit.Micromole),
-                (AmountOfSubstanceUnit.Mole, AmountOfSubstanceUnit.MicropoundMole) => new AmountOfSubstance((_value / 453.59237) / 1e-6d, AmountOfSubstanceUnit.MicropoundMole),
-                (AmountOfSubstanceUnit.Mole, AmountOfSubstanceUnit.Millimole) => new AmountOfSubstance((_value) / 1e-3d, AmountOfSubstanceUnit.Millimole),
-                (AmountOfSubstanceUnit.Mole, AmountOfSubstanceUnit.MillipoundMole) => new AmountOfSubstance((_value / 453.59237) / 1e-3d, AmountOfSubstanceUnit.MillipoundMole),
-                (AmountOfSubstanceUnit.Mole, AmountOfSubstanceUnit.Nanomole) => new AmountOfSubstance((_value) / 1e-9d, AmountOfSubstanceUnit.Nanomole),
-                (AmountOfSubstanceUnit.Mole, AmountOfSubstanceUnit.NanopoundMole) => new AmountOfSubstance((_value / 453.59237) / 1e-9d, AmountOfSubstanceUnit.NanopoundMole),
-                (AmountOfSubstanceUnit.Mole, AmountOfSubstanceUnit.Picomole) => new AmountOfSubstance((_value) / 1e-12d, AmountOfSubstanceUnit.Picomole),
-                (AmountOfSubstanceUnit.Mole, AmountOfSubstanceUnit.PoundMole) => new AmountOfSubstance(_value / 453.59237, AmountOfSubstanceUnit.PoundMole),
+                (AmountOfSubstanceUnit.Mole, AmountOfSubstanceUnit.Centimole) => new AmountOfSubstance(_value * 100, AmountOfSubstanceUnit.Centimole),
+                (AmountOfSubstanceUnit.Mole, AmountOfSubstanceUnit.CentipoundMole) => new AmountOfSubstance(_value * new QuantityValue(10000000, 45359237), AmountOfSubstanceUnit.CentipoundMole),
+                (AmountOfSubstanceUnit.Mole, AmountOfSubstanceUnit.Decimole) => new AmountOfSubstance(_value * 10, AmountOfSubstanceUnit.Decimole),
+                (AmountOfSubstanceUnit.Mole, AmountOfSubstanceUnit.DecipoundMole) => new AmountOfSubstance(_value * new QuantityValue(1000000, 45359237), AmountOfSubstanceUnit.DecipoundMole),
+                (AmountOfSubstanceUnit.Mole, AmountOfSubstanceUnit.Femtomole) => new AmountOfSubstance(_value * 1000000000000000, AmountOfSubstanceUnit.Femtomole),
+                (AmountOfSubstanceUnit.Mole, AmountOfSubstanceUnit.Kilomole) => new AmountOfSubstance(_value / 1000, AmountOfSubstanceUnit.Kilomole),
+                (AmountOfSubstanceUnit.Mole, AmountOfSubstanceUnit.KilopoundMole) => new AmountOfSubstance(_value * new QuantityValue(100, 45359237), AmountOfSubstanceUnit.KilopoundMole),
+                (AmountOfSubstanceUnit.Mole, AmountOfSubstanceUnit.Megamole) => new AmountOfSubstance(_value / 1000000, AmountOfSubstanceUnit.Megamole),
+                (AmountOfSubstanceUnit.Mole, AmountOfSubstanceUnit.Micromole) => new AmountOfSubstance(_value * 1000000, AmountOfSubstanceUnit.Micromole),
+                (AmountOfSubstanceUnit.Mole, AmountOfSubstanceUnit.MicropoundMole) => new AmountOfSubstance(_value * new QuantityValue(100000000000, 45359237), AmountOfSubstanceUnit.MicropoundMole),
+                (AmountOfSubstanceUnit.Mole, AmountOfSubstanceUnit.Millimole) => new AmountOfSubstance(_value * 1000, AmountOfSubstanceUnit.Millimole),
+                (AmountOfSubstanceUnit.Mole, AmountOfSubstanceUnit.MillipoundMole) => new AmountOfSubstance(_value * new QuantityValue(100000000, 45359237), AmountOfSubstanceUnit.MillipoundMole),
+                (AmountOfSubstanceUnit.Mole, AmountOfSubstanceUnit.Nanomole) => new AmountOfSubstance(_value * 1000000000, AmountOfSubstanceUnit.Nanomole),
+                (AmountOfSubstanceUnit.Mole, AmountOfSubstanceUnit.NanopoundMole) => new AmountOfSubstance(_value * new QuantityValue(100000000000000, 45359237), AmountOfSubstanceUnit.NanopoundMole),
+                (AmountOfSubstanceUnit.Mole, AmountOfSubstanceUnit.Picomole) => new AmountOfSubstance(_value * 1000000000000, AmountOfSubstanceUnit.Picomole),
+                (AmountOfSubstanceUnit.Mole, AmountOfSubstanceUnit.PoundMole) => new AmountOfSubstance(_value * new QuantityValue(100000, 45359237), AmountOfSubstanceUnit.PoundMole),
 
                 _ => null
             };
